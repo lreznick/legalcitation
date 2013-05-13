@@ -1,0 +1,21 @@
+Server notes
+  telnet - command used to communicate between hosts
+  ex. telnet www.google.ca 80 // Port 80 is default for http requests
+
+  An Http request
+  <method> <path> <version num>
+  GET / HTTP/1.1
+
+  //Headers
+  <name>:<value>
+  host:www.google.ca
+
+  ex.
+  telnet www.w3.org 80
+  GET /standards.about.html HTTP/1.1
+  host: www.w3.org
+
+
+Node:
+
+

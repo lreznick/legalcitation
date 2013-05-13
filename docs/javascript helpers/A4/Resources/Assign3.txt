@@ -1,0 +1,21 @@
+Assignment 3 Hints
+Server node
+>curl or wget 
+ex curl -g (http get request) http:// ..... > img.jpg // Sends a get request to wikipedia
+
+>curl -d "img.jpg" http://... (This is a http post. uploading data to server) 
+
+Opening and reading files
+	var rs = fs.createReadStream(path) //gonna be getting binary encoding (gettin 8 bytes)
+	rs.on('data', function( chunk) {
+		response.body+= chunk
+	});
+	rs.end(response.end?)
+	
+	util.pump(readableStream, writableStream, [callback])
+	
+	
+Creating a file
+	fs.open( with a flag)
+	
+	/\/Files\/([\w\.)+/
