@@ -1,0 +1,13 @@
+.titlebar{
+	height: 50px;
+	padding:40px;
+	position:fixed;
+	top:0;
+	width:100%;
+	background: #0088cc;
+}
+.fixedtop{
+	padding:40px;
+	height: 60px;
+	width:100%
+}
