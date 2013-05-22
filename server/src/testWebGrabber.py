@@ -1,5 +1,5 @@
 
-from src.webGrabber import *   # import everything from your module
+from webGrabber import *   # import everything from your module
 import unittest  # This loads the testing methods and a main program
 
 class TestWebGrabber(unittest.TestCase):  # use any meaningful name
