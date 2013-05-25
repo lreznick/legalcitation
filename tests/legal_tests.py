@@ -1,6 +1,8 @@
 from nose.tools import *
 import legal
+from legal.server.webGrabber import *
 
+	
 def setup():
     print "SETUP!"
 

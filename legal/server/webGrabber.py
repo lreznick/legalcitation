@@ -42,13 +42,12 @@ def Connect2Web(webURL):
   	#fo.close()
 
 #Define a main() function that prints a litte greeting
-def main():
-  Connect2Web()
- 
-def test(x):
-	return 2
-  
-main()
+def run():
+  Connect2Web("http://www.canlii.org/en/ca/scc/doc/1997/1997canlii400/1997canlii400.html")
+
+
+if __name__ == "__main__":
+	run()
 
 
 
