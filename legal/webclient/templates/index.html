@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Template &middot; Bootstrap</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+	<link href="./static/css/mainpage.css" rel="stylesheet">
+    <link href="./static/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        
+        padding-bottom: 60px;
+      }
+
+      /* Custom container */
+      .container {
+		margin-top: 50px;
+        margin: 0 auto;
+        max-width: 1300px;
+      }
+      .container > hr {
+        margin: 60px 0;
+      }
+
+      /* Main marketing message and sign up button */
+      .jumbotron {
+        margin: 80px 0;
+        text-align: center;
+	
+      }
+      .jumbotron h1 {
+        font-size: 60px;
+        line-height: 1;
+      }
+      .jumbotron .lead {
+        font-size: 24px;
+        line-height: 1.25;
+      }
+      .jumbotron .btn {
+        font-size: 21px;
+        padding: 14px 24px;
+      }
+
+      /* Supporting marketing content */
+      .marketing {
+        margin: 60px 0;
+      }
+      .marketing p + h4 {
+        margin-top: 28px;
+      }
+
+
+      /* Customize the navbar links to be fill the entire space of the .navbar */
+      .navbar .navbar-inner {
+        padding: 0;
+      }
+      .navbar .nav {
+        margin: 0;
+        display: table;
+        width: 100%;
+      }
+      .navbar .nav li {
+        display: table-cell;
+        width: 1%;
+        float: none;
+      }
+      .navbar .nav li a {
+        font-weight: bold;
+        text-align: center;
+        border-left: 1px solid rgba(255,255,255,.75);
+        border-right: 1px solid rgba(0,0,0,.1);
+      }
+      .navbar .nav li:first-child a {
+        border-left: 0;
+        border-radius: 3px 0 0 3px;
+      }
+      .navbar .nav li:last-child a {
+        border-right: 0;
+        border-radius: 0 3px 3px 0;
+      }
+    </style>
+    <link href="./static/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../assets/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+                    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+                                   <link rel="shortcut icon" href="./static/img/favicon.ico">
+  </head>
+
+  
+  
+  
+     <!-- Start of the Body --> 
+    <body>
+  
+	<!-- Title Bar -->   
+	<div class = "titlebar">
+		<div class="inner-titlebar">
+		   Canadian Uniform Legal Citation
+		</div>
+	</div>
+
+    <div class = "fixedtop">
+	Legal Cite
+    </div>
+	
+	
+	 <!-- Jumbotron -->
+
+      <div class="jumbotron">
+        <h1>Automate your Legal Citations</h1>
+        <p class="lead">Enter your text and your citation is automatically generated. Subscription starts at $10/month. 
+		</p>
+        <a class="btn btn-large btn-success" href="#">Sign Up</a>
+		<a class="btn btn-large btn-success" href="#">Login</a>
+      </div>
+
+
+      <hr>
+  
+<!--, also consider using "nav nav-tabs nav-stacked" OR
+     <div class="tabbable tabs-left">
+  <ul class="nav nav-tabs">    ...  </ul>
+  <div class="tab-content">
+   
+	<div class = "container-fluid">
+	-->
+	
+ <!-- Stacked navs -->
+ 	<div class="container">    
+	<div class = "row">
+	<div class = "span3">
+	<div class = "well sidebar-nav">
+		<u1 class ="nav nav-list">
+		<li class ="nav-header"> Source </li>
+		      <li class="active"><a href="#">Case (Canada)</a></li>
+              
+              <li><a href="#">Case (Usa)</a></li>
+              <li><a href="#">Case (UK)</a></li>
+              <li><a href="#">Periodical </a></li>
+              <li><a href="#">Book</a></li>
+              
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+		
+		
+		<!-- The forms --> 
+		<!--http://www.w3resource.com/twitter-bootstrap/forms-tutorial.php -->
+        <div class="span9">
+          <div class="well">
+            <h2>The Form!!</h2>
+            <p>Enter all of the informationzzz heeeere pew pew.</p>
+          <hr>
+		<form class="form" action="/formInput" method="POST">
+        <fieldset>
+		<!-- Name -->
+          <div class="control-group">
+		  	<label class="control-label" for="input01">Input 1</label>
+			<div class="controls">
+			<input type="text" class="input-xxlarge" id="input01" placeholder="ex." name="input1">
+           </div>
+          </div>  
+		  		<!-- Name -->
+          <div class="control-group">
+		  	<label class="control-label" for="input01">Input2</label>
+			<div class="controls">
+			<input type="text" class="input-xxlarge" id="input01" placeholder="ex.">
+           </div>
+          </div>
+
+
+		  <button type="submit" class="btn">Go</button>
+		<hr>
+		<h3> Result</h3>
+
+		<p>lahblah blah </p>
+        </fieldset>
+
+          </div>
+		  </div>
+		
+	</div> <!-- Form -->
+	</div> <!-- Entire Form Container-->
+	  
+ 
+      <hr>
+	<div class ="information-blurb">
+		LOOK AT ME IM A BLURB!
+	</div>
+	
+      <div class="footer">
+        <p>&copy; LegalCite 2013</p>
+      </div>
+
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="./static/js/lib/jquery-1.8.3.min.js"></script>
+    <script src="./static/js/lib/bootstrap.min.js"></script>
+
+
+  </body>
+</html>
