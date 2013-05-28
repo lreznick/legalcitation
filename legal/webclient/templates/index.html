@@ -3,24 +3,74 @@ $def with (greeting= None)
 
 
 	
-      <div class="jumbotron">
+    <div class="jumbotron">
         <h1>Automate your Legal Citations</h1>
         <p class="lead">Enter your text and your citation is automatically generated. Subscription starts at $10/month. 
 		</p>
         <a class="btn btn-large btn-success" href="#">Sign Up</a>
 		<a class="btn btn-large btn-success" href="#">Login</a>
-      </div>
-
+    </div>
 
       <hr>
+	  
+	  	
+ <!-- TEST-->
+ 	<div class="container">    
+	<div class = "row">
+	<div class = "span8">
+	<div class = "well sidebar-nav">
+		<u1 class ="nav nav-list">
+		<li class ="nav-header"> Source </li>
+		      <li class="active"><a href="#tabb1" data-toggle="tab">Case (Canada)</a></li> 
+              <li><a href="#tabb2" data-toggle="tab">Case (Usa)</a></li>
+              <li><a href="#">Case (UK)</a></li>
+              <li><a href="#">Periodical </a></li>
+              <li><a href="#">Book</a></li>
+              
+         </ul>
+			
+		 <div class="tab-content">
+			<div class="tab-pane active" id="tabb1">
+     				Test
+			</div>
+			<div class="tab-pane" id="tabb2">
+     				Test1
+			</div>
+		</div>
+    
+	</div>
+	</div><!--/.well -->
+    </div><!--/span-->	
+		
+	  
+	
+	 <!-- CANLII-->
+ 	<div class="container">    
+	   <div style ="text-align: center" ><h3>CANLII</h3> </div>
+       <div class="span10">
+          <div class="well">
+				<form class="form-horizontal" action="/formInput" method="POST">
+				<fieldset>
+			
+				<!-- Name -->
+				<div class="control-group">
+					<label class="control-label" for="input01">  Enter a CANLII Site</label>
+					<div class="controls">
+						<input type="text" class="input-xxlarge" id="input01" placeholder=" http://www.canlii.org/en/ca/scc/doc/2013/2013scc29/2013scc29.html" name="Case Name">
+						<button type="submit" class="btn">Go</button>
+					</div>
+				</div>  
+				</fieldset>
+		  </div>
+		 </div>
+	</div> <!-- Entire Form Container-->
+		  
+	 <div style ="text-align: center" ><h1>OR</h1> </div>
+	
 
-<!--, also consider using "nav nav-tabs nav-stacked" OR
-     <div class="tabbable tabs-left">
-  <ul class="nav nav-tabs">    ...  </ul>
-  <div class="tab-content">
-   
-	<div class = "container-fluid">
-	-->
+	
+	
+	
 	
  <!-- Stacked navs -->
  	<div class="container">    
@@ -42,6 +92,63 @@ $def with (greeting= None)
 		
 		
 		<!-- The forms --> 
+		<!--http://www.w3resource.com/twitter-bootstrap/forms-tutorial.php -->
+        <div class="span9">
+          <div class="well">
+            <h2>Enter Your Information Manually</h2>
+            <p>Please follow the guide to enter your information for the Canadian case</p>
+          <hr>
+		<form class="form" action="/formInput" method="POST">
+        <fieldset>
+		<!-- Name -->
+          <div class="control-group">
+		  	<label class="control-label" for="input01">Case Name</label>
+			<div class="controls">
+			<input type="text" class="input-xxlarge" id="input01" placeholder="ex." name="Case Name">
+           </div>
+          </div>  
+		  		<!-- Name -->
+          <div class="control-group">
+		  	<label class="control-label" for="input01">Parallel Citation</label>
+			<div class="controls">
+			<input type="text" class="input-xxlarge" id="input01" placeholder="ex.">
+           </div>
+          </div>
+
+
+		  <button type="submit" class="btn">Go</button>
+		<hr>
+		<h3> Result</h3>
+
+		<p>
+		$if greeting:
+			Yo $greeting !\
+		$else:
+			Hello!\
+		</p>
+		
+        </fieldset>
+
+          </div>
+		  </div>
+		
+	</div> <!-- Form -->
+	</div> <!-- Entire Form Container-->
+	
+
+ 	<div class="container">     	 <!--Tabs -->
+	
+	<div class="tabbable"> <!-- Only required for left/right tabs -->
+	  <ul class="nav nav-tabs">
+		<li class="active"><a href="#tab1" data-toggle="tab">Case (Canada)</a></li>
+		<li><a href="#tab2" data-toggle="tab">Case (USA)</a></li>
+		<li><a href="#tab3" data-toggle="tab">Case (UK)</a></li>
+	  </ul>
+  
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab1">
+     
+			<!-- The forms --> 
 		<!--http://www.w3resource.com/twitter-bootstrap/forms-tutorial.php -->
         <div class="span9">
           <div class="well">
@@ -80,8 +187,20 @@ $def with (greeting= None)
         </fieldset>
 
           </div>
-		  </div>
-		
+
 	</div> <!-- Form -->
-	</div> <!-- Entire Form Container-->
+
+
+	 </div>
+    
+	<div class="tab-pane" id="tab2">
+      <p>Howdy, I'm in Section 2.</p>
+    </div>
+	<div class="tab-pane" id="tab3">
+      <p>Howdy, I'm in Section 3.</p>
+    </div>
+  </div>
+</div>
+</div>
+
 	  
