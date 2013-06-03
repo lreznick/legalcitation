@@ -1,8 +1,8 @@
 $def with (greeting= None)
+
+
+
 	<!-- Jumbotron -->
-
-
-	
     <div class="jumbotron">
         <h1>Automate your Legal Citations</h1>
         <p class="lead">Enter your text and your citation is automatically generated. Subscription starts at $10/month. 
@@ -11,39 +11,8 @@ $def with (greeting= None)
 		<a class="btn btn-large btn-success" href="#">Login</a>
     </div>
 
-      <hr>
-	  
-	  	
- <!-- TEST-->
- 	<div class="container">    
-	<div class = "row">
-	<div class = "span8">
-	<div class = "well sidebar-nav">
-		<u1 class ="nav nav-list">
-		<li class ="nav-header"> Source </li>
-		      <li class="active"><a href="#tabb1" data-toggle="tab">Case (Canada)</a></li> 
-              <li><a href="#tabb2" data-toggle="tab">Case (Usa)</a></li>
-              <li><a href="#">Case (UK)</a></li>
-              <li><a href="#">Periodical </a></li>
-              <li><a href="#">Book</a></li>
-              
-         </ul>
-			
-		 <div class="tab-content">
-			<div class="tab-pane active" id="tabb1">
-     				Test
-			</div>
-			<div class="tab-pane" id="tabb2">
-     				Test1
-			</div>
-		</div>
-    
-	</div>
-	</div><!--/.well -->
-    </div><!--/span-->	
-		
-	  
-	
+    <hr>
+
 	 <!-- CANLII-->
  	<div class="container">    
 	   <div style ="text-align: center" ><h3>CANLII</h3> </div>
@@ -54,9 +23,9 @@ $def with (greeting= None)
 			
 				<!-- Name -->
 				<div class="control-group">
-					<label class="control-label" for="input01">  Enter a CANLII Site</label>
+					<label class="control-label" for="inputtest">  Enter a CANLII Site</label>
 					<div class="controls">
-						<input type="text" class="input-xxlarge" id="input01" placeholder=" http://www.canlii.org/en/ca/scc/doc/2013/2013scc29/2013scc29.html" name="Case Name">
+						<input type="text" class="input-xxlarge" id="inputcanlii" placeholder=" http://www.canlii.org/en/ca/scc/doc/2013/2013scc29/2013scc29.html" name="Case Name">
 						<button type="submit" class="btn">Go</button>
 					</div>
 				</div>  
@@ -72,135 +41,125 @@ $def with (greeting= None)
 	
 	
 	
- <!-- Stacked navs -->
+ <!--  STACKED NAVS                  -->
  	<div class="container">    
-	<div class = "row">
-	<div class = "span3">
-	<div class = "well sidebar-nav">
-		<u1 class ="nav nav-list">
-		<li class ="nav-header"> Source </li>
-		      <li class="active"><a href="#">Case (Canada)</a></li>
+        <div class = "row">
+           
+           <div class = "span3">
+                <div class = "well sidebar-nav">
+                    <u1 class ="nav nav-list">
+                        <li class ="nav-header"> Source </li>
+                        <li class="active"><a href="#">Case (Canada)</a></li>
+                        <li><a href="#">Case (Usa)</a></li>
+                        <li><a href="#">Case (UK)</a></li>
+                        <li><a href="#">Periodical </a></li>
+                        <li><a href="#">Book</a></li>
               
-              <li><a href="#">Case (Usa)</a></li>
-              <li><a href="#">Case (UK)</a></li>
-              <li><a href="#">Periodical </a></li>
-              <li><a href="#">Book</a></li>
-              
-            </ul>
-          </div><!--/.well -->
-        </div><!--/span-->
-		
-		
-		<!-- The forms --> 
-		<!--http://www.w3resource.com/twitter-bootstrap/forms-tutorial.php -->
-        <div class="span9">
-          <div class="well">
-            <h2>Enter Your Information Manually</h2>
-            <p>Please follow the guide to enter your information for the Canadian case</p>
-          <hr>
-		<form class="form" action="/formInput" method="POST">
-        <fieldset>
-		<!-- Name -->
-          <div class="control-group">
-		  	<label class="control-label" for="input01">Case Name</label>
-			<div class="controls">
-			<input type="text" class="input-xxlarge" id="input01" placeholder="ex." name="Case Name">
-           </div>
-          </div>  
-		  		<!-- Name -->
-          <div class="control-group">
-		  	<label class="control-label" for="input01">Parallel Citation</label>
-			<div class="controls">
-			<input type="text" class="input-xxlarge" id="input01" placeholder="ex.">
-           </div>
-          </div>
+                    </ul>
+                </div><!--/.well -->
+            </div><!--/span-->
 
+            <!-- The forms --> 
+            <!--http://www.w3resource.com/twitter-bootstrap/forms-tutorial.php -->
+            <div class="span9">
+              <div class="well">
+                <h2>Enter Your Information Manually</h2>
+                <p>Please follow the guide to enter your information for the Canadian case</p>
+                <hr>
+                <form class="form" action="/formInput" method="POST">
+                <fieldset>
+                <!-- Case Name -->
+                <div class="control-group">
+                    <label class="control-label" for="inputcanadacase">Case Name</label>
+                    <div class="controls">
+                    <input type="text" class="input-xxlarge" id="inputcanadacase" placeholder="ex." name="Case Name">
+                    </div>
+                </div>  
+                
+                <!--Parallel -->
+                <div class="control-group">
+                    <label class="control-label" for="inputtest">Parallel Citation</label>
+                    <div class="controls">
+                        <input type="text" class="input-xxlarge" id="inputtest" placeholder="ex.">
+                    </div>
+                </div>
 
-		  <button type="submit" class="btn">Go</button>
-		<hr>
-		<h3> Result</h3>
-
-		<p>
-		$if greeting:
-			Yo $greeting !\
-		$else:
-			Hello!\
-		</p>
-		
-        </fieldset>
-
-          </div>
-		  </div>
-		
-	</div> <!-- Form -->
-	</div> <!-- Entire Form Container-->
+                <button type="submit" class="btn">Go</button>
+                <hr>
+                <h3> Result</h3>
+                </fieldset>
+                </div>
+            </div> 	<!-- Span -->
+        </div> <!-- Form -->
+    </div> <!-- Entire Form Container-->
 	
-
- 	<div class="container">     	 <!--Tabs -->
-	
-	<div class="tabbable"> <!-- Only required for left/right tabs -->
-	  <ul class="nav nav-tabs">
-		<li class="active"><a href="#tab1" data-toggle="tab">Case (Canada)</a></li>
-		<li><a href="#tab2" data-toggle="tab">Case (USA)</a></li>
-		<li><a href="#tab3" data-toggle="tab">Case (UK)</a></li>
-	  </ul>
-  
-  <div class="tab-content">
-    <div class="tab-pane active" id="tab1">
-     
-			<!-- The forms --> 
-		<!--http://www.w3resource.com/twitter-bootstrap/forms-tutorial.php -->
-        <div class="span9">
-          <div class="well">
-            <h2>The Form!!</h2>
-            <p>Enter all of the informationzzz heeeere pew pew.</p>
-          <hr>
-		<form class="form" action="/formInput" method="POST">
-        <fieldset>
-		<!-- Name -->
-          <div class="control-group">
-		  	<label class="control-label" for="input01">Input 1</label>
-			<div class="controls">
-			<input type="text" class="input-xxlarge" id="input01" placeholder="ex." name="input1">
-           </div>
-          </div>  
-		  		<!-- Name -->
-          <div class="control-group">
-		  	<label class="control-label" for="input01">Input2</label>
-			<div class="controls">
-			<input type="text" class="input-xxlarge" id="input01" placeholder="ex.">
-           </div>
-          </div>
-
-
-		  <button type="submit" class="btn">Go</button>
-		<hr>
-		<h3> Result</h3>
-
-		<p>
-		$if greeting:
-			Yo $greeting !\
-		$else:
-			Hello!\
-		</p>
-		
-        </fieldset>
-
-          </div>
-
-	</div> <!-- Form -->
-
-
-	 </div>
     
-	<div class="tab-pane" id="tab2">
-      <p>Howdy, I'm in Section 2.</p>
-    </div>
-	<div class="tab-pane" id="tab3">
-      <p>Howdy, I'm in Section 3.</p>
-    </div>
-  </div>
-</div>
-</div>
+    
+    
+    
+    
+    
+ <!--  TABBED  NAVS                  -->   
+ 	<div class="container">     
+	
+        <div class="tabbable"> <!-- Only required for left/right tabs -->
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab1" data-toggle="tab">Case (Canada)</a></li>
+            <li><a href="#tab2" data-toggle="tab">Case (USA)</a></li>
+            <li><a href="#tab3" data-toggle="tab">Case (UK)</a></li>
+          </ul>
+      
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab1">
+                    <!-- The forms --> 
+                    <!--http://www.w3resource.com/twitter-bootstrap/forms-tutorial.php -->
+                    <div class="span9">
+                        <div class="well">
+                            <h2>The Form!!</h2>
+                            <p>Enter all of the informationzzz heeeere pew pew.</p>
+                            <hr>
+                            <form class="form" action="/formInput" method="POST">
+                            
+                            <fieldset>
+                                <!-- Case Name -->
+                                <div class="control-group">
+                                    <label class="control-label" for="input01">Case Name</label>
+                                    <div class="controls">
+                                        <input type="text" class="input-xxlarge" id="input01" placeholder="ex." name="casename">
+                                        <!-- The name ' ---" is what is read by form in grab.py -->
+                                    </div>
+                                </div>  
+                        
+                                <!-- Second Input -->
+                                <div class="control-group">
+                                    <label class="control-label" for="input02">Input2</label>
+                                    <div class="controls">
+                                        <input type="text" class="input-xxlarge" id="input02" placeholder="ex.">
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="GoButton">Go</button>
+                                <hr>
+                                <h3> Result</h3>
+
+                                <p>  <div id = "results">                       	
+                                </div>
+                                </p>
+                            </fieldset>
+                        </div><!-- Well -->
+                    </div> <!-- Span-->
+                </div> <!-- Tab class -->
+            
+                <div class="tab-pane" id="tab2">
+                  <p>Howdy, I'm in Section 2.</p>
+                </div>
+                
+                <div class="tab-pane" id="tab3">
+                  <p>Howdy, I'm in Section 3.</p>
+                </div>
+                
+            </div>
+        </div> <!-- Tabbable -->
+    </div><!-- Entire Container -->
 
 	  

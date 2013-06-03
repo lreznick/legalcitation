@@ -27,9 +27,14 @@ class Index(object):
 		#greeting = "hello, %s" % form.name
 		#return render.index(greeting=greeting)
     def POST(self):
-        form = web.input(name="Nobody", greet="Hello")
-        webURL = "%s" % (form.input1)
-        return render.index(greeting=webURL)
+        form = web.input()
+        #form.validates()
+        webURL = "%s" % (form.casename)
+        print "WebURL:", webURL
+        print "Self: " , self
+        #s = form.value['textfield']
+        return webURL
+        #return render.index(greeting=webURL)
 		#print "input here:", greeting
 		#webGrabber.Connect2Web(webURL)		
 		#return render.index(greeting = greeting)
