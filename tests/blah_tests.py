@@ -1,7 +1,6 @@
 from nose.tools import *
-import legal  
 #from legal.server.CanadianCase import Contains
-from legal.webclient.testyface import Room
+from legal.server.testyface import *
 
 
 def test_room():

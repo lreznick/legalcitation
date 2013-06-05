@@ -336,7 +336,10 @@ def GetCitations():
 		print "CITATIONDATE AND COURT DETECTED"
 		OUTPUT = ", " + TwoBest + '.'
 	return OUTPUT
-	
+'''	
+#I HAVE TAKEN THIS OUT!!! There can only be one "main" function in our project. 
+# For now just try and work around it or i can show you how to move it into our main file
+
 def main():
 	SoC = GetStyleOfCause()
 	Citation = GetCitations()
@@ -344,3 +347,4 @@ def main():
 	
 	
 main()
+'''
