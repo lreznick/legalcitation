@@ -23,7 +23,7 @@ def Contains(list, string):
         if x in string: return True
     return False
 
-#Capitalizes first word after a space or a bracket. Decapitalizg the rest, and entire correct words. Capitalizes non-words
+#Capitalizes first word after a space or an open bracket "(". Decapitalizg the rest, and entire correct words. Capitalizes non-words
 def Capitalize(string):
 	KeepAsIs = []
 	MatchMc = re.search(r"[A-Z]{1}[a-z]*'?[A-Z]{1}[a-z]+", string)
