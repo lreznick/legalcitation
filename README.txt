@@ -1,25 +1,17 @@
+Legal Citation
+A citation website primarily used to aid lawyers in their work
+Requires python, nosetests, apache, mysql, mod_wsgi, web.py
+
+To Run: 
+cd into legal directory -> python main.py
+
+To Test:
+cd into LegalCitation -> nosetests -v 
+
+
+
+
 Important Information about the structure and use of the program
+-All folders must have __init__.py in their directory to be detected as a part of the package.
+-If nosetests is ran from any other directory, it will not work!
 
-TESTING----------
-
- To run your application's tests, you would need to be above tests/ and this location I have above. So, if you try this:
-
-$ cd tests/   # WRONG! WRONG! WRONG!
-$ nosetests
-
-----------------------------------------------------------------------
-Ran 0 tests in 0.000s
-
-OK
-Then that is wrong! You have to be above tests, so assuming you made this mistake, you would fix it by doing:
-
-$ cd ..   # get out of tests/
-$ ls      # CORRECT! you are now in the right spot
-NAME                bin             docs            setup.py        tests
-$ nosetests
-.
-----------------------------------------------------------------------
-Ran 1 test in 0.004s
-
-OK
-Remember this because people make this mistake quite frequently.

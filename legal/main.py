@@ -1,6 +1,6 @@
  
 from server.webGrabber import *
-from webclient.grabFormData import *
+from webclient.appServer import *
 
 def main():
 	print "hello"

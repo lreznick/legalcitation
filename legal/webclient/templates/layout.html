@@ -95,9 +95,9 @@ $def with (content)
     <!-- Fav and touch icons -->
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
-      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
-                    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
-                                   <link rel="shortcut icon" href="./static/img/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="./static/img/favicon.ico">
   </head>
 
   
@@ -138,17 +138,18 @@ $def with (content)
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="./static/js/lib/jquery-1.8.3.min.js"></script>
     <script src="./static/js/lib/bootstrap.min.js"></script>
+    <script src="./static/js/lib/jquery.validate.min.js"></script>
         <!-- input#input01 accesses the input of id input01 -->
 	 <script type="text/javascript">
                                 jQuery(document).ready(function() {
                                                                         
-                                jQuery(".GoButton").click(function() {
+                                jQuery("#GoButton").click(function() {
                                          
-                                        var input_string  = jQuery("input#input01").val();
+                                        var input_string  = jQuery("input#CanadaCaseStyle").val();
                                         console.log("input"+ input_string);
                                         jQuery.ajax({
                                             type: "POST",
-                                            data: {casename : input_string},
+                                            data: {styleofcause : input_string},
                                             success: function(data) {
                                             console.log("WE DID IT!");
                                             console.log(data);
@@ -158,6 +159,47 @@ $def with (content)
                                          console.log(input_string);   
                                         return false;
                                         });
+                                
+                                         jQuery('#contact-form').validate(
+                                         {
+                                          rules: {
+                                            name: {
+                                              minlength: 2,
+                                              required: true
+                                            },
+                                            email: {
+                                              required: true,
+                                              email: true
+                                            },
+                                            subject: {
+                                              minlength: 2,
+                                              required: true
+                                            },
+                                            message: {
+                                              minlength: 2,
+                                              required: true
+                                            }
+                                          },
+                                          highlight: function(element) {
+                                            jQuery(element).closest('.control-group').removeClass('success').addClass('error');
+                                          },
+                                          success: function(element) {
+                                            element
+                                            .text('OK!').addClass('valid')
+                                            .closest('.control-group').removeClass('error').addClass('success');
+                                          },
+                                            messages: {
+    name: "Please specify your name",
+    email: {
+      required: "We need your email address to contact you",
+      email: "Your email address must be in the format of name@domain.com"
+    }
+  }
+                                         });
+     
+                                
+                                
+                                
                                 });
          
                         </script>  

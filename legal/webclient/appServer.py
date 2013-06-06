@@ -5,10 +5,11 @@
 import web
 #from legal.server.webGrabber import Connect2Web
 
-# mapping. Each post request contains what to do.
+# mapping. Each post request contains what to do.   
 urls = (
-	 '/' ,  'Index',
-     '/forminput', 'Index'
+    '/formInput', 'Index',	
+    '/' ,  'Index'
+
 )
 
 app = web.application(urls, globals())
@@ -26,7 +27,8 @@ class Index(object):
     def POST(self):
         form = web.input()
         #form.validates()
-        webURL = "%s" % (form.casename)
+        print "here" 
+        webURL = "%s" % (form.styleofcause)
         print "WebURL:", webURL
         print "Self: " , self
         #s = form.value['textfield']

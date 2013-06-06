@@ -1,21 +1,22 @@
 $def with (greeting= None)
 
 
-
 	<!-- Jumbotron -->
+
     <div class="jumbotron">
         <h1>Automate your Legal Citations</h1>
         <p class="lead">Enter your text and your citation is automatically generated. Subscription starts at $10/month. 
 		</p>
-        <a class="btn btn-large btn-success" href="#">Sign Up</a>
-		<a class="btn btn-large btn-success" href="#">Login</a>
+
     </div>
 
     <hr>
+    
+
 
 	 <!-- CANLII-->
  	<div class="container">    
-	   <div style ="text-align: center" ><h3>CANLII</h3> </div>
+	   <div style ="text-align: center" ><h3>Enter A CanLII site</h3> </div>
        <div class="span10">
           <div class="well">
 				<form class="form-horizontal" action="/formInput" method="POST">
@@ -23,21 +24,94 @@ $def with (greeting= None)
 			
 				<!-- Name -->
 				<div class="control-group">
-					<label class="control-label" for="inputtest">  Enter a CANLII Site</label>
+					<label class="control-label" for="inputtest">test </label>
 					<div class="controls">
 						<input type="text" class="input-xxlarge" id="inputcanlii" placeholder=" http://www.canlii.org/en/ca/scc/doc/2013/2013scc29/2013scc29.html" name="Case Name">
 						<button type="submit" class="btn">Go</button>
 					</div>
 				</div>  
 				</fieldset>
-		  </div>
 		 </div>
+	  </div>
 	</div> <!-- Entire Form Container-->
+  
 		  
 	 <div style ="text-align: center" ><h1>OR</h1> </div>
+    
+    
+    
+    
+ <!--  TABBED  NAVS                  -->   
+ 	<div class="container">     
 	
+        <div class="tabbable"> <!-- Only required for left/right tabs -->
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab1" data-toggle="tab">Case (Canada)</a></li>
+            <li><a href="#tab2" data-toggle="tab">Case (USA)</a></li>
+            <li><a href="#tab3" data-toggle="tab">Case (UK)</a></li>
+          </ul>
+      
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab1">
+                        <!-- The forms --> 
+                        <!--http://www.w3resource.com/twitter-bootstrap/forms-tutorial.php -->
+                        <div class="span9">
+                          <div class="well"> 
+                            <h2>Enter Your Information Manually</h2>
+                            <p>Please follow the guide to enter your information for the Canadian case</p>
+                            <hr>
+                            <form class="form" action="/formInput" method="POST">
+                            <fieldset>
+                            <!-- Style Of Cause -->
+                            <div class="control-group">
+                                <label class="control-label" for="CanadaCaseStyle"><b>Style Of Cause</b></label>
+                                <div class="controls">
+                                <input type="text" class="input-xxlarge" id="CanadaCaseStyle" 
+                                            placeholder="ex: Williams v Canada" name="styleofcause">
+                                </div>
+                            </div>  
+                            
+                            <!--Paralle Citationsl -->
+                            <div class="control-group">
+                                <label class="control-label" for="CanadaCaseParallel"><b>Parallel Citation </b>(Separated by commas or semicolons)</label>
+                                <div class="controls">
+                                    <input type="text" class="input-xxlarge" id="CanadaCaseParallel"
+                                                placeholder="ex: 2008 SCC 28, [2008] SCR 432, CanLii" name = "parallel">
+                                  <!--  <span class="help-inline">Separated by commas or semicolons</span> -->
+                                </div>
+                            </div>
 
-	
+                           <button type="submit" class="btn btn-danger" id ="GoButton">Continue</button>
+                           
+                            <hr>
+                             <a class="btn" ><i class="icon-play"></i> Other Options </a>
+                            <h3> Result</h3>
+                             <p>  <div id = "results">     </div>       </p>               	
+                            </fieldset>
+                           
+                           </div> <!-- well -->
+                        </div> 	<!-- Span -->
+                    </div> <!-- Form -->
+                    
+
+            
+                <div class="tab-pane" id="tab2">
+                  <p>Howdy, I'm in Section 2.</p>
+                </div>
+                
+                <div class="tab-pane" id="tab3">
+                  <p>Howdy, I'm in Section 3.</p>
+                </div>
+                
+            </div> <!-- tab content -->
+        </div> <!-- Tabbable -->
+    </div><!-- Entire Container -->
+
+    
+    
+    
+    <hr>
+    	
 	
 	
 	
@@ -68,98 +142,86 @@ $def with (greeting= None)
                 <hr>
                 <form class="form" action="/formInput" method="POST">
                 <fieldset>
-                <!-- Case Name -->
+                <!-- Style Of Cause -->
                 <div class="control-group">
-                    <label class="control-label" for="inputcanadacase">Case Name</label>
+                    <label class="control-label" for="CanadaCaseStyle"><b>Style Of Cause</b></label>
                     <div class="controls">
-                    <input type="text" class="input-xxlarge" id="inputcanadacase" placeholder="ex." name="Case Name">
+                    <input type="text" class="input-xxlarge" id="CanadaCaseStyle" 
+                                placeholder="ex: Williams v Canada" name="styleofcause">
                     </div>
                 </div>  
                 
-                <!--Parallel -->
+                <!--Paralle Citationsl -->
                 <div class="control-group">
-                    <label class="control-label" for="inputtest">Parallel Citation</label>
+                    <label class="control-label" for="CanadaCaseParallel"><b>Parallel Citation </b>(Separated by commas or semicolons)</label>
                     <div class="controls">
-                        <input type="text" class="input-xxlarge" id="inputtest" placeholder="ex.">
+                        <input type="text" class="input-xxlarge" id="CanadaCaseParallel"
+                                    placeholder="ex: 2008 SCC 28, [2008] SCR 432, CanLii" name = "parallel">
+                        <!-- <span class="help-inline">Separated by commas or semicolons</span> -->
                     </div>
                 </div>
 
-                <button type="submit" class="btn">Go</button>
+               <button type="submit" class="btn btn-danger" id ="GoButton">Continue</button>
+               
                 <hr>
+                 <a class="btn" ><i class="icon-play"></i> Other Options </a>
                 <h3> Result</h3>
+                 <p>  <div id = "results">                       	
+                          </div>
+                 </p>
                 </fieldset>
                 </div>
             </div> 	<!-- Span -->
         </div> <!-- Form -->
     </div> <!-- Entire Form Container-->
-	
     
     
     
+	<!-- Jumbotron -->
+    <div class="jumbotron">
+        <h1>Automate your Legal Citations</h1>
+        <p class="lead">Enter your text and your citation is automatically generated. Subscription starts at $10/month. 
+		</p>
+        <a class="btn btn-large btn-success" href="#">Sign Up</a>
+		<a class="btn btn-large btn-success" href="#">Login</a>
+    </div>
     
     
-    
- <!--  TABBED  NAVS                  -->   
- 	<div class="container">     
-	
-        <div class="tabbable"> <!-- Only required for left/right tabs -->
-          <ul class="nav nav-tabs">
-            <li class="active"><a href="#tab1" data-toggle="tab">Case (Canada)</a></li>
-            <li><a href="#tab2" data-toggle="tab">Case (USA)</a></li>
-            <li><a href="#tab3" data-toggle="tab">Case (UK)</a></li>
-          </ul>
-      
-            <div class="tab-content">
-                <div class="tab-pane active" id="tab1">
-                    <!-- The forms --> 
-                    <!--http://www.w3resource.com/twitter-bootstrap/forms-tutorial.php -->
-                    <div class="span9">
-                        <div class="well">
-                            <h2>The Form!!</h2>
-                            <p>Enter all of the informationzzz heeeere pew pew.</p>
-                            <hr>
-                            <form class="form" action="/formInput" method="POST">
-                            
-                            <fieldset>
-                                <!-- Case Name -->
-                                <div class="control-group">
-                                    <label class="control-label" for="input01">Case Name</label>
-                                    <div class="controls">
-                                        <input type="text" class="input-xxlarge" id="input01" placeholder="ex." name="casename">
-                                        <!-- The name ' ---" is what is read by form in grab.py -->
-                                    </div>
-                                </div>  
-                        
-                                <!-- Second Input -->
-                                <div class="control-group">
-                                    <label class="control-label" for="input02">Input2</label>
-                                    <div class="controls">
-                                        <input type="text" class="input-xxlarge" id="input02" placeholder="ex.">
-                                    </div>
-                                </div>
-
-                                <button type="submit" class="GoButton">Go</button>
-                                <hr>
-                                <h3> Result</h3>
-
-                                <p>  <div id = "results">                       	
-                                </div>
-                                </p>
-                            </fieldset>
-                        </div><!-- Well -->
-                    </div> <!-- Span-->
-                </div> <!-- Tab class -->
-            
-                <div class="tab-pane" id="tab2">
-                  <p>Howdy, I'm in Section 2.</p>
-                </div>
-                
-                <div class="tab-pane" id="tab3">
-                  <p>Howdy, I'm in Section 3.</p>
-                </div>
-                
+        <!-- VALIDATION TESTS -->
+    <div class = "container">
+        <form action="" id="contact-form" class="form-horizontal">
+        <fieldset>
+          <legend>Sample Contact Form <small>(will not submit any information)</small></legend>
+            <div class="control-group">
+              <label class="control-label" for="name">Your Name</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge" name="name" id="name">
+              </div>
             </div>
-        </div> <!-- Tabbable -->
-    </div><!-- Entire Container -->
-
+            <div class="control-group">
+              <label class="control-label" for="email">Email Address</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge" name="email" id="email">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="subject">Subject</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge" name="subject" id="subject">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="message">Your Message</label>
+              <div class="controls">
+                <textarea class="input-xlarge" name="message" id="message" rows="3"></textarea>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary btn-large">Submit</button>
+              <button type="reset" class="btn">Cancel</button>
+            </div>
+          </fieldset>
+        </form>
+    
+    </div>
 	  
