@@ -1,17 +1,14 @@
 #As of now, the main program that runs everything. When the user requests the website, it grabs the html file
 # and opens it up. 
-#	Website opened at http://localhost:8080/formInput
+#	Website opened at http://localhost:8080
 #It then waits for an input from the user and then grabs that information. then calls webgrabber which grabs links
 import web
 #from legal.server.webGrabber import Connect2Web
 
-# import sys
-# the mock-0.3.1 dir contains testcase.py, testutils.py & mock.py
-# sys.path.append('/foo/bar/mock-0.3.1')
-#
-#def runServer():
+# mapping. Each post request contains what to do.
 urls = (
-	'/formInput', 'Index', '/'
+	 '/' ,  'Index',
+     '/forminput', 'Index'
 )
 
 app = web.application(urls, globals())
