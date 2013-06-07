@@ -1,6 +1,5 @@
 $def with (greeting= None)
 
-
 	<!-- Jumbotron -->
 
     <div class="jumbotron">
@@ -21,7 +20,6 @@ $def with (greeting= None)
           <div class="well">
 				<form class="form-horizontal" action="/formInput" method="POST">
 				<fieldset>
-			
 				<!-- Name -->
 				<div class="control-group">
 					<label class="control-label" for="inputtest">test </label>
@@ -30,7 +28,9 @@ $def with (greeting= None)
 						<button type="submit" class="btn">Go</button>
 					</div>
 				</div>  
+				
 				</fieldset>
+				</form>
 		 </div>
 	  </div>
 	</div> <!-- Entire Form Container-->
@@ -42,7 +42,7 @@ $def with (greeting= None)
     
     
  <!--  TABBED  NAVS                  -->   
- 	<div class="container">     
+ 	<div class="container" >     
 	
         <div class="tabbable"> <!-- Only required for left/right tabs -->
           <ul class="nav nav-tabs">
@@ -60,7 +60,7 @@ $def with (greeting= None)
                             <h2>Enter Your Information Manually</h2>
                             <p>Please follow the guide to enter your information for the Canadian case</p>
                             <hr>
-                            <form class="form" action="/formInput" method="POST">
+                            <form class="form" action="/formInput" method="POST"  id ="canadacase-form">
                             <fieldset>
                             <!-- Style Of Cause -->
                             <div class="control-group">
@@ -80,14 +80,36 @@ $def with (greeting= None)
                                   <!--  <span class="help-inline">Separated by commas or semicolons</span> -->
                                 </div>
                             </div>
+							
+							<!-- All forms that will appear hidden until further processing -->
+							<div id = "hidden-forms">
+								 <!--Extras 1-->
+								<div class="control-group">
+									<label class="control-label" for="extra"><b>Extra</b></label>
+									<div class="controls">
+										<input type="text" class="input-xxlarge" id="extra"
+													placeholder="" name = "parallel">
+									  <!--  <span class="help-inline">Separated by commas or semicolons</span> -->
+									</div>
+								</div>
 
-                           <button type="submit" class="btn btn-danger" id ="GoButton">Continue</button>
-                           
-                            <hr>
-                             <a class="btn" ><i class="icon-play"></i> Other Options </a>
-                            <h3> Result</h3>
-                             <p>  <div id = "results">     </div>       </p>               	
-                            </fieldset>
+								<hr>
+								 <a class="btn" ><i class="icon-play"></i> Other Options </a>
+       	
+								
+								</div> <!-- Hidden Fields -->
+								<button type="submit" class="btn btn-danger" id ="ContinueButton">Continue</button>
+								<br>
+								<button type="submit" class="btn btn-danger" id ="GoButton">Go</button>
+								
+								<hr>
+								
+								<div id ="result-container">
+									<h3> Result</h3>
+									<p>  <div id = "results"></div></p>        
+								</div>
+								
+							</fieldset>
                            
                            </div> <!-- well -->
                         </div> 	<!-- Span -->
@@ -116,7 +138,7 @@ $def with (greeting= None)
 	
 	
  <!--  STACKED NAVS                  -->
- 	<div class="container">    
+ 	<div class="container" id ="stackednavs">    
         <div class = "row">
            
            <div class = "span3">
@@ -134,12 +156,12 @@ $def with (greeting= None)
             </div><!--/span-->
 
             <!-- The forms --> 
-            <!--http://www.w3resource.com/twitter-bootstrap/forms-tutorial.php -->
             <div class="span9">
               <div class="well">
                 <h2>Enter Your Information Manually</h2>
                 <p>Please follow the guide to enter your information for the Canadian case</p>
                 <hr>
+
                 <form class="form" action="/formInput" method="POST">
                 <fieldset>
                 <!-- Style Of Cause -->
@@ -186,12 +208,18 @@ $def with (greeting= None)
 		<a class="btn btn-large btn-success" href="#">Login</a>
     </div>
     
-    
-        <!-- VALIDATION TESTS -->
-    <div class = "container">
-        <form action="" id="contact-form" class="form-horizontal">
+	
+	
+	
+	<!-- Fix this shenanigans -->
+
+		 </form>
+		 
+     <!-- VALIDATION TESTS -->
+    <form action="" id="contact-form" class="form-horizontal">
         <fieldset>
           <legend>Sample Contact Form <small>(will not submit any information)</small></legend>
+		  Try entering something really short, or nothing at all
             <div class="control-group">
               <label class="control-label" for="name">Your Name</label>
               <div class="controls">
@@ -222,6 +250,5 @@ $def with (greeting= None)
             </div>
           </fieldset>
         </form>
-    
-    </div>
+
 	  

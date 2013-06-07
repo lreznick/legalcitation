@@ -16,7 +16,7 @@ app = web.application(urls, globals())
 render = web.template.render('webclient/templates/', base = 'layout')
 
 class Index(object):
-    def GET(self):
+	def GET(self):
 		return render.index() #hello_form is the name of the html
 		
 		# For index.html
@@ -24,15 +24,20 @@ class Index(object):
 		#form = web.input (name = "Nobody")
 		#greeting = "hello, %s" % form.name
 		#return render.index(greeting=greeting)
-    def POST(self):
-        form = web.input()
+	def POST(self):
+		form = web.input()
         #form.validates()
-        print "here" 
-        webURL = "%s" % (form.styleofcause)
-        print "WebURL:", webURL
-        print "Self: " , self
-        #s = form.value['textfield']
-        return webURL
+		
+		print "here" 
+		webURL = "%s" % (form.styleofcause)
+		if not webURL: 
+			print "nothing to see here boys"
+			return render.index()
+		else:
+			print "WebURL:", webURL
+			print "Self: " , self
+			#s = form.value['textfield']
+			return webURL
         #return render.index(greeting=webURL)
 		#print "input here:", greeting
 		#webGrabber.Connect2Web(webURL)		

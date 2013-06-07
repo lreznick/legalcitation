@@ -139,70 +139,8 @@ $def with (content)
     <script src="./static/js/lib/jquery-1.8.3.min.js"></script>
     <script src="./static/js/lib/bootstrap.min.js"></script>
     <script src="./static/js/lib/jquery.validate.min.js"></script>
-        <!-- input#input01 accesses the input of id input01 -->
-	 <script type="text/javascript">
-                                jQuery(document).ready(function() {
-                                                                        
-                                jQuery("#GoButton").click(function() {
-                                         
-                                        var input_string  = jQuery("input#CanadaCaseStyle").val();
-                                        console.log("input"+ input_string);
-                                        jQuery.ajax({
-                                            type: "POST",
-                                            data: {styleofcause : input_string},
-                                            success: function(data) {
-                                            console.log("WE DID IT!");
-                                            console.log(data);
-                                            jQuery('#results').html(data).hide().fadeIn(400);
-                                            },
-                                        });
-                                         console.log(input_string);   
-                                        return false;
-                                        });
-                                
-                                         jQuery('#contact-form').validate(
-                                         {
-                                          rules: {
-                                            name: {
-                                              minlength: 2,
-                                              required: true
-                                            },
-                                            email: {
-                                              required: true,
-                                              email: true
-                                            },
-                                            subject: {
-                                              minlength: 2,
-                                              required: true
-                                            },
-                                            message: {
-                                              minlength: 2,
-                                              required: true
-                                            }
-                                          },
-                                          highlight: function(element) {
-                                            jQuery(element).closest('.control-group').removeClass('success').addClass('error');
-                                          },
-                                          success: function(element) {
-                                            element
-                                            .text('OK!').addClass('valid')
-                                            .closest('.control-group').removeClass('error').addClass('success');
-                                          },
-                                            messages: {
-    name: "Please specify your name",
-    email: {
-      required: "We need your email address to contact you",
-      email: "Your email address must be in the format of name@domain.com"
-    }
-  }
-                                         });
-     
-                                
-                                
-                                
-                                });
-         
-                        </script>  
+    <script src="./static/js/legalcite.js"></script>  <!-- Our main Javascript -->
+ 
 
 
   </body>
