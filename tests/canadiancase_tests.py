@@ -23,7 +23,7 @@ def test_Capitalize():
     assert_equal(Capitalize("hello test one two Three"),"Hello Test One Two Three")
     assert_equal(Capitalize("1hello t234est one two Three"),"1hello T234est One Two Three")
     assert_equal(Capitalize("a(aa)aa[aaa]aa"),'A(Aa)aa[aaa]aa')
-#  assert_equal(Capitalize("([a"),'([a') #This code doesnt work
+    #assert_equal(Capitalize("([a"),'([a') #This code doesnt work
     
     #Testing Decapitilization
 #  assert_equal(Capitalize("a(((((aA)aa[aa]aa"),'A(((((Aa)aa[aa]aa')
