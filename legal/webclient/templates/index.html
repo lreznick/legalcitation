@@ -1,15 +1,19 @@
 $def with (greeting= None)
 
 	<!-- Jumbotron -->
-
+	<!-- Jumbotron
     <div class="jumbotron">
         <h1>Automate your Legal Citations</h1>
         <p class="lead">Enter your text and your citation is automatically generated. Subscription starts at $10/month. 
 		</p>
 
     </div>
-
-    <hr>
+	-->
+	<hr>
+	<div class ="container" id ="banner">
+		<img style = "width: 1200px; background-repeat:repeat-x" src ="./static/img/banner.png"> 
+    </div>
+	<hr>
     
 
 
@@ -66,9 +70,20 @@ $def with (greeting= None)
                             <div class="control-group">
                                 <label class="control-label" for="CanadaCaseStyle"><b>Style Of Cause</b></label>
                                 <div class="controls">
-                                <input type="text" class="input-xxlarge" id="CanadaCaseStyle" 
-                                            placeholder="ex: Williams v Canada" name="styleofcause">
-                                </div>
+									<!-- inputs -->
+									<input type="text" class="input-xxlarge" id="CanadaCaseStyle" 
+												placeholder="ex: Williams v Canada" name="styleofcause">
+									<!-- tooltip -->
+									<span class ="help-inline"  id ="canadacase-styleofcause-tip" data-original-title="first tooltip"
+												data-content=" Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam erat est, elementum eu pretium vitae,
+													malesuada non nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at mi vel orci tempus elementum. C
+													ras in vulputate tellus. Morbi ultricies lacinia purus. Phasellus odio neque, faucibus vel orci nec, feugiat molestie eros. 
+													Nam iaculis blandit sem vitae faucibus. Cras sagittis erat quis commodo molestie.Nunc elementum sapien vitae urna 
+													gravida, ac convallis ligula dapibus. Nam id quam et lacus feugiat dignissim. Nullam risus odio, imperdiet a volutpat nec fringilla a libero. 
+													like hello there"> tip 
+									</span> 
+                                
+								</div>
                             </div>  
                             
                             <!--Paralle Citationsl -->
@@ -77,12 +92,12 @@ $def with (greeting= None)
                                 <div class="controls">
                                     <input type="text" class="input-xxlarge" id="CanadaCaseParallel"
                                                 placeholder="ex: 2008 SCC 28, [2008] SCR 432, CanLii" name = "parallel">
-                                  <!--  <span class="help-inline">Separated by commas or semicolons</span> -->
                                 </div>
                             </div>
 							
 							<!-- All forms that will appear hidden until further processing -->
 							<div id = "hidden-forms">
+							
 								 <!--Extras 1-->
 								<div class="control-group">
 									<label class="control-label" for="extra"><b>Extra</b></label>
@@ -94,9 +109,34 @@ $def with (greeting= None)
 								</div>
 
 								<hr>
-								 <a class="btn" ><i class="icon-play"></i> Other Options </a>
+								 
        	
+								<!-- Extra Options -->
 								
+								<!-- Accordian -->
+								<div class="accordion" id="extra-options-accordian">
+								  <div class="accordion-group">
+									<div class="accordion-heading">
+									
+									  <a class="accordion-toggle" data-toggle="collapse" data-parent="#extra-options-accordian" href="#collapseTwo" style="color: #000000">
+										<b><i class="icon-play"></i>  Other Options </b>
+									  </a>
+									</div>
+									<div id="collapseTwo" class="accordion-body collapse">
+									  <div class="accordion-inner">
+										lots of cool information to be seen here! maybe ill put in a form here at some point dum dum dum
+									  </div>
+									</div>
+								  </div>
+								</div>
+							
+								<!-- classic button -->
+								<a class="btn" data-toggle="collapse" data-target="#demo"><i class="icon-play"></i> Other Options </a>
+								</button>
+								<div id="demo" class="collapse"> <br>herro </div>
+
+							
+							
 								</div> <!-- Hidden Fields -->
 								<button type="submit" class="btn btn-danger" id ="ContinueButton">Continue</button>
 								<br>

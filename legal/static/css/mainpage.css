@@ -19,6 +19,11 @@
 	height: 40px;
 	width:100%
 }
+.banner{
+	background-repeat: repeat;
+	backgroun-image: url("/./static/img/banner.png");
+	height:500px;
+}
 .jumbowrapper{
 	background-image:url("../img/debut_light.png");
 }

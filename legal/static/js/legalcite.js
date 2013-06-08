@@ -1,7 +1,11 @@
     // <!-- input#input01 accesses the input of id input01 -->
 jQuery(document).ready(function() {
 	 
- //Initial Setup
+/*
+=============================================
+Set Up
+=============================================
+*/		
 	 
 	 //adding a method that allows regular expressions to check for validation
  jQuery.validator.addMethod(
@@ -20,7 +24,11 @@ jQuery(document).ready(function() {
 	jQuery("#GoButton").hide();
 	jQuery("#stackednavs").hide();
 	
-// Functional methods
+/*
+=============================================
+Form Submissions
+=============================================
+*/		
 
 	// Submit a form when the go button for canada case is submitted.
 	//	Then reloads the page to display the contents
@@ -56,14 +64,19 @@ jQuery(document).ready(function() {
 			console.log(input_string); return false; 
 	});
 		
-		
+/*
+=============================================
+Validations 
+=============================================
+*/		
 	// Validates the form to check if a form works or not
 	// Note: rules are based on name of form
 		jQuery('#canadacase-form').validate({
 			rules: { 
 				styleofcause: {
 				    regex: "^[a-zA-Z'.\\s]{1,40}$",	 
-					minlength: 4,
+					minlength: 2,
+					maxlength:200,					
 					required: true 
 				},
 
@@ -128,4 +141,22 @@ jQuery(document).ready(function() {
 				} 
 			}
 		}); 
-	});
+
+/*
+=============================================
+Tool Tips
+=============================================
+*/		
+	jQuery('#canadacase-styleofcause-tip').popover({
+		placement: 'right',
+		delay:{hide:5000}
+		});
+
+	
+/*
+=============================================
+Collapsing
+=============================================
+*/		$(".demo").collapse()
+	
+}); //End of Document
