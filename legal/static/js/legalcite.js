@@ -19,9 +19,9 @@ Set Up
 	 
 	
 	//hiding all forms 
-	jQuery("#hidden-forms").hide();
+	//jQuery("#hidden-forms").hide();
 	jQuery("#result-container").hide();
-	jQuery("#GoButton").hide();
+	//jQuery("#GoButton").hide();
 	jQuery("#stackednavs").hide();
 	
 /*
@@ -32,6 +32,7 @@ Form Submissions
 
 	// Submit a form when the go button for canada case is submitted.
 	//	Then reloads the page to display the contents
+	// Probably Remove *************
 	jQuery("#ContinueButton").click(function() {
             var input_string = jQuery("input#CanadaCaseStyle").val();
             console.log("input"+ input_string);
@@ -49,7 +50,7 @@ Form Submissions
 			console.log(input_string); return false; 
 	});
 		
-		//For the second part of the form submission
+		//Submitting the information to the server to be processed
 	jQuery('#GoButton').click(function() {
             var input_string = jQuery("input#CanadaCaseStyle").val();
             console.log("input"+ input_string);
@@ -149,7 +150,7 @@ Tool Tips
 */		
 	jQuery('#canadacase-styleofcause-tip').popover({
 		placement: 'right',
-		delay:{hide:5000}
+		//delay:{hide:500}
 		});
 
 	
@@ -157,6 +158,26 @@ Tool Tips
 =============================================
 Collapsing
 =============================================
-*/		$(".demo").collapse()
+*/		
+	jQuery(".demo").collapse()
+
+/*
+=============================================
+Pagination
+=============================================
+*/		
+	jQuery("#reporters-list").children().hide();
+	
+	jQuery("a.reporters-pagination").click(function() {
+			//var id = jQuery(elem).attr("className");
+			var id = jQuery(this).text(); // grab the letter
+			jQuery("#reporters-list").children().hide();
+			jQuery('#reporters-list-'+id).fadeIn(0);
+			jQuery('#reporters-list-b').fadeIn(0);
+			console.log("variable id " + id);
+               
+			});
+	
+	
 	
 }); //End of Document

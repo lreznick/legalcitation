@@ -17,6 +17,7 @@ render = web.template.render('webclient/templates/', base = 'layout')
 
 class Index(object):
 	def GET(self):
+		print "hello"
 		return render.index() #hello_form is the name of the html
 		
 		# For index.html
