@@ -10,6 +10,8 @@ class Party:
 		self.Number = Number
 		Parties.append(self)
 
+#This function takes in a string (meant to be the style of cause) and filters out words that are not allowed to be in it (instances of "the")
+#Assume no weird characte
 def NotAllowed(string):
 	NotAllowed = ["the ", "la ", "le ", "les "]
 	for x in NotAllowed:
@@ -23,24 +25,32 @@ def Contains(list, string):
         if x in string: return True
     return False
 
-#Capitalizes first word after a space or an open bracket "(". Decapitalizg the rest, and entire correct words. Capitalizes non-words
+#Capitalizes first word after a space or an open bracket "(", words such as MacDonald and McMaster (if they are inputted capitalized), and AMA Canada.
+#does not capitalize words that are meant to not be capitalized
+#can only accept numbers, round brackets
 def Capitalize(string):
 	KeepAsIs = []
-	MatchMc = re.search(r"[A-Z]{1}[a-z]*'?[A-Z]{1}[a-z]+", string)
+	MatchMc = re.search(r"[A-Z]{1}[a-z]*'?[A-Z]{1}[a-z]+", string)#regex for a capital followed by some lowercase, and then another capital and more lowercase
+	MatchCaps = re.search(r'[a-z0-9]+.*\(?([A-Z]{1}[A-Z]+)|([A-Z]{1}[A-Z]+)\)?\s?.*[a-z0-9]+', string)#regex for all-caps inputs if there are non-caps present
+	#if any of the words match the regexes, add them to KeepAsIs array to keep them unchanged in the final product
 	if MatchMc: KeepAsIs.append(MatchMc.group())
-	MatchCaps = re.search(r'[a-z0-9]+.*\(?([A-Z]{1}[A-Z]+)|([A-Z]{1}[A-Z]+)\)?\s?.*[a-z0-9]+', string)
 	if MatchCaps: 
 		if MatchCaps.group(1): KeepAsIs.append(MatchCaps.group(1))
 		else: KeepAsIs.append(MatchCaps.group(2))
-	m = ' '.join([s[0].upper() + s[1:].lower() for s in string.split(' ')])
-	n = '\''.join([s[0].upper() + s[1:] for s in m.split('\'')])
-	string = '('.join([s[0].upper() + s[1:] for s in n.split('(')])
-	Decaps = ["in rem", " and", "ex rel", " of", " de"];
-	Lstring = string.lower();
+	LenError = False
+	try:
+		string = ' '.join([s[0].upper() + s[1:].lower() for s in string.split(' ')]) #capitalize every letter immediately after a space
+	except IndexError:
+		sting = string
+	try:
+		string = '('.join([s[0].upper() + s[1:] for s in string.split('(')]) #capitalize every letter immediately after a [
+	except IndexError:
+		string = string
+	Decaps = ["in rem", " and", "ex rel", " of", " de"] #these are words i want to decaps
 	for x in Decaps:
-		if x in Lstring: string = re.sub(x, x, string, 0, re.I)
+		if x in string.lower(): string = re.sub(x, x, string, 0, re.I) #sub the caps words for the uncaps words
 	for j in KeepAsIs:
-		string = re.sub(j, j, string, 0, re.I)
+		string = re.sub(j, j, string, 0, re.I) #sub in the all caps words and words like MacDonald
 	return string
 
 #guardian, tutor, company, municipality, province, country, will, estate, bankruptcy, receivership, crim, Civil crown (AG or MNR), Municipal Boards
