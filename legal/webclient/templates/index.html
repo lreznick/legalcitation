@@ -21,7 +21,7 @@ $def with (greeting= None)
  	<div class="container">    
 	   <div style ="text-align: center" ><h3>Enter A CanLII site</h3> </div>
        <div class="span10">
-          <div class="well">
+          <!-- <div class="well"> -->
 				<form class="form-horizontal" action="/formInput" method="POST">
 				<fieldset>
 				<!-- Name -->
@@ -35,7 +35,7 @@ $def with (greeting= None)
 				
 				</fieldset>
 				</form>
-		 </div>
+		 <!-- </div>  Well -->
 	  </div>
 	</div> <!-- Entire Form Container-->
   
@@ -60,7 +60,7 @@ $def with (greeting= None)
                         <!-- The forms --> 
                         <!--http://www.w3resource.com/twitter-bootstrap/forms-tutorial.php -->
                         <div class="span9">
-                          <div class="well"> 
+                          <div class="well">  <!-- well -->
                             <h2>Enter Your Information Manually</h2>
                             <p>Please follow the guide to enter your information for the Canadian case</p>
                             <hr>
@@ -81,8 +81,9 @@ $def with (greeting= None)
 													ras in vulputate tellus. Morbi ultricies lacinia purus. Phasellus odio neque, faucibus vel orci nec, feugiat molestie eros. 
 													Nam iaculis blandit sem vitae faucibus. Cras sagittis erat quis commodo molestie.Nunc elementum sapien vitae urna 
 													gravida, ac convallis ligula dapibus. Nam id quam et lacus feugiat dignissim. Nullam risus odio, imperdiet a volutpat nec fringilla a libero. 
-													like hello there"> <i class = "icon-question-sign"></i>
-									</span> 
+													like hello there">  
+													<button id ="button-test-face" data-toggle= "popover" data-content = "sup">Go!</button><i id = "tooltip" class = "icon-question-sign"></i>
+									</span> <a  id="homgtest" class="btn" data-toggle="popover" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." title data-original-title="Popover on left">Popover on left</a>
                                 
 								</div>
                             </div>  
@@ -247,7 +248,7 @@ $def with (greeting= None)
                         <!-- The forms --> 
                         <!--http://www.w3resource.com/twitter-bootstrap/forms-tutorial.php -->
                         <div class="span9">
-                          <div class="well"> 
+                           <!-- <div class="well">  -->
                             <h2>Enter Your Information Manually</h2>
                             <p>Please follow the guide to enter your information for the Canadian case</p>
                             <hr>
@@ -401,7 +402,7 @@ $def with (greeting= None)
 							</fieldset>
                            </form>
 						  </div> <!-- well -->
-                        </div> 	<!-- Span -->
+                        <!-- </div> 	<!-- Span --> 
 					</div>    <!-- First Tab -->
 
             

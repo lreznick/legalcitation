@@ -148,10 +148,28 @@ Validations
 Tool Tips
 =============================================
 */		
-	jQuery('#canadacase-styleofcause-tip').popover({
-		placement: 'right',
+jQuery('#canadacase-styleofcause-tip').click(function(){
+	console.log("well lookie here");
+/*	jQuery('#canadacase-styleofcause-tip').popover({
+		placement: 'right',		
+		delay: {show: 0 }
+	}); */
+	jQuery('#canadacase-styleofcause-tip').popover('show');
+});
+
+	jQuery('#homgtest').popover({
+		'content': 'Popover content',
+    'animation': true,
+    'html': 'test',
+    'trigger': 'click'
+	});
+	
+	jQuery('#button-test-face').popover({
+		trigger: 'click',
+		placement: 'right'
 		//delay:{hide:500}
-		});
+	});
+//});
 
 	
 /*
@@ -167,6 +185,7 @@ Pagination
 =============================================
 */		
 	jQuery("#reporters-list").children().hide();
+	
 	
 	jQuery("a.reporters-pagination").click(function() {
 			//var id = jQuery(elem).attr("className");

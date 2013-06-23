@@ -8,7 +8,7 @@ import web
 # mapping. Each post request contains what to do.   
 urls = (
     '/formInput', 'Index',	
-    '/' ,  'Index'
+    #'/' ,  'Index'
 
 )
 
