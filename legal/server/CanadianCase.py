@@ -11,7 +11,7 @@ class Party:
 		Parties.append(self)
 
 #This function takes in a string (meant to be the style of cause) and filters out words that are not allowed to be in it (instances of "the")
-#Assume no weird characte
+#Assume no weird ascii characters
 def NotAllowed(string):
 	NotAllowed = ["the ", "la ", "le ", "les "]
 	for x in NotAllowed:
@@ -20,73 +20,78 @@ def NotAllowed(string):
 			string = re.sub(x, "", string, re.I)
 			return string
 
+#function to see whether any of the members of a list are in a string. Returns False if not
 def Contains(list, string):
     for x in list:
         if x in string: return True
     return False
+    
+#CleanUp gets rid of all periods, excess spaces, and leading or trailing spaces in a string		
+def CleanUp(string):
+	NoPeriods = re.sub('\.+','', string) #Remove all periods
+	Stripped = NoPeriods.strip() #Remove leading or trailing white spaces
+	NoWhites = re.sub(' +',' ', Stripped) #Remove excess white spaces
+	return NoWhites
 
-#Capitalizes first word after a space or an open bracket "(", words such as MacDonald and McMaster (if they are inputted capitalized), and AMA Canada.
-#does not capitalize words that are meant to not be capitalized
-#can only accept numbers, round brackets
+#Capitalizes first word after a space or an open bracket "(" (so long as there are not multiple brackets in a row... that raises an error which is overriden), words such as MacDonald and McMaster (if they are inputted capitalized), and AMA Canada.
+#does not capitalize words that are meant to not be capitalized ["in rem", " and", "ex rel", " of", " de"]
+#can only accept numbers, round brackets, apostrophes, and letters (no commas or periods, or weird utf-8  characters)
 def Capitalize(string):
-	KeepAsIs = []
-	MatchMc = re.search(r"[A-Z]{1}[a-z]*'?[A-Z]{1}[a-z]+", string)#regex for a capital followed by some lowercase, and then another capital and more lowercase
-	MatchCaps = re.search(r'[a-z0-9]+.*\(?([A-Z]{1}[A-Z]+)|([A-Z]{1}[A-Z]+)\)?\s?.*[a-z0-9]+', string)#regex for all-caps inputs if there are non-caps present
+	McD = re.findall(r"[A-Z]{1}['a-z]+[A-Z]{1}[a-z]*", string) #regex for a capital followed by some lowercase, and then another capital and more lowercase
+	CapAfter_one = re.findall(r"(?<=[\(\)0-9a-z] )[A-Z]{2,}", string) #matches all caps that have some preceeding number or bracket or lowercase letter, or some following capital followed by lowercase or numbers
+	CapAfter_two = re.findall(r"(?<=[\(\)0-9a-z]) [A-Z]{2,}", string) #an alternative match algorithm to for where caps follow non-caps
+	CapAfter_three = re.findall(r"(?<= [\(\)0-9a-z])[A-Z]{2,}", string) #an alternative matching algorithm for when caps immediately follow a bracket or non-caps instead of having a space in between
+	CapBefore = re.findall(r"[A-Z]{2,} (?=[a-z0-9])", string) #a matching algorithm for where caps form the first part of the string, and are followed by non-caps
 	#if any of the words match the regexes, add them to KeepAsIs array to keep them unchanged in the final product
-	if MatchMc: KeepAsIs.append(MatchMc.group())
-	if MatchCaps: 
-		if MatchCaps.group(1): KeepAsIs.append(MatchCaps.group(1))
-		else: KeepAsIs.append(MatchCaps.group(2))
-	LenError = False
+	KeepAsIs = McD+CapAfter_one+CapAfter_two+CapAfter_three + CapBefore #add all of the arrays together to create the list of words we will keep the same
 	try:
 		string = ' '.join([s[0].upper() + s[1:].lower() for s in string.split(' ')]) #capitalize every letter immediately after a space
-	except IndexError:
+	except IndexError:#an IndexError can occur where some of the characters separated by spaces are only 1 character
 		sting = string
 	try:
-		string = '('.join([s[0].upper() + s[1:] for s in string.split('(')]) #capitalize every letter immediately after a [
-	except IndexError:
+		string = '('.join([s[0].upper() + s[1:] for s in string.split('(')]) #capitalize every letter immediately after a (
+	except IndexError:#an IndexError can occur where some of the characters separated by a bracket are only 1 character
 		string = string
 	Decaps = ["in rem", " and", "ex rel", " of", " de"] #these are words i want to decaps
 	for x in Decaps:
 		if x in string.lower(): string = re.sub(x, x, string, 0, re.I) #sub the caps words for the uncaps words
 	for j in KeepAsIs:
-		string = re.sub(j, j, string, 0, re.I) #sub in the all caps words and words like MacDonald
+		string = re.sub(j[0].upper()+j[1:].lower(), j, string) #sub in the all caps words and words like MacDonald
 	return string
 
-#guardian, tutor, company, municipality, province, country, will, estate, bankruptcy, receivership, crim, Civil crown (AG or MNR), Municipal Boards
-def StyleAttributes(Parties, j):
-	#GUARDIAN AD LITEM
-	if ("guardian" and " ad litem") in Parties[j].Name.lower(): 
-		Parties[j].Name = re.sub(r'\(?(g|G)uardian\s(a|A)d\s(l|L)item\s?(of)?\)?', '(Guardian ad litem of)', Parties[j].Name)
-	#LITIGATION GUARDIAN
-	if ("litigation guardian") in Parties[j].Name.lower(): 
-		Parties[j].Name = re.sub(r'\(?(l|L)itigation\s(g|G)uardian\s?(of)?\)?', '(Litigation guardian of)', Parties[j].Name)
-	#LLP or LP (for other caps requirements, put into Caps list)
-	Caps = [" llp"," lp"];
-	for x in Caps:
-		if x in Parties[j].Name.lower():
-			Parties[j].Name = re.sub(Parties[j].Name[Parties[j].Name.lower().find(x):Parties[j].Name.lower().find(x)+len(x)], x.upper(), Parties[j].Name)
-	if " corporation" in Parties[j].Name.lower(): Parties[j].Name = re.sub(r'(c|C)orporation', 'Corp', Parties[j].Name)
-	#TRUSTEE
-	if "trustee" in Parties[j].Name.lower(): 
-		Parties[j].Name = re.sub(r'\(?(t|T)rustee\s?(of)?\)?', '(Trustee of)', Parties[j].Name)
-	#RECEIVERSHIPS
-	if ("receivership" or "receiver") in Parties[j].Name.lower(): 
-		Parties[j].Name = re.sub(r'\((r|R)eceiver(ship)?\s?(of)?\)', '(Receiver of)', Parties[j].Name)
-	#LIQUIDATOR
-	if "liquidator" in Parties[j].Name.lower(): 
-		Parties[j].Name = re.sub(r'\((l|L)iquidat(e|or)\s?(of)?\)', '(Liquidator of)', Parties[j].Name)
-	#Countries
-	#CITIES
+
+# This function runs only where there are 2 or more parties. It sets out 11 patterns and corrects the input string (the style of cause) 
+#ex "guardian ad litem (of)?" goes to (Guardian ad litem of)
+#assume inputs contain no weird ascii characters
+#Everything is already capitalized properly before being inputted to this function
+def StyleAttributes(string):
+	# (1) GUARDIAN AD LITEM
+	if ("guardian" and " ad litem") in string.lower(): string = re.sub(r'\(?(g|G)uardian\s(a|A)d\s(l|L)item\s?(of)?\)?', '(Guardian ad litem of)', string)
+	# (2) LITIGATION GUARDIAN
+	if ("litigation guardian") in string.lower(): string = re.sub(r'\(?(l|L)itigation\s(g|G)uardian\s?((o|O)f)?\)?', '(Litigation guardian of)', string)
+	# (3) LLP or LP (for other caps requirements, put into Caps list)
+	Caps = [" LLP "," LP "]# be sure to put the space in front
+	for j in Caps:
+		string = re.sub(j[1].upper()+j[2:].lower(), j[1:], string) #sub in the all caps words and words like MacDonald
+	# (4) CORPORATION
+	if " corporation" in string.lower(): string = re.sub(r'(c|C)orporation', 'Corp', string)
+	# (5) TRUSTEE
+	if "trustee" in string.lower(): string = re.sub(r'\(?(t|T)rustee\s?(of)?\)?', '(Trustee of)', string)
+	# (6) RECEIVERSHIPS
+	if ("receivership" or "receiver") in string.lower(): string = re.sub(r'\((r|R)eceiver(ship)?\s?(of)?\)', '(Receiver of)', string)
+	# (7) LIQUIDATOR
+	if "liquidator" in string.lower(): string = re.sub(r'\((l|L)iquidat(e|or)\s?(of)?\)', '(Liquidator of)', string)
+	# (8) COUNTRIES (need list of countries)
+	# (9) CITIES (need database of cities and municipalities)
+	# (10) PROVINCES
 	Provinces = [["British Columbia", ["BC", "Brit Col", "Brit Colum"], "British Columbian"], ["Alberta", ["AB", "Alta"], "Albertan"], ["Saskatchewan", ["SK", "Sask"], "Saskatchewanian"], ["Manitoba", ["MB", "Man"], "Manitoban"], ["Ontario", ["ON", "Ont"], "Ontarian"], ["Quebec", ["QB", "Que","Qc"], "Quebecois"], ["New Brunswick", ["NB", "New Bruns", "N Bruns"], "New Brunskicker"], ["Nova Scotia", ["NS", "Nova Scot"], "Nova Scotian"], ["Prince Edward Island", ["PEI", "Prince Ed", "Prince Ed Isl"], "Prince Edward Islander"], ["Newfoundland and Labrador", ["NL", "NFLD", "Newfoundland"], "Newfoundlander"]]
 	for x in Provinces:
 		for i in x[1]:
-			if (" " + i + " ").lower() in Parties[j].Name.lower(): Parties[j].Name = Parties[j].Name.replace(" " + i + " ", " " + x[0] + " ")
-	#CROWN CIVIL
-	if "(attorney general)" in Parties[j].Name.lower(): Parties[j].Name = re.sub(r'(a|A)ttorney (g|G)eneral', 'AG', Parties[j].Name)
-	if "(minister of rational revenue)" in Parties[j].Name.lower(): Parties[j].Name = re.sub(r'(m|M)inister (o|O)f (n|N)ational (r|R)evenue', 'MNR', Parties[j].Name)
-	#print "At end of StyleAttributes, party name is ", Parties[j].Name
-	return Parties[j].Name
+			if (" " + i + " ").lower() in string.lower(): string = string.replace(" " + i + " ", " " + x[0] + " ")
+	# (11) CROWN CIVIL (AG and MNR)
+	if "(attorney general)" in string.lower(): string = re.sub(r'(a|A)ttorney (g|G)eneral', 'AG', string)
+	if "(minister of rational revenue)" in string.lower(): string = re.sub(r'(m|M)inister (o|O)f (n|N)ational (r|R)evenue', 'MNR', string)
+	return string
 
 #Put in the references and the Jurisdiction if not already there
 def StatuteChallenge(string):
@@ -110,36 +115,26 @@ def StatuteChallenge(string):
 	string = string + " (Canada)"
 	return string
 			
+#this is the function to call to reformat the style of cause
 def GetStyleOfCause():
-	StyleOfCause_Input = raw_input("Enter Style of Cause: \n") #Input test Style of Cause
-	OUTPUT = "" #This will eventually be the output
-	StyleOfCause_NoPeriods = re.sub('\.+','', StyleOfCause_Input) #Remove all periods
-	StyleOfCause_Stripped = StyleOfCause_NoPeriods.strip() #Remove leading or trailing white spaces
-	StyleOfCause_NoWhites = re.sub(' +',' ', StyleOfCause_Stripped) #Remove excess white spaces
-	StyleOfCause = StyleOfCause_NoWhites #Set the style of cause we will work with
-	Parties = [] #This will be an array of each of the parties in the Style of Cause
-	m = re.split(r'\b(?:\s*)[vV](?:\s*)\b', StyleOfCause) #Separate the parties (separated by ' v ') into a list
-	if len(m)==1: #This covers everything if there are not two or more parties
-		if (" reference " or " ref " or " re " or "in re " or "in the matter of " or " dans l'affaire de ") and (" code " or " act ") in StyleOfCause.lower():
-			m[0] = Capitalize(m[0])
-			OUTPUT = StatuteChallenge(m[0])
-		elif " estate " and not " re " in StyleOfCause.lower():
-			m[0] = NotAllowed(m[0])
-			m[0] = "Re " + m[0]
-			OUTPUT = Capitalize(m[0])
+	StyleOfCause_Input = raw_input("Enter Style of Cause: \n") #Input SoC from the user
+	StyleOfCause = Capitalize(CleanUp(StyleOfCause)) #Properly capitalize SoC and take out all extra spaces and periods
+	Parties = re.split(r'\b(?:\s*)[vV](?:\s*)\b', StyleOfCause) #Separate the parties (separated by ' v ' or ' V ') into a list
+	if len(Parties)==1: #If there is only one party
+		if (" reference " or " ref " or " re " or "in re " or "in the matter of " or " dans l'affaire de ") and (" code " or " act ") in Parties[0].lower(): #if the style of cause discloses that it is a reference
+			OUTPUT = StatuteChallenge(Parties[0]) #see if the SoC discloses it is a challenge to a statute and correct it if so
+		elif " estate " and not " re " in StyleOfCause.lower():#if the user did not input that it is an estate, do it for them
+			Parties[0] = NotAllowed(Parties[0])
+			OUTPUT = "Re " + Parties[0]
 		else:
-			OUTPUT = Capitalize(m[0])
+			OUTPUT = Parties[0]
 	else: #Does this if there are two or more parties
-		for j in range(len(m)):
-			Parties.append(Party())
-			Parties[j].Name = NotAllowed(m[j])
-			Parties[j].Name = Capitalize(m[j])
-			Parties[j].Name = StyleAttributes(Parties, j)
-			OUTPUT = OUTPUT + Parties[j].Name + " v "
-		OUTPUT = re.sub('\sv\s$', '', OUTPUT)
+		for j in range(len(Parties)):
+			Parties[j] = StyleAttributes(NotAllowed(Parties[j]))#take out disallowed words and format the patterns as in StyleAttributes
+			OUTPUT = OUTPUT + Parties[j] + " v " #add all of the parties together
+		OUTPUT = re.sub('\sv\s$', '', OUTPUT) #remove the last " v " on the end
 	print "OUTPUT: ", OUTPUT		
 	return OUTPUT
-#Needs: countries, municipalities, Estates, statutes, Crown Civil, Municipal Boards
 
 #*********************** CITATIONS ***********************#
 
@@ -295,12 +290,7 @@ def PullDate(string):
 	Match = re.search(r'(1[4-9,0][0-9]{2}|20[01]{1}[0-9]{1})', string)
 	if Match: return Match.group()
 	else: return False
-		
-def CleanUp(string):
-	NoPeriods = re.sub('\.+','', string) #Remove all periods
-	Stripped = NoPeriods.strip() #Remove leading or trailing white spaces
-	NoWhites = re.sub(' +',' ', Stripped) #Remove excess white spaces
-	return NoWhites
+
 	
 def GetCitations():
 	OUTPUT = "" #this will eventually be the output
@@ -346,6 +336,9 @@ def GetCitations():
 		print "CITATIONDATE AND COURT DETECTED"
 		OUTPUT = ", " + TwoBest + '.'
 	return OUTPUT
+
+
+
 '''	
 #I HAVE TAKEN THIS OUT!!! There can only be one "main" function in our project. 
 # For now just try and work around it or i can show you how to move it into our main file
