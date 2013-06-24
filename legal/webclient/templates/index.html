@@ -8,12 +8,12 @@ $def with (greeting= None)
 		</p>
 
     </div>
-	-->
+	
 	<hr>
 	<div class ="container" id ="banner">
 		<img style = "width: 1200px; background-repeat:repeat-x" src ="./static/img/banner.png"> 
     </div>
-	<hr>
+	<hr>-->
     
 
 
@@ -44,8 +44,198 @@ $def with (greeting= None)
     
     
     
+
     
- <!--  TABBED  NAVS                  -->   
+	
+        
+ <!--  Horizontal Option                 -->   
+ 	<div class="container" >     
+	
+        <div class="tabbable"> <!-- Only required for left/right tabs -->
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab1" data-toggle="tab">Case (Canada)</a></li>
+            <li><a href="#tab2" data-toggle="tab">Case (USA)</a></li>
+            <li><a href="#tab3" data-toggle="tab">Case (UK)</a></li>
+          </ul>
+      
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab1">
+                        <!-- The forms --> 
+                        <!--http://www.w3resource.com/twitter-bootstrap/forms-tutorial.php -->
+                        <div class="span9">
+                           <!-- <div class="well">  -->
+                            <h2>Enter Your Information Manually</h2>
+                            <p>Please follow the guide to enter your information for the Canadian case</p>
+                            <hr>
+                            <form class="form-horizontal" action="/formInput" method="POST"  id ="canadacase-form">
+                            <fieldset>
+							
+                            <!-- Style Of Cause -->
+                            <div class="control-group">
+                                <label class="control-label" for="CanadaCaseStyle"><b>Style Of Cause<font color ="red"> *</font> </b></label>
+                                <div class="controls">
+									<!-- inputs -->
+									<input type="text" class="input-xxlarge" id="CanadaCaseStyle" 
+												placeholder="" name="styleofcause">
+                                
+								</div>
+                            </div>  
+                            
+                            <!--Paralle Citationsl -->
+                            <div class="control-group">
+                                <label class="control-label" for="CanadaCaseParallel"><b>Parallel Citation<font color ="red"> *</font> </b></label>
+                                <div class="controls">
+                                    <input type="text" class="input-xxlarge" id="CanadaCaseParallel"
+                                                placeholder="(Separated by commas or semicolons)" name = "parallel">
+												<span class="help-block"><i class="icon-play"></i> <i>Browse </i> </span>
+												
+												
+                                </div>
+								<!-- Indentation ******* FIX  
+								<font style="text-index:5px">-->
+								
+								<!--<form class="navbar-search pull-left">
+									<input type="text" class="search-query" placeholder="Search">
+								</form> -->
+                            </div>
+
+                            <!--Date -->
+                            <div class="control-group">
+                                <label class="control-label" for="CanadaCaseDate"> <b>Year<font color ="red"> *</font></b> </label>
+                                <div class="controls">
+                                    <input type="text" class="input-xxlarge" id="CanadaCaseParallel"
+                                                placeholder="" name = "date">
+                                </div>
+                            </div>
+                            
+							<!--Court -->
+                            <div class="control-group">
+                                <label class="control-label" for="CanadaCaseCourt"> <b>Court<font color ="red"> *</font></b></label>
+                                <div class="controls">
+                                    <input type="text" class="input-xxlarge" id="CanadaCaseCourt"
+                                                placeholder="ex: " name = "court">
+                                </div>
+                            </div>
+							
+							<!-- All forms that will appear hidden until further processing -->
+							<div id = "hidden-forms">
+
+								<!-- Accordian -->
+								<div class="accordion" id="extra-options-accordian-extra">
+								  <div class="accordion-group">
+									<div class="accordion-heading">
+									
+									  <a class="accordion-toggle" data-toggle="collapse" data-parent="#extra-options-accordian-extra" href="#collapseTwo-extra" style="color: #000000">
+										<i class="icon-play"></i>  Other Options 
+									  </a>
+									</div>
+									<div id="collapseTwo-extra" class="accordion-body collapse">
+									<!-- Inner forms -->
+									<div class="accordion-inner">
+										
+
+										<!--pinpoint-->
+										<div class="control-group">
+											<label class="control-label" for="CanadaCasePinpoint">Pinpoint</label>
+											<div class="controls">
+												<input type="text" class="input-xxlarge" id="extra"
+															placeholder="" name = "pinpoint">
+											</div>
+										</div>
+										
+										<!--judge-->
+										<div class="control-group">
+											<label class="control-label" for="CanadaCaseJudge">Judge</label>
+											<div class="controls">
+												<input type="text" class="input-xxlarge" id="extra"
+															placeholder="" name = "judge">
+											</div>
+										</div>
+										
+										<!--ShortForm-->
+										<div class="control-group">
+											<label class="control-label" for="CanadaCaseShortForm">Short Form</label>
+											<div class="controls">
+												<input type="text" class="input-xxlarge" id="extra"
+															placeholder="" name = "shortform">
+											</div>
+										</div>										
+
+										<!--SubNom-->
+										<div class="control-group">
+											<label class="control-label" for="CanadaCaseShortForm">Subnom</label>
+											<div class="controls">
+												<input type="text" class="input-xxlarge" id="extra"
+															placeholder="" name = "subnom">
+											</div>
+										</div>	
+										
+										<!--History-->
+										<div class="control-group">
+											<label class="control-label" for="CanadaCaseHistory">History</label>
+											<div class="controls">
+												<input type="text" class="input-xxlarge" id="extra"
+															placeholder="" name = "history">
+											</div>
+										</div>				
+										<!--For Testing-->
+										<div class="control-group">
+											<label class="control-label" for="testingcases">For Testing (ask tester)</label>
+											<div class="controls">
+												<input type="text" class="input-xxlarge" id="extra"
+															placeholder="" name = "testing">
+											</div>
+										</div>											
+								
+									  </div>
+									</div>
+								  </div>
+								</div> <!-- End of Other Options -->
+							
+								<!-- classic button 
+								<a class="btn" data-toggle="collapse" data-target="#demo"><i class="icon-play"></i> Other Options </a>
+								</button>
+								<div id="demo" class="collapse"> <br>herro </div>-->
+
+							
+							
+								</div> <!-- Hidden Fields -->
+								
+								
+								<br>
+								<!-- Submit Button -->
+								<button type="submit" class="btn btn-danger" id ="GoButton">Go</button>
+								
+								<hr>
+								
+								<div id ="result-container">
+									<h3> Result</h3>
+									<p>  <div id = "results"></div></p>        
+								</div>
+								
+							</fieldset>
+                           </form>
+						  </div> <!-- well -->
+                        <!-- </div> 	<!-- Span --> 
+					</div>    <!-- First Tab -->
+
+            
+                <div class="tab-pane" id="tab2">
+                  <p>Howdy, I'm in Section 2.</p>
+                </div>
+                
+                <div class="tab-pane" id="tab3">
+                  <p>Howdy, I'm in Section 3.</p>
+                </div>
+                
+
+            </div> <!-- tab content -->
+        </div> <!-- Tabbable -->
+    </div><!-- Entire Container -->
+
+    
+	    
+ <!--  TABBED  NAVS          -->           
  	<div class="container" >     
 	
         <div class="tabbable"> <!-- Only required for left/right tabs -->
@@ -231,264 +421,10 @@ $def with (greeting= None)
     </div><!-- Entire Container -->
 
     
-	
-        
- <!--  Horizontal Option                 -->   
- 	<div class="container" >     
-	
-        <div class="tabbable"> <!-- Only required for left/right tabs -->
-          <ul class="nav nav-tabs">
-            <li class="active"><a href="#tab1" data-toggle="tab">Case (Canada)</a></li>
-            <li><a href="#tab2" data-toggle="tab">Case (USA)</a></li>
-            <li><a href="#tab3" data-toggle="tab">Case (UK)</a></li>
-          </ul>
-      
-            <div class="tab-content">
-                <div class="tab-pane active" id="tab1">
-                        <!-- The forms --> 
-                        <!--http://www.w3resource.com/twitter-bootstrap/forms-tutorial.php -->
-                        <div class="span9">
-                           <!-- <div class="well">  -->
-                            <h2>Enter Your Information Manually</h2>
-                            <p>Please follow the guide to enter your information for the Canadian case</p>
-                            <hr>
-                            <form class="form-horizontal" action="/formInput" method="POST"  id ="canadacase-form">
-                            <fieldset>
-							
-                            <!-- Style Of Cause -->
-                            <div class="control-group">
-                                <label class="control-label" for="CanadaCaseStyle"><b>Style Of Cause<font color ="red"> *</font> </b></label>
-                                <div class="controls">
-									<!-- inputs -->
-									<input type="text" class="input-xxlarge" id="CanadaCaseStyle" 
-												placeholder="" name="styleofcause">
-									<!-- tooltip -->
-									<span class ="help-inline"  id ="canadacase-styleofcause-tip" data-original-title="first tooltip"
-												data-content=" Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam erat est, elementum eu pretium vitae,
-													malesuada non nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at mi vel orci tempus elementum. C
-													ras in vulputate tellus. Morbi ultricies lacinia purus. Phasellus odio neque, faucibus vel orci nec, feugiat molestie eros. 
-													Nam iaculis blandit sem vitae faucibus. Cras sagittis erat quis commodo molestie.Nunc elementum sapien vitae urna 
-													gravida, ac convallis ligula dapibus. Nam id quam et lacus feugiat dignissim. Nullam risus odio, imperdiet a volutpat nec fringilla a libero. 
-													like hello there"> tip 
-									</span> 
-                                
-								</div>
-                            </div>  
-                            
-                            <!--Paralle Citationsl -->
-                            <div class="control-group">
-                                <label class="control-label" for="CanadaCaseParallel"><b>Parallel Citation<font color ="red"> *</font> </b></label>
-                                <div class="controls">
-                                    <input type="text" class="input-xxlarge" id="CanadaCaseParallel"
-                                                placeholder="(Separated by commas or semicolons)" name = "parallel">
-												<span class="help-block"><i class="icon-play"></i> <i>Browse </i> </span>
-												
-												
-                                </div>
-								<!-- Indentation ******* FIX  
-								<font style="text-index:5px">-->
-								
-								<!--<form class="navbar-search pull-left">
-									<input type="text" class="search-query" placeholder="Search">
-								</form> -->
-                            </div>
-
-                            <!--Date -->
-                            <div class="control-group">
-                                <label class="control-label" for="CanadaCaseDate"> <b>Date<font color ="red"> *</font></b> </label>
-                                <div class="controls">
-                                    <input type="text" class="input-xxlarge" id="CanadaCaseParallel"
-                                                placeholder="MM/DD/YY" name = "date">
-                                </div>
-                            </div>
-                            
-							<!--Court -->
-                            <div class="control-group">
-                                <label class="control-label" for="CanadaCaseCourt"> <b>Court<font color ="red"> *</font></b></label>
-                                <div class="controls">
-                                    <input type="text" class="input-xxlarge" id="CanadaCaseCourt"
-                                                placeholder="ex: " name = "date">
-                                </div>
-                            </div>
-							
-							<!-- All forms that will appear hidden until further processing -->
-							<div id = "hidden-forms">
-
-								<!-- Accordian -->
-								<div class="accordion" id="extra-options-accordian-extra">
-								  <div class="accordion-group">
-									<div class="accordion-heading">
-									
-									  <a class="accordion-toggle" data-toggle="collapse" data-parent="#extra-options-accordian-extra" href="#collapseTwo-extra" style="color: #000000">
-										<i class="icon-play"></i>  Other Options 
-									  </a>
-									</div>
-									<div id="collapseTwo-extra" class="accordion-body collapse">
-									<!-- Inner forms -->
-									<div class="accordion-inner">
-										
-
-										<!--pinpoint-->
-										<div class="control-group">
-											<label class="control-label" for="CanadaCasePinpoint">Pinpoint</label>
-											<div class="controls">
-												<input type="text" class="input-xxlarge" id="extra"
-															placeholder="" name = "pinpoint">
-											</div>
-										</div>
-										
-										<!--judge-->
-										<div class="control-group">
-											<label class="control-label" for="CanadaCaseJudge">Judge</label>
-											<div class="controls">
-												<input type="text" class="input-xxlarge" id="extra"
-															placeholder="" name = "judge">
-											</div>
-										</div>
-										
-										<!--ShortForm-->
-										<div class="control-group">
-											<label class="control-label" for="CanadaCaseShortForm">Short Form</label>
-											<div class="controls">
-												<input type="text" class="input-xxlarge" id="extra"
-															placeholder="" name = "shortform">
-											</div>
-										</div>										
-
-										<!--SubNom-->
-										<div class="control-group">
-											<label class="control-label" for="CanadaCaseShortForm">Subnom</label>
-											<div class="controls">
-												<input type="text" class="input-xxlarge" id="extra"
-															placeholder="" name = "subnom">
-											</div>
-										</div>	
-										
-										<!--History-->
-										<div class="control-group">
-											<label class="control-label" for="CanadaCaseHistory">History</label>
-											<div class="controls">
-												<input type="text" class="input-xxlarge" id="extra"
-															placeholder="" name = "history">
-											</div>
-										</div>											
-								
-									  </div>
-									</div>
-								  </div>
-								</div> <!-- End of Other Options -->
-							
-								<!-- classic button 
-								<a class="btn" data-toggle="collapse" data-target="#demo"><i class="icon-play"></i> Other Options </a>
-								</button>
-								<div id="demo" class="collapse"> <br>herro </div>-->
-
-							
-							
-								</div> <!-- Hidden Fields -->
-								
-								
-								<br>
-								<!-- Submit Button -->
-								<button type="submit" class="btn btn-danger" id ="GoButton">Go</button>
-								
-								<hr>
-								
-								<div id ="result-container">
-									<h3> Result</h3>
-									<p>  <div id = "results"></div></p>        
-								</div>
-								
-							</fieldset>
-                           </form>
-						  </div> <!-- well -->
-                        <!-- </div> 	<!-- Span --> 
-					</div>    <!-- First Tab -->
-
-            
-                <div class="tab-pane" id="tab2">
-                  <p>Howdy, I'm in Section 2.</p>
-                </div>
-                
-                <div class="tab-pane" id="tab3">
-                  <p>Howdy, I'm in Section 3.</p>
-                </div>
-                
-
-            </div> <!-- tab content -->
-        </div> <!-- Tabbable -->
-    </div><!-- Entire Container -->
-
-    
-	
-    
     <hr>
     	
 	
 	
-	
- <!--  STACKED NAVS                  -->
- 	<div class="container" id ="stackednavs">    
-        <div class = "row">
-           
-           <div class = "span3">
-                <div class = "well sidebar-nav">
-                    <u1 class ="nav nav-list">
-                        <li class ="nav-header"> Source </li>
-                        <li class="active"><a href="#">Case (Canada)</a></li>
-                        <li><a href="#">Case (Usa)</a></li>
-                        <li><a href="#">Case (UK)</a></li>
-                        <li><a href="#">Periodical </a></li>
-                        <li><a href="#">Book</a></li>
-              
-                    </ul>
-                </div><!--/.well -->
-            </div><!--/span-->
-
-            <!-- The forms --> 
-            <div class="span9">
-              <div class="well">
-                <h2>Enter Your Information Manually</h2>
-                <p>Please follow the guide to enter your information for the Canadian case</p>
-                <hr>
-
-                <form class="form" action="/formInput" method="POST">
-                <fieldset>
-                <!-- Style Of Cause -->
-                <div class="control-group">
-                    <label class="control-label" for="CanadaCaseStyle"><b>Style Of Cause</b></label>
-                    <div class="controls">
-                    <input type="text" class="input-xxlarge" id="CanadaCaseStyle" 
-                                placeholder="ex: Williams v Canada" name="styleofcause">
-                    </div>
-                </div>  
-                
-                <!--Paralle Citationsl -->
-                <div class="control-group">
-                    <label class="control-label" for="CanadaCaseParallel"><b>Parallel Citation </b>(Separated by commas or semicolons)</label>
-                    <div class="controls">
-                        <input type="text" class="input-xxlarge" id="CanadaCaseParallel"
-                                    placeholder="ex: 2008 SCC 28, [2008] SCR 432, CanLii" name = "parallel">
-                        <!-- <span class="help-inline">Separated by commas or semicolons</span> -->
-                    </div>
-                </div>
-
-               <button type="submit" class="btn btn-danger" id ="GoButton">Continue</button>
-               
-                <hr>
-                 <a class="btn" ><i class="icon-play"></i> Other Options </a>
-                <h3> Result</h3>
-                 <p>  <div id = "results">                       	
-                          </div>
-                 </p>
-                </fieldset>
-                </div>
-            </div> 	<!-- Span -->
-        </div> <!-- Form -->
-    </div> <!-- Entire Form Container-->
-    
-    
-    
 	<!-- Jumbotron -->
     <div class="jumbotron">
         <h1>Automate your Legal Citations</h1>
@@ -508,7 +444,7 @@ $def with (greeting= None)
      <!-- VALIDATION TESTS -->
     <form action="" id="contact-form" class="form-horizontal">
         <fieldset>
-          <legend>Sample Contact Form <small>(will not submit any information)</small></legend>
+          <legend>Contact us <small>(will not submit any information)</small></legend>
 		  Try entering something really short, or nothing at all
             <div class="control-group">
               <label class="control-label" for="name">Your Name</label>

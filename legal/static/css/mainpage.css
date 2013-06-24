@@ -1,24 +1,40 @@
-.titlebar{
-	height: 20px;
-	padding:20px;
-	position:fixed;
+body{
+	background-repeat: repeat;
+	background-image:url("../img/otis_redding.png");
+	background-color:grey;
+
+}
+#contentcontainer{
+	margin: 0 auto;
+	max-width: 1300px;
+	background-color:white;
+
+
+}
+.topredtitlebar{
+	height: 10px;
+	padding:0px;
 	top:0;
 	width:100%;
+	background:#e85a56
+}
+.titlebar{
+	height: 30px;
+	padding:0px;
+	top:0;
+	opacity: .48;
+	width:100%;
 	box-shadow: 1px 1px 5px #777777;
-	background:#E62B2B;
+	background:#f7f7f7
 	
 }
 .inner-titlebar{
-	margin-top:5px;
-	color: white;
-	font-size: 25px;
+	margin-top:10px;
+	margin-left: 10px;
+	color: #fe6060;
+	font-size: 20px;
 }
 
-.fixedtop{
-	padding:20px;
-	height: 40px;
-	width:100%
-}
 .banner{
 	background-repeat: repeat;
 	backgroun-image: url("/./static/img/banner.png");

@@ -65,6 +65,7 @@ Form Submissions
 			console.log(input_string); return false; 
 	});
 		
+		// 
 /*
 =============================================
 Validations 
@@ -75,11 +76,32 @@ Validations
 		jQuery('#canadacase-form').validate({
 			rules: { 
 				styleofcause: {
-				    regex: "^[a-zA-Z'.\\s]{1,40}$",	 
-					minlength: 2,
-					maxlength:200,					
+					maxlength:250,	
+					//regex: "^(\\d{3})TN(\\d{4})$" , //detects sentences starting with a capital and then has lowercase letters and spaces					
+					//regex: "^([0-9]|[1-9][0-9]|[1-9][0-9][0-9])$", //0-999
 					required: true 
 				},
+				prallel: {
+					maxlength:250,	
+					//regex: "^(\\d{3})TN(\\d{4})$" , //detects sentences starting with a capital and then has lowercase letters and spaces					
+					//regex: "^([0-9]|[1-9][0-9]|[1-9][0-9][0-9])$", //0-999
+					required: true 
+				},
+				date: {
+					maxlength:250,	
+					//regex: "^(\\d{3})TN(\\d{4})$" , //detects sentences starting with a capital and then has lowercase letters and spaces					
+					//regex: "^([0-9]|[1-9][0-9]|[1-9][0-9][0-9])$", //0-999
+					required: true 
+				},
+
+				court: {
+					maxlength:250,	
+					//regex: "^(\\d{3})TN(\\d{4})$" , //detects sentences starting with a capital and then has lowercase letters and spaces					
+					//regex: "^([0-9]|[1-9][0-9]|[1-9][0-9][0-9])$", //0-999
+					required: true 
+				},
+
+
 
 			},
 			highlight: function(element) {
@@ -87,12 +109,12 @@ Validations
 				jQuery(element).closest('.control-group').removeClass('success').addClass('error');
 			},
 			success: function(element) { 
-				element .text('OK!').addClass('valid')
-					.closest('.control-group').removeClass('error').addClass('success'); 
+				element .text('OK!').addClass('valid').closest('.control-group').removeClass('error')//.addClass('success'); 
 			},
 			messages: { 
-				CanadaCaseStyle: {
-					minlength: "too short!",
+				styleofcause: {
+					maxlength: "Maximum length: 250 characters",
+					//regex: "regex not working",
 					required: "You gotta do it bruh"
 				}
 			}
@@ -145,7 +167,7 @@ Validations
 
 /*
 =============================================
-Tool Tips
+Tool Tips -- Remove 
 =============================================
 */		
 jQuery('#canadacase-styleofcause-tip').click(function(){

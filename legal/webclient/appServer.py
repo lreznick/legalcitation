@@ -8,7 +8,7 @@ import web
 # mapping. Each post request contains what to do.   
 urls = (
     '/formInput', 'Index',	
-    #'/' ,  'Index'
+    '/' ,  'Index'
 
 )
 
@@ -34,6 +34,8 @@ class Index(object):
 		if not webURL: 
 			print "nothing to see here boys"
 			return render.index()
+		if webURL == "1":
+			return "somethinghere"
 		else:
 			print "WebURL:", webURL
 			print "Self: " , self
