@@ -32,24 +32,8 @@ Form Submissions
 
 	// Submit a form when the go button for canada case is submitted.
 	//	Then reloads the page to display the contents
-	// Probably Remove *************
-	jQuery("#ContinueButton").click(function() {
-            var input_string = jQuery("input#CanadaCaseStyle").val();
-            console.log("input"+ input_string);
-            jQuery.ajax({ 
-                type: "POST", 
-                data:{styleofcause : input_string},
-                success: function(data) {
-                    console.log("WE DID IT!"); console.log(data);
-                    jQuery('#ContinueButton').hide();
-					jQuery('#hidden-forms').fadeIn(400);
-					jQuery('#GoButton').fadeIn(400);
-					
-                },
-			});
-			console.log(input_string); return false; 
-	});
-		
+
+/*		
 		//Submitting the information to the server to be processed
 	jQuery('#GoButton').click(function() {
             var input_string = jQuery("input#CanadaCaseStyle").val();
@@ -57,6 +41,21 @@ Form Submissions
             jQuery.ajax({ 
                 type: "POST", 
                 data:{styleofcause : input_string},
+                success: function(data) {
+					jQuery('#result-container').hide().fadeIn(200);
+					jQuery('#results').html(data).hide().fadeIn(400);
+                },
+			});
+			console.log(input_string); return false; 
+	});
+	*/
+			//Submitting the information to the server to be processed
+	jQuery('#GoButton').click(function() {
+            var input_string = jQuery("input#testingcases").val();
+            console.log("input"+ input_string);
+            jQuery.ajax({ 
+                type: "POST", 
+                data:{testing : input_string},
                 success: function(data) {
 					jQuery('#result-container').hide().fadeIn(200);
 					jQuery('#results').html(data).hide().fadeIn(400);

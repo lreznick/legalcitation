@@ -14,10 +14,10 @@ urls = (
 
 app = web.application(urls, globals())
 render = web.template.render('webclient/templates/', base = 'layout')
-testcase1 = "Adams v Thompson, Berwick, Pratt, & Partners (1987), 39 DLR (4th) 314 (available on CanLII) (CA) (McLachlin JA)."
-testcase2 = "Dunsmuir v. New Brunswick, 2008 SCC 9 at para 132, [2008] 1 SCR 190 (Binnie J) [Dunsmuir], aff'ing 2006 NBCA 27."
-testcase3 = "R v Sparrow, [1990] 1 SCR 1075 at 1103, 70 DLR (4th) 385, Dickson CJC [Sparrow] citing Pasco v Canadian National Railway Co, [1986] 1 CNLR 35 at 37 (available on CanLII) (BCSC)."
-testcase4 = "Reference re Securities Act, 2011 SCC 66, [2011] 3 SCR 837."
+testcase1 = "<i>Adams v Thompson, Berwick, Pratt, & Partners </i>(1987), 39 DLR (4th) 314 (available on CanLII) (CA) (McLachlin JA)."
+testcase2 = "<i>Dunsmuir v. New Brunswick</i>, 2008 SCC 9 at para 132, [2008] 1 SCR 190 (Binnie J) [<i>Dunsmuir</i>], aff'ing 2006 NBCA 27."
+testcase3 = "<i>R v Sparrow</i>, [1990] 1 SCR 1075 at 1103, 70 DLR (4th) 385, Dickson CJC [<i>Sparrow</i>] citing <i>Pasco v Canadian National Railway Co</i>, [1986] 1 CNLR 35 at 37 (available on CanLII) (BCSC)."
+testcase4 = "<i>Reference re Securities Act</i>, 2011 SCC 66, [2011] 3 SCR 837."
 
 
 
@@ -36,25 +36,26 @@ class Index(object):
         #form.validates()
 		
 		print "here" 
-		webURL = "%s" % (form.styleofcause)
+		#webURL = "%s" % (form.styleofcause)
+		webURL = "%s" % (form.testing)
 		if not webURL: 
 			print "nothing to see here boys"
 			return render.index()
-		if webURL == "1":
+		elif webURL == "1":
 			return testcase1
-        else:
+		elif webURL == "2":
+			return testcase2
+		elif webURL == "3":
+			return testcase3
+		elif webURL == "4":
+			return testcase4
+		else:
 			print "WebURL:", webURL
 			print "Self: " , self
 			#s = form.value['textfield']
 			return webURL
 
-'''if webURL == "2":
-    return testcase2
-    if webURL == "3":
-    return testcase3
-    
-    if webURL == "4":
-    return testcase4'''
+''' '''
 
 
 
