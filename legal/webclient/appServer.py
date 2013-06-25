@@ -14,6 +14,12 @@ urls = (
 
 app = web.application(urls, globals())
 render = web.template.render('webclient/templates/', base = 'layout')
+testcase1 = "Adams v Thompson, Berwick, Pratt, & Partners (1987), 39 DLR (4th) 314 (available on CanLII) (CA) (McLachlin JA)."
+testcase2 = "Dunsmuir v. New Brunswick, 2008 SCC 9 at para 132, [2008] 1 SCR 190 (Binnie J) [Dunsmuir], aff'ing 2006 NBCA 27."
+testcase3 = "R v Sparrow, [1990] 1 SCR 1075 at 1103, 70 DLR (4th) 385, Dickson CJC [Sparrow] citing Pasco v Canadian National Railway Co, [1986] 1 CNLR 35 at 37 (available on CanLII) (BCSC)."
+testcase4 = "Reference re Securities Act, 2011 SCC 66, [2011] 3 SCR 837."
+
+
 
 class Index(object):
 	def GET(self):
@@ -35,13 +41,25 @@ class Index(object):
 			print "nothing to see here boys"
 			return render.index()
 		if webURL == "1":
-			return "somethinghere"
-		else:
+			return testcase1
+        else:
 			print "WebURL:", webURL
 			print "Self: " , self
 			#s = form.value['textfield']
 			return webURL
-        #return render.index(greeting=webURL)
+
+'''if webURL == "2":
+    return testcase2
+    if webURL == "3":
+    return testcase3
+    
+    if webURL == "4":
+    return testcase4'''
+
+
+
+
+#return render.index(greeting=webURL)
 		#print "input here:", greeting
 		#webGrabber.Connect2Web(webURL)		
 		#return render.index(greeting = greeting)

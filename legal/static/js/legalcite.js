@@ -68,7 +68,7 @@ Form Submissions
 		// 
 /*
 =============================================
-Tool Tips -- Remove 
+Tool Tips
 =============================================
 */	
 var tooltip_header              = "<div class=\"header3\">"
