@@ -68,14 +68,31 @@ Form Submissions
 		// 
 /*
 =============================================
+Tool Tips -- Remove 
+=============================================
+*/	
+var tooltip_styleOfCause	 = "<div class=\"header3\"> Style of Cause </div> look at me I'm a tool tip! hooray! <br> lasdlkfjl <br>asdfasdfasdf"
+var tooltip_parallelCitation	 = "LLLLook at me I'm a tool tip! hooray!"
+var tooltip_date	 = "look at me I'm a tool tip! another tooltip!"
+jQuery('#CanadaCaseStyle').focus(function(){
+	jQuery('#tooltips').html(tooltip_styleOfCause).fadeIn(1000);
+});
+jQuery('#CanadaCaseParallel').focus(function(){
+	jQuery('#tooltips').html(tooltip_parallelCitation).fadeIn(1000);
+});
+
+/*
+=============================================
 Validations 
 =============================================
 */		
+jQuery('#tooltips').html(tooltip_styleOfCause);
 	// Validates the form to check if a form works or not
 	// Note: rules are based on name of form
 		jQuery('#canadacase-form').validate({
 			rules: { 
 				styleofcause: {
+					minlength: 2,
 					maxlength:250,	
 					//regex: "^(\\d{3})TN(\\d{4})$" , //detects sentences starting with a capital and then has lowercase letters and spaces					
 					//regex: "^([0-9]|[1-9][0-9]|[1-9][0-9][0-9])$", //0-999
@@ -101,18 +118,23 @@ Validations
 					required: true 
 				},
 
-
-
 			},
 			highlight: function(element) {
 				console.log("in highlight");
 				jQuery(element).closest('.control-group').removeClass('success').addClass('error');
 			},
-			success: function(element) { 
+			unhighlight: function(element) {
+				console.log("in highlight");
+				jQuery(element).closest('.control-group').removeClass('success').addClass('error');
+			},
+			
+			success: function(element) {
+				console.log("in success");			
 				element .text('OK!').addClass('valid').closest('.control-group').removeClass('error')//.addClass('success'); 
 			},
 			messages: { 
 				styleofcause: {
+					minlength: "too short",
 					maxlength: "Maximum length: 250 characters",
 					//regex: "regex not working",
 					required: "You gotta do it bruh"
@@ -165,33 +187,6 @@ Validations
 			}
 		}); 
 
-/*
-=============================================
-Tool Tips -- Remove 
-=============================================
-*/		
-jQuery('#canadacase-styleofcause-tip').click(function(){
-	console.log("well lookie here");
-/*	jQuery('#canadacase-styleofcause-tip').popover({
-		placement: 'right',		
-		delay: {show: 0 }
-	}); */
-	jQuery('#canadacase-styleofcause-tip').popover('show');
-});
-
-	jQuery('#homgtest').popover({
-		'content': 'Popover content',
-    'animation': true,
-    'html': 'test',
-    'trigger': 'click'
-	});
-	
-	jQuery('#button-test-face').popover({
-		trigger: 'click',
-		placement: 'right'
-		//delay:{hide:500}
-	});
-//});
 
 	
 /*

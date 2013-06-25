@@ -14,42 +14,42 @@ $def with (greeting= None)
 		<img style = "width: 1200px; background-repeat:repeat-x" src ="./static/img/banner.png"> 
     </div>
 	<hr>-->
-    
-
+    <img style = "height: 60px" src ="./static/img/banner.png"> 
+<hr>
 
 	 <!-- CANLII-->
- 	<div class="container">    
-	   <div style ="text-align: center" ><h3>Enter A CanLII site</h3> </div>
-       <div class="span10">
+ 	
+	   <div class= "header2" style= "margin-bottom:10px">Enter A CanLII site </div>
+
           <!-- <div class="well"> -->
-				<form class="form-horizontal" action="/formInput" method="POST">
+				<form class="form" action="/formInput" method="POST">
 				<fieldset>
 				<!-- Name -->
 				<div class="control-group">
-					<label class="control-label" for="inputtest">test </label>
+					<!-- Name <label class="control-label" for="inputtest">test </label> -->
 					<div class="controls">
-						<input type="text" class="input-xxlarge" id="inputcanlii" placeholder=" http://www.canlii.org/en/ca/scc/doc/2013/2013scc29/2013scc29.html" name="Case Name">
-						<button type="submit" class="btn">Go</button>
+						<input type="text" class="input-xxlarge" id="inputcanlii" placeholder=" ex: http://www.canlii.org/en/ca/scc/doc/2013/2013scc29/2013scc29.html" name="Case Name">
+						
 					</div>
+					<button type="submit" class="btn">Go</button>
 				</div>  
 				
 				</fieldset>
 				</form>
 		 <!-- </div>  Well -->
-	  </div>
-	</div> <!-- Entire Form Container-->
+
+
   
-		  
-	 <div style ="text-align: center" ><h1>OR</h1> </div>
+<hr style="margin-top:0"> 
     
-    
-    
+    <br>
 
     
+	<div class="header2">Or Enter Your Information Manually</div>
 	
         
- <!--  Horizontal Option                 -->   
- 	<div class="container" >     
+ <!--  Manual Information Form-->   
+ 	<div class="container" style ="margin-top:50px;">     
 	
         <div class="tabbable"> <!-- Only required for left/right tabs -->
           <ul class="nav nav-tabs">
@@ -58,15 +58,13 @@ $def with (greeting= None)
             <li><a href="#tab3" data-toggle="tab">Case (UK)</a></li>
           </ul>
       
-            <div class="tab-content">
+            <div class="tab-content">	
                 <div class="tab-pane active" id="tab1">
-                        <!-- The forms --> 
-                        <!--http://www.w3resource.com/twitter-bootstrap/forms-tutorial.php -->
-                        <div class="span9">
-                           <!-- <div class="well">  -->
-                            <h2>Enter Your Information Manually</h2>
-                            <p>Please follow the guide to enter your information for the Canadian case</p>
-                            <hr>
+					<div class = "row"> <!-- Rows -->
+						<!-- The forms --> 
+						<div class="span9">
+                            <div class="header3">Canadian case</div> <br>
+
                             <form class="form-horizontal" action="/formInput" method="POST"  id ="canadacase-form">
                             <fieldset>
 							
@@ -77,7 +75,6 @@ $def with (greeting= None)
 									<!-- inputs -->
 									<input type="text" class="input-xxlarge" id="CanadaCaseStyle" 
 												placeholder="" name="styleofcause">
-                                
 								</div>
                             </div>  
                             
@@ -124,10 +121,9 @@ $def with (greeting= None)
 								<div class="accordion" id="extra-options-accordian-extra">
 								  <div class="accordion-group">
 									<div class="accordion-heading">
-									
-									  <a class="accordion-toggle" data-toggle="collapse" data-parent="#extra-options-accordian-extra" href="#collapseTwo-extra" style="color: #000000">
-										<i class="icon-play"></i>  Other Options 
-									  </a>
+										<a class="accordion-toggle" data-toggle="collapse" data-parent="#extra-options-accordian-extra" href="#collapseTwo-extra" style="color: #000000">
+											<i class="icon-play"></i>  Other Options 
+										</a>
 									</div>
 									<div id="collapseTwo-extra" class="accordion-body collapse">
 									<!-- Inner forms -->
@@ -187,9 +183,9 @@ $def with (greeting= None)
 											</div>
 										</div>											
 								
-									  </div>
-									</div>
-								  </div>
+									  </div> <!-- accordian -->
+									</div><!-- accordian collapse -->
+								  </div> <!-- accordian group -->
 								</div> <!-- End of Other Options -->
 							
 								<!-- classic button 
@@ -199,7 +195,7 @@ $def with (greeting= None)
 
 							
 							
-								</div> <!-- Hidden Fields -->
+								</div> <!-- Hidden Forms -->
 								
 								
 								<br>
@@ -213,13 +209,15 @@ $def with (greeting= None)
 									<p>  <div id = "results"></div></p>        
 								</div>
 								
-							</fieldset>
-                           </form>
-						  </div> <!-- well -->
-                        <!-- </div> 	<!-- Span --> 
-					</div>    <!-- First Tab -->
-
-            
+						</fieldset>
+					</form>
+						</div> <!-- span7-->
+						<div class "span4" id = "tooltips">
+						</div> <!-- span5 / tooltips -->
+					</div> <!-- row -->
+				</div> <!-- First Tab -->
+                     
+                        
                 <div class="tab-pane" id="tab2">
                   <p>Howdy, I'm in Section 2.</p>
                 </div>
@@ -228,253 +226,10 @@ $def with (greeting= None)
                   <p>Howdy, I'm in Section 3.</p>
                 </div>
                 
-
-            </div> <!-- tab content -->
-        </div> <!-- Tabbable -->
+			</div>    <!--Tab content -->
+       </div> <!-- Tababble-->
     </div><!-- Entire Container -->
 
-    
-	    
- <!--  TABBED  NAVS          -->           
- 	<div class="container" >     
-	
-        <div class="tabbable"> <!-- Only required for left/right tabs -->
-          <ul class="nav nav-tabs">
-            <li class="active"><a href="#tab1" data-toggle="tab">Case (Canada)</a></li>
-            <li><a href="#tab2" data-toggle="tab">Case (USA)</a></li>
-            <li><a href="#tab3" data-toggle="tab">Case (UK)</a></li>
-          </ul>
-      
-            <div class="tab-content">
-                <div class="tab-pane active" id="tab1">
-                        <!-- The forms --> 
-                        <!--http://www.w3resource.com/twitter-bootstrap/forms-tutorial.php -->
-                        <div class="span9">
-                          <div class="well">  <!-- well -->
-                            <h2>Enter Your Information Manually</h2>
-                            <p>Please follow the guide to enter your information for the Canadian case</p>
-                            <hr>
-                            <form class="form" action="/formInput" method="POST"  id ="canadacase-form">
-                            <fieldset>
-							
-                            <!-- Style Of Cause -->
-                            <div class="control-group">
-                                <label class="control-label" for="CanadaCaseStyle"><b>Style Of Cause<font color ="red"> *</font> </b></label>
-                                <div class="controls">
-									<!-- inputs -->
-									<input type="text" class="input-xxlarge" id="CanadaCaseStyle" 
-												placeholder="ex: Williams v Canada" name="styleofcause">
-									<!-- tooltip -->
-									<span class ="help-inline"  id ="canadacase-styleofcause-tip" data-original-title="first tooltip"
-												data-content=" Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam erat est, elementum eu pretium vitae,
-													malesuada non nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at mi vel orci tempus elementum. C
-													ras in vulputate tellus. Morbi ultricies lacinia purus. Phasellus odio neque, faucibus vel orci nec, feugiat molestie eros. 
-													Nam iaculis blandit sem vitae faucibus. Cras sagittis erat quis commodo molestie.Nunc elementum sapien vitae urna 
-													gravida, ac convallis ligula dapibus. Nam id quam et lacus feugiat dignissim. Nullam risus odio, imperdiet a volutpat nec fringilla a libero. 
-													like hello there">  
-													<button id ="button-test-face" data-toggle= "popover" data-content = "sup">Go!</button><i id = "tooltip" class = "icon-question-sign"></i>
-									</span> <a  id="homgtest" class="btn" data-toggle="popover" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." title data-original-title="Popover on left">Popover on left</a>
-                                
-								</div>
-                            </div>  
-                            
-                            <!--Paralle Citationsl -->
-                            <div class="control-group">
-                                <label class="control-label" for="CanadaCaseParallel"><b>Parallel Citation<font color ="red"> *</font> </b>(Separated by commas or semicolons)</label>
-                                <div class="controls">
-                                    <input type="text" class="input-xxlarge" id="CanadaCaseParallel"
-                                                placeholder="ex: 2008 SCC 28, [2008] SCR 432, CanLii" name = "parallel">
-                                </div>
-								<!-- Indentation ******* FIX  
-								<font style="text-index:5px">-->
-								<i class="icon-play"></i> <i>Browse </i> 
-								<!--<form class="navbar-search pull-left">
-									<input type="text" class="search-query" placeholder="Search">
-								</form> -->
-                            </div>
 
-                            <!--Date -->
-                            <div class="control-group">
-                                <label class="control-label" for="CanadaCaseDate"> <b>Date<font color ="red"> *</font></b> </label>
-                                <div class="controls">
-                                    <input type="text" class="input-xxlarge" id="CanadaCaseParallel"
-                                                placeholder="MM/DD/YY" name = "date">
-                                </div>
-                            </div>
-                            
-							<!--Court -->
-                            <div class="control-group">
-                                <label class="control-label" for="CanadaCaseCourt"> <b>Court<font color ="red"> *</font></b></label>
-                                <div class="controls">
-                                    <input type="text" class="input-xxlarge" id="CanadaCaseCourt"
-                                                placeholder="ex: " name = "date">
-                                </div>
-                            </div>
-							
-							<!-- All forms that will appear hidden until further processing -->
-							<div id = "hidden-forms">
-							
-							
-								<!-- Accordian -->
-								<div class="accordion" id="extra-options-accordian">
-								  <div class="accordion-group">
-									<div class="accordion-heading">
-									
-									  <a class="accordion-toggle" data-toggle="collapse" data-parent="#extra-options-accordian" href="#collapseTwo" style="color: #000000">
-										<i class="icon-play"></i>  Other Options 
-									  </a>
-									</div>
-									<div id="collapseTwo" class="accordion-body collapse">
-									<!-- Inner forms -->
-									<div class="accordion-inner">
-										
-
-										<!--pinpoint-->
-										<div class="control-group">
-											<label class="control-label" for="CanadaCasePinpoint"><b>Pinpoint</b></label>
-											<div class="controls">
-												<input type="text" class="input-xxlarge" id="extra"
-															placeholder="" name = "pinpoint">
-											</div>
-										</div>
-										
-										<!--judge-->
-										<div class="control-group">
-											<label class="control-label" for="CanadaCaseJudge"><b>Judge</b></label>
-											<div class="controls">
-												<input type="text" class="input-xxlarge" id="extra"
-															placeholder="" name = "judge">
-											</div>
-										</div>
-										
-										<!--ShortForm-->
-										<div class="control-group">
-											<label class="control-label" for="CanadaCaseShortForm"><b>Short Form</b></label>
-											<div class="controls">
-												<input type="text" class="input-xxlarge" id="extra"
-															placeholder="" name = "shortform">
-											</div>
-										</div>										
-
-										<!--SubNom-->
-										<div class="control-group">
-											<label class="control-label" for="CanadaCaseShortForm"><b>Subnom</b></label>
-											<div class="controls">
-												<input type="text" class="input-xxlarge" id="extra"
-															placeholder="" name = "subnom">
-											</div>
-										</div>	
-										
-										<!--History-->
-										<div class="control-group">
-											<label class="control-label" for="CanadaCaseHistory"><b>History</b></label>
-											<div class="controls">
-												<input type="text" class="input-xxlarge" id="extra"
-															placeholder="" name = "history">
-											</div>
-										</div>											
-								
-									  </div>
-									</div>
-								  </div>
-								</div> <!-- End of Other Options -->
-							
-								<!-- classic button 
-								<a class="btn" data-toggle="collapse" data-target="#demo"><i class="icon-play"></i> Other Options </a>
-								</button>
-								<div id="demo" class="collapse"> <br>herro </div>-->
-
-							
-							
-								</div> <!-- Hidden Fields -->
-								
-								
-								<br>
-								<!-- Submit Button -->
-								<button type="submit" class="btn btn-danger" id ="GoButton">Go</button>
-								
-								<hr>
-								
-								<div id ="result-container">
-									<h3> Result</h3>
-									<p>  <div id = "results"></div></p>        
-								</div>
-								
-							</fieldset>
-                           </form>
-						  </div> <!-- well -->
-                        </div> 	<!-- Span -->
-					</div>    <!-- First Tab -->
-
-            
-                <div class="tab-pane" id="tab2">
-                  <p>Howdy, I'm in Section 2.</p>
-                </div>
-                
-                <div class="tab-pane" id="tab3">
-                  <p>Howdy, I'm in Section 3.</p>
-                </div>
-                
-
-            </div> <!-- tab content -->
-        </div> <!-- Tabbable -->
-    </div><!-- Entire Container -->
-
-    
-    <hr>
-    	
-	
-	
-	<!-- Jumbotron -->
-    <div class="jumbotron">
-        <h1>Automate your Legal Citations</h1>
-        <p class="lead">Enter your text and your citation is automatically generated. Subscription starts at $10/month. 
-		</p>
-        <a class="btn btn-large btn-success" href="#">Sign Up</a>
-		<a class="btn btn-large btn-success" href="#">Login</a>
-    </div>
-    
-	
-	
-	
-	<!-- Fix this shenanigans -->
-
-		 </form>
-		 
-     <!-- VALIDATION TESTS -->
-    <form action="" id="contact-form" class="form-horizontal">
-        <fieldset>
-          <legend>Contact us <small>(will not submit any information)</small></legend>
-		  Try entering something really short, or nothing at all
-            <div class="control-group">
-              <label class="control-label" for="name">Your Name</label>
-              <div class="controls">
-                <input type="text" class="input-xlarge" name="name" id="name">
-              </div>
-            </div>
-            <div class="control-group">
-              <label class="control-label" for="email">Email Address</label>
-              <div class="controls">
-                <input type="text" class="input-xlarge" name="email" id="email">
-              </div>
-            </div>
-            <div class="control-group">
-              <label class="control-label" for="subject">Subject</label>
-              <div class="controls">
-                <input type="text" class="input-xlarge" name="subject" id="subject">
-              </div>
-            </div>
-            <div class="control-group">
-              <label class="control-label" for="message">Your Message</label>
-              <div class="controls">
-                <textarea class="input-xlarge" name="message" id="message" rows="3"></textarea>
-              </div>
-            </div>
-            <div class="form-actions">
-              <button type="submit" class="btn btn-primary btn-large">Submit</button>
-              <button type="reset" class="btn">Cancel</button>
-            </div>
-          </fieldset>
-        </form>
 
 	  

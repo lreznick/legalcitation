@@ -67,20 +67,26 @@ def Capitalize(string):
 def StyleAttributes(string):
 	# (1) GUARDIAN AD LITEM
 	if ("guardian" and " ad litem") in string.lower(): string = re.sub(r'\(?(g|G)uardian\s(a|A)d\s(l|L)item\s?(of)?\)?', '(Guardian ad litem of)', string)
+	print("gaurdian:: " + string +"\n")
 	# (2) LITIGATION GUARDIAN
 	if ("litigation guardian") in string.lower(): string = re.sub(r'\(?(l|L)itigation\s(g|G)uardian\s?((o|O)f)?\)?', '(Litigation guardian of)', string)
+	print("lit gaurdian:: " + string+"\n")
 	# (3) LLP or LP (for other caps requirements, put into Caps list)
 	Caps = [" LLP "," LP "]# be sure to put the space in front
 	for j in Caps:
 		string = re.sub(j[1].upper()+j[2:].lower(), j[1:], string) #sub in the all caps words and words like MacDonald
+	print("LLP:: " + string+"\n")
 	# (4) CORPORATION
 	if " corporation" in string.lower(): string = re.sub(r'(c|C)orporation', 'Corp', string)
+	print("Corporation:: " + string+"\n")
 	# (5) TRUSTEE
 	if "trustee" in string.lower(): string = re.sub(r'\(?(t|T)rustee\s?(of)?\)?', '(Trustee of)', string)
+	print("trustee:: " + string+"\n")
 	# (6) RECEIVERSHIPS
 	if ("receivership" or "receiver") in string.lower(): string = re.sub(r'\((r|R)eceiver(ship)?\s?(of)?\)', '(Receiver of)', string)
+	print("receiv:: " + string+"\n")
 	# (7) LIQUIDATOR
-	if "liquidator" in string.lower(): string = re.sub(r'\((l|L)iquidat(e|or)\s?(of)?\)', '(Liquidator of)', string)
+	if "liquidator" in string.lower(): string = re.sub(r'\((l|L)iquidat(e|or)\s?(of)?\)', '(Liquidator of)', string) 
 	# (8) COUNTRIES (need list of countries)
 	# (9) CITIES (need database of cities and municipalities)
 	# (10) PROVINCES
@@ -92,6 +98,8 @@ def StyleAttributes(string):
 	if "(attorney general)" in string.lower(): string = re.sub(r'(a|A)ttorney (g|G)eneral', 'AG', string)
 	if "(minister of rational revenue)" in string.lower(): string = re.sub(r'(m|M)inister (o|O)f (n|N)ational (r|R)evenue', 'MNR', string)
 	return string
+
+StyleAttributes("Manitoba (minister of national revenue) corporation trustee llp")
 
 #Put in the references and the Jurisdiction if not already there
 def StatuteChallenge(string):

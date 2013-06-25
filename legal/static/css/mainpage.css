@@ -1,40 +1,96 @@
+@font-face
+{
+font-family:RalewayReg;
+src: url(../fonts/Raleway-Regular.ttf);
+}
+@font-face
+{
+font-family:RalewayMed;
+src: url(../fonts/Raleway-Medium.ttf);
+}
+@font-face
+{
+font-family:RalewayThin;
+src: url(../fonts/Raleway-Bold.ttf);
+}
+p{
+font-family:RalewayThin;
+
+}
+h2{
+font-family:RalewayReg;
+}
+.header2{
+font-family: RalewayReg;
+font-size: 20px;
+color: #fe6060;
+
+}
+.header3{
+font-family: RalewayThin;
+font-size: 18px;
+color: #333333;
+margin: 0 auto;
+text-align: center;
+
+}
 body{
 	background-repeat: repeat;
 	background-image:url("../img/otis_redding.png");
 	background-color:grey;
 
 }
-#contentcontainer{
+#white-page{
+	z-index: 1;
 	margin: 0 auto;
+	position: relative;
+	top: -35px;
+
 	max-width: 1300px;
 	background-color:white;
 
 
 }
-.topredtitlebar{
+
+#titlebar{
+	z-index: 2;
+	margin: 0 auto;
+	position: relative;
+	top: 20px;
+	padding:0px;
+	
+	height: 35px;
+	width:1420px;
+		
+	opacity: .48;
+	box-shadow: 1px 1px 5px #777777;
+	background:#f7f7f7
+	
+}
+
+.inner-titlebar{
+	padding-top: 7px;
+	margin-left: 100px;
+	color: #fe6060;
+	font-size: 20px;
+	opacity: 1;
+}
+
+.top-red-title-bar{
+	margin: 0 auto;
+	margin-bottom: 100px;
 	height: 10px;
 	padding:0px;
 	top:0;
 	width:100%;
 	background:#e85a56
 }
-.titlebar{
-	height: 30px;
-	padding:0px;
-	top:0;
-	opacity: .48;
-	width:100%;
-	box-shadow: 1px 1px 5px #777777;
-	background:#f7f7f7
-	
-}
-.inner-titlebar{
-	margin-top:10px;
-	margin-left: 10px;
-	color: #fe6060;
-	font-size: 20px;
-}
 
+.content-container{
+	margin:0 auto;
+	width: 1180px;
+
+}
 .banner{
 	background-repeat: repeat;
 	backgroun-image: url("/./static/img/banner.png");
@@ -44,6 +100,10 @@ body{
 	background-image:url("../img/debut_light.png");
 }
 
+#tooltips{
+padding-left: 20px;
+
+}
 .information-blurb{
 margin-top: 30px;
 margin-bottom: 30px;
