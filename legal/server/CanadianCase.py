@@ -65,48 +65,115 @@ def Capitalize(string):
 #assume inputs contain no weird ascii characters
 #Everything is already capitalized properly before being inputted to this function
 def StyleAttributes(string):
+	print("\nStart:: " + string)
 	# (1) GUARDIAN AD LITEM
 	if ("guardian" and " ad litem") in string.lower(): string = re.sub(r'\(?(g|G)uardian\s(a|A)d\s(l|L)item\s?(of)?\)?', '(Guardian ad litem of)', string)
-	print("gaurdian:: " + string +"\n")
+	#print("gaurdian:: " + string +"\n")
 	# (2) LITIGATION GUARDIAN
 	if ("litigation guardian") in string.lower(): string = re.sub(r'\(?(l|L)itigation\s(g|G)uardian\s?((o|O)f)?\)?', '(Litigation guardian of)', string)
-	print("lit gaurdian:: " + string+"\n")
+	#print("lit gaurdian:: " + string+"\n")
 	# (3) LLP or LP (for other caps requirements, put into Caps list)
-	Caps = [" LLP "," LP "]# be sure to put the space in front
-	for j in Caps:
-		string = re.sub(j[1].upper()+j[2:].lower(), j[1:], string) #sub in the all caps words and words like MacDonald
-	print("LLP:: " + string+"\n")
+	LLP = re.compile(r'(\sllp$|^llp\s|\sllp\s)')
+	LP = re.compile(r'(\slp$|^lp\s|\slp\s)')
+	if LLP.search(string.lower()):
+		j = "LLP"
+		string = re.sub(j, j, string, 0, re.I) #sub in the all caps words and words like MacDonald
+	if LP.search(string.lower()):
+		j = "LP"
+		string = re.sub(j, j, string, 0, re.I) #sub in the all caps words and words like MacDonald
+	#print("LLP:: " + string+"\n")
 	# (4) CORPORATION
-	if " corporation" in string.lower(): string = re.sub(r'(c|C)orporation', 'Corp', string)
-	print("Corporation:: " + string+"\n")
+	corp = re.compile(r'(\s(c|C)orp(oration)?$|^(c|C)orp(oration)?\s|\s(c|C)orp(oration)?\s)')
+	if corp.search(string):
+		match = corp.search(string)#detect the match object
+		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
+		string = re.sub(sub, 'Corp', string)
+	#print("Corporation:: " + string+"\n")
 	# (5) TRUSTEE
-	if "trustee" in string.lower(): string = re.sub(r'\(?(t|T)rustee\s?(of)?\)?', '(Trustee of)', string)
-	print("trustee:: " + string+"\n")
+	trustee = re.compile(r'(\(?(t|T)rustee\s?((o|O)f)\)?|\(?(t|T)rustee\s?((o|O)f)?\)?$)')
+	if trustee.search(string):
+		match = trustee.search(string)#detect the match object
+		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
+		string = re.sub(sub, '', string) + " (Trustee of)"
+	#print("trustee:: " + string+"\n")
 	# (6) RECEIVERSHIPS
-	if ("receivership" or "receiver") in string.lower(): string = re.sub(r'\((r|R)eceiver(ship)?\s?(of)?\)', '(Receiver of)', string)
-	print("receiv:: " + string+"\n")
+	rec = re.compile(r'(\(?(r|R)eceiver(ship)?\s?((o|O)f)\)?|\(?(r|R)eceiver(ship)?\s?((o|O)f)?\)?$)')
+	if rec.search(string):
+		match = rec.search(string)#detect the match object
+		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
+		string = re.sub(sub, '', string) + " (Receiver of)"
+	#print("receiv:: " + string+"\n")
 	# (7) LIQUIDATOR
-	if "liquidator" in string.lower(): string = re.sub(r'\((l|L)iquidat(e|or)\s?(of)?\)', '(Liquidator of)', string) 
+	liq = re.compile(r'(\(?(l|L)iquidat(e|or)s?\s?((o|O)f)\)?|\(?(l|L)iquidat(e|or)s?\s?((o|O)f)?\)?$)')
+	if liq.search(string):
+		match = liq.search(string)#detect the match object
+		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
+		string = re.sub(sub, '', string) + " (Liquidator of)"
+	#print("liquid:: " + string+"\n")
 	# (8) COUNTRIES (need list of countries)
 	# (9) CITIES (need database of cities and municipalities)
 	# (10) PROVINCES
 	Provinces = [["British Columbia", ["BC", "Brit Col", "Brit Colum"], "British Columbian"], ["Alberta", ["AB", "Alta"], "Albertan"], ["Saskatchewan", ["SK", "Sask"], "Saskatchewanian"], ["Manitoba", ["MB", "Man"], "Manitoban"], ["Ontario", ["ON", "Ont"], "Ontarian"], ["Quebec", ["QB", "Que","Qc"], "Quebecois"], ["New Brunswick", ["NB", "New Bruns", "N Bruns"], "New Brunskicker"], ["Nova Scotia", ["NS", "Nova Scot"], "Nova Scotian"], ["Prince Edward Island", ["PEI", "Prince Ed", "Prince Ed Isl"], "Prince Edward Islander"], ["Newfoundland and Labrador", ["NL", "NFLD", "Newfoundland"], "Newfoundlander"]]
 	for x in Provinces:
+		m = False #assume there is no match yet
 		for i in x[1]:
-			if (" " + i + " ").lower() in string.lower(): string = string.replace(" " + i + " ", " " + x[0] + " ")
+			reg_one = re.compile(r'^'+i+r'\s', re.I)
+			reg_two = re.compile(r'\s'+i+r'\s', re.I)
+			reg_three = re.compile(r'\s'+i+r'\$', re.I)
+			reg_four = re.compile(r'\s'+i+r'\$', re.I)
+			if reg_one.search(string):
+				#print "Province match one\n"
+				m == True
+				match = reg_one.search(string)#detect the match object
+				sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
+				string = re.sub(sub, x[0], string)
+			if m == True: break
+			if reg_two.search(string):
+				#print "Province match two\n"
+				m = True
+				match = reg_two.search(string)#detect the match object
+				sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
+				string = re.sub(sub, x[0], string)
+			if m == True: break
+			if reg_three.search(string):
+				#print "Province match three\n"
+				m = True
+				match = reg_three.search(string)#detect the match object
+				sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
+				string = re.sub(sub, x[0], string)
+			if m == True: break
+			if reg_four.search(string):
+				#print "Province match four\n"
+				m = True
+				match = reg_four.search(string)#detect the match object
+				sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
+				string = re.sub(sub, x[0], string)
+	#print("Provinces:: " + string+"\n")
 	# (11) CROWN CIVIL (AG and MNR)
-	if "(attorney general)" in string.lower(): string = re.sub(r'(a|A)ttorney (g|G)eneral', 'AG', string)
-	if "(minister of rational revenue)" in string.lower(): string = re.sub(r'(m|M)inister (o|O)f (n|N)ational (r|R)evenue', 'MNR', string)
+	AG = re.compile(r'(\(?(a|A)tt(orney)?\s?(g|G)en(eral)?\s?((o|O)f)?\)?|\(?AG\))')
+	if AG.search(string):
+		match = AG.search(string)#detect the match object
+		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
+		#print "sub = "+sub+"\n"	#print "string = "+string+"\n"		#print "subbed in = "+re.sub(sub, '', string)+"\n"
+		string = re.sub(sub, '', string) + " (AG)"
+	MNR = re.compile(r'(\(?(m|M)inister\s?((o|O)f)?\s(n|N)at(ional)?\s(r|R)ev(enue)?\)?|\(?MNR\))')
+	if MNR.search(string):
+		match = MNR.search(string)#detect the match object
+		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
+		#print "sub = "+sub+"\n"	#print "string = "+string+"\n"		#print "subbed in = "+re.sub(sub, '', string)+"\n"
+		string = re.sub(sub, '', string) + " (MNR)"
+	string = re.sub('\(\)', '', string)#there are brackets sometimes not subbed out of the string, so I remove empty ones
+	string = CleanUp(string)#clean string for final presentation
+	print("End:: " + string+"\n")
 	return string
 
-StyleAttributes("Manitoba (minister of national revenue) corporation trustee llp")
 
 #Put in the references and the Jurisdiction if not already there
 def StatuteChallenge(string):
 	string = NotAllowed(string)
-	Shorten = ["In Re " or " In the Matter of " or "Dans L'Affaire de "]
+	Shorten = ["In Re " or "In the Matter of " or "Dans L'Affaire de "]
 	for x in Shorten:
-		if x in string: string = string.replace(x, "Re ")
+		if x.lower() in string.lower(): string = string.replace(x, "Re ")
 	if "Ex Parte" in string: string = string.replace("Ex Parte", "Ex parte")
 	Provinces = [["British Columbia", ["BC", "Brit Col", "Brit Colum"], "British Columbian"], ["Alberta", ["AB", "Alta"], "Albertan"], ["Saskatchewan", ["SK", "Sask"], "Saskatchewanian"], ["Manitoba", ["MB", "Man"], "Manitoban"], ["Ontario", ["ON", "Ont"], "Ontarian"], ["Quebec", ["QB", "Que","Qc"], "Quebecois"], ["New Brunswick", ["NB", "New Bruns", "N Bruns"], "New Brunskicker"], ["Nova Scotia", ["NS", "Nova Scot"], "Nova Scotian"], ["Prince Edward Island", ["PEI", "Prince Ed", "Prince Ed Isl"], "Prince Edward Islander"], ["Newfoundland and Labrador", ["NL", "NFLD", "Newfoundland"], "Newfoundlander"]]
 	Canada = ["Canada", ["CA", "Can", "CAN"], "Canadian"]
