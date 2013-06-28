@@ -245,20 +245,10 @@ Collapsing
 =============================================
 Pagination
 =============================================
-*/		
-	jQuery("#reporters-list").children().hide();
+*/
+    
+
 	
-	
-	jQuery("a.reporters-pagination").click(function() {
-			//var id = jQuery(elem).attr("className");
-			var id = jQuery(this).text(); // grab the letter
-			jQuery("#reporters-list").children().hide();
-			jQuery('#reporters-list-'+id).fadeIn(0);
-			jQuery('#reporters-list-b').fadeIn(0);
-			console.log("variable id " + id);
-               
-			});
-	
-	
+
 	
 }); //End of Document

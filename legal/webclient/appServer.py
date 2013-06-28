@@ -24,7 +24,7 @@ testcase4 = "<i>Reference re Securities Act</i>, 2011 SCC 66, [2011] 3 SCR 837."
 class Index(object):
 	def GET(self):
 		print "hello"
-		return render.index() #hello_form is the name of the html
+		return render.tip() #hello_form is the name of the html
 		
 		# For index.html
 		
