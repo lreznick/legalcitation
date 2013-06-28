@@ -281,26 +281,15 @@ Reporter List
 	
 		currentList = _.filter(reporterList, function(singleReporter){
 			var reportername = singleReporter.getName().toLowerCase();
-			if (singleReporter.getName().toLowerCase().indexOf(currentstring.toLowerCase()) >= 0){
-				console.log(reportername);
-			
-			}
 			return(singleReporter.getName().toLowerCase().indexOf(currentstring.toLowerCase()) >= 0);
-			//return (true);
 		});
 		
-		var str="Hello world, welcome to the universe. asasdfyukon  112341234 yukon";
-		var n=str.indexOf("yukon");
-		console.log("yukon stuff::: " +n);
-		
-		//console.log("currentList"+currentList);
-
 		for (var i =0; i < currentList.length; i++){
 			var name = currentList[i].getName();
 			var abbr = currentList[i].getAbbr();
 			outputstring = outputstring.concat(name + "      <div style=\"float: right; clear: right;\">" + abbr +"</div><br>");
 		}
-		//console.log("I am here" + outputstring);
+		
 		generateOutput(outputstring);
 	}
 		
