@@ -23,6 +23,7 @@ Set Up
 	jQuery("#result-container").hide();
 	//jQuery("#GoButton").hide();
 	jQuery("#stackednavs").hide();
+	jQuery("#reporter-container").hide();
 	
 /*
 =============================================
@@ -143,12 +144,13 @@ Validations
 					//regex: "^([0-9]|[1-9][0-9]|[1-9][0-9][0-9])$", //0-999
 					required: true 
 				},
-				prallel: {
+				parallel: {
 					maxlength:250,	
 					//regex: "^(\\d{3})TN(\\d{4})$" , //detects sentences starting with a capital and then has lowercase letters and spaces					
 					//regex: "^([0-9]|[1-9][0-9]|[1-9][0-9][0-9])$", //0-999
 					required: true 
 				},
+				//reporter: ".ignore",
 				date: {
 					maxlength:250,	
 					//regex: "^(\\d{3})TN(\\d{4})$" , //detects sentences starting with a capital and then has lowercase letters and spaces					
@@ -182,7 +184,7 @@ Validations
 					minlength: "too short",
 					maxlength: "Maximum length: 250 characters",
 					//regex: "regex not working",
-					required: "You gotta do it bruh"
+					required: " "
 				}
 			}
 		}); 
@@ -223,7 +225,7 @@ Validations
 			messages: { 
 				name: {
 					minlength: "too short!",
-					required: "You gotta do it bruh"
+					required: ""
 				},
 				email: { 
 					required: "We need your email address to contact you", 
@@ -251,10 +253,12 @@ Reporter List
 	var currentstring1;
 	var currentList = [];
 	var outputstring = "";
+	var browseClicked = false;
 	
-	var reporter = function(name,abbr){
+	var reporter = function(name,abbr,jurisdiction){
 		this.name = name;
 		this.abbr = abbr;
+		this.jurisdiction = jurisdiction;
 	}
 	
 	reporter.prototype.getName = function(){
@@ -264,21 +268,24 @@ Reporter List
 	reporter.prototype.getAbbr = function(){
 		return this.abbr;
 	}
+	reporter.prototype.getJuris = function(){
+		return this.jurisdiction;
+	}
 	
 	
 	for (var i =0; i<templist.length; i++){
-		var abbr = templist[i][0];
-		var name = templist[i][1];
+		var abbr		 = templist[i][0];
+		var name 		 = templist[i][1];
+		var jurisdiction = templist[i][1];
 		reporterList.push(new reporter(name,abbr))
 	}	
 	
-	generateOutput("HURR");
 	
 	
 	var updateCurrentList = function() {
-		outputstring="";
-		var currentstring= jQuery("input#inputform").val();
-	
+		outputstring="	<thead> <tr><td> <b> Abbreviation  </b></td><td><b> Name </b><td></tr> </thead> <tbody>";
+		var currentstring= jQuery("input#reporter-input").val();
+		
 		currentList = _.filter(reporterList, function(singleReporter){
 			var reportername = singleReporter.getName().toLowerCase();
 			return(singleReporter.getName().toLowerCase().indexOf(currentstring.toLowerCase()) >= 0);
@@ -287,9 +294,11 @@ Reporter List
 		for (var i =0; i < currentList.length; i++){
 			var name = currentList[i].getName();
 			var abbr = currentList[i].getAbbr();
-			outputstring = outputstring.concat(name + "      <div style=\"float: right; clear: right;\">" + abbr +"</div><br>");
+			//var juris = currentList[i].getJuris();
+			outputstring = outputstring.concat("<tr> <td>"+abbr + "</td> <td style =\"\">" + name + "</td></tr>");
+			   //<div style=\"float: right; clear: right;\">" + abbr +"</div><br>");
 		}
-		
+		outputstring = outputstring.concat("</tbody>");
 		generateOutput(outputstring);
 	}
 		
@@ -297,11 +306,18 @@ Reporter List
 			jQuery('#formoutput2').html(outputstring);
 	}
 	
-	document.getElementById("inputform").onchange = updateCurrentList;
-	document.getElementById("inputform").onkeyup = updateCurrentList;
+	document.getElementById("reporter-input").onchange = updateCurrentList;
+	document.getElementById("reporter-input").onkeyup = updateCurrentList;
   
 
-	
-
-	
+	jQuery(".browsebutton").click(function(){
+		if(browseClicked == false){
+    		jQuery("#reporter-container").show();
+    		browseClicked = true;
+		}
+		else{
+			jQuery("#reporter-container").hide();
+			browseClicked = false;
+		}
+	});
 }); //End of Document

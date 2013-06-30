@@ -34,6 +34,12 @@ margin: 0 auto;
 text-align: center;
 
 }
+#formoutput2 .table th, .table td { 
+     border-top: none; 
+ }
+ table td {
+    border-top: none;
+}
 
 body{
 	background-repeat: repeat;
@@ -112,7 +118,10 @@ body{
 
 
 }
-#collapseTwo-extra { border: 0 none; }
+#collapseTwo-extra {
+ 	border: 0 none; 
+ }
+ 
 #CanadaCase-Form .accordian{
 	width: 600px;
 
@@ -140,4 +149,9 @@ label.error {
   color: red;
   padding: 2px 8px;
   margin-top: 2px;
+}
+
+button.browsebutton { 
+	background:none;
+	border:none; 
 }
