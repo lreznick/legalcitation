@@ -343,7 +343,7 @@ def ChooseBestReporters(InputList): # choose the best reporter out of all of the
 		for x in List:
 			if x[1]: continue
 			if re.search(regstr(i[0]), x[0], re.I):
-				x[0] = re.sub(regstr(i[0]), " "+i[0]+" ", x[0])
+				x[0] = CleanUp(re.sub(regstr(i[0]), " "+i[0]+" ", x[0], flags = re.I))
 				x[1] = Priority
 				print x[0], "was given priority", x[1], "********************************"
 				Priority +=1
@@ -352,7 +352,7 @@ def ChooseBestReporters(InputList): # choose the best reporter out of all of the
 		for x in List:
 			if x[1]: continue
 			if re.search(regstr(i[0]), x[0], re.I):
-				x[0] = re.sub(regstr(i[0]), " "+i[0]+" ", x[0])
+				x[0] = CleanUp(re.sub(regstr(i[0]), " "+i[0]+" ", x[0], flags = re.I))
 				x[1] = Priority
 				print x[0], "was given priority", x[1], "********************************"
 				Priority +=1
@@ -361,7 +361,7 @@ def ChooseBestReporters(InputList): # choose the best reporter out of all of the
 		for x in List:
 			if x[1]: continue
 			if re.search(regstr(i[0]), x[0], re.I):
-				x[0] = re.sub(regstr(i[0]), " "+i[0]+" ", x[0])
+				x[0] = CleanUp(re.sub(regstr(i[0]), " "+i[0]+" ", x[0], flags = re.I))
 				x[1] = Priority
 				print x[0], "was given priority", x[1], "********************************"
 				Priority +=1
@@ -370,7 +370,7 @@ def ChooseBestReporters(InputList): # choose the best reporter out of all of the
 		for x in List:
 			if x[1]: continue
 			if re.search(regstr(i[0]), x[0], re.I):
-				x[0] = re.sub(regstr(i[0]), " "+i[0]+" ", x[0])
+				x[0] = CleanUp(re.sub(regstr(i[0]), " "+i[0]+" ", x[0], flags = re.I))
 				x[1] = Priority
 				print x[0], "was given priority", x[1], "********************************"
 				Priority +=1
@@ -379,7 +379,7 @@ def ChooseBestReporters(InputList): # choose the best reporter out of all of the
 		for x in List:
 			if x[1]: continue
 			if re.search(regstr(i), x[0], re.I):
-				x[0] = re.sub(regstr(i), " "+i+" ", x[0])
+				x[0] = CleanUp(re.sub(regstr(i), " "+i+" ", x[0], flags = re.I))
 				x[1] = Priority
 				print x[0], "was given priority", x[1], "********************************"
 				Priority +=1
@@ -393,8 +393,8 @@ def ChooseBestReporters(InputList): # choose the best reporter out of all of the
 				if Priority != 1: # if there is some reporter other than an electronic reporter, we only need the name of the electronic service and not the citation docket
 					x[0] = " (available on "+i[0]+")"
 				else: # the priority is one, then we will sub whatever abbreviation they used with the correct one
-					x[0] = re.sub(regstr(i[0]), " "+i[0]+" ", x[0], re.I) #they used the real name
-					x[0] = re.sub(regstr(i[1]), " "+i[0]+" ", x[0], re.I) #they used another name
+					x[0] = CleanUp(re.sub(regstrElec(i[0]), " "+i[0]+" ", x[0], flags = re.I)) #they used the real name
+					x[0] = CleanUp(re.sub(regstrElec(i[1]), " "+i[0]+" ", x[0], flags = re.I)) #they used another name
 				x[1] = Priority
 				print x[0], "was given priority", x[1], "********************************"
 				Priority +=1
@@ -402,12 +402,12 @@ def ChooseBestReporters(InputList): # choose the best reporter out of all of the
 				Elec = True
 	for x in List: # in case there is no match for a particular reporter, just place it last in priority
 		if not x[1]:
-			print x[0], "was not given a priority"
+			print x[0], "was not recognized but is given priority", x[1], "********************************"
 			x[1] = Priority
 			Priority +=1
 	#now sort List based on the priorities for each citation (sorted list is called Sorted)
 	if len(List)==1: #if there is only one reporter given, return it
-		return List[0]
+		return List[0][0]
 	Sorted = sorted(List, key=lambda tup: tup[1])
 	First = Sorted[0]
 	Second = Sorted[1]
@@ -477,11 +477,14 @@ def TakeOutJurisdiction(Ct, Cite):
 	Ct = CleanUp(Ct)#Ct.strip() #strip trailing white spaces
 	#Ct = re.sub(' +',' ', Ct) #Remove excess white spaces
 	return Ct
+
 			
-#pulls the first date from a string, only starting after 1400 until 2014			
+#pulls the first date from a string, only starting after 1400 until 2014	
+#will not pull a date from within a string of digits, but anything else
+#returns false if no string		
 def PullDate(string):
-	Match = re.search(r'(1[4-9,0][0-9]{2}|200[0-9]{1}|201[1234]{1})', string)
-	if Match: return Match.group()
+	Match = re.search(r'([^\d]{1}|^)(1[4-9,0][0-9]{2}|200[0-9]{1}|201[1234]{1})([^\d]{1}|$)', string)
+	if Match: return CleanUp(Match.group(2))
 	else: return False
 
 
@@ -540,17 +543,4 @@ def GetCitations(Citation_Input):
 	print "Result:", OUTPUT
 	return OUTPUT
 
-GetCitations(" 2008 SCC 9 (CanLII); [2008] 1 SCR 190, 229 NBR (2d) 1; 291 DLR (4th) 577; 64 CCEL (3d) 1; 69 Admin LR (4th) 1")
 
-'''	
-#I HAVE TAKEN THIS OUT!!! There can only be one "main" function in our project. 
-# For now just try and work around it or i can show you how to move it into our main file
-
-def main():
-	SoC = GetStyleOfCause()
-	Citation = GetCitations()
-	print "The final output is: ", SoC + Citation
-	
-	
-main()
-'''

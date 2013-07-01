@@ -105,8 +105,13 @@ def test_GetStyleOfCause():
 
 '''****************     CITATIONS     ****************'''
 
+#only takes lists!
 def test_ChooseBestReporters():           
-    pass
+    assert_equal(ChooseBestReporters(["canlii"]),"CanLII")
+    assert_equal(ChooseBestReporters(["dfsdfsad"]),"dfsdfsad")
+    assert_equal(ChooseBestReporters(["2008 scc 9", "CanLII"]),"2008 SCC 9 (available on CanLII)")
+    assert_equal(ChooseBestReporters(["Westlaw"]),"WL")
+    assert_equal(ChooseBestReporters(["2004 Westlaw 19837"]),"2004 WL 19837")
 
 def test_CleanUpCourt():           
     pass
@@ -117,7 +122,15 @@ def test_TakeOutJurisdiction():
 def test_PullDate():           
     assert_equal(PullDate("1666"),"1666")
     assert_equal(PullDate("The year is not 1300, it is 2013"),"2013")
+    assert_equal(PullDate(""), False)
+    assert_equal(PullDate("3420098218883231"), False)
+    assert_equal(PullDate("The year is 2013, and last year was 2012"), "2013")
+    assert_equal(PullDate("(2008)"),"2008")
+    assert_equal(PullDate("[2008]"),"2008")
+    assert_equal(PullDate("What year is it?2013)"),"2013")
+    assert_equal(PullDate("THEYEARISNOT2008)"),"2008")
     
+
 def test_CleanUp():           
     assert_equal(CleanUp("   ..  . . .. .  ..."),"")
     assert_equal(CleanUp("r.e.s.p.e.c.t. show me what  it means  2 be"),"respect show me what it means 2 be")
