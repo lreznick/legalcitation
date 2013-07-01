@@ -3,8 +3,7 @@
 from nose.tools import *
 from legal.server.CanadianCase import *
 
-
-
+'''****************     STYLE OF CAUSE     ****************'''
 
 def test_NotAllowed():
     assert_equal(NotAllowed("test"),"test");
@@ -40,18 +39,71 @@ def test_Capitalize():
     assert_equal(Capitalize("i looove M'Cin apples YAYA"),"I Looove M'Cin Apples YAYA")
     assert_equal(Capitalize("RSWDU 45424"),"RSWDU 45424")
     assert_equal(Capitalize("canada (AG)"),"Canada (AG)")
+    assert_equal(Capitalize("The national petroleum act"),"The National Petroleum Act")
     
     
 
 def test_StyleAttributes():   
-    pass
-    #assert_equal(StyleAttributes(
+    assert_equal(StyleAttributes("mnr"), "(MNR)")
+    assert_equal(StyleAttributes("Canada ag"), "Canada (AG)")
+    assert_equal(StyleAttributes("attorney general of ab"), "Alberta (AG)")
+    assert_equal(StyleAttributes("mb ag"), "Manitoba (AG)")
+    assert_equal(StyleAttributes("Williams guardian ad litem"), "Williams (Guardian ad litem of)")
+    assert_equal(StyleAttributes("litigation guardian Williams"), "Williams (Litigation guardian of)")
+    assert_equal(StyleAttributes("David limited liability partnership corp"), "David LLP Corp")
+    assert_equal(StyleAttributes("Man limited"), "Man Ltd")
+    assert_equal(StyleAttributes("trustee of David"), "David (Trustee of)")
+    assert_equal(StyleAttributes("David (Receivership)"), "David (Receiver of)")
+    assert_equal(StyleAttributes("receiver of david"), "david (Receiver of)")
+    assert_equal(StyleAttributes("Stephen fskjdhf23927()[][][}{} incorporated"), "Stephen fskjdhf23927 [][][}{} Inc")#gets rid of round brackets, adds a space between the numbers and square brackets
+    assert_equal(StyleAttributes("nlab"), "nlab")
+    assert_equal(StyleAttributes("nl"), "Newfoundland and Labrador")
+    
+    
 
 def test_StatuteChallenge():        
-    assert_equal(StatuteChallenge("test"),"test (Canada)")
+    assert_equal(StatuteChallenge("The Act (bc)"),"The Act (British Columbia)")
+    assert_equal(StatuteChallenge("The national petroleum act"),"The national petroleum act")
+    assert_equal(StatuteChallenge("BC Forestry Act"),"British Columbia Forestry Act")
+    assert_equal(StatuteChallenge("Farmer's Milling Code (ab)"),"Farmer's Milling Code (Alberta)")
+    assert_equal(StatuteChallenge("Fisheries Act"),"Fisheries Act (Canada)")
+    assert_equal(StatuteChallenge("Fish Act (NL)"),"Fish Act (Newfoundland and Labrador)")
+    assert_equal(StatuteChallenge("reference re Fishing Stuff"),"Reference Re Fishing Stuff (Canada)")
+    assert_equal(StatuteChallenge("ref re fish act"),"Reference Re fish act (Canada)")
+    assert_equal(StatuteChallenge("Ex Parte Plimus Act (MB)"),"Ex parte Plimus Act (Manitoba)")
+    
 
-def test_GetStyleOfCause():           
-    pass
+#this is the function you use for each individual action.
+#GetStyleOfCause just really calls this function, so all the tests for it are applicable.
+#Action also calls StatuteChallenge, StyleAttribues, Capitalize, and NotAllowed
+def test_Action():           
+    assert_equal(Action("The Act (bc)"),"The Act (British Columbia)")
+    assert_equal(Action("The national petroleum act"),"The National Petroleum Act")
+    
+
+#this is the function you call to actually do everything. 
+#really all it does is separate causes of action by ";" and then call #Action
+def test_GetStyleOfCause():  
+	assert_equal(GetStyleOfCause("The Act (bc)"),"The Act (British Columbia)")
+	assert_equal(GetStyleOfCause("R. v. Marshall ; R. v. Bernard"),"R v Marshall; R v Bernard")
+	assert_equal(GetStyleOfCause("dfsdkfjhsdk jhdffeliufe af"),"Dfsdkfjhsdk Jhdffeliufe Af")
+	assert_equal(GetStyleOfCause("dunsmuir v. nb"),"Dunsmuir v New Brunswick")
+	assert_equal(GetStyleOfCause("DUNSMUIR v NEW BRUNSWICK"),"Dunsmuir v New Brunswick")
+	assert_equal(GetStyleOfCause("The national petroleum act"),"The National Petroleum Act")
+	assert_equal(GetStyleOfCause("BC Forestry Act"),"British Columbia Forestry Act")
+	assert_equal(GetStyleOfCause("Farmer's Milling Code (ab)"),"Farmer's Milling Code (Alberta)")
+	assert_equal(GetStyleOfCause("Ref re Fisheries Act"),"Reference Re Fisheries Act (Canada)")
+	assert_equal(GetStyleOfCause("Ref Fish Act (NL)"),"Reference Re Fish Act (Newfoundland and Labrador)")
+	assert_equal(GetStyleOfCause("reference re Fishing act"),"Reference Re Fishing Act (Canada)")
+	assert_equal(GetStyleOfCause("ref re fish act"),"Reference Re Fish Act (Canada)")
+	assert_equal(GetStyleOfCause("ref Ex Parte Plimus Act (MB)"),"Reference Re Ex parte Plimus Act (Manitoba)")
+	assert_equal(GetStyleOfCause("    order 231223-23"),"Order 231223-23")
+	assert_equal(GetStyleOfCause("Securities Act Ref"), "Reference Re Securities Act (Canada)")
+	assert_equal(GetStyleOfCause("R v Sparrow"),"R v Sparrow")
+	assert_equal(GetStyleOfCause("Adams v Thompson, Berwick, Pratt, & Partners"),"Adams v Thompson, Berwick, Pratt, & Partners")
+	assert_equal(GetStyleOfCause(u"Qu\xe9bec v Johnson"), u"Qu\xe9bec v Johnson")
+
+'''****************     CITATIONS     ****************'''
 
 def test_ChooseBestReporters():           
     pass
@@ -63,14 +115,16 @@ def test_TakeOutJurisdiction():
     pass    
     
 def test_PullDate():           
-    pass    
+    assert_equal(PullDate("1666"),"1666")
+    assert_equal(PullDate("The year is not 1300, it is 2013"),"2013")
     
 def test_CleanUp():           
     assert_equal(CleanUp("   ..  . . .. .  ..."),"")
     assert_equal(CleanUp("r.e.s.p.e.c.t. show me what  it means  2 be"),"respect show me what it means 2 be")
+    assert_equal(CleanUp("your mom(charlotte) is really  cool ; but not as cool as the king : Charles"),"your mom (charlotte) is really cool; but not as cool as the king: Charles")
 
 def test_GetCitations():           
-    pass    
+    assert_equal(GetCitations(" 2008 SCC 9 (CanLII); [2008] 1 SCR 190, 229 NBR (2d) 1; 291 DLR (4th) 577; 64 CCEL (3d) 1; 69 Admin LR (4th) 1"), ", 2008 SCC 9, [2008] 1 SCR 190.")
 
 
     
