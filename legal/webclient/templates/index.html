@@ -14,7 +14,7 @@ $def with (greeting= None)
 		<img style = "width: 1200px; background-repeat:repeat-x" src ="./static/img/banner.png"> 
     </div>
 	<hr>-->
-    <img style = "height: 60px" src ="./static/img/banner.png"> 
+    <img style = "height: 65px" src ="./static/img/banner.png"> 
 <hr>
 
 	 <!-- CANLII-->
@@ -38,13 +38,23 @@ $def with (greeting= None)
 				</form>
 		 <!-- </div>  Well -->
 
-
-  
-<hr style="margin-top:0"> 
-    
+  <!--
+<div class="input-prepend">
+  <div class="btn-group">
+    <button class="btn dropdown-toggle" data-toggle="dropdown">
+      PinPoint
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li><a href ="#">pinpoint</a></li>
+	  <li><a href ="#">cite to</a> </li>
+    </ul>
+  </div>
+  <input class="span2" id="prependedDropdownButton" type="text">
+</div>
     <br>
-
-    
+-->
+    <hr>
 	<div class="header2">Or Enter Your Information Manually</div>
 	
         
@@ -80,24 +90,15 @@ $def with (greeting= None)
                             </div>  
                             
                             <!--Paralle Citationsl -->
+
                             <div class="control-group">
                                 <label class="control-label" for="CanadaCaseParallel"><b>Parallel Citation<font color ="red"> *</font> </b></label>
                                 <div class="controls">
                                     <input type="text" class="input-xxlarge" id="CanadaCaseParallel"
                                                 placeholder="(Separated by commas or semicolons)" name = "parallel">
-												<span class="help-block"><i class="icon-play"></i> 
 												
-												<!-- REPORTER LIST -->
-													<button class ="browsebutton"> <i>Browse </i> </span> </button>
-													<div id ="reporter-container">
-														<form class="form-search">
-														  <input type="text" class="input-medium search-query" placeholder ="Search Reporters..." id = "reporter-input" name="reporter">
-														</form>
-														<table class="table table-condensed table-hover" id = "formoutput2">
-
-														</table>
-												</div> <!-- container-->   			
                                 </div>
+								
 								<!-- Indentation ******* FIX  
 								<font style="text-index:5px">-->
 								
@@ -105,6 +106,21 @@ $def with (greeting= None)
 									<input type="text" class="search-query" placeholder="Search">
 								</form> -->
                             </div>
+														
+						<div class="controls form-inline">
+							<span class="help-block"><i class="icon-play"></i> 
+												
+												<!-- REPORTER LIST -->
+													<button class ="browsebutton" type ="button"> <i>Browse </i> </span> </button>
+													<div id ="reporter-container" >
+														<form class="form-search">
+														  <input type="text" class="input-medium search-query" placeholder ="Search Reporters..." id = "reporter-input" name="reporter">
+														</form>
+														<table class="table table-condensed table-hover" id = "formoutput2" style = "max-height:400px">
+
+														</table>
+												</div> <!-- container-->   
+</div>												
 
                             <!--Date -->
                             <div class="control-group">
@@ -129,13 +145,13 @@ $def with (greeting= None)
 
 								<!-- Accordian -->
 								<div class="accordion" id="extra-options-accordian-extra">
-								  <div class="accordion-group">
+								  <div class="accordion-group" style="border:none">
 									<div class="accordion-heading">
 										<a class="accordion-toggle" data-toggle="collapse" data-parent="#extra-options-accordian-extra" href="#collapseTwo-extra" style="color: #000000">
-											<i class="icon-play"></i>  Other Options 
+											<i class="icon-play"></i> Options 
 										</a>
 									</div>
-									<div id="collapseTwo-extra" class="accordion-body collapse">
+									<div id="collapseTwo-extra" class="accordion-body collapse in">
 									<!-- Inner forms -->
 									<div class="accordion-inner">
 										
@@ -175,7 +191,8 @@ $def with (greeting= None)
 															placeholder="" name = "judge">
 											</div>
 										</div>										
-
+										
+										
 										<!--Citing -->
 										<div class="control-group">
 											<label class="control-label" for="CanadaCaseCiting">Citing</label>
@@ -185,35 +202,78 @@ $def with (greeting= None)
 											</div>
 										</div>												
 
-										<!--History-->
+										<!--History-->										
 										<div class="control-group">
 											<label class="control-label" for="CanadaCaseHistory">History</label>
 											<div class="controls">
-											<div class="input-prepend">
-											<span class="add-on">Affirming  .</span>
-												<input type="text" class="input-large" id="CanadaCaseHistory"
+											<!-- Affirming -->
+											<div class="input-prepend" style="padding-bottom:2px">
+											<span class="add-on" style="width:80px; ">Affirming</span>
+												<input type="text" class="input-xlarge" id="CanadaCaseHistory"
 															placeholder="" name = "history">
 											</div>
 											
-											<div class="input-prepend">
-											<span class="add-on">Reversing</span>
-												<input type="text" class="input-large" id="CanadaCaseHistory"
+											<!-- Reversing -->
+											<div class="input-prepend" style="padding-bottom:2px">
+											<span class="add-on" style="width:80px">Reversing</span>
+												<input type="text" class="input-xlarge" id="CanadaCaseHistory"
 															placeholder="" name = "history">
 											</div>
-																						<div class="input-prepend">
-											<span class="add-on">Reversed By</span>
-												<input type="text" class="input-large" id="CanadaCaseHistory"
+											
+											<!-- Reversed By-->
+											<div class="input-prepend" style="padding-bottom:2px">
+											<span class="add-on"style="width:80px">Reversed By</span>
+												<input type="text" class="input-xlarge" id="CanadaCaseHistory"
 															placeholder="" name = "history">
 											</div>
-																						<div class="input-prepend">
-											<span class="add-on">Affirmed By</span>
-												<input type="text" class="input-large" id="CanadaCaseHistory"
+											
+											<!-- Affirmed By -->
+											<div class="input-prepend" style="padding-bottom:2px">
+											<span class="add-on"style="width:80px">Affirmed By</span>
+												<input type="text" class="input-xlarge" id="CanadaCaseHistory"
 															placeholder="" name = "history">
 											</div>
 											</div>
 										</div>		
+
+										<!--Leave To Appeal -->
+										<div class="control-group">
+											<label class="control-label" for="CanadaCaseLeaveToAppeal">Leave To Appeal</label>
+											<div class="controls">
+											<!-- Affirming -->
+											<div class="input-prepend" style="padding-bottom:2px">
+											<span class="add-on" style="width:80px; ">Derived</span>
+												<input type="text" class="input-xlarge" id="CanadaCaseLeaveToAppeal"
+															placeholder="" name = "history">
+											</div>
+											
+											<!-- Reversing -->
+											<div class="input-prepend" style="padding-bottom:2px">
+											<span class="add-on" style="width:80px">Granted</span>
+												<input type="text" class="input-xlarge" id="CanadaCaseHistory"
+															placeholder="" name = "history">
+											</div>
+											
+											<!-- Reversed By-->
+											<div class="input-prepend" style="padding-bottom:2px">
+											<span class="add-on"style="width:80px">Requested</span>
+												<input type="text" class="input-xlarge" id="CanadaCaseHistory"
+															placeholder="" name = "history">
+											</div>
+											
+											<!-- Affirmed By -->
+											<div class="input-prepend" style="padding-bottom:2px">
+											<span class="add-on"style="width:80px">As Of Right</span>
+												<input type="text" class="input-xlarge" id="CanadaCaseHistory"
+															placeholder="" name = "history">
+											</div>
+											</div>
+										</div>		
+																				
+											
 										
-										<!--Leave To Appeal-->
+										
+										<!--Leave To Appeal
 										<div class="control-group">
 											<label class="control-label" for="CanadaCaseLeaveToAppeal">Leave To Appeal</label>
 											<div class="controls">
@@ -222,7 +282,7 @@ $def with (greeting= None)
 											</div>
 										</div>												
 										
-
+-->
 										
 									
 

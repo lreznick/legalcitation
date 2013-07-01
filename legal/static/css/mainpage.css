@@ -10,7 +10,7 @@ src: url(../fonts/Raleway-Medium.ttf);
 }
 @font-face
 {
-font-family:RalewayThin;
+font-family:RalewayBold;
 src: url(../fonts/Raleway-Bold.ttf);
 }
 p{
@@ -27,12 +27,18 @@ color: #fe6060;
 
 }
 .header3{
-font-family: RalewayThin;
+font-family: RalewayBold;
 font-size: 14px;
 color: #333333;
 margin: 0 auto;
 text-align: center;
 
+}
+.input-xxlarge {
+width: 500px;
+}
+.input-xlarge {
+width: 410px;
 }
 #formoutput2 .table th, .table td { 
      border-top: none; 
@@ -55,7 +61,6 @@ body{
 
 	width: 1100px;
 	background-color:white;
-
 
 }
 
@@ -98,8 +103,8 @@ body{
 	width: 1000px;
 
 }
-.leftHalf{ width: 800px; float: left; padding-right: 0px;}
-.rightHalf{ width: 200px; float: left; padding-left: 0px;}
+.leftHalf{ width: 750px; float: left; padding-right: 0px;}
+.rightHalf{ width: 250px; float: left; padding-left: 0px;}
 
 
 .banner{
@@ -114,17 +119,19 @@ body{
 #tooltips{
 	padding-left: 20px;
 	font-size: 12px;
-	font:RalewayReg;
-
 
 }
 #collapseTwo-extra {
  	border: 0 none; 
  }
  
-#CanadaCase-Form .accordian{
-	width: 600px;
+.accordion{
+	width: 700px;
+}
 
+.accordion-inner{
+padding-right: 10px;
+padding-left:0px;
 }
 .information-blurb{
 	margin-top: 30px;

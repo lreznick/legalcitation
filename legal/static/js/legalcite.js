@@ -136,9 +136,10 @@ Validations
 	// Validates the form to check if a form works or not
 	// Note: rules are based on name of form
 		jQuery('#canadacase-form').validate({
+			//ignore: ".search-query",
 			rules: { 
 				styleofcause: {
-					minlength: 2,
+					minlength: 1,
 					maxlength:250,	
 					//regex: "^(\\d{3})TN(\\d{4})$" , //detects sentences starting with a capital and then has lowercase letters and spaces					
 					//regex: "^([0-9]|[1-9][0-9]|[1-9][0-9][0-9])$", //0-999
@@ -171,10 +172,9 @@ Validations
 				jQuery(element).closest('.control-group').removeClass('success').addClass('error');
 			},
 			unhighlight: function(element) {
-				console.log("in highlight");
-				jQuery(element).closest('.control-group').removeClass('success').addClass('error');
+				console.log("in unhighlight");
+				//jQuery(element).closest('.control-group').removeClass('success').addClass('error');
 			},
-			
 			success: function(element) {
 				console.log("in success");			
 				element .text('OK!').addClass('valid').closest('.control-group').removeClass('error')//.addClass('success'); 
