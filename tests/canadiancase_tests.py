@@ -112,23 +112,33 @@ def test_ChooseBestReporters():
     assert_equal(ChooseBestReporters(["2008 scc 9", "CanLII"]),"2008 SCC 9 (available on CanLII)")
     assert_equal(ChooseBestReporters(["Westlaw"]),"WL")
     assert_equal(ChooseBestReporters(["2004 Westlaw 19837"]),"2004 WL 19837")
+    assert_equal(ChooseBestReporters(["2002 CACT 3", "CanLII"]), "2002 CACT 3 (available on CanLII)")
 
+#CleanUpCourt calls FindJurisdiction and FindCourt, returns Jurisdiction + Court
 def test_CleanUpCourt():           
     pass
 
 def test_TakeOutJurisdiction():           
-    pass    
+    pass 
     
+#returns true if there is a recognized court in the string (must be , false if not
+def test_CheckForCourt():
+	 assert_equal(CheckForCourt("1666"), False)
+	 assert_equal(CheckForCourt("fdsiafscc sccepwiury523498rpe9iorhq wekrjyep239 \n"), False)
+	 assert_equal(CheckForCourt("2398 SCC 23"), True)
+    
+#returns the LOWEST date (b/w years 1400 and 2014) in the string, false if no date detected
 def test_PullDate():           
     assert_equal(PullDate("1666"),"1666")
     assert_equal(PullDate("The year is not 1300, it is 2013"),"2013")
     assert_equal(PullDate(""), False)
     assert_equal(PullDate("3420098218883231"), False)
-    assert_equal(PullDate("The year is 2013, and last year was 2012"), "2013")
+    assert_equal(PullDate("The year is 2013, and last year was 2012"), "2012")
     assert_equal(PullDate("(2008)"),"2008")
     assert_equal(PullDate("[2008]"),"2008")
     assert_equal(PullDate("What year is it?2013)"),"2013")
     assert_equal(PullDate("THEYEARISNOT2008)"),"2008")
+    assert_equal(PullDate("06-15-1990"),"1990")
     
 
 def test_CleanUp():           
@@ -137,7 +147,7 @@ def test_CleanUp():
     assert_equal(CleanUp("your mom(charlotte) is really  cool ; but not as cool as the king : Charles"),"your mom (charlotte) is really cool; but not as cool as the king: Charles")
 
 def test_GetCitations():           
-    assert_equal(GetCitations(" 2008 SCC 9 (CanLII); [2008] 1 SCR 190, 229 NBR (2d) 1; 291 DLR (4th) 577; 64 CCEL (3d) 1; 69 Admin LR (4th) 1"), ", 2008 SCC 9, [2008] 1 SCR 190.")
+    assert_equal(GetCitations(" 2008 SCC 9 (CanLII); [2008] 1 SCR 190, 229 NBR (2d) 1; 291 DLR (4th) 577; 64 CCEL (3d) 1; 69 Admin LR (4th) 1", "SCC"), ", 2008 SCC 9, [2008] 1 SCR 190.")
 
 
     

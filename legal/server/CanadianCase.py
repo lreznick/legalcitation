@@ -292,7 +292,7 @@ def GetStyleOfCause(StyleOfCause_Input):
 
 '''****************     CITATIONS     ****************'''
 
-
+#this function is not called anywhere, it is reference
 def NeutralCourts():
 	Provinces = [["British Columbia", ["BC", "Brit Col", "Brit Colum"], "British Columbian"], ["Alberta", ["AB", "Alta"], "Albertan"], ["Saskatchewan", ["SK", "Sask"], "Saskatchewanian"], ["Manitoba", ["MB", "Man"], "Manitoban"], ["Ontario", ["ON", "Ont"], "Ontarian"], ["Quebec", ["QB", "Que","Qc"], "Quebecois"], ["New Brunswick", ["NB", "New Bruns", "N Bruns"], "New Brunskicker"], ["Nova Scotia", ["NS", "Nova Scot"], "Nova Scotian"], ["Prince Edward Island", ["PEI", "Prince Ed", "Prince Ed Isl"], "Prince Edward Islander"], ["Newfoundland and Labrador", ["NL", "NFLD", "Newfoundland"], "Newfoundlander"]]
 	Canada = [["SCC", 2000, ["Supreme Court of Canada"]], ["FC", 2001, ["Federal Court"]], ["FCA", 2001, ["Federal Court of Appeal", "Federal Appeal Court", "CA"]], ["TCC", 2003, ["Tax Court of Canada", "Federal Tax Court", "Canada Tax Court", "Canadian Tax Court"]], ["CMAC", 2001, ["Court Martial Appeal Court of Canada"]], ["Comp Trib", 2001, ["Competition Tribunal of Canada", "Canada Competition Tribunal", "Canadian Competition Tribunal"]], ["CHRT", 2003, ["Canadian Human Rights Tribunal", "Canada Human Rights Tribunal"]], ["PSSRB", 2000, ["Public Service Labour Relations Board"]]]
@@ -383,18 +383,18 @@ def ChooseBestReporters(InputList): # choose the best reporter out of all of the
 				x[1] = Priority
 				print x[0], "was given priority", x[1], "********************************"
 				Priority +=1
-				Paper = True
+				Paper = True	
 	for i in Electronic:
 		for x in List:
 			if x[1]: continue
 			#print "List string:", x[0], "and Electronic is either:", i[0], "OR", i[1]
 			if re.search(regstrElec(i[0]), x[0], re.I) or re.search(regstrElec(i[1]), x[0], re.I):
 				#print "HHEEEERRE"
-				if Priority != 1: # if there is some reporter other than an electronic reporter, we only need the name of the electronic service and not the citation docket
-					x[0] = " (available on "+i[0]+")"
-				else: # the priority is one, then we will sub whatever abbreviation they used with the correct one
+				if len(List)==1: # the priority is one, then we will sub whatever abbreviation they used with the correct one
 					x[0] = CleanUp(re.sub(regstrElec(i[0]), " "+i[0]+" ", x[0], flags = re.I)) #they used the real name
 					x[0] = CleanUp(re.sub(regstrElec(i[1]), " "+i[0]+" ", x[0], flags = re.I)) #they used another name
+				else: # if there is some reporter other than an electronic reporter, we only need the name of the electronic service and not the citation docket
+					x[0] = " (available on "+i[0]+")"
 				x[1] = Priority
 				print x[0], "was given priority", x[1], "********************************"
 				Priority +=1
@@ -402,13 +402,21 @@ def ChooseBestReporters(InputList): # choose the best reporter out of all of the
 				Elec = True
 	for x in List: # in case there is no match for a particular reporter, just place it last in priority
 		if not x[1]:
-			print x[0], "was not recognized but is given priority", x[1], "********************************"
 			x[1] = Priority
+			print x[0], "was not recognized but is given priority", x[1], "********************************"
 			Priority +=1
 	#now sort List based on the priorities for each citation (sorted list is called Sorted)
+	print "After assigning priorities, List: ", List
 	if len(List)==1: #if there is only one reporter given, return it
 		return List[0][0]
+	else:
+		for x in List:
+			if x[2]:
+				x[1] = Priority
+				Priority +=1
+	print "After modifying priorities of electronics, List: ", List
 	Sorted = sorted(List, key=lambda tup: tup[1])
+	print "Sorted is: ", Sorted
 	First = Sorted[0]
 	Second = Sorted[1]
 	if Second[2]: #if the second reporter is electronic
@@ -417,25 +425,26 @@ def ChooseBestReporters(InputList): # choose the best reporter out of all of the
 		return First[0]+", " + Second[0]
 			
 
+#takes in a correctly formatted citation and checks if there is a court in it
+# if there is a court, return True
+# else return False
+#Court must be surrounded by a space on each side
 def CheckForCourt(String): #pull the neutral citation from the list if there is one
-	Courts = ['SCC', ' FC ', 'FCA', 'TCC', 'CMAC', 'Comp Trib', 'CHRT', 'PSSRB', 'ABCA', 'ABQB', 'ABPC', 'ABASC', 'BCCA', 'BCSC', 'BCPC', 'BCHRT', 'BCSECCOM', 'MBCA', 'MBQB', 'MBPC', 'NBCA', 'NBQB', 'NBPC', 'NFCA', 'NLSCTD', 'NWTCA', 'NWTSC', 'NWTTC', 'NSCA', 'NSSC', 'NSSF', 'NSPC', 'NUCJ', 'NUCA', 'ONCA', 'ONSC', 'ONCJ', 'ONWSIAT', 'ONLSAP', 'ONLSHP', 'PESCAD', 'PESCTD', 'QCCA', 'QCCS', 'QCCP', 'QCTP', 'CMCQ', 'QCCRT', 'SKCA', 'SKQB', 'SKPC', 'SKAIA', 'YKCA', 'YKSC', 'YKTC', 'YKSM', 'YKYC']
+	Courts = ['SCC', 'FC', 'FCA', 'TCC', 'CMAC', 'Comp Trib', 'CHRT', 'PSSRB', 'ABCA', 'ABQB', 'ABPC', 'ABASC', 'BCCA', 'BCSC', 'BCPC', 'BCHRT', 'BCSECCOM', 'MBCA', 'MBQB', 'MBPC', 'NBCA', 'NBQB', 'NBPC', 'NFCA', 'NLSCTD', 'NWTCA', 'NWTSC', 'NWTTC', 'NSCA', 'NSSC', 'NSSF', 'NSPC', 'NUCJ', 'NUCA', 'ONCA', 'ONSC', 'ONCJ', 'ONWSIAT', 'ONLSAP', 'ONLSHP', 'PESCAD', 'PESCTD', 'QCCA', 'QCCS', 'QCCP', 'QCTP', 'CMCQ', 'QCCRT', 'SKCA', 'SKQB', 'SKPC', 'SKAIA', 'YKCA', 'YKSC', 'YKTC', 'YKSM', 'YKYC', 'CACT']
 	Reporters = ['SCR']
 	for x in Courts:
-		if x.lower() in String.lower(): return True
+		y = " " + x + " "
+		if y.lower() in String.lower(): return True
 	for x in Reporters:
-		if x.lower() in String.lower(): return True
+		y = " " + x + " "
+		if y.lower() in String.lower(): return True
 	return False
 
 
-def CleanUpCourt(Input):
-	Jurisdiction = FindJurisdiction(Input)
-	if not Jurisdiction: return False
-	Court = FindCourt(Input)
-	return Jurisdiction + Court
-
-	
-def FindJurisdiction(String):	
-	Canada = [["C"], ["can", "canada", "fed", "federal", "canadian"]]
+#returns a list: [Proper Abbreviation for jurisdiction, The search object that found it]
+#or returns False if no jurisdiction detected
+def FindJurisdiction(string):	
+	Canada = [["C"], ["can", "canada", "canadian", "c"]]
 	LowerCanada = [["LC"], ["lc", "lower can", "lower ca", "lower canada", "lower c"]]
 	ProvCan = [["Prov C"], ["prov c", "prov can", "province of canada", "prov of c", "prov of can"]]
 	UpperCan = [["UC"], ["uc", "upper c", "upper can", "up can", "up c"]]
@@ -455,10 +464,126 @@ def FindJurisdiction(String):
 	Yukon = [["Yu"], ["yu", "yukon", "yk"]]
 	All = [Canada, LowerCanada, ProvCan, UpperCan, Alberta, BC, Manitoba, NewBrunswick, Newfoundland, NewfoundlandLab, NorthwestTerritories, NovaScotia, Nunavut, Ontario, PrinceEdwardIsland, Quebec, Saskatchewan, Yukon]
 	for jur in All:
+		for abbr in jur[1]:
+			match = re.search(regstr(abbr), string, re.I)
+			if match:
+				return [jur[0][0], match]
+	return False
+
+#string does not contain jurisdiction, only the court name
+def FindCourt(string):
+	#sub all instances of court court ct etc with Ct for simpler searching
+	Ct = re.compile(r'(C(our)?t|Cour)', re.I)
+	if Ct.search(string):
+		string = re.sub(Ct.search(string).group(), "Ct", string, flags = re.I)
+	All = [["CA", re.compile(r"(^(Ct)?\s?(of)?\s?appeal(s)?$|(d')?appel$|^appellate)", re.I)],
+	["Ct J", re.compile(r"^Ct\s(of)?\s?Just(ice)?", re.I)],
+	["H Ct J", re.compile(r"H(igh)?\s?Ct\s(of)?\s?Just(ice)?", re.I)],
+	["CP", re.compile(r"Ct\sProvinciale", re.I)],
+	["CS", re.compile(u"Ct\sSup(e|\\xe9)rieure", re.I)],
+	["HC", re.compile(r"H(igh)?\sCt$", re.I)],
+	["Prov Ct", re.compile("Prov(incial)?\sCt", re.I)], 
+	["Sup Ct", re.compile("Sup(erior)?\sCt\s(of)?$", re.I)],
+	["Traffic Ct", re.compile("Traff?(ic)?\sCt", re.I)],
+	["Youth Ct", re.compile("Youth Ct", re.I)],
+	["Cor Ct", re.compile("Coroner'?s Ct", re.I)],
+	["CCI", re.compile(u"Ct canadienne de l'imp(o|\\xf4)ts?", re.I)],
+	["CAF", re.compile(u"Ct d'appel f(e|\\xe9)d(e|\\xe9)rale", re.I)],
+	["Cc", re.compile(u"Ct de comt(e|\\xe9)$", re.I)],
+	[u"Div g\xe9n Ont", re.compile(u"Ct de l'Ontario, division g(e|\\xe9)n(e|\\xe9)rale", re.I)],
+	["C div & causes mat", re.compile("Ct des divorces et des causes matrimoniales", re.I)],
+	["C j Cc crim", re.compile(u"Ct des juges de la comt(e|\\xe9) si(e|\\xe9)geant au criminel", re.I)],
+	[u"C pet cr\xe9", re.compile(u"Ct des petites cr(e|\\xe9)ances", re.I)],
+	["C succ", re.compile("Ct des successions", re.I)],
+	["C div", re.compile("Ct divisionaire", re.I)],
+	["BR", re.compile(r"Ct du Banc de la Reine$", re.I)],
+	["BR (div fam)", re.compile(r"Ct du Banc de la Reine \(Division de la famille\)", re.I)],
+	["BR (1re inst)", re.compile(u"Ct du Banc de la Reine \(Division de premi(e|\\xe8)re instance\)", re.I)],
+	["CQ", re.compile(u"Ct du Qu(e|\\xe9)bec$", re.I)],
+	["CQ jeun", re.compile(u"Ct du Qu(e|\\xe9)bec,? Chambre criminelle et p(e|\\xe9)nale", re.I)],
+	["CQ civ", re.compile(u"Ct du Qu(e|\\xe9)bec,? Chambre civile", re.I)],
+	[u"CQ civ (div pet cr\xe9)", re.compile(u"Ct du Qu(e|\\xe9)bec,? Chambre civile \(Division des petites cr(e|\\xe9)ances\)", re.I)],
+	[u"CQ crim & p\xe9n", re.compile("Ct du Qu(e|\\xe9)bec,? Chambre criminelle et p(e|\\xe9)nale", re.I)],
+	["CF", re.compile("Ct f(e|\\xe9)d(e|\\xe9)rale, premi(e|\\xe8re instance", re.I)],
+	["CM", re.compile("Ct mun(icipale)?", re.I)],
+	["CP", re.compile("Ct prov(inciale)?", re.I)],
+	["CP Div civ", re.compile(r"Ct prov(inciale)?,? \(Division civile\)", re.I)],
+	["CP Div crim", re.compile(r"Ct prov(inciale)?,? \(Division criminelle\)", re.I)],
+	["CP Div fam", re.compile(r"Ct prov(inciale)?,? \(Division de la famille\)", re.I)],
+	["CS adm", re.compile(u"Ct\sSup(e|\\xe9)rieure \(Chambre administrative\)", re.I)],
+	["CS civ", re.compile(u"Ct\sSup(e|\\xe9)rieure \(Chambre civile\)", re.I)],
+	[u"CS crim & p\xe9n", re.compile(u"Ct\sSup(e|\\xe9)rieure \(Chambre criminelle et p(e|\\xe9)nale\)", re.I)],
+	["CS fam", re.compile(u"Ct\sSup(e|\\xe9)rieure \(Chambre de la famille\)", re.I)],
+	[u"CS p\xe9t cr\xe9", re.compile(u"Ct\sSup(e|\\xe9)rieure \(Division des petites cr(e|\\xe9)ances\)", re.I)],
+	["CS fail & ins", re.compile(u"Ct\sSup(e|\\xe9)rieure \(Chambre de la faillite et de l'insolvabilit(e|\\xe9)\)", re.I)],
+	["C supr fam", re.compile(u"Ct supr(e|\\xea)me \(Division de la famille\)", re.I)],
+	["C supr A", re.compile(u"Ct supr(e|\\xea)me \(Division d'appel\)", re.I)],
+	["C supr BR", re.compile(u"Ct supr(e|\\xea)me \(Division du Banc de la Reine\)", re.I)],
+	["CSC", re.compile(r"Ct supr(e|\\xea)me du Canada", re.I)],
+	["Ct Martial App Ct", re.compile(r"Ct Matrial Appeal Ct", re.I)],
+	["CACM", re.compile(r"Ct d'appel de la la Ct martiale", re.I)],
+	["CA Eq", re.compile(r"Ct of Appeal in?\s?Equity", re.I)],
+	["Ct J (Gen Div)", re.compile(r"Ct of Justice \(?Gen(eral)? Div(ision)?\)?", re.I)],
+	["Ct J (Gen Div Sm Cl Ct)", re.compile(r"Ct of Just(ice)? \(?Gen(eral)? Div(ision)?,? Sm(all)? Cl(aims)?\s?(Ct)?\)?", re.I)],
+	["Ct J (Gen Div Fam Ct)", re.compile(r"Ct of Just(ice)? \(?Gen(eral)? Div(ision)?,? Fam(ily)?\s?(Ct)?\)?", re.I)],
+	["Ct J (Prov Div)", re.compile(r"Ct of Just(ice)? \(?Prov(incial)? Div(ision)?\)?", re.I)],
+	["Ct J (Prov Div Youth Ct)", re.compile(r"Ct of Just(ice)? \(?Prov(incial)? Div(ision)?,? Youth\s?(Ct)?\)?", re.I)],
+	["CQ", re.compile(r"Ct of Quebec", re.I)],
+	["CQ (Civ Div)", re.compile(r"Ct of Quebec \(Ci(vil)? Div(ision)?\)", re.I)],
+	["CQ (Civ Div Sm Cl)", re.compile(r"Ct of Quebec (Civ(il)? Div(ision)?, Sm(all)? Cl(aims)?\)", re.I)],
+	["CQ (Crim & Pen Div)", re.compile(r"Ct of Quebec \(Crim(inal)? (&|and)?\s?Pen(al)? Div(ision)?\)", re.I)],
+	["CQ (Youth Div)", re.compile(r"Ct of Quebec \(Youth Division\)", re.I)],
+	["QB", re.compile(r"(Ct of )?Queen'?s Bench$", re.I)],
+	["QB (Fam Div)", re.compile(r"(Ct of )?Queen'?s Bench \(?Fam(ily)? Div(ision)?\)?", re.I)],
+	["QB (TD)", re.compile(r"(Ct of )?Queen'?s Bench \(?Trial Div(ision)?\)?", re.I)],
+	["Div Ct", re.compile(r"Div(isional)? Ct$", re.I)],
+	["Div & Mat Causes Ct", re.compile(r"Divorce (&|and) Matrimonial Causes( Ct)?", re.I)],
+	["FCA", re.compile(r"Fed(eral)?\s?(Ct)?\s(of)?Appeal", re.I)],
+	["FCTD", re.compile(r"Fed(eral)?\s?(Ct)?\s\(?Trial Div(ision)?\)?", re.I)],
+	["Mun Ct", re.compile(r"Mun(icipal)? Ct", re.I)],
+	["Prob Ct", re.compile(r"Prob(ate)? Ct", re.I)],
+	["Prov Ct (Civ Div)", re.compile(r"Prov(incial)? Ct \(?Civ(il)? Div(ision)?\)?", re.I)],
+	["Prov Ct (Civ Div Sm Cl Ct)", re.compile(r"Prov(incial)? Ct \(?Civ(il)? Div(ision)?,? Sm(all)? Cl(aims)?( Ct)?\)?", re.I)],
+	["Prov Ct (Crim Div)", re.compile(r"Prov(incial)? Ct \(?Crim(inal)? Div(ision)?\)?", re.I)],
+	["Prov Ct (Fam Ct)", re.compile(r"Prov(incial)? Ct \(?Fam(ily)? Ct\)?", re.I)],
+	["Prov Ct (Fam Div)", re.compile(r"Prov(incial)? Ct \(?Fam(ily)? Div(ision)?\)?", re.I)],	
+	["Prov Ct (Juv Div)", re.compile(r"Prov(incial)? Ct \(?Juv(enile)? Div(ision)?\)?", re.I)],
+	["Prov Ct (Sm Cl Div)", re.compile(r"Prov(incial)? Ct \(?Sm(all) Cl(aims) Div(ision)?\)?", re.I)],
+	["Prov Ct (Youth Ct)", re.compile(r"Prov(incial)? Ct \(?Youth Ct\)?", re.I)],
+	["Prov Ct (Youth Div)", re.compile(r"Prov(incial)? Ct \(?Youth Div(ision)?\)?", re.I)],
+	["Prov Off Ct", re.compile(r"Prov(incial)? Off(ences)? Ct", re.I)],
+	["Sm Cl Ct", re.compile(r"^Sm(all)? Cl(aims)? Ct$", re.I)],
+	["Sup Ct", re.compile(r"Sup(erior)? Ct \(?Can(ada)?\)?", re.I)],
+	["Sup Ct (Adm Div)", re.compile(r"Sup(erior)? Ct \(?Adm(inistrative)? Div(ision)?\)?", re.I)],
+	["Sup Ct (Bank & Ins Div)", re.compile(r"Sup(erior)? Ct \(?Bank(ruptcy)? (&|and) Ins(olvency)? Div(ision)?\)?", re.I)],
+	["Sup Ct (Civ Div)", re.compile(r"Sup(erior)? Ct \(?Civ(il)? Div(ision)?\)?", re.I)],
+	["Sup Ct (Crim & Pen Div)", re.compile(r"Sup(erior)? Ct \(Crim(inal)? (&|and) Pen(al)? Div(ision)?\)?", re.I)],
+	["Sup Ct (Fam Div)", re.compile(r"Sup(erior)? Ct \(?Fam(ily)? Div(ision)?\)?", re.I)],
+	["Sup Ct (Sm Cl Div)", re.compile(r"Sup(erior)? Ct \(?Sm(all)? Cl(aims)? Div(ision)?\)?", re.I)],
+	["SC (AD)", re.compile(r"Sup(reme)? Ct \(?(Appeal|Appellate) Div(ision)?\)?", re.I)],
+	["SC (Fam Div)", re.compile(r"Sup(reme)? Ct \(?Fam(ily)? Div(ision)?\)?", re.I)],
+	["SC (QB Div)", re.compile(r"Sup(reme)? Ct \(?Queen'?s Bench (Div(ision)?)?\)?", re.I)],
+	["SC (TD)", re.compile(r"Sup(reme)? Ct \(?Tri?(al)? Div(ision)?\)?", re.I)],
+	["TCC", re.compile(r"Tax Court\s(of)?", re.I)],
+	["T Rev B", re.compile(r"Tax Rev(iew)? B(oar)?d", re.I)],
+	["Terr Ct", re.compile(r"Terr(itorial)? Ct$", re.I)],
+	["Terr Ct Youth Ct", re.compile(r"Terr(itorial) Ct \(?Youth\s(Ct)?\)?", re.I)]]
+	
+	for jur in All:
 		for ab in jur[1]:
 			if ab.lower() in String.lower():
 				return jur[0][0]
-	return False	
+	return False
+
+#Detects in the input the jurisdiction and the court and adds them together
+def CleanUpCourt(string):
+	Jurisdiction = FindJurisdiction(string)
+	if not Jurisdiction:
+		return FindCourt(string)
+	else:
+		string = re.sub(Jurisdiction[1].group(), "", string)
+		Court = FindCourt(CleanUp(string))
+		return CleanUp(Jurisdiction[0] +" "+ Court)
 
 def TakeOutJurisdiction(Ct, Cite):
 	print "In 'TakeOutJurisdiction(Ct, Cite):' the Ct = ", Ct, ", and Cite = ", Cite
@@ -479,17 +604,27 @@ def TakeOutJurisdiction(Ct, Cite):
 	return Ct
 
 			
-#pulls the first date from a string, only starting after 1400 until 2014	
+#pulls the LOWEST date from a string, between 1400 until 2014	
 #will not pull a date from within a string of digits, but anything else
-#returns false if no string		
+#returns false if no date in string		
 def PullDate(string):
-	Match = re.search(r'([^\d]{1}|^)(1[4-9,0][0-9]{2}|200[0-9]{1}|201[1234]{1})([^\d]{1}|$)', string)
+	'''Match = re.search(r'([^\d]{1}|^)(1[4-9,0][0-9]{2}|200[0-9]{1}|201[1234]{1})([^\d]{1}|$)', string)
 	if Match: return CleanUp(Match.group(2))
-	else: return False
-
-
+	else: return False'''
+	All = re.findall(r'([^\d]{1}|^)(1[4-9,0][0-9]{2}|200[0-9]{1}|201[1234]{1})([^\d]{1}|$)', string)
+	if not All:
+		return False
+	Dates = []
+	for x in range(len(All)):
+		Dates.append(All[x][1])
+	Sorted = sorted(Dates, key=lambda tup: tup[0])
+	#print Sorted
+	return Sorted[-1]
 	
-def GetCitations(Citation_Input):
+
+#this is the function that will ultimately call all of the other functions for the parallel citations
+#the input is what is written in the form for parallel citations
+def GetCitations(Citation_Input, Court_Input):
 	PC = CleanUp(Citation_Input)
 	OUTPUT = "" #this will eventually be the output
 	#need to put the electronic sources in the correct format in case someone puts in (available on CanLII) without the ; or ,
@@ -504,32 +639,30 @@ def GetCitations(Citation_Input):
 	m = re.split('[,;]', PC) # 	#Split the citations based on positioning of commas and semicolons
 	for x in range(len(m)): m[x] = CleanUp(m[x]) #remove excess white spaces on either side
 	TwoBest = ChooseBestReporters(m) #this returns a string with the two best reporters already formatted
-	#print "The basic citation is: ", TwoBest
+	#TwoBest RETURNS THE REPORTERS THAT ARE USED
 	Court = False #first assume there is no court evident in the input
 	Jurisdiction = False # assume there is no jurisdiction evident in the input
 	NeutralCite = False #first assume there is no neutral reporter evident in the input
-	JudgementDate = False #assume there is no date evident in the input
+	JudgementDate = False #assume there is no date evident in the input judgement
 	CitationDate = False #assume there is no citation date evident in the input
 	Pinpont = False #assume there is no pinpoint for now
 	# Determine if there is a Citator Date or a Court evident in the Parallel citation
-	if PullDate(TwoBest): CitationDate = PullDate(TwoBest)
+	if PullDate(TwoBest): CitationDate = PullDate(TwoBest) #set the citation date to be the lowest date in the string
 	if CheckForCourt(TwoBest): Court = True
-	print "Court = ", Court
-	print "Citation Date = ", CitationDate
+	print "Court = ", Court #True or False
+	print "Citation Date = ", CitationDate #year or False
 	if not Court and not CitationDate:
-		#print "NOT COURT AND NOT CITATIONDATE DETECTED"
-		Court_input = raw_input("Enter Court with Canadian Jurisdiction: \n")
-		Ct = CleanUp(Court_input)
-		Ct = CleanUpCourt(Ct) 
+		print "NOT COURT AND NOT CITATIONDATE DETECTED ****"
+		#Court_input = raw_input("Enter Court with Canadian Jurisdiction: \n")
+		Ct = CleanUpCourt(CleanUp(Court_Input)) 
 		Ct = TakeOutJurisdiction(Ct, TwoBest)
 		Date_input = raw_input("Enter Date: \n")
 		JudgementDate = CleanUp(Date_input)
 		OUTPUT = ' ('+ JudgementDate + '), ' + TwoBest +' (' + Ct + ').'#combine all of this in the right way
 	if CitationDate and not Court: 
-		#print "CITATIONDATE AND NOT COURT DETECTED"
-		Court_input = raw_input("Enter Court with Canadian Jurisdiction: \n")
-		Ct = CleanUp(Court_input)
-		Ct = CleanUpCourt(Ct) 
+		print "CITATIONDATE AND NOT COURT DETECTED ****"
+		#Court_input = raw_input("Enter Court with Canadian Jurisdiction: \n")
+		Ct = CleanUpCourt(CleanUp(Court_Input)) 
 		Ct = TakeOutJurisdiction(Ct, TwoBest)
 		Date_input = raw_input("Enter Date: \n")
 		JudgementDate = CleanUp(Date_input)
