@@ -14,15 +14,15 @@ font-family:RalewayBold;
 src: url(../fonts/Raleway-Bold.ttf);
 }
 p{
-font-family:RalewayThin;
+font-family:RalewayMed;
 
 }
 h2{
 font-family:RalewayReg;
 }
 .header2{
-font-family: RalewayReg;
-font-size: 16px;
+font-family: RalewayMed;
+font-size: 22px;
 color: #fe6060;
 
 }
@@ -78,6 +78,22 @@ body{
 	box-shadow: 1px 1px 5px #777777;
 	background:#f7f7f7
 	
+}
+#titlebar-edge-left{
+	position:relative;
+	padding-left: 110px;
+	width:40px; 
+	padding-top: 30px;
+	z-index: 2;		
+	opacity: 1;
+}
+#titlebar-edge-right{
+	position:relative;
+	width:40px; 
+	top: 55px;
+	padding-left: 1140px;
+	z-index: 2;
+	opacity: 1;
 }
 
 .inner-titlebar{
