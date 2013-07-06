@@ -23,6 +23,7 @@ def Contains(list, string):
         if x in string: return True
     return False
     
+    
 #CleanUp gets rid of all periods, excess spaces, and leading or trailing spaces in a string, and fixes spaces after commas	
 def CleanUp(string):
 	NoPeriods = re.sub('\.+','', string)              #Remove all periods
@@ -459,7 +460,7 @@ def FindJurisdiction(string):
 	Nunavut = [["Nu"], ["nu", "nun", "nunavut", "nvt"]]
 	Ontario = [["Ont"], ["on", "ont", "ontario", "ontarian"]]
 	PrinceEdwardIsland = [["PEI"], ["pei", "prince edward island"]]
-	Quebec = [["Qc"], ["qc", "qb", "quebec"]]
+	Quebec = [["Qc"], ["qc", "quebec", u"qu\xe9bec"]]
 	Saskatchewan = [["Sask"], ["sk", "saskatchewan", "sask"]]
 	Yukon = [["Yu"], ["yu", "yukon", "yk"]]
 	All = [Canada, LowerCanada, ProvCan, UpperCan, Alberta, BC, Manitoba, NewBrunswick, Newfoundland, NewfoundlandLab, NorthwestTerritories, NovaScotia, Nunavut, Ontario, PrinceEdwardIsland, Quebec, Saskatchewan, Yukon]
@@ -470,121 +471,163 @@ def FindJurisdiction(string):
 				return [jur[0][0], match]
 	return False
 
-#string does not contain jurisdiction, only the court name
+#string entering this function does not contain jurisdiction, only the court name
+# entering string is CleanedUp
+#Returns a match. The comments will say what courts matched the input
+#NOTE: allow fo caps \xe9
 def FindCourt(string):
-	#sub all instances of court court ct etc with Ct for simpler searching
-	Ct = re.compile(r'(C(our)?t|Cour)', re.I)
+	#sub all instances of "court" court ct etc with Ct for simpler searching
+	print "Searching: ", string
+	Ct = re.compile(r'(C(our)?t|Cour)', flags = re.I)
 	if Ct.search(string):
 		string = re.sub(Ct.search(string).group(), "Ct", string, flags = re.I)
-	All = [["CA", re.compile(r"(^(Ct)?\s?(of)?\s?appeal(s)?$|(d')?appel$|^appellate)", re.I)],
-	["Ct J", re.compile(r"^Ct\s(of)?\s?Just(ice)?", re.I)],
-	["H Ct J", re.compile(r"H(igh)?\s?Ct\s(of)?\s?Just(ice)?", re.I)],
-	["CP", re.compile(r"Ct\sProvinciale", re.I)],
-	["CS", re.compile(u"Ct\sSup(e|\\xe9)rieure", re.I)],
-	["HC", re.compile(r"H(igh)?\sCt$", re.I)],
-	["Prov Ct", re.compile("Prov(incial)?\sCt", re.I)], 
-	["Sup Ct", re.compile("Sup(erior)?\sCt\s(of)?$", re.I)],
-	["Traffic Ct", re.compile("Traff?(ic)?\sCt", re.I)],
-	["Youth Ct", re.compile("Youth Ct", re.I)],
-	["Cor Ct", re.compile("Coroner'?s Ct", re.I)],
-	["CCI", re.compile(u"Ct canadienne de l'imp(o|\\xf4)ts?", re.I)],
-	["CAF", re.compile(u"Ct d'appel f(e|\\xe9)d(e|\\xe9)rale", re.I)],
-	["Cc", re.compile(u"Ct de comt(e|\\xe9)$", re.I)],
-	[u"Div g\xe9n Ont", re.compile(u"Ct de l'Ontario, division g(e|\\xe9)n(e|\\xe9)rale", re.I)],
-	["C div & causes mat", re.compile("Ct des divorces et des causes matrimoniales", re.I)],
-	["C j Cc crim", re.compile(u"Ct des juges de la comt(e|\\xe9) si(e|\\xe9)geant au criminel", re.I)],
-	[u"C pet cr\xe9", re.compile(u"Ct des petites cr(e|\\xe9)ances", re.I)],
-	["C succ", re.compile("Ct des successions", re.I)],
-	["C div", re.compile("Ct divisionaire", re.I)],
-	["BR", re.compile(r"Ct du Banc de la Reine$", re.I)],
-	["BR (div fam)", re.compile(r"Ct du Banc de la Reine \(Division de la famille\)", re.I)],
-	["BR (1re inst)", re.compile(u"Ct du Banc de la Reine \(Division de premi(e|\\xe8)re instance\)", re.I)],
-	["CQ", re.compile(u"Ct du Qu(e|\\xe9)bec$", re.I)],
-	["CQ jeun", re.compile(u"Ct du Qu(e|\\xe9)bec,? Chambre criminelle et p(e|\\xe9)nale", re.I)],
-	["CQ civ", re.compile(u"Ct du Qu(e|\\xe9)bec,? Chambre civile", re.I)],
-	[u"CQ civ (div pet cr\xe9)", re.compile(u"Ct du Qu(e|\\xe9)bec,? Chambre civile \(Division des petites cr(e|\\xe9)ances\)", re.I)],
-	[u"CQ crim & p\xe9n", re.compile("Ct du Qu(e|\\xe9)bec,? Chambre criminelle et p(e|\\xe9)nale", re.I)],
-	["CF", re.compile("Ct f(e|\\xe9)d(e|\\xe9)rale, premi(e|\\xe8re instance", re.I)],
-	["CM", re.compile("Ct mun(icipale)?", re.I)],
-	["CP", re.compile("Ct prov(inciale)?", re.I)],
-	["CP Div civ", re.compile(r"Ct prov(inciale)?,? \(Division civile\)", re.I)],
-	["CP Div crim", re.compile(r"Ct prov(inciale)?,? \(Division criminelle\)", re.I)],
-	["CP Div fam", re.compile(r"Ct prov(inciale)?,? \(Division de la famille\)", re.I)],
-	["CS adm", re.compile(u"Ct\sSup(e|\\xe9)rieure \(Chambre administrative\)", re.I)],
-	["CS civ", re.compile(u"Ct\sSup(e|\\xe9)rieure \(Chambre civile\)", re.I)],
-	[u"CS crim & p\xe9n", re.compile(u"Ct\sSup(e|\\xe9)rieure \(Chambre criminelle et p(e|\\xe9)nale\)", re.I)],
-	["CS fam", re.compile(u"Ct\sSup(e|\\xe9)rieure \(Chambre de la famille\)", re.I)],
-	[u"CS p\xe9t cr\xe9", re.compile(u"Ct\sSup(e|\\xe9)rieure \(Division des petites cr(e|\\xe9)ances\)", re.I)],
-	["CS fail & ins", re.compile(u"Ct\sSup(e|\\xe9)rieure \(Chambre de la faillite et de l'insolvabilit(e|\\xe9)\)", re.I)],
-	["C supr fam", re.compile(u"Ct supr(e|\\xea)me \(Division de la famille\)", re.I)],
-	["C supr A", re.compile(u"Ct supr(e|\\xea)me \(Division d'appel\)", re.I)],
-	["C supr BR", re.compile(u"Ct supr(e|\\xea)me \(Division du Banc de la Reine\)", re.I)],
-	["CSC", re.compile(r"Ct supr(e|\\xea)me du Canada", re.I)],
-	["Ct Martial App Ct", re.compile(r"Ct Matrial Appeal Ct", re.I)],
-	["CACM", re.compile(r"Ct d'appel de la la Ct martiale", re.I)],
-	["CA Eq", re.compile(r"Ct of Appeal in?\s?Equity", re.I)],
-	["Ct J (Gen Div)", re.compile(r"Ct of Justice \(?Gen(eral)? Div(ision)?\)?", re.I)],
-	["Ct J (Gen Div Sm Cl Ct)", re.compile(r"Ct of Just(ice)? \(?Gen(eral)? Div(ision)?,? Sm(all)? Cl(aims)?\s?(Ct)?\)?", re.I)],
-	["Ct J (Gen Div Fam Ct)", re.compile(r"Ct of Just(ice)? \(?Gen(eral)? Div(ision)?,? Fam(ily)?\s?(Ct)?\)?", re.I)],
-	["Ct J (Prov Div)", re.compile(r"Ct of Just(ice)? \(?Prov(incial)? Div(ision)?\)?", re.I)],
-	["Ct J (Prov Div Youth Ct)", re.compile(r"Ct of Just(ice)? \(?Prov(incial)? Div(ision)?,? Youth\s?(Ct)?\)?", re.I)],
-	["CQ", re.compile(r"Ct of Quebec", re.I)],
-	["CQ (Civ Div)", re.compile(r"Ct of Quebec \(Ci(vil)? Div(ision)?\)", re.I)],
-	["CQ (Civ Div Sm Cl)", re.compile(r"Ct of Quebec (Civ(il)? Div(ision)?, Sm(all)? Cl(aims)?\)", re.I)],
-	["CQ (Crim & Pen Div)", re.compile(r"Ct of Quebec \(Crim(inal)? (&|and)?\s?Pen(al)? Div(ision)?\)", re.I)],
-	["CQ (Youth Div)", re.compile(r"Ct of Quebec \(Youth Division\)", re.I)],
-	["QB", re.compile(r"(Ct of )?Queen'?s Bench$", re.I)],
-	["QB (Fam Div)", re.compile(r"(Ct of )?Queen'?s Bench \(?Fam(ily)? Div(ision)?\)?", re.I)],
-	["QB (TD)", re.compile(r"(Ct of )?Queen'?s Bench \(?Trial Div(ision)?\)?", re.I)],
-	["Div Ct", re.compile(r"Div(isional)? Ct$", re.I)],
-	["Div & Mat Causes Ct", re.compile(r"Divorce (&|and) Matrimonial Causes( Ct)?", re.I)],
-	["FCA", re.compile(r"Fed(eral)?\s?(Ct)?\s(of)?Appeal", re.I)],
-	["FCTD", re.compile(r"Fed(eral)?\s?(Ct)?\s\(?Trial Div(ision)?\)?", re.I)],
-	["Mun Ct", re.compile(r"Mun(icipal)? Ct", re.I)],
-	["Prob Ct", re.compile(r"Prob(ate)? Ct", re.I)],
-	["Prov Ct (Civ Div)", re.compile(r"Prov(incial)? Ct \(?Civ(il)? Div(ision)?\)?", re.I)],
-	["Prov Ct (Civ Div Sm Cl Ct)", re.compile(r"Prov(incial)? Ct \(?Civ(il)? Div(ision)?,? Sm(all)? Cl(aims)?( Ct)?\)?", re.I)],
-	["Prov Ct (Crim Div)", re.compile(r"Prov(incial)? Ct \(?Crim(inal)? Div(ision)?\)?", re.I)],
-	["Prov Ct (Fam Ct)", re.compile(r"Prov(incial)? Ct \(?Fam(ily)? Ct\)?", re.I)],
-	["Prov Ct (Fam Div)", re.compile(r"Prov(incial)? Ct \(?Fam(ily)? Div(ision)?\)?", re.I)],	
-	["Prov Ct (Juv Div)", re.compile(r"Prov(incial)? Ct \(?Juv(enile)? Div(ision)?\)?", re.I)],
-	["Prov Ct (Sm Cl Div)", re.compile(r"Prov(incial)? Ct \(?Sm(all) Cl(aims) Div(ision)?\)?", re.I)],
-	["Prov Ct (Youth Ct)", re.compile(r"Prov(incial)? Ct \(?Youth Ct\)?", re.I)],
-	["Prov Ct (Youth Div)", re.compile(r"Prov(incial)? Ct \(?Youth Div(ision)?\)?", re.I)],
-	["Prov Off Ct", re.compile(r"Prov(incial)? Off(ences)? Ct", re.I)],
-	["Sm Cl Ct", re.compile(r"^Sm(all)? Cl(aims)? Ct$", re.I)],
-	["Sup Ct", re.compile(r"Sup(erior)? Ct \(?Can(ada)?\)?", re.I)],
-	["Sup Ct (Adm Div)", re.compile(r"Sup(erior)? Ct \(?Adm(inistrative)? Div(ision)?\)?", re.I)],
-	["Sup Ct (Bank & Ins Div)", re.compile(r"Sup(erior)? Ct \(?Bank(ruptcy)? (&|and) Ins(olvency)? Div(ision)?\)?", re.I)],
-	["Sup Ct (Civ Div)", re.compile(r"Sup(erior)? Ct \(?Civ(il)? Div(ision)?\)?", re.I)],
-	["Sup Ct (Crim & Pen Div)", re.compile(r"Sup(erior)? Ct \(Crim(inal)? (&|and) Pen(al)? Div(ision)?\)?", re.I)],
-	["Sup Ct (Fam Div)", re.compile(r"Sup(erior)? Ct \(?Fam(ily)? Div(ision)?\)?", re.I)],
-	["Sup Ct (Sm Cl Div)", re.compile(r"Sup(erior)? Ct \(?Sm(all)? Cl(aims)? Div(ision)?\)?", re.I)],
-	["SC (AD)", re.compile(r"Sup(reme)? Ct \(?(Appeal|Appellate) Div(ision)?\)?", re.I)],
-	["SC (Fam Div)", re.compile(r"Sup(reme)? Ct \(?Fam(ily)? Div(ision)?\)?", re.I)],
-	["SC (QB Div)", re.compile(r"Sup(reme)? Ct \(?Queen'?s Bench (Div(ision)?)?\)?", re.I)],
-	["SC (TD)", re.compile(r"Sup(reme)? Ct \(?Tri?(al)? Div(ision)?\)?", re.I)],
-	["TCC", re.compile(r"Tax Court\s(of)?", re.I)],
-	["T Rev B", re.compile(r"Tax Rev(iew)? B(oar)?d", re.I)],
-	["Terr Ct", re.compile(r"Terr(itorial)? Ct$", re.I)],
-	["Terr Ct Youth Ct", re.compile(r"Terr(itorial) Ct \(?Youth\s(Ct)?\)?", re.I)]]
-	
-	for jur in All:
-		for ab in jur[1]:
-			if ab.lower() in String.lower():
-				return jur[0][0]
-	return False
+	Remove  = ["of", "des", "de" "la", "le", "the", "in"]
+	for r in Remove:
+		Rem = re.compile(regstr(r), flags = re.I)
+		if Rem.search(string):
+			string = re.sub(Rem.search(string).group(), " ", string, flags = re.I)
+	string = CleanUp(string)
+	print "Search modified to: ", string
+	AllCourts = [["CA", re.compile(r"(^(Ct )?(of )?appeal(s)?$|^d?'?appel$|^appellate( of)?|^appeal ct( of)?)", flags = re.I)],
+	["Ct J", re.compile(r"^Ct (of )?Just(ice)?( of)?$", flags = re.I)],
+	["H Ct J", re.compile(r"H(igh)? Ct (of )?Just(ice)?( of)?", flags = re.I)],
+	["CP", re.compile(r"Ct Prov(inciale)?$", flags = re.I)],
+	["CS", re.compile(u"Ct Sup(e|\\xe9)rieure( de)?", flags = re.I)],
+	["HC", re.compile(r"^H(igh)? Ct( of)?$", flags = re.I)],
+	["Prov Ct", re.compile("^Prov(incial)? Ct( of)?$", flags = re.I)], 
+	["Sup Ct", re.compile("Sup(erior)? Ct( of)?$", flags = re.I)],
+	["Traffic Ct", re.compile("Traff?(ic)? Ct( of)?", flags = re.I)],
+	["Youth Ct", re.compile("^Youth Ct( of)?$", flags = re.I)],
+	["Cor Ct", re.compile("Cor(oner)?'?s Ct( of)?", flags = re.I)],
+	["CCI", re.compile(u"Ct can(adienne)? (de )?l?'?imp(o|\\xf4)ts?( de)?", flags = re.I)],
+	["CAF", re.compile(u"Ct d?'?appel f(e|\\xe9)d((e|\\xe9)rale)?", flags = re.I)],
+	["Cc", re.compile(u"Ct (de )?comt(e|\\xe9)( de)?$", flags = re.I)],
+	[u"Div g\xe9n Ont", re.compile(u"Ct (de )?l'Ontario, div(ision)? g(e|\\xe9)n((e|\\xe9)rale)?", flags = re.I)],
+	["C div & causes mat", re.compile("Ct (des )?div(orces) ((et|&) )?(des )?causes mat(rimoniales)?", flags = re.I)],
+	["C j Cc crim", re.compile(u"Ct (des )?juges (de )?(la )?comt(e|\\xe9) si(e|\\xe9)geant au criminel", flags = re.I)],
+	[u"C pet cr\xe9", re.compile(u"Ct (des )?petites cr(e|\\xe9)ances", flags = re.I)],
+	["C succ", re.compile("Ct (des )?succ(essions)?", flags = re.I)],
+	["C div", re.compile("Ct div(isionnaire)?$", flags = re.I)],
+	["BR", re.compile(r"Ct (du )?Banc (de )?(la )?Reine$", flags = re.I)],
+	["BR (div fam)", re.compile(r"(Ct (du )?Banc (de )?(la )?Reine|BR),? \(?Div(ision)? (de la )?fam(ille)?\)?", flags = re.I)],
+	["BR (1re inst)", re.compile(u"(Ct (du )?Banc (de )?(la )?Reine|BR),? \(?Div(ision)? (de )?(la )?(premi(e|\\xe8)re|1re) inst(ance)?\)?", flags = re.I)],
+	["CQ", re.compile(u"^Ct (du )?(Qu(e|\\xe9)bec|QC)$", flags = re.I)],
+	["CQ jeun", re.compile(u"Ct (du )?(Qu(e|\\xe9)bec|QC),? (Chambre )?(de )?(la )?jeun(esse)?", flags = re.I)],
+	["CQ civ", re.compile(u"(Ct (du )?(Qu(e|\\xe9)bec|QC)|CQ),? (Chambre )?civ(ile)?$", flags = re.I)],
+	[u"CQ civ (div pet cr\xe9)", re.compile(u"(Ct (du )?(Qu(e|\\xe9)bec|QC)|CQ),? (Chambre )?civ(ile)? \(?Div(ision)? des petites cr(e|\\xe9)(ances)?\)?", flags = re.I)],
+	[u"CQ crim & p\xe9n", re.compile(u"(Ct (du )?(Qu(e|\\xe9)bec|QC)|CQ),? (Chambre )?crim(inelle)? (et )?p(e|\\xe9)n(ale)?", flags = re.I)],
+	["CF (1re inst)", re.compile(u"Ct f(e|\\xe9)d((e|\\xe9)rale)?,? (premi(e|\\xe8)re|1re) inst(ance)?", flags = re.I)],
+	["CM", re.compile(r"Ct mun(icipale)?", flags = re.I)],
+	["CP Div civ", re.compile(r"(Ct prov(inciale)?|CP),? \(?Div(ision)? civ(ile)?\)?", flags = re.I)],
+	["CP Div crim", re.compile(r"(Ct prov(inciale)?|CP),? \(?Div(ision)? crim(inelle)?\)?", flags = re.I)],
+	["CP Div fam", re.compile(r"(Ct prov(inciale)?|CP),? \(?Div(ision)? (de )?(la )?fam(ille)?\)?", flags = re.I)],
+	["CS adm", re.compile(u"(Ct Sup((e|\\xe9)rieure)?|CS),? \(?(Chambre )?adm(in)?(istrative)?\)?", flags = re.I)],
+	["CS civ", re.compile(u"(Ct Sup((e|\\xe9)rieure)?|CS),? \(?(Chambre )?civ(ile)?\)?", flags = re.I)],
+	[u"CS crim & p\xe9n", re.compile(u"(Ct Sup((e|\\xe9)rieure)?|CS),? \(?(Chambre )?crim(inelle)? ((et|&) )?p(e|\\xe9)n(ale)?\)?", flags = re.I)],
+	["CS fam", re.compile(u"(Ct Sup((e|\\xe9)rieure)?|CS),? \(?(Chambre )?(de )?(la )?fam(ille)?\)?", flags = re.I)],
+	[u"CS p\xe9t cr\xe9", re.compile(u"(Ct Sup((e|\\xe9)rieure)?|CS),? \(?Div(ision)? (de(s)? )?p(e|\\xe9)t(ites)? cr(e|\\xe9)(ances)?\)?", flags = re.I)],
+	["CS fail & ins", re.compile(u"(Ct Sup((e|\\xe9)rieure)?|CS),? \(?(Chambre )?(de )?(la )?fail(lite)? ((et|&) )?(de )?(l')?ins(olvabilit(e|\\xe9))?\)?", flags = re.I)],
+	["C supr fam", re.compile(u"Ct? supr((e|\\xea)me)?,? \(?Div(ision)? (de )?(la )?fam(ille)?\)?", flags = re.I)],
+	["C supr A", re.compile(u"Ct? supr((e|\\xea)me)?,? \(?Div(ision)? d?'?appel\)?", flags = re.I)],
+	["C supr BR", re.compile(u"Ct? supr((e|\\xea)me)?,? \(?(Div(ision)? (du )?Banc (de )?(la )?Reine|BR)\)?", flags = re.I)],
+	["CSC", re.compile(r"(Ct? supr((e|\\xea)me)?|C supr) ((du|de) )?Can(ada)?", flags = re.I)],
+	["Ct Martial App Ct", re.compile(r"Ct Martial Appeal( Ct)?( of)?", flags = re.I)],
+	["CACM", re.compile(r"Ct d?'?appel (de )?(la )?Ct martiale", flags = re.I)],
+	["CA Eq", re.compile(r"Ct (of )?Appeal (in )?\(?Eq(uity)?\)?( of)?", flags = re.I)],
+	["Ct J (Gen Div)", re.compile(r"(Ct (of )?Just(ice)?|Ct J),? \(?Gen(eral)? Div(ision)?\)?( of)?$", flags = re.I)],
+	["Ct J (Gen Div Sm Cl Ct)", re.compile(r"(Ct (of )?Just(ice)?|Ct J),? \(?Gen(eral)? Div(ision)?,? Sm(all)? Cl(aims)?( Ct)?\)?( of)?", flags = re.I)],
+	["Ct J (Gen Div Fam Ct)", re.compile(r"(Ct (of )?Just(ice)?|Ct J),? \(?Gen(eral)? Div(ision)?,? Fam(ily)?( Ct)?\)?( of)?", flags = re.I)],
+	["Ct J (Prov Div)", re.compile(r"(Ct (of )?Just(ice)?|Ct J),? \(?Prov(incial)? Div(ision)?\)?$", flags = re.I)],
+	["Ct J (Prov Div Youth Ct)", re.compile(r"(Ct (of )?Just(ice)?|Ct J),? \(?Prov(incial)? Div(ision)?,? Youth\s?(Ct)?\)?( of)?", flags = re.I)],
+	["CQ", re.compile(u"^Ct (of )?(Qu(e|\\xe9)bec|QC)( of)?$", flags = re.I)],
+	["CQ (Civ Div)", re.compile(u"(Ct (of )?(Qu(e|\\xe9)bec|QC)|CQ),? \(?Ci(vil)? Div(ision)?\)?", flags = re.I)],
+	["CQ (Civ Div Sm Cl)", re.compile(u"(Ct (of )?(Qu(e|\\xe9)bec|QC)|CQ),? \(?Civ(il)? Div(ision)?,? Sm(all)? Cl(aims)?( Ct)?\)?( of)?", flags = re.I)],
+	["CQ (Crim & Pen Div)", re.compile(u"(Ct (of )?(Qu(e|\\xe9)bec|QC)|CQ),? \(?Crim(inal)? (&|and)?\s?Pen(al)? Div(ision)?\)?( of)?", flags = re.I)],
+	["CQ (Youth Div)", re.compile(u"(Ct (of )?(Qu(e|\\xe9)bec|QC)|CQ),? \(?Youth Div(ision)?\)?( of)?", flags = re.I)],
+	["QB", re.compile(r"^(Ct )?(of )?Queen'?s Bench$", flags = re.I)],
+	["QB (Fam Div)", re.compile(r"((Ct )?(of )?Queen'?s Bench|QB),? \(?Fam(ily)? Div(ision)?\)?", flags = re.I)],
+	["QB (TD)", re.compile(r"((Ct )?(of )?Queen'?s Bench|QB),?\s?\(?(Trial Div(ision)?|TD)\)?", flags = re.I)],
+	["Div Ct", re.compile(r"^Div(isional)? Ct$", flags = re.I)],
+	["Div & Mat Causes Ct", re.compile(r"Divorce(s)? ((&|and) )?Mat(rimonial)? Causes( Ct)?", flags = re.I)],
+	["FCA", re.compile(r"(Fed(eral)?\s?(Ct)?|FC)\s?Appeal", flags = re.I)],
+	["FCTD", re.compile(r"(Fed(eral)?( Ct)?|FC),? \(?(Tr(ial)? Div(ision)?|TD)\)?", flags = re.I)],
+	["Mun Ct", re.compile(r"Mun(icipal)? Ct", flags = re.I)],
+	["Prob Ct", re.compile(r"Prob((ate|ation|ationary))? Ct", flags = re.I)],
+	["Prov Ct (Civ Div)", re.compile(r"Prov(incial)? Ct,? \(?Civ(il)? Div(ision)?\)?$", flags = re.I)],
+	["Prov Ct (Civ Div Sm Cl Ct)", re.compile(r"Prov(incial)? Ct,? \(?Civ(il)? Div(ision)?,? Sm(all)? Cl(aims)?( Ct)?\)?", flags = re.I)],
+	["Prov Ct (Crim Div)", re.compile(r"Prov(incial)? Ct,? \(?Crim(inal)? Div(ision)?\)?", flags = re.I)],
+	["Prov Ct (Fam Ct)", re.compile(r"Prov(incial)? Ct,? \(?Fam(ily)? Ct\)?", flags = re.I)],
+	["Prov Ct (Fam Div)", re.compile(r"Prov(incial)? Ct,? \(?Fam(ily)? Div(ision)?\)?", flags = re.I)],	
+	["Prov Ct (Juv Div)", re.compile(r"Prov(incial)? Ct,? \(?Juv(enile)? Div(ision)?\)?", flags = re.I)],
+	["Prov Ct (Sm Cl Div)", re.compile(r"Prov(incial)? Ct,? \(?Sm(all) Cl(aims) Div(ision)?\)?", flags = re.I)],
+	["Prov Ct (Youth Ct)", re.compile(r"Prov(incial)? Ct,? \(?Youth( Ct)?\)?$", flags = re.I)],
+	["Prov Ct (Youth Div)", re.compile(r"Prov(incial)? Ct,? \(?Youth Div(ision)?\)?", flags = re.I)],
+	["Prov Off Ct", re.compile(r"Prov(incial)? Off(ences)? Ct", flags = re.I)],
+	["Sm Cl Ct", re.compile(r"^Sm(all)? Cl(aims)? Ct$", flags = re.I)],
+	["Sup Ct", re.compile(r"Sup(erior)? Ct (of )?\(?Can(ada)?\)?", flags = re.I)],
+	["Sup Ct (Adm Div)", re.compile(r"Sup(erior)? Ct,? \(?Adm(in)?(istrative)? Div(ision)?\)?", flags = re.I)],
+	["Sup Ct (Bank & Ins Div)", re.compile(r"Sup(erior)? Ct,? \(?Bank(ruptcy)? ((&|and) )?Ins(olvency)?( Div)?(ision)?\)?", flags = re.I)],
+	["Sup Ct (Civ Div)", re.compile(r"Sup(erior)? Ct,? \(?Civ(il)? Div(ision)?\)?$", flags = re.I)],
+	["Sup Ct (Crim & Pen Div)", re.compile(r"Sup(erior)? Ct,? \(?Crim(inal)? (&|and) Pen(al)? Div(ision)?\)?", flags = re.I)],
+	["Sup Ct (Fam Div)", re.compile(r"Sup(erior)? Ct,? \(?Fam(ily)? Div(ision)?\)?", flags = re.I)],
+	["Sup Ct (Sm Cl Div)", re.compile(r"Sup(erior)? Ct,? \(?Sm(all)? Cl(aims)? Div(ision)?\)?", flags = re.I)],
+	["SC (AD)", re.compile(r"(Sup(reme)? Ct|SC),? \(?(Appeal|Appellate) Div(ision)?\)?", flags = re.I)],
+	["SC (Fam Div)", re.compile(r"(Sup(reme)? Ct|SC),? \(?Fam(ily)? Div(ision)?\)?", flags = re.I)],
+	["SC (QB Div)", re.compile(r"(Sup(reme)? Ct|SC),? \(?Queen'?s Bench( Div)?(ision)?\)?", flags = re.I)],
+	["SC (TD)", re.compile(r"(Sup(reme)? Ct|SC),? \(?Tri?(al)?( Div)?(ision)?\)?", flags = re.I)],
+	["TCC", re.compile(r"Tax Ct( of)?( Can)?(ada)?", flags = re.I)],
+	["T Rev B", re.compile(r"Tax Rev(iew)? B(oar)?d?", flags = re.I)],
+	["Terr Ct", re.compile(r"Terr(itorial)? Ct$", flags = re.I)],
+	["Terr Ct Youth Ct", re.compile(r"Terr(itorial)? Ct \(?Youth( Ct)?\)?", flags = re.I)]]
+	Results = []
+	for Court in AllCourts:
+		if re.search('^'+Court[0]+r'$', string, re.I):
+			print string, "gave a perfect hit, RETURN: ", Court[0]
+			return Court[0]
+		if Court[1].search(string):
+			Results.append(Court[0])
+	if Results: 
+		print "There were", len(Results), "results:", Results, "RETURN: ", Results[0]
+		return Results[0]
+	else: print "********* NO RESULTS for", string,"*********"
+	return Results
+
+
 
 #Detects in the input the jurisdiction and the court and adds them together
+#input is CleanedUp
+#returns False if there is no jurisdiction at all
+#returns list [Court, whether jurisdiction in the court name, in which case we do not run TakeOutJurisdiction******************* (True or False)]
 def CleanUpCourt(string):
 	Jurisdiction = FindJurisdiction(string)
-	if not Jurisdiction:
-		return FindCourt(string)
-	else:
-		string = re.sub(Jurisdiction[1].group(), "", string)
-		Court = FindCourt(CleanUp(string))
-		return CleanUp(Jurisdiction[0] +" "+ Court)
+	if not Jurisdiction: #i.e. there was no jurisdiction
+		return FindCourt(string) #return False
+	else: #Else continue on
+		#there are some courts that have the name of the jurisdiction built in. in those cases, don't remove the jurisdiction before matching the court name
+		DontRemove = [["CQ", re.compile(u"^Ct (of )?(Qu(e|\\xe9)bec|QC)( of)?$", flags = re.I)],
+		["CQ (Civ Div)", re.compile(u"(Ct (of )?(Qu(e|\\xe9)bec|QC)|CQ),? \(?Ci(vil)? Div(ision)?\)?", flags = re.I)],
+		["CQ (Civ Div Sm Cl)", re.compile(u"(Ct (of )?(Qu(e|\\xe9)bec|QC)|CQ),? \(?Civ(il)? Div(ision)?,? Sm(all)? Cl(aims)?( Ct)?\)?( of)?", flags = re.I)],
+		["CQ (Crim & Pen Div)", re.compile(u"(Ct (of )?(Qu(e|\\xe9)bec|QC)|CQ),? \(?Crim(inal)? (&|and)?\s?Pen(al)? Div(ision)?\)?( of)?", flags = re.I)],
+		["CQ (Youth Div)", re.compile(u"(Ct (of )?(Qu(e|\\xe9)bec|QC)|CQ),? \(?Youth Div(ision)?\)?( of)?", flags = re.I)],
+		["CQ", re.compile(u"^Ct (du )?(Qu(e|\\xe9)bec|QC)$", flags = re.I)],
+		["CQ jeun", re.compile(u"Ct (du )?(Qu(e|\\xe9)bec|QC),? (Chambre )?(de )?(la )?jeun(esse)?", flags = re.I)],
+		["CQ civ", re.compile(u"(Ct (du )?(Qu(e|\\xe9)bec|QC)|CQ),? (Chambre )?civ(ile)?$", flags = re.I)],
+		[u"CQ civ (div pet cr\xe9)", re.compile(u"(Ct (du )?(Qu(e|\\xe9)bec|QC)|CQ),? (Chambre )?civ(ile)? \(?Div(ision)? des petites cr(e|\\xe9)(ances)?\)?", flags = re.I)],
+		[u"CQ crim & p\xe9n", re.compile(u"(Ct (du )?(Qu(e|\\xe9)bec|QC)|CQ),? (Chambre )?crim(inelle)? (et )?p(e|\\xe9)n(ale)?", flags = re.I)],
+		["CSC", re.compile(r"(Ct? supr((e|\\xea)me)?|C supr) ((du|de) )?Can(ada)?", flags = re.I)],
+		["Sup Ct", re.compile(r"Sup(erior)? Ct (of )?\(?Can(ada)?\)?", flags = re.I)],
+		["TCC", re.compile(r"Tax Ct( of)?( Can)?(ada)?", flags = re.I)],
+		[u"Div g\xe9n Ont", re.compile(u"Ct (de )?l'Ontario, div(ision)? g(e|\\xe9)n((e|\\xe9)rale)?", flags = re.I)]]
+		if any((re.search('^'+Court[0]+r'$', string, re.I) or Court[1].search(string)) for Court in DontRemove]:# if we see the jurisdiction name in the court's name, DON'T delete the jurisdiction from the string
+			Court = FindCourt(CleanUp(string))#search the cleaned string for the court (w/ the jurisdiction IN)
+			return [Court, True] #return the name of the court only (as the name of the jurisdiction is built in)
+		else:
+			string = re.sub(Jurisdiction[1].group(), "", string)
+			Court = FindCourt(CleanUp(string))#search the cleaned string for the court (w/ the jurisdiction OUT)
+			return [CleanUp(Jurisdiction[0] +" "+ Court), False]
 
+#inputs: the court selected by the machine beforehand (with the jurisdiction), and the citation used
+#outputs the court (without the jurisdiction)
 def TakeOutJurisdiction(Ct, Cite):
 	print "In 'TakeOutJurisdiction(Ct, Cite):' the Ct = ", Ct, ", and Cite = ", Cite
 	if " FCR" in Cite: Ct = re.sub("F", "", Ct)

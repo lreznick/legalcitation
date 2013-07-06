@@ -4,7 +4,7 @@ from nose.tools import *
 from legal.server.CanadianCase import *
 
 '''****************     STYLE OF CAUSE     ****************'''
-
+'''
 def test_NotAllowed():
     assert_equal(NotAllowed("test"),"test");
     assert_equal(NotAllowed("354+*78a+*wef"),"354+*78a+*wef");
@@ -102,10 +102,11 @@ def test_GetStyleOfCause():
 	assert_equal(GetStyleOfCause("R v Sparrow"),"R v Sparrow")
 	assert_equal(GetStyleOfCause("Adams v Thompson, Berwick, Pratt, & Partners"),"Adams v Thompson, Berwick, Pratt, & Partners")
 	assert_equal(GetStyleOfCause(u"Qu\xe9bec v Johnson"), u"Qu\xe9bec v Johnson")
+'''
 
 '''****************     CITATIONS     ****************'''
 
-#only takes lists!
+'''#only takes lists!
 def test_ChooseBestReporters():           
     assert_equal(ChooseBestReporters(["canlii"]),"CanLII")
     assert_equal(ChooseBestReporters(["dfsdfsad"]),"dfsdfsad")
@@ -113,21 +114,129 @@ def test_ChooseBestReporters():
     assert_equal(ChooseBestReporters(["Westlaw"]),"WL")
     assert_equal(ChooseBestReporters(["2004 Westlaw 19837"]),"2004 WL 19837")
     assert_equal(ChooseBestReporters(["2002 CACT 3", "CanLII"]), "2002 CACT 3 (available on CanLII)")
+'''
+
 
 #CleanUpCourt calls FindJurisdiction and FindCourt, returns Jurisdiction + Court
 def test_CleanUpCourt():           
     pass
 
+#looks in a string to find a jurisdiction. RETURNS a list: 
+#[Proper Abbreviation for jurisdiction, The search object that found it]
+#or returns False if no jurisdiction detected
+def test_FindJurisdiction():           
+    pass 
+    
+#looks in a string to find a jurisdiction. RETURNS a list: 
+#[Proper Abbreviation for jurisdiction, The search object that found it]
+#or returns False if no jurisdiction detected
+def test_FindCourt():           
+	assert_equal(FindCourt("court of justice"),"Ct J")
+	assert_equal(FindCourt("h ct just"),"H Ct J")
+	assert_equal(FindCourt("appeal court"),"CA")
+	assert_equal(FindCourt("ct provinciale"),"CP")
+	assert_equal(FindCourt("cour superieure"),"CS")
+	assert_equal(FindCourt("h ct"),"HC")
+	assert_equal(FindCourt("provincial ct"),"Prov Ct")
+	assert_equal(FindCourt("superior court"),"Sup Ct")
+	assert_equal(FindCourt("TRAFFIC COURT"),"Traffic Ct")
+	assert_equal(FindCourt("youth court"),"Youth Ct")
+	assert_equal(FindCourt("coroners court"),"Cor Ct")
+	assert_equal(FindCourt("ct can de l'impots"),"CCI")
+	assert_equal(FindCourt("ct d'appel fed"),"CAF")
+	assert_equal(FindCourt(u"cour de comt\xe9"),"Cc")
+	assert_equal(FindCourt("ct de l'ontario, division gen"),u"Div g\xe9n Ont")
+	assert_equal(FindCourt("ct des divorces et des causes matrimoniales"),"C div & causes mat")
+	assert_equal(FindCourt(U"CT DES JUGES DE LA COMTE SI\xe9geant au criminel"),"C j Cc crim")
+	assert_equal(FindCourt("COURT DES PETITES CREANCES"),u"C pet cr\xe9")
+	assert_equal(FindCourt("C SUCC"),"C succ")
+	assert_equal(FindCourt("C DIV"),"C div")
+	assert_equal(FindCourt("ct du banc de la reine"),"BR")
+	assert_equal(FindCourt("ct du banc de la reine division de la famille"),"BR (div fam)")
+	assert_equal(FindCourt("ct du banc de la reine (division de la premiere instance)"),"BR (1re inst)")
+	assert_equal(FindCourt("ct du Qc"),"CQ")
+	assert_equal(FindCourt("cq jeun"),"CQ jeun")
+	assert_equal(FindCourt("court du qc civile"),"CQ civ")
+	assert_equal(FindCourt("cour du qc, chambre criminelle et penale"),u"CQ crim & p\xe9n")
+	assert_equal(FindCourt("court fed premiere instance"),"CF (1re inst)")
+	assert_equal(FindCourt("court mun"),"CM")
+	assert_equal(FindCourt("court prov"),"CP")
+	assert_equal(FindCourt("ct prov div civ"),"CP Div civ")
+	assert_equal(FindCourt("ct prov (division criminelle)"),"CP Div crim")
+	assert_equal(FindCourt("ct prov, div de la fam"),"CP Div fam")
+	assert_equal(FindCourt("ct sup adm"),"CS adm")
+	assert_equal(FindCourt("cs civ div"),"CS civ")
+	assert_equal(FindCourt("cs crim & pen"),u"CS crim & p\xe9n")
+	assert_equal(FindCourt("cs chambre de fam"),"CS fam")
+	assert_equal(FindCourt("cs div de pet cre"),u"CS p\xe9t cr\xe9")
+	assert_equal(FindCourt("court sup chambre de fail ins"),"CS fail & ins")
+	assert_equal(FindCourt("ct supr div de la famille"),"C supr fam")
+	assert_equal(FindCourt("c supr div d'appel"),"C supr A")
+	assert_equal(FindCourt("court supreme div banc reine"),"C supr BR")
+	assert_equal(FindCourt("ct supr du can"),"CSC")
+	assert_equal(FindCourt("court martial appeal court"),"Ct Martial App Ct")
+	assert_equal(FindCourt("court d'appel de la court martiale"),"CACM")
+	assert_equal(FindCourt("court of appeal in equity"),"CA Eq")
+	assert_equal(FindCourt("court of just gen div"),"Ct J (Gen Div)")
+	assert_equal(FindCourt("court of justice, general division small claims court"),"Ct J (Gen Div Sm Cl Ct)")
+	assert_equal(FindCourt("Ct of just, gen div family court"),"Ct J (Gen Div Fam Ct)")
+	assert_equal(FindCourt("court of justice, provincial division"),"Ct J (Prov Div)")
+	assert_equal(FindCourt("court of justice, provincial div youth ct"),"Ct J (Prov Div Youth Ct)")
+	assert_equal(FindCourt("court of qc"),"CQ")
+	assert_equal(FindCourt("court of qc, civil div"),"CQ (Civ Div)")
+	assert_equal(FindCourt("cq civ div small claims"),"CQ (Civ Div Sm Cl)")
+	assert_equal(FindCourt("cq criminal and pen division"),"CQ (Crim & Pen Div)")
+	assert_equal(FindCourt("cq youth division"),"CQ (Youth Div)")
+	assert_equal(FindCourt("queens bench"),"QB")
+	assert_equal(FindCourt("queens bench family division"),"QB (Fam Div)")
+	assert_equal(FindCourt("qbtd"),"QB (TD)")
+	assert_equal(FindCourt("divisional court"),"Div Ct")
+	assert_equal(FindCourt("divorces and mat causes"),"Div & Mat Causes Ct")
+	assert_equal(FindCourt("fed ct of appeal"),"FCA")
+	assert_equal(FindCourt("fed ct td"),"FCTD")
+	assert_equal(FindCourt("municipal court"),"Mun Ct")
+	assert_equal(FindCourt("probation court"),"Prob Ct")
+	assert_equal(FindCourt("prov court civil division"),"Prov Ct (Civ Div)")
+	assert_equal(FindCourt("provincial court civ div, small cl"),"Prov Ct (Civ Div Sm Cl Ct)")
+	assert_equal(FindCourt("provincial court criminal division"),"Prov Ct (Crim Div)")
+	assert_equal(FindCourt("provincial court family court"),"Prov Ct (Fam Ct)")
+	assert_equal(FindCourt("prov ct family division"),"Prov Ct (Fam Div)")
+	assert_equal(FindCourt("provincial court juvenile div"),"Prov Ct (Juv Div)")
+	assert_equal(FindCourt("prov cour (small claims div)"),"Prov Ct (Sm Cl Div)")
+	assert_equal(FindCourt("prov court (youth)"),"Prov Ct (Youth Ct)")
+	assert_equal(FindCourt("prov court youth div"),"Prov Ct (Youth Div)")
+	assert_equal(FindCourt("provincial offences court"),"Prov Off Ct")
+	assert_equal(FindCourt("small claims court"),"Sm Cl Ct")
+	assert_equal(FindCourt("superior court of canada"),"Sup Ct")
+	assert_equal(FindCourt("sup ct, admin div"),"Sup Ct (Adm Div)")
+	assert_equal(FindCourt("sup ct bank & ins"),"Sup Ct (Bank & Ins Div)")
+	assert_equal(FindCourt("sup ct civil division"),"Sup Ct (Civ Div)")
+	assert_equal(FindCourt("superior court criminal and penal division"),"Sup Ct (Crim & Pen Div)")
+	assert_equal(FindCourt("sup ct family div"),"Sup Ct (Fam Div)")
+	assert_equal(FindCourt("superior cour small claims div"),"Sup Ct (Sm Cl Div)")
+	assert_equal(FindCourt("sC appeal division"),"SC (AD)")
+	assert_equal(FindCourt("sc fam div"),"SC (Fam Div)")
+	assert_equal(FindCourt("sc queen's bench"),"SC (QB Div)")
+	assert_equal(FindCourt("sc trial division"),"SC (TD)")
+	assert_equal(FindCourt("tax court"),"TCC")
+	assert_equal(FindCourt("tax review board"),"T Rev B")
+	assert_equal(FindCourt("territorial court"),"Terr Ct")
+	assert_equal(FindCourt("terr court (youth)"),"Terr Ct Youth Ct")
+    
+    
+
 def test_TakeOutJurisdiction():           
     pass 
     
+'''
 #returns true if there is a recognized court in the string (must be , false if not
 def test_CheckForCourt():
 	 assert_equal(CheckForCourt("1666"), False)
 	 assert_equal(CheckForCourt("fdsiafscc sccepwiury523498rpe9iorhq wekrjyep239 \n"), False)
 	 assert_equal(CheckForCourt("2398 SCC 23"), True)
     
-#returns the LOWEST date (b/w years 1400 and 2014) in the string, false if no date detected
+#returns the date that is in brackets, square brackets, or preceeds a space and four caps letters,
+#otherwise returns LOWEST date (b/w years 1400 and 2014) in the string, false if no date detected
 def test_PullDate():           
     assert_equal(PullDate("1666"),"1666")
     assert_equal(PullDate("The year is not 1300, it is 2013"),"2013")
@@ -148,6 +257,6 @@ def test_CleanUp():
 
 def test_GetCitations():           
     assert_equal(GetCitations(" 2008 SCC 9 (CanLII); [2008] 1 SCR 190, 229 NBR (2d) 1; 291 DLR (4th) 577; 64 CCEL (3d) 1; 69 Admin LR (4th) 1", "SCC"), ", 2008 SCC 9, [2008] 1 SCR 190.")
-
+'''
 
     
