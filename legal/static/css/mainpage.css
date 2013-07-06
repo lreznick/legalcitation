@@ -157,8 +157,15 @@ padding-left:0px;
 	color: white;
 	background:#454545;
 }
-.control-label{
+#university-logos td{
 
+
+}
+.uni{
+width: 150px; 
+display:block;
+ margin:auto;
+ 	padding: 0px 10px 0px 10px;
 }
 label.valid {
   width: 24px;

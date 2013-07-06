@@ -321,4 +321,26 @@ Reporter List
 			browseClicked = false;
 		}
 	});
+	
+/*
+=============================================
+
+=============================================
+*/
+var uniNumber;
+$('.uni').hover(function() {
+		uniNumber = $(this).attr("src");
+		var patt =/\d+/;
+		//console.log(string);
+		uniNumber = patt.exec(uniNumber);
+		console.log("string " + uniNumber);
+		
+		$(this).attr("src", "./static/img/uni/"+ uniNumber + ".png");
+		
+   },function(){
+           $(this).attr("src", "./static/img/uni/"+uniNumber +"d.png");
+	});
+
+	
+	
 }); //End of Document
