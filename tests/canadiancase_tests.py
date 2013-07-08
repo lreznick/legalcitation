@@ -4,20 +4,24 @@ from nose.tools import *
 from legal.server.CanadianCase import *
 
 '''****************     STYLE OF CAUSE     ****************'''
-'''
-def test_NotAllowed():
+
+#TESTED: GOOD
+'''def test_NotAllowed():
     assert_equal(NotAllowed("test"),"test");
     assert_equal(NotAllowed("354+*78a+*wef"),"354+*78a+*wef");
     assert_equal(NotAllowed("\n\n\n\n\n\n\n\n\n"),"\n\n\n\n\n\n\n\n\n");
-    
+'''   
 
-def test_Contains():
+#TESTED: GOOD
+'''def test_Contains():
     list = ["hi", "you", "sup", "pew pew"]
     assert_equal(Contains(list,"hi"),True)
     assert_equal(Contains(list,"hzii"),False)
     assert_equal(Contains(list,"hiiiiiiiiii"),True)
-    
-def test_Capitalize():
+'''
+
+#TESTED: GOOD    
+'''def test_Capitalize():
     #Testing Fuzz Input
     assert_equal(Capitalize("1235451!@$@#$^%*&^]][]]"),'1235451!@$@#$^%*&^]][]]')
     #Test Capitalization
@@ -40,10 +44,10 @@ def test_Capitalize():
     assert_equal(Capitalize("RSWDU 45424"),"RSWDU 45424")
     assert_equal(Capitalize("canada (AG)"),"Canada (AG)")
     assert_equal(Capitalize("The national petroleum act"),"The National Petroleum Act")
+'''    
     
-    
-
-def test_StyleAttributes():   
+#TESTED: GOOD
+'''def test_StyleAttributes():   
     assert_equal(StyleAttributes("mnr"), "(MNR)")
     assert_equal(StyleAttributes("Canada ag"), "Canada (AG)")
     assert_equal(StyleAttributes("attorney general of ab"), "Alberta (AG)")
@@ -58,10 +62,13 @@ def test_StyleAttributes():
     assert_equal(StyleAttributes("Stephen fskjdhf23927()[][][}{} incorporated"), "Stephen fskjdhf23927 [][][}{} Inc")#gets rid of round brackets, adds a space between the numbers and square brackets
     assert_equal(StyleAttributes("nlab"), "nlab")
     assert_equal(StyleAttributes("nl"), "Newfoundland and Labrador")
-    
-    
+'''
 
-def test_StatuteChallenge():        
+
+
+    
+#TESTED: GOOD
+'''def test_StatuteChallenge():        
     assert_equal(StatuteChallenge("The Act (bc)"),"The Act (British Columbia)")
     assert_equal(StatuteChallenge("The national petroleum act"),"The national petroleum act")
     assert_equal(StatuteChallenge("BC Forestry Act"),"British Columbia Forestry Act")
@@ -71,19 +78,22 @@ def test_StatuteChallenge():
     assert_equal(StatuteChallenge("reference re Fishing Stuff"),"Reference Re Fishing Stuff (Canada)")
     assert_equal(StatuteChallenge("ref re fish act"),"Reference Re fish act (Canada)")
     assert_equal(StatuteChallenge("Ex Parte Plimus Act (MB)"),"Ex parte Plimus Act (Manitoba)")
-    
+'''
+   
 
+#TESTED: GOOD
 #this is the function you use for each individual action.
 #GetStyleOfCause just really calls this function, so all the tests for it are applicable.
 #Action also calls StatuteChallenge, StyleAttribues, Capitalize, and NotAllowed
-def test_Action():           
+'''def test_Action():           
     assert_equal(Action("The Act (bc)"),"The Act (British Columbia)")
     assert_equal(Action("The national petroleum act"),"The National Petroleum Act")
+'''
     
-
+#TESTED: GOOD
 #this is the function you call to actually do everything. 
 #really all it does is separate causes of action by ";" and then call #Action
-def test_GetStyleOfCause():  
+'''def test_GetStyleOfCause():  
 	assert_equal(GetStyleOfCause("The Act (bc)"),"The Act (British Columbia)")
 	assert_equal(GetStyleOfCause("R. v. Marshall ; R. v. Bernard"),"R v Marshall; R v Bernard")
 	assert_equal(GetStyleOfCause("dfsdkfjhsdk jhdffeliufe af"),"Dfsdkfjhsdk Jhdffeliufe Af")
@@ -106,8 +116,10 @@ def test_GetStyleOfCause():
 
 '''****************     CITATIONS     ****************'''
 
-'''#only takes lists!
-def test_ChooseBestReporters():           
+
+#TESTED: GOOD
+#only takes lists!
+'''def test_ChooseBestReporters():           
     assert_equal(ChooseBestReporters(["canlii"]),"CanLII")
     assert_equal(ChooseBestReporters(["dfsdfsad"]),"dfsdfsad")
     assert_equal(ChooseBestReporters(["2008 scc 9", "CanLII"]),"2008 SCC 9 (available on CanLII)")
@@ -116,21 +128,33 @@ def test_ChooseBestReporters():
     assert_equal(ChooseBestReporters(["2002 CACT 3", "CanLII"]), "2002 CACT 3 (available on CanLII)")
 '''
 
-
-#CleanUpCourt calls FindJurisdiction and FindCourt, returns Jurisdiction + Court
+#NEEDS to look into whether the NC is actually being used (based on citation)
+#TESTED: GOOD
+#first detects whether there is a neutral citation present: if so, returns true
+#Detects in the input the jurisdiction and the court and adds them together
+#	calls FindJurisdiction and FindCourt, returns Jurisdiction + Court
+#input is CleanedUp
+#input will not be a neutral citation
+#returns False if there is no jurisdiction at all
+#returns list [Court, whether jurisdiction in the court name, in which case we do not run TakeOutJurisdiction******************* (True or False)]
 def test_CleanUpCourt():           
-    pass
-
-#looks in a string to find a jurisdiction. RETURNS a list: 
-#[Proper Abbreviation for jurisdiction, The search object that found it]
-#or returns False if no jurisdiction detected
-def test_FindJurisdiction():           
-    pass 
+    assert_equal(CleanUpCourt("new brunswick court of appeal")[0],"NB CA")
+    assert_equal(CleanUpCourt("AB QB")[0],"Alta QB")
+    assert_equal(CleanUpCourt("Court of Quebec Civil Division")[0],"CQ (Civ Div)")
+    assert_equal(CleanUpCourt("federal court of appeal")[0],"FCA")
+    assert_equal(CleanUpCourt("fed court trial div")[0],"FCTD")
+    assert_equal(CleanUpCourt("brit col CA")[0],"BC CA")
+    assert_equal(CleanUpCourt("scc")[0],"SCC")
+    assert_equal(CleanUpCourt("supreme court of canada")[0],"SCC")
     
+    
+
+
+#TESTED: GOOD
 #looks in a string to find a jurisdiction. RETURNS a list: 
 #[Proper Abbreviation for jurisdiction, The search object that found it]
 #or returns False if no jurisdiction detected
-def test_FindCourt():           
+'''def test_FindCourt():           
 	assert_equal(FindCourt("court of justice"),"Ct J")
 	assert_equal(FindCourt("h ct just"),"H Ct J")
 	assert_equal(FindCourt("appeal court"),"CA")
@@ -221,41 +245,69 @@ def test_FindCourt():
 	assert_equal(FindCourt("tax court"),"TCC")
 	assert_equal(FindCourt("tax review board"),"T Rev B")
 	assert_equal(FindCourt("territorial court"),"Terr Ct")
-	assert_equal(FindCourt("terr court (youth)"),"Terr Ct Youth Ct")
+	assert_equal(FindCourt("terr court (youth)"),"Terr Ct Youth Ct")'''
     
     
 
-def test_TakeOutJurisdiction():           
-    pass 
+#TESTED: GOOD
+# looks in a string to find a jurisdiction. RETURNS a list: 
+# [Proper Abbreviation for jurisdiction, The search object that found it]
+# object will be returned in the order of search:
+# [Canada, LowerCanada, ProvCan, UpperCan, Alberta, BC, Manitoba, NewBrunswick, NewfoundlandLab, Newfoundland, NorthwestTerritories, NovaScotia, Nunavut, Ontario, PrinceEdwardIsland, Quebec, Saskatchewan, Yukon]
+# or returns False if no jurisdiction detected
+'''def test_TakeOutJurisdiction():           
+    assert_equal(FindJurisdiction("the lower court of canada")[0],"C")
+    assert_equal(FindJurisdiction("prov cant"),False)
+    assert_equal(FindJurisdiction("newfoundland and labrador")[0],"NL")
+    assert_equal(FindJurisdiction("the province of canada")[0],"Prov C")
+    assert_equal(FindJurisdiction("Canada")[0],"C")
+    assert_equal(FindJurisdiction("federal court of canada")[0],"C")
+    assert_equal(FindJurisdiction("NBCA"),False)
+    assert_equal(FindJurisdiction("northwest terr")[0],"NWT")
+    assert_equal(FindJurisdiction("i sat on a bench")[0],"Ont")
+    assert_equal(FindJurisdiction("suck	fauewh2309fdsa\\\]}}{weqwop i73w"),False)
+    #assert_equal(FindJurisdiction("")[0],"")'''
     
-'''
+
+#TESTED: GOOD
 #returns true if there is a recognized court in the string (must be , false if not
-def test_CheckForCourt():
+'''def test_CheckForCourt():
 	 assert_equal(CheckForCourt("1666"), False)
 	 assert_equal(CheckForCourt("fdsiafscc sccepwiury523498rpe9iorhq wekrjyep239 \n"), False)
-	 assert_equal(CheckForCourt("2398 SCC 23"), True)
-    
+	 assert_equal(CheckForCourt("2398 SCC 23"), True)'''
+
+#TESTED: FIX LAST    
 #returns the date that is in brackets, square brackets, or preceeds a space and four caps letters,
 #otherwise returns LOWEST date (b/w years 1400 and 2014) in the string, false if no date detected
-def test_PullDate():           
+'''def test_PullDate():           
     assert_equal(PullDate("1666"),"1666")
     assert_equal(PullDate("The year is not 1300, it is 2013"),"2013")
     assert_equal(PullDate(""), False)
     assert_equal(PullDate("3420098218883231"), False)
     assert_equal(PullDate("The year is 2013, and last year was 2012"), "2012")
+    assert_equal(PullDate("The year is not 2004, it's 2013"), "2004")
     assert_equal(PullDate("(2008)"),"2008")
     assert_equal(PullDate("[2008]"),"2008")
     assert_equal(PullDate("What year is it?2013)"),"2013")
     assert_equal(PullDate("THEYEARISNOT2008)"),"2008")
     assert_equal(PullDate("06-15-1990"),"1990")
+    assert_equal(PullDate("2008 NBCA"),"2008")
+    assert_equal(PullDate("(2008), DLR 4th) 1996"),"2008")
+    assert_equal(PullDate("[2008] 4 NBCA"),"2008")
+    assert_equal(PullDate("2008 2007"),"2007")
+    #assert_equal(PullDate("2008 NBCA"),"2008")
+    #assert_equal(PullDate("2008 NBCA"),"2008")
+    #assert_equal(PullDate("2008 NBCA"),"2008")'''
     
-
-def test_CleanUp():           
+    
+#TESTED: GOOD
+'''def test_CleanUp():           
     assert_equal(CleanUp("   ..  . . .. .  ..."),"")
     assert_equal(CleanUp("r.e.s.p.e.c.t. show me what  it means  2 be"),"respect show me what it means 2 be")
-    assert_equal(CleanUp("your mom(charlotte) is really  cool ; but not as cool as the king : Charles"),"your mom (charlotte) is really cool; but not as cool as the king: Charles")
+    assert_equal(CleanUp("your mom(charlotte) is really  cool ; but not as cool as the king : Charles"),"your mom (charlotte) is really cool; but not as cool as the king: Charles")'''
 
-def test_GetCitations():           
+
+'''def test_GetCitations():           
     assert_equal(GetCitations(" 2008 SCC 9 (CanLII); [2008] 1 SCR 190, 229 NBR (2d) 1; 291 DLR (4th) 577; 64 CCEL (3d) 1; 69 Admin LR (4th) 1", "SCC"), ", 2008 SCC 9, [2008] 1 SCR 190.")
 '''
 
