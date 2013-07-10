@@ -10,3 +10,8 @@ class Room(object):
 
     def add_paths(self, paths):
         self.paths.update(paths)
+		
+
+def test123(string):
+	print "in string " + string
+	return 

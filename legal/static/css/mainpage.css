@@ -32,8 +32,40 @@ font-size: 14px;
 color: #333333;
 margin: 0 auto;
 text-align: center;
-
 }
+.footer a:hover,a:active
+{
+	/*line-height:20px;
+	font-weight:bold;*/
+	color: black;
+	
+}
+a:link,a:visited{
+	text-decoration:none;
+	color:grey;
+}
+ul{
+	list-style-type:none;
+	margin:0;
+	padding:0;
+	overflow:hidden;
+	text-align: center;
+	
+}
+
+li{
+	float:left;
+	display:block;
+	/*width:60px;*/
+	text-align:center;
+	padding:7px;
+	line-height: 21px;
+}
+#footer-nav li{
+	margin-top:5px;
+	font-size: 13px;
+}
+
 .input-xxlarge {
 width: 500px;
 }
@@ -135,7 +167,14 @@ body{
 #tooltips{
 	padding-left: 20px;
 	font-size: 12px;
+}
 
+.fixed { 
+	position: fixed; 
+	width:250px;
+	padding: none;
+	padding-left:400px;
+	
 }
 #collapseTwo-extra {
  	border: 0 none; 

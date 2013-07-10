@@ -50,6 +50,13 @@ Form Submissions
 			console.log(input_string); return false; 
 	});
 	*/
+	jQuery('#CanadaCaseParallel').blur(function(){
+		    var parallelValue = jQuery(this).val();
+            console.log("input"+ parallelValue);
+			jQuery('#CanadaCaseDate').val(parallelValue)
+			jQuery('#CanadaCaseCourt').val(parallelValue)
+           
+	})
 			//Submitting the information to the server to be processed
 	jQuery('#GoButton').click(function() {
             var input_string = jQuery("input#testingcases").val();
@@ -126,6 +133,58 @@ jQuery('#CanadaCaseLeaveToAppeal').focus(function(){
 
 jQuery('#CanadaCaseSubnom').focus(function(){
 	jQuery('#tooltips').html(tooltip_subNom);
+});
+
+
+//Scroll with the page
+$(function() {
+	var tooltipScroll = jQuery("#tooltips");
+	var tooltipPos = tooltipScroll.offset();
+	var formScroll = jQuery(".leftHalf");
+	var formPos = formScroll.offset();
+	
+	var patt =/\d+/;
+	var leftWidth = formScroll.css('width'); //remove the px
+	leftWidth = patt.exec(leftWidth);
+	console.log("string " + leftWidth);
+	var tooltipOffset = parseInt(leftWidth);//tooltipPos.left + parseInt(leftWidth);
+	console.log("offset" + tooltipOffset);
+	
+	
+	
+	jQuery(window).scroll(function() {
+		if(jQuery(this).scrollTop() < (tooltipPos.top ) && tooltipScroll.css('position') == 'fixed')	{
+			console.log("scrollTop" + jQuery(window).scrollTop() );
+			tooltipScroll.css({
+					"padding-left" : tooltipOffset, 
+					top: '20px',
+					position: 'static', 
+					width: '200px'
+				});
+						
+			
+			console.log("yo1 " + tooltipOffset);
+		}
+		else if ( jQuery(this).scrollTop() >= (tooltipPos.top+  formScroll.height() - 320) ){
+			tooltipScroll.css({
+					"padding-left" : tooltipOffset, 
+					top:'5px',
+					position: 'static',
+					width: '200px'
+				});
+		console.log("yo3");
+		}		
+		else if ( jQuery(this).scrollTop() >= tooltipPos.top){
+			tooltipScroll.css({
+					"padding-left" : tooltipOffset, 
+					top:'20px',
+					position: 'fixed',
+					width: '200px'
+				});
+		console.log("yo2");
+		}
+
+	})
 });
 
 /*
@@ -287,19 +346,25 @@ Reporter List
 		outputstring="	<thead> <tr><td> <b> Abbreviation  </b></td><td><b> Name </b><td></tr> </thead> <tbody>";
 		var currentstring= jQuery("input#reporter-input").val();
 		
-		currentList = _.filter(reporterList, function(singleReporter){
-			var reportername = singleReporter.getName().toLowerCase();
-			return(singleReporter.getName().toLowerCase().indexOf(currentstring.toLowerCase()) >= 0);
-		});
-		
-		for (var i =0; i < currentList.length; i++){
-			var name = currentList[i].getName();
-			var abbr = currentList[i].getAbbr();
-			//var juris = currentList[i].getJuris();
-			outputstring = outputstring.concat("<tr> <td>"+abbr + "</td> <td style =\"\">" + name + "</td></tr>");
-			   //<div style=\"float: right; clear: right;\">" + abbr +"</div><br>");
+		if (currentstring !=""){
+			currentList = _.filter(reporterList, function(singleReporter){
+				var reportername = singleReporter.getName().toLowerCase();
+				return(singleReporter.getName().toLowerCase().indexOf(currentstring.toLowerCase()) >= 0);
+			});
+			
+			for (var i =0; i < currentList.length; i++){
+				var name = currentList[i].getName();
+				var abbr = currentList[i].getAbbr();
+				//var juris = currentList[i].getJuris();
+				outputstring = outputstring.concat("<tr> <td>"+abbr + "</td> <td style =\"\">" + name + "</td></tr>");
+				   //<div style=\"float: right; clear: right;\">" + abbr +"</div><br>");
+			}
+			outputstring = outputstring.concat("</tbody>");
 		}
-		outputstring = outputstring.concat("</tbody>");
+		
+		else {
+			outputstring ="";
+		}
 		generateOutput(outputstring);
 	}
 		
