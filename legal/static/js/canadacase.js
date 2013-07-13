@@ -52,16 +52,9 @@ Form Submissions
 	*/
 	jQuery('#CanadaCaseParallel').blur(function(){
 		    var parallelValue = jQuery(this).val();
-            jQuery.ajax({ 
-                type: "POST", 
-				url: '/form/parallel',
-                data:{parallel : parallelValue},
-				dataType: 'json',
-                success: function(data) {
-					jQuery('#CanadaCaseDate').val(data[0].date)
-					jQuery('#CanadaCaseCourt').val(data[0].court)
-                },
-			});
+            console.log("input"+ parallelValue);
+			jQuery('#CanadaCaseDate').val(parallelValue)
+			jQuery('#CanadaCaseCourt').val(parallelValue)
            
 	})
 			//Submitting the information to the server to be processed
@@ -163,7 +156,7 @@ $(function() {
 		if(jQuery(this).scrollTop() < (tooltipPos.top ) && tooltipScroll.css('position') == 'fixed')	{
 			console.log("scrollTop" + jQuery(window).scrollTop() );
 			tooltipScroll.css({
-					"margin-left" : tooltipOffset, 
+					"padding-left" : tooltipOffset, 
 					top: '20px',
 					position: 'static', 
 					width: '200px'
@@ -174,7 +167,7 @@ $(function() {
 		}
 		else if ( jQuery(this).scrollTop() >= (tooltipPos.top+  formScroll.height() - 320) ){
 			tooltipScroll.css({
-					"margin-left" : tooltipOffset, 
+					"padding-left" : tooltipOffset, 
 					top:'5px',
 					position: 'static',
 					width: '200px'
@@ -183,7 +176,7 @@ $(function() {
 		}		
 		else if ( jQuery(this).scrollTop() >= tooltipPos.top){
 			tooltipScroll.css({
-					"margin-left" : tooltipOffset, 
+					"padding-left" : tooltipOffset, 
 					top:'20px',
 					position: 'fixed',
 					width: '200px'
@@ -376,7 +369,7 @@ Reporter List
 	}
 		
 	function generateOutput(output){
-			jQuery('#reporter-table').html(outputstring);
+			jQuery('#formoutput2').html(outputstring);
 	}
 	
 	document.getElementById("reporter-input").onchange = updateCurrentList;

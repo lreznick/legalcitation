@@ -1,6 +1,23 @@
- 
+
+'''http://docs.python.org/2/library/json.html
+Encode the data in script tags.
+Deserialize with js $.parseJSON or something like that.
+Easiest way.
+Then you have it in the runtime and can go from there. 
+$.post('ajax/test.html', function(data) {
+  $('.result').html(data);
+});
+
+
+
+$.post('ajax/test.html', {my:'data'},function(data) {
+  $('.result').html(data);
+});
+'''
+
 from server.webGrabber import *
 from server.testyface import test123
+from server.CanadianCase import *
 #from webclient.appServer import *
 
 
@@ -9,13 +26,18 @@ from server.testyface import test123
 #	Website opened at http://localhost:8080
 #It then waits for an input from the user and then grabs that information. then calls webgrabber which grabs links
 import web
+import json
 #from legal.server.webGrabber import Connect2Web
+
+
+
 
 # mapping. Each post request contains what to do.   
 urls = (
     '/formInput', 'Index',	
     '/' ,  'Index',
-	'/about', 'about'
+	'/about', 'about',
+	'/form/parallel', 'formparallel'
 
 )
 
@@ -25,7 +47,24 @@ testcase1 = "<i>Adams v Thompson, Berwick, Pratt, & Partners </i>(1987), 39 DLR 
 testcase2 = "<i>Dunsmuir v. New Brunswick</i>, 2008 SCC 9 at para 132, [2008] 1 SCR 190 (Binnie J) [<i>Dunsmuir</i>], aff'ing 2006 NBCA 27."
 testcase3 = "<i>R v Sparrow</i>, [1990] 1 SCR 1075 at 1103, 70 DLR (4th) 385, Dickson CJC [<i>Sparrow</i>] citing <i>Pasco v Canadian National Railway Co</i>, [1986] 1 CNLR 35 at 37 (available on CanLII) (BCSC)."
 testcase4 = "<i>Reference re Securities Act</i>, 2011 SCC 66, [2011] 3 SCR 837."
-
+	
+class formparallel(object):
+	def GET(self):
+		return
+	def POST(self):
+		form = web.input()
+		parallel = "%s" % (form.parallel)
+		if not parallel: 
+			print "nothing to see here boys"
+			return render.index()
+		else:
+			print "in formparallel"
+			date = PullDate(parallel)
+			court = CheckForCourt(parallel)
+			data = [ {'date':date, 'court':court}]
+			data_string =json.dumps(data)
+			print 'JSON:', data_string
+			return data_string
 
 
 class Index(object):
