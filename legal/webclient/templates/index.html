@@ -59,7 +59,7 @@ $def with (greeting= None)
 					
 					   <div class= "header2" style= "margin-bottom:20px; ">Enter A CanLII site </div>
 						  <!-- <div class="well"> -->
-								<form class="form-horizontal" action="/formInput" method="POST">
+								<form class="form-horizontal" action="/form/CanLII" method="POST">
 
 								<fieldset>
 								<!-- Name -->
@@ -85,7 +85,7 @@ $def with (greeting= None)
 
                             <div class="header3">Canadian case</div> <br>
 
-                            <form class="form-horizontal" action="/formInput" method="POST"  id ="canadacase-form">
+                            <form class="form-horizontal" action="/form/CanadianCase" method="POST"  id ="canadacase-form">
                             <fieldset>
                             <!-- Style Of Cause -->
                             <div class="control-group">
@@ -128,7 +128,7 @@ $def with (greeting= None)
                                 <label class="control-label" for="CanadaCaseDate"> <b>Year of Decision<font color ="red"> *</font></b> </label>
                                 <div class="controls">
                                     <input type="text" class="input-xxlarge" id="CanadaCaseDate"
-                                                placeholder="" name = "date">
+                                                placeholder="" name = "year">
                                 </div>
                             </div>
                             
@@ -167,24 +167,40 @@ $def with (greeting= None)
 										
 										
 										<!--pinpoint-->
-										<div class="control-group">
-											<label class="control-label" for="CanadaCasePinpoint">Pinpoint</label>
+										<div class="control-group">			
+										<label class="control-label" for="CanadaCasePinpoint">Pinpoint</label>
 											<div class="controls">
-												<input type="text" class="input-xxlarge" id="CanadaCasePinpoint"
-															placeholder="" name = "pinpoint">
+												<select>
+													<option>Pinpoint</option>
+													<option>Cite To</option>
+												</select>	
+												<label class="radio">
+												  <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+												  Reporter 1
+												</label>
+												<label class="radio">
+												  <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+												  Reporter2
+												</label>	
+												<div class="input-prepend">
+												  <div class="btn-group">
+													<button class="btn dropdown-toggle" data-toggle="dropdown">
+													  Para
+													  <span class="caret"></span>
+													</button>
+													<ul class="dropdown-menu">
+													  <li> Para </li>
+													  <li> Page </li>
+													</ul>
+												  </div>
+												  <input class="span2" id="prependedDropdownButton" type="text">
+												</div>												
+											<!--	<input type="text" class="input-xxlarge" id="CanadaCasePinpoint"
+															placeholder="" name = "pinpoint"> -->
 											</div>
 										</div>
-										
-										<!--Cite To-->
-										<div class="control-group">
-											<label class="control-label" for="CanadaCaseCiteTo"> Cite To</label>
-											<div class="controls">
-												<input type="text" class="input-xxlarge" id="CanadaCaseCiteTo"
-															placeholder="" name = "pinpoint">
-											</div>
-										</div>										
 
-										<!--judge-->
+										<!--Judge-->
 										<div class="control-group">
 											<label class="control-label" for="CanadaCaseJudge">Judge</label>
 											<div class="controls">
@@ -194,46 +210,67 @@ $def with (greeting= None)
 										</div>										
 										
 										
-										<!--Citing -->
+										<!--Citing -->											
 										<div class="control-group">
 											<label class="control-label" for="CanadaCaseCiting">Citing</label>
 											<div class="controls">
-												<input type="text" class="input-xxlarge" id="CanadaCaseCiting"
-															placeholder="" name = "history">
+												<!-- styleofcause -->
+											<div class="input-prepend" style="padding-bottom:2px">
+											<span class="add-on" style="width:80px; ">Style Of Cause</span>
+												<input type="text" class="input-xlarge" id="CanadaCaseCiting-Style"
+															placeholder="" name = "citing-styleofcause">
 											</div>
-										</div>												
-
+												<!-- parallel -->
+											<div class="input-prepend" style="padding-bottom:2px">
+											<span class="add-on" style="width:80px">Parallel Citations</span>
+												<input type="text" class="input-xlarge" id="CanadaCaseCiting-Parallel"
+															placeholder="" name = "citing-parallel">
+											</div>
+											<!-- year-->
+											<div class="input-prepend" style="padding-bottom:2px">
+											<span class="add-on"style="width:80px">Year of Decision</span>
+												<input type="text" class="input-xlarge" id="CanadaCaseCiting-Year"
+															placeholder="" name = "citing-year">
+											</div>
+											<!-- court -->
+											<div class="input-prepend" style="padding-bottom:2px">
+											<span class="add-on"style="width:80px">Court</span>
+												<input type="text" class="input-xlarge" id="CanadaCaseCiting-Court"
+															placeholder="" name = "citing-court">
+											</div>
+											</div>
+										</div>		
+										
+										
 										<!--History-->										
 										<div class="control-group">
 											<label class="control-label" for="CanadaCaseHistory">History</label>
 											<div class="controls">
-											<!-- Affirming -->
-											<div class="input-prepend" style="padding-bottom:2px">
-											<span class="add-on" style="width:80px; ">Affirming</span>
-												<input type="text" class="input-xlarge" id="CanadaCaseHistory"
-															placeholder="" name = "history">
-											</div>
-											
-											<!-- Reversing -->
-											<div class="input-prepend" style="padding-bottom:2px">
-											<span class="add-on" style="width:80px">Reversing</span>
-												<input type="text" class="input-xlarge" id="CanadaCaseHistory"
-															placeholder="" name = "history">
-											</div>
-											
-											<!-- Reversed By-->
-											<div class="input-prepend" style="padding-bottom:2px">
-											<span class="add-on"style="width:80px">Reversed By</span>
-												<input type="text" class="input-xlarge" id="CanadaCaseHistory"
-															placeholder="" name = "history">
-											</div>
-											
-											<!-- Affirmed By -->
-											<div class="input-prepend" style="padding-bottom:2px">
-											<span class="add-on"style="width:80px">Affirmed By</span>
-												<input type="text" class="input-xlarge" id="CanadaCaseHistory"
-															placeholder="" name = "history">
-											</div>
+												<!-- Affirming -->
+												<div class="input-prepend" style="padding-bottom:2px">
+												<span class="add-on" style="width:80px; ">Parallel Citations</span>
+													<input type="text" class="input-xlarge" id="CanadaCaseHistory-Parallel"
+																placeholder="" name = "history-parallel">
+												</div>
+												
+												<!-- Reversing -->
+												<div class="input-prepend" style="padding-bottom:2px">
+												<span class="add-on" style="width:80px">Year of Decision</span>
+													<input type="text" class="input-xlarge" id="CanadaCaseHistory-Year"
+																placeholder="" name = "history-year">
+												</div>
+												
+												<!-- Reversed By-->
+												<div class="input-prepend" style="padding-bottom:2px">
+												<span class="add-on"style="width:80px">Court</span>
+													<input type="text" class="input-xlarge" id="CanadaCaseHistory-Court"
+																placeholder="" name = "history-court">
+												</div>
+												<select >
+													<option>Affirming</option>
+													<option>Reversing</option>
+												</select>
+												+
 											</div>
 										</div>		
 
@@ -241,33 +278,33 @@ $def with (greeting= None)
 										<div class="control-group">
 											<label class="control-label" for="CanadaCaseLeaveToAppeal">Leave To Appeal</label>
 											<div class="controls">
+											<select>
+													<option>Refused</option>
+													<option>Granted</option>
+													<option>Requested</option>
+													<option>As of Right</option>
+												</select>	
 											<!-- Affirming -->
 											<div class="input-prepend" style="padding-bottom:2px">
-											<span class="add-on" style="width:80px; ">Refused</span>
+											<span class="add-on" style="width:80px; ">Court Appealed To</span>
 												<input type="text" class="input-xlarge" id="CanadaCaseLeaveToAppeal"
-															placeholder="" name = "history">
+															placeholder="" name = "leaveToAppeal">
 											</div>
 											
 											<!-- Reversing -->
 											<div class="input-prepend" style="padding-bottom:2px">
-											<span class="add-on" style="width:80px">Granted</span>
+											<span class="add-on" style="width:80px">Citation</span>
 												<input type="text" class="input-xlarge" id="CanadaCaseHistory"
 															placeholder="" name = "history">
 											</div>
 											
 											<!-- Reversed By-->
 											<div class="input-prepend" style="padding-bottom:2px">
-											<span class="add-on"style="width:80px">Requested</span>
+											<span class="add-on"style="width:80px">Docket No.</span>
 												<input type="text" class="input-xlarge" id="CanadaCaseHistory"
 															placeholder="" name = "history">
 											</div>
-											
-											<!-- Affirmed By -->
-											<div class="input-prepend" style="padding-bottom:2px">
-											<span class="add-on"style="width:80px">As Of Right</span>
-												<input type="text" class="input-xlarge" id="CanadaCaseHistory"
-															placeholder="" name = "history">
-											</div>
+
 											</div>
 										</div>		
 																				

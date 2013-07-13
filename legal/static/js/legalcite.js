@@ -66,11 +66,12 @@ Form Submissions
 	})
 			//Submitting the information to the server to be processed
 	jQuery('#GoButton').click(function() {
-            var input_string = jQuery("input#testingcases").val();
-            console.log("input"+ input_string);
+            //var input_string = jQuery("input#testingcases").val();
+           // console.log("input"+ input_string);
             jQuery.ajax({ 
                 type: "POST", 
-                data:{testing : input_string},
+                data: jQuery('#canadacase-form').serialize(),
+				url:'/form/CanadianCase',
                 success: function(data) {
 					jQuery('#result-container').hide().fadeIn(200);
 					jQuery('#results').html(data).hide().fadeIn(400);
