@@ -14,7 +14,8 @@ import web
 # mapping. Each post request contains what to do.   
 urls = (
     '/formInput', 'Index',	
-    '/' ,  'Index'
+    '/' ,  'Index',
+	'/about', 'about'
 
 )
 
@@ -61,7 +62,14 @@ class Index(object):
 			print "WebURL:", webURL
 			print "Self: " , self
 			#s = form.value['textfield']
-			return webURL
+		return webURL
+
+class about(object):
+	def GET(self):
+		return render.aboutUs();
+	
+	def POST(self):
+		return render.aboutUs();
 
 ''' '''
 

@@ -12,7 +12,9 @@ $def with (content)
     <!-- Le styles -->
     <link href="./static/css/bootstrap.css" rel="stylesheet">
 	<link href="./static/css/bootstrap-styling-addon.css" rel="stylesheet">
-	<link href="./static/css/mainpage.css" rel="stylesheet">
+	<link href="./static/css/main.css" rel="stylesheet">
+	<link href="./static/css/form.css" rel="stylesheet">
+	<link href="./static/css/signup.css" rel="stylesheet">
 	
     <style type="text/css">
       body {
@@ -109,20 +111,23 @@ $def with (content)
     <body>
 
 			<!-- Title Bar  -->   
-		<div id = "titlebar">
-			<div class="inner-titlebar">
-			   intra-vires.com
-			</div>
-					
-		</div>
-		<!--
-		<img src ="./static/img/titlebar_edge_left.png" id ="titlebar-edge-left"> 
-		<img src ="./static/img/titlebar_edge_right.png" id ="titlebar-edge-right"> 
-		-->
+		
+		
+		<img src ="./static/img/titlebar_edge.png" id = "titlebar-edge"> 
+		
 
 		<div id = "white-page">
 			<!-- red Title Bar --> 
 			<div class = "top-red-title-bar"> </div>
+			
+			<!-- main title -->
+			<div id = "titlebar">
+				<div class="inner-titlebar"> 
+					<img src ="./static/img/logo.png" style= "height: 20px; margin-top:
+					-2px">
+					<a href = "/" style = "color: #fe6060"> intra-vires.com	 </a>
+				</div>		
+			</div>
 			<!-- content -->
 			<div class = "content-container">
 					$:content
@@ -228,7 +233,7 @@ $def with (content)
 
 			<div class="footer">
 				<ul  class = "inline-block">
-					<li><a href = "#"> ABOUT US </a></li> 
+					<li><a href = "/about" > ABOUT US </a></li> 
 					<li><a href = "#"> HOW IT WORKS  </a></li>
 					<li><a href = "#"> WHY INTRAVIRES </a></li>
 					<li><a href = "#"> HELP </a></li>

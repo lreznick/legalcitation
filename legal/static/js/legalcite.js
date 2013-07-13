@@ -78,7 +78,7 @@ Form Submissions
 Tool Tips
 =============================================
 */	
-var tooltip_header              = "<div class=\"header3\">"
+var tooltip_header              = "<div class=\"tooltip-title\">"
 var tooltip_styleOfCause	    = tooltip_header + "Style of Cause     </div> ex. Dunsmuir v New Brunswick. <br> Input the style of cause as you see it on the case (i.e. the names of the parties or the reference name). <br> Don't worry about periods or formatting, just capitalize words that you particularly want capitalized (like \"AOL News\"). "
 var tooltip_parallelCitation	= tooltip_header + "Parallel Citations </div> ex. 2008 SCC 9 (CanLII); [2008] 1 SCR 190; 229 NBR (2d) 1; 291 DLR (4th) 577; 64 CCEL (3d) 1; 69 Admin LR (4th) 1 <br> Input the abbreviated reporter names instead of the full names (ex. WWR (4d) instead of Western Weekly Reports, Fourth Series). Browse through our catalog and click to input a reporter's abbreviation if you don't know it. <br>Note that case citations require two reporters, unless there is only one available. Intra Vires will choose the best two for you. <br>Separate reporters by commas or semicolons. <br>Don't worry about periods or formatting, Intra Vires will figure it out. <br>"
 var tooltip_date	                = tooltip_header + "Year                  </div> ex. 2008 <br>You only need the year of the decision. If you input the day, month, and year, as in \"06-15-1990\" or \"June 15, 1990,\" Intra Vires will select out the year for you. <br>"

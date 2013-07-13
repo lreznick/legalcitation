@@ -1,0 +1,65 @@
+
+.input-xxlarge {
+width: 500px;
+}
+.input-xlarge {
+width: 410px;
+}
+#formoutput2 .table th, .table td { 
+     border-top: none; 
+ }
+
+.leftHalf{ width: 750px; float: left; padding-right: 0px;}
+.rightHalf{ width: 250px; float: left; padding-left: 0px;}
+
+
+#tooltips{
+	padding-left: 20px;
+	font-size: 12px;
+}
+
+.tooltip-title{
+font-family: RalewayBold;
+font-size: 16px;
+color: #333333;
+}
+
+.fixed { 
+	position: fixed; 
+	width:250px;
+	padding: none;
+	padding-left:400px;
+	
+}
+#collapseTwo-extra {
+ 	border: 0 none; 
+ }
+ 
+.accordion{
+	width: 700px;
+}
+
+.accordion-inner{
+padding-right: 10px;
+padding-left:0px;
+}
+
+
+label.valid {
+  width: 24px;
+  height: 24px;
+  background: url(assets/img/valid.png) center center no-repeat;
+  display: inline-block;
+  text-indent: -9999px;
+}
+label.error {
+  font-weight: bold;
+  color: red;
+  padding: 2px 8px;
+  margin-top: 2px;
+}
+
+button.browsebutton { 
+	background:none;
+	border:none; 
+}
