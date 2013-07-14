@@ -117,18 +117,20 @@ from legal.server.CanadianCase import *
 '''****************     CITATIONS     ****************'''
 
 
-#TESTED: GOOD
-#only takes lists!
-'''def test_ChooseBestReporters():           
-    assert_equal(ChooseBestReporters(["canlii"]),"CanLII")
-    assert_equal(ChooseBestReporters(["dfsdfsad"]),"dfsdfsad")
-    assert_equal(ChooseBestReporters(["2008 scc 9", "CanLII"]),"2008 SCC 9 (available on CanLII)")
-    assert_equal(ChooseBestReporters(["Westlaw"]),"WL")
-    assert_equal(ChooseBestReporters(["2004 Westlaw 19837"]),"2004 WL 19837")
-    assert_equal(ChooseBestReporters(["2002 CACT 3", "CanLII"]), "2002 CACT 3 (available on CanLII)")
-'''
 
-#NEEDS to look into whether the NC is actually being used (based on citation)
+#input = (Citation_Input, pincite)
+#pincite = [pinpoint/cite, reporter, type (para or page), input]
+def test_ChooseBestReporters():           
+    assert_equal(ChooseBestReporters(" 2008 SCC 9 (CanLII); [2008] 1 SCR 190, 229 NBR (2d) 1; 291 DLR (4th) 577; 64 CCEL (3d) 1; 69 Admin LR (4th) 1", False),"2008 SCC 9, [2008] 1 SCR 190")
+    assert_equal(ChooseBestReporters("dfsdfsad", False),"dfsdfsad")
+    assert_equal(ChooseBestReporters("2008 scc 9, CanLII", False),"2008 SCC 9 (available on CanLII)")
+    assert_equal(ChooseBestReporters("Westlaw", False),"WL")
+    assert_equal(ChooseBestReporters("2004 Westlaw 19837", False),"2004 WL 19837")
+    assert_equal(ChooseBestReporters("2002 CACT 3, CanLII", False), "2002 CACT 3 (available on CanLII)")
+    assert_equal(ChooseBestReporters("2008 scc 9, CanLII", ["pinpoint", "SCC", "para", "35"]),"2008 SCC 9 at para 35 (available on CanLII)")
+    assert_equal(ChooseBestReporters("2008 scc 9, CanLII", ["pinpoint", "SCC", "page", "10"]),"2008 SCC 9 at 10 (available on CanLII)")
+    assert_equal(ChooseBestReporters("2008 SCC 9 (CanLII); [2008] 1 SCR 190", ["pinpoint", "SCR", "page", "200"]),"2008 SCC 9, [2008] 1 SCR 190 at 200")
+
 #TESTED: GOOD
 #first detects whether there is a neutral citation present: if so, returns true
 #Detects in the input the jurisdiction and the court and adds them together
@@ -137,7 +139,7 @@ from legal.server.CanadianCase import *
 #input will not be a neutral citation
 #returns False if there is no jurisdiction at all
 #returns list [Court, whether jurisdiction in the court name, in which case we do not run TakeOutJurisdiction******************* (True or False)]
-def test_CleanUpCourt():           
+'''def test_CleanUpCourt():           
     assert_equal(CleanUpCourt("new brunswick court of appeal")[0],"NB CA")
     assert_equal(CleanUpCourt("AB QB")[0],"Alta QB")
     assert_equal(CleanUpCourt("Court of Quebec Civil Division")[0],"CQ (Civ Div)")
@@ -145,15 +147,12 @@ def test_CleanUpCourt():
     assert_equal(CleanUpCourt("fed court trial div")[0],"FCTD")
     assert_equal(CleanUpCourt("brit col CA")[0],"BC CA")
     assert_equal(CleanUpCourt("scc")[0],"SCC")
-    assert_equal(CleanUpCourt("supreme court of canada")[0],"SCC")
+    assert_equal(CleanUpCourt("supreme court of canada")[0],"SCC")'''
     
     
 
 
 #TESTED: GOOD
-#looks in a string to find a jurisdiction. RETURNS a list: 
-#[Proper Abbreviation for jurisdiction, The search object that found it]
-#or returns False if no jurisdiction detected
 '''def test_FindCourt():           
 	assert_equal(FindCourt("court of justice"),"Ct J")
 	assert_equal(FindCourt("h ct just"),"H Ct J")
@@ -256,17 +255,10 @@ def test_CleanUpCourt():
 # [Canada, LowerCanada, ProvCan, UpperCan, Alberta, BC, Manitoba, NewBrunswick, NewfoundlandLab, Newfoundland, NorthwestTerritories, NovaScotia, Nunavut, Ontario, PrinceEdwardIsland, Quebec, Saskatchewan, Yukon]
 # or returns False if no jurisdiction detected
 '''def test_TakeOutJurisdiction():           
-    assert_equal(FindJurisdiction("the lower court of canada")[0],"C")
-    assert_equal(FindJurisdiction("prov cant"),False)
-    assert_equal(FindJurisdiction("newfoundland and labrador")[0],"NL")
-    assert_equal(FindJurisdiction("the province of canada")[0],"Prov C")
-    assert_equal(FindJurisdiction("Canada")[0],"C")
-    assert_equal(FindJurisdiction("federal court of canada")[0],"C")
-    assert_equal(FindJurisdiction("NBCA"),False)
-    assert_equal(FindJurisdiction("northwest terr")[0],"NWT")
-    assert_equal(FindJurisdiction("i sat on a bench")[0],"Ont")
-    assert_equal(FindJurisdiction("suck	fauewh2309fdsa\\\]}}{weqwop i73w"),False)
-    #assert_equal(FindJurisdiction("")[0],"")'''
+    assert_equal(TakeOutJurisdiction("the lower court of canada")[0],"C")
+    assert_equal(TakeOutJurisdiction("prov cant"),False)
+    assert_equal(TakeOutJurisdiction("newfoundland and labrador")[0],"NL")
+    assert_equal(TakeOutJurisdiction("the province of canada")[0],"Prov C")'''
     
 
 #TESTED: GOOD
