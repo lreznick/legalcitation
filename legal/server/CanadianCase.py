@@ -2,6 +2,7 @@ import re
 import sys
 
 
+#in Capitalize: try to capitalize it but if the first character is a weird one then skip over
 
 '''****************     STYLE OF CAUSE     ****************'''
 
@@ -639,6 +640,7 @@ def FindJurisdiction(string):
 				return [jur[0][0], match]
 	return False
 
+
 #string entering this function does not contain jurisdiction, only the court name
 # entering string is CleanedUp
 #Returns a match. The comments will say what courts matched the input
@@ -864,7 +866,7 @@ def PullDate(string):
 	if FirstSearch:
 		print "***** Detected on search 1: ", FirstSearch.group(), FirstSearch.group(1), FirstSearch.group(2), FirstSearch.group(3)
 		return FirstSearch.group(2)
-	All = re.findall(r'([^\d]{1}|^|\s)(1[4-9,0][0-9]{2}|200[0-9]{1}|201[1234]{1})([^\d]{1}|$|\s)', string)
+	All = re.findall(r'([^\d]{1}|^|\s)(1[4-9][0-9]{2}|200[0-9]{1}|201[1234]{1})([^\d]{1}|$|\s)', string)
 	if not All:
 		return False
 	Dates = []
@@ -1127,7 +1129,7 @@ def GetCiteTo(pincite):
 '''****************     SHORT FORM     ****************'''
 
 def GetShortForm(string):
-	return "<i>"+string+"</i>"
+	return " [<i>"+string+"</i>]"
 
 '''****************     JUDGE    ****************'''
 
