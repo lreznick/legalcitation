@@ -14,14 +14,22 @@ Set Up
             var re = new RegExp(regexp);
             return this.optional(element) || re.test(value);
         },
-        "Please check your input."
+        "Detected an invalid character"
 	);
-	 
+	 //adding a method that allows regular expressions to check for validation
+ jQuery.validator.addMethod(
+		"regex2",
+        function(value, element, regexp) {
+            var re = new RegExp(regexp);
+            return this.optional(element) || re.test(value);
+        },
+        "Please check your input."
+	);	 
 	
 	//hiding all forms 
 	//jQuery("#hidden-forms").hide();
 	jQuery("#result-container").hide();
-	//jQuery("#GoButton").hide();
+	jQuery("#pincite-form").hide();
 	jQuery("#stackednavs").hide();
 	jQuery("#reporter-container").hide();
 	
@@ -34,24 +42,9 @@ Form Submissions
 	// Submit a form when the go button for canada case is submitted.
 	//	Then reloads the page to display the contents
 
-/*		
-		//Submitting the information to the server to be processed
-	jQuery('#GoButton').click(function() {
-            var input_string = jQuery("input#CanadaCaseStyle").val();
-            console.log("input"+ input_string);
-            jQuery.ajax({ 
-                type: "POST", 
-                data:{styleofcause : input_string},
-                success: function(data) {
-					jQuery('#result-container').hide().fadeIn(200);
-					jQuery('#results').html(data).hide().fadeIn(400);
-                },
-			});
-			console.log(input_string); return false; 
-	});
-	*/
 	jQuery('#CanadaCaseParallel').blur(function(){
-		    var parallelValue = jQuery(this).val();
+			var parallelValue = jQuery(this).val();
+			if (parallelValue != ""){			
             jQuery.ajax({ 
                 type: "POST", 
 				url: '/form/parallel',
@@ -62,7 +55,23 @@ Form Submissions
 					jQuery('#CanadaCaseCourt').val(data[0].court)
                 },
 			});
-           
+			}
+	})
+	
+	jQuery('#CanadaCaseParallel').blur(function(){
+			var courtVal = jQuery(this).val();
+			if (courtVal != ""){			
+            jQuery.ajax({ 
+                type: "POST", 
+				url: '/form/courtVal',
+                data:{parallel : parallelValue},
+				dataType: 'json',
+                success: function(data) {
+					jQuery('#CanadaCaseDate').val(data[0].date)
+					jQuery('#CanadaCaseCourt').val(data[0].court)
+                },
+			});
+			}
 	})
 			//Submitting the information to the server to be processed
 	jQuery('#GoButton').click(function() {
@@ -82,7 +91,33 @@ Form Submissions
 			return false; 
 	});
 		
-		// 
+/*
+=============================================
+Form Events
+=============================================
+*/	
+
+jQuery('#pincite-selection').change(function(){
+	var txt = jQuery(this).val();
+	if (txt == ""){
+		jQuery("#pincite-form").hide();
+	}
+	else{
+		
+		jQuery("#pincite-form").show();
+		if (txt == "citeTo"){
+			jQuery("#pincite-form-input").hide();
+		}
+		else if (txt == "pinPoint_para"){	
+			jQuery("#pincite-form-input").attr('placeholder',"paragraph");
+		}
+		else if (txt == "pinPoint_page"){
+			jQuery("#pincite-form-input").attr('placeholder',"page");
+		}
+	}
+	console.log("pincite " + txt);
+});
+
 /*
 =============================================
 Tool Tips
@@ -209,40 +244,41 @@ Validations
 			//ignore: ".search-query",
 			rules: { 
 				styleofcause: {
-					minlength: 1,
 					maxlength:250,	
-					//regex: "^(\\d{3})TN(\\d{4})$" , //detects sentences starting with a capital and then has lowercase letters and spaces					
-					//regex: "^([0-9]|[1-9][0-9]|[1-9][0-9][0-9])$", //0-999
-					//required: true 
+					regex: /^[a-zA-Z0-9.,;:'!@#$%^&()<>ßÄÖÜäöüÑñÉéÈèÁáÀàÂâŶĈĉĜĝŷÊêÔôÛûŴŵ]*$/, //0-999
+					required: true 
 				},
 				parallel: {
 					maxlength:250,	
-					//regex: "^(\\d{3})TN(\\d{4})$" , //detects sentences starting with a capital and then has lowercase letters and spaces					
-					//regex: "^([0-9]|[1-9][0-9]|[1-9][0-9][0-9])$", //0-999
-					//required: true 
+					regex: /^[a-zA-Z0-9.,;'&()ÉéÈèÁáô\[\]\s]*$/, 
+					required: true 
 				},
-				//reporter: ".ignore",
 				year: {
-					maxlength:250,	
-					//regex: "^(\\d{3})TN(\\d{4})$" , //detects sentences starting with a capital and then has lowercase letters and spaces					
-					//regex: "^([0-9]|[1-9][0-9]|[1-9][0-9][0-9])$", //0-999
-					//required: true 
+					maxlength:4,	
+					regex2: /^\d+$/,
+					regex: /^(1[4-9][0-9]{2}|200[0-9]{1}|201[1234]{1})$/,
+					required: true 
 				},
-
 				court: {
 					maxlength:250,	
-					//regex: "^(\\d{3})TN(\\d{4})$" , //detects sentences starting with a capital and then has lowercase letters and spaces					
-					//regex: "^([0-9]|[1-9][0-9]|[1-9][0-9][0-9])$", //0-999
-					//required: true 
+					regex: /^[a-zA-Z.()éÉÈèîÎôÔÁáÀàÂâ]*$/, 
+					required: true 
 				},
+				shortform: {
+					maxlength:100,	
+					regex: /^[a-zA-Z0-9.,;:'!@#$%^&()<>ßÄÖÜäöüÑñÉéÈèÁáÀàÂâŶĈĉĜĝŷÊêÔôÛûŴŵ]*$/
+				},
+				pincite_input:{
+					maxlength:10,	
+					regex: /^\d+$/,
+				},
+				
 
 			},
 			highlight: function(element) {
-				console.log("in highlight");
 				jQuery(element).closest('.control-group').removeClass('success').addClass('error');
 			},
 			unhighlight: function(element) {
-				console.log("in unhighlight");
 				//jQuery(element).closest('.control-group').removeClass('success').addClass('error');
 			},
 			success: function(element) {
@@ -251,10 +287,34 @@ Validations
 			},
 			messages: { 
 				styleofcause: {
-					minlength: "too short",
 					maxlength: "Maximum length: 250 characters",
-					//regex: "regex not working",
+					regex: "detected an invalid character",
 					required: " "
+				},
+				parallel: {
+					maxlength: "Maximum length: 250 characters",
+					regex: "detected an invalid character",
+					required: " "
+				},
+				year: {
+					maxlength: "Maximum length: 4 characters",
+					regex: "Enter a year between 1400 and 2014",
+					regex2: "digits only, please",
+					required: " "
+				},
+				court: {
+					maxlength: "Maximum length: 250 characters",
+					regex: "detected an invalid character",
+					required: " "
+				},
+				shortform: {
+					maxlength: "Maximum length: 100 characters",
+					regex: "detected an invalid character",
+					required: " "
+				},		
+				pincite_input:{
+					maxlength: "Maximum length: 10 characters",
+					regex: "digits only, please"
 				}
 			}
 		}); 
@@ -406,9 +466,8 @@ var uniNumber;
 $('.uni').hover(function() {
 		uniNumber = $(this).attr("src");
 		var patt =/\d+/;
-		//console.log(string);
 		uniNumber = patt.exec(uniNumber);
-		console.log("string " + uniNumber);
+		//console.log("string " + uniNumber);
 		
 		$(this).attr("src", "./static/img/uni/"+ uniNumber + ".png");
 		

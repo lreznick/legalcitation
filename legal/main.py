@@ -62,10 +62,7 @@ testcase4 = "<i>Reference re Securities Act</i>, 2011 SCC 66, [2011] 3 SCR 837."
 
 class Canada(object):
 	def POST(self):
-		form = web.input()
-		CanadianCase(form)
-		print "in canada"
-		return "yo"
+		return CanadianCase(web.input())
 
 	
 class Formparallel(object):
@@ -80,6 +77,9 @@ class Formparallel(object):
 			print "in formparallel"
 			date = PullDate(parallel)
 			court = CheckForCourt(parallel)
+			reporters = AutoPCPinpoint(parallel)
+			#print reporters[0]
+			#print reporters[1]
 			data = [ {'date':date, 'court':court}]
 			data_string =json.dumps(data)
 			print 'JSON:', data_string
@@ -137,7 +137,7 @@ class About(object):
 #if __name__ == "__main__":
   #  app.run()
 def CanadianCase(form):	
-	print form
+	print "in Canadian"
 	styleofcause		= "%s" % (form.styleofcause)
 	parallel				= "%s" % (form.parallel)
 	year					= "%s" % (form.year)
@@ -148,14 +148,20 @@ def CanadianCase(form):
 	citingParallel		= "%s" % (form.citing_parallel)
 	citingYear 			= "%s" % (form.citing_year)
 	citingCourt			= "%s" % (form.citing_court)
-	pincite				= None;
+	
+	pinciteSelection  = "%s" % (form.pincite_selection)
+	pinciteRadio		= "%s" % (form.pincite_radio)
+	pinciteInput		= "%s" % (form.pincite_input)	
+	pincite 				= [pinciteSelection, pinciteRadio, "page", pinciteInput]	 #deal with	
 	#history 				= "%s" % (form.history) #list of lists
 	leaveSelection 	= "%s" % (form.leaveToAppeal_selection)
 	leaveCourt		 	= "%s" % (form.leaveToAppeal_court)
 	leaveCitation  	= "%s" % (form.leaveToAppeal_citation)
 	leaveDocket	  	= "%s" % (form.leaveToAppeal_docket)
-	subnom 			= "%s" % (form.subnom)
-	
+		
+	citations ="" 
+	leaveToAppeal =""
+	history =""
 	#[granted, courtappeal, citation/or docketnumber, input of docket]
 	#leaveToAppeal = "%s" % (form.leaveToAppeal) #deal with
 	
@@ -163,37 +169,38 @@ def CanadianCase(form):
 	#========	Style of Cause
 	if styleofcause:
 		#if checkStyleOfCause(styleofcause)
+		print "set style" + styleofcause
 		styleofcause = GetStyleOfCause(styleofcause)
 	
 	#======== Citations
-	if not parallel or year or court:
+	if not (parallel and year and court):
+		print "exit 1"
 		return #with error
 	else:
 		#checkCitations(parallel, court, year, pincite)
-		if not form.pincite_radio:
-			pincite = False
-		else:
-			pinciteSelection  = "%s" % (form.pincite_selection)
-			pinciteRadio		= "%s" % (form.pincite_radio)
-			pinciteInput		= "%s" % (form.pincite_input)
+		if pinciteSelection:
 			# do dropdown
-			pincite 				= [pinciteSelection, pinciteRadio, "type", pinciteInput]	 #deal with				
 			if (pinciteSelection =="citeTo"):
-				return
+				print "exit cite-to"
+				return			
 				#citeTo = GetCiteTo(pincite)				
-			citations = GetCitations(parallel, court, year, pincite)
+		citations = GetCitations(parallel, court, year, pincite)
 	
 	#======== Citations
-	if not (citingStyle and citingParallel and citingYear and citingCourt):
-		return #with error
+	if (citingStyle == citingParallel == citingYear == citingCourt):
+		print "exit citing"
+		
 	else:
-		#checkCiting(citingStyle, citingParallel, citingYear, citingCourt)
-		citing = GetCiting(citingStyle, citingParallel, citingYear, citingCourt)
+		if (citingStyle and  citingParallel and citingYear and citingCourt):
+			#checkCiting(citingStyle, citingParallel, citingYear, citingCourt)
+			citing = GetCiting(citingStyle, citingParallel, citingYear, citingCourt)
+		else:
+			print "didnt fully fill out citing"
 	
 	#check history -> see if its all completed
 	#validatehistory
-	if history:
-		history = HistoryGetCitations(history)
+	#if history:
+		#history = GetHistory(history)
 	
 	if shortform:
 		shortform = GetShortForm(shortform)
@@ -204,9 +211,10 @@ def CanadianCase(form):
 	if leaveToAppeal:
 		#check leaveToAppeal	
 		leaveToAppeal = GetLeaveToAppeal(leaveToAppeal)
-	if subnom:
-		subnom = GetSubnom(subnom)		
-	return 
+	
+	returnString = styleofcause + citations +judge + shortform + leaveToAppeal + history
+	print returnString
+	return returnString
 '''
 	
 		
