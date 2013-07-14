@@ -135,56 +135,6 @@ def StyleAttributes(string):
 	#print("liquid:: " + string+"\n")
 	# (8) COUNTRIES (need list of countries)
 	# (9) CITIES (need database of cities and municipalities)
-	# (10) PROVINCES
-	Provinces = [["British Columbia", ["BC", "Brit Col", "Brit Colum"], "British Columbian"], ["Alberta", ["AB", "Alta"], "Albertan"], ["Saskatchewan", ["SK", "Sask"], "Saskatchewanian"], ["Manitoba", ["MB"], "Manitoban"], ["Ontario", ["ON", "Ont"], "Ontarian"], ["Quebec", ["QB", "Que","Qc"], "Quebecois"], ["New Brunswick", ["NB", "New Bruns", "N Bruns"], "New Brunskicker"], ["Nova Scotia", ["NS", "Nova Scot"], "Nova Scotian"], ["Prince Edward Island", ["PEI", "Prince Ed", "Prince Ed Isl"], "Prince Edward Islander"], ["Newfoundland and Labrador", ["NL", "NFLD", "Newfoundland"], "Newfoundlander"]]
-	for x in Provinces:
-		m = False #assume there is no match yet
-		for i in x[1]:
-			reg_one = re.compile(r'^'+i+r'\s', re.I)
-			reg_two = re.compile(r'\s'+i+r'\s', re.I)
-			reg_three = re.compile(r'\s'+i+r'$', re.I)
-			reg_four = re.compile(r'^'+i+r'$', re.I)
-			if reg_one.search(string):
-				#print "Province match one\n"
-				m == True
-				match = reg_one.search(string)#detect the match object
-				sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
-				string = re.sub(sub, x[0], string)
-			if m == True: break
-			if reg_two.search(string):
-				#print "Province match two\n"
-				m = True
-				match = reg_two.search(string)#detect the match object
-				sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
-				string = re.sub(sub, x[0], string)
-			if m == True: break
-			if reg_three.search(string):
-				#print "Province match three\n"
-				m = True
-				match = reg_three.search(string)#detect the match object
-				sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
-				string = re.sub(sub, x[0], string)
-			if m == True: break
-			if reg_four.search(string):
-				#print "Province match four\n"
-				m = True
-				match = reg_four.search(string)#detect the match object
-				sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
-				string = re.sub(sub, x[0], string)
-	#print("Provinces:: " + string+"\n")
-	# (11) CROWN CIVIL (AG and MNR)
-	AG = re.compile(r'(\(?(a|A)tt(orney)?\s?(g|G)en(eral)?\s?((o|O)f)?\)?|\(?(A|a)(G|g)\)?)')
-	if AG.search(string):
-		match = AG.search(string)#detect the match object
-		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
-		#print "sub = "+sub+"\n"	#print "string = "+string+"\n"		#print "subbed in = "+re.sub(sub, '', string)+"\n"
-		string = re.sub(sub, '', string) + " (AG)"
-	MNR = re.compile(r'(\(?(m|M)inister\s?((o|O)f)?\s(n|N)at(ional)?\s(r|R)ev(enue)?\)?|\(?(M|m)(N|n)(R|r)\)?)')
-	if MNR.search(string):
-		match = MNR.search(string)#detect the match object
-		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
-		#print "sub = "+sub+"\n"	#print "string = "+string+"\n"		#print "subbed in = "+re.sub(sub, '', string)+"\n"
-		string = re.sub(sub, '', string) + " (MNR)"
 	string = re.sub('\(\s*?\)', '', string)#there are brackets sometimes not subbed out of the string, so I remove empty ones
 	string = CleanUp(string)#clean string for final presentation
 	#print("End:: " + string+"\n")
@@ -233,12 +183,6 @@ def Action(StyleOfCause):
 	if len(Parties)==1: #If there is only one party
 		#print "Length of party is one: ", Parties[0]
 		#Replace provincial acronyms with the correct format
-		Provinces = [["British Columbia", ["BC", "Brit Col", "Brit Colum", "British Columbia", "British Columbian"]], ["Alberta", ["AB", "Alta", "Alberta", "Albertan"]], ["Saskatchewan", ["SK", "Sask", "Saskatchewan", "Saskatchewanian"]], ["Manitoba", ["MB", "Manitoba", "Manitoban"]], ["Ontario", ["ON", "Ont", "Ontario", "Ontarian"]], ["Quebec", ["QB", "Que","Qc", "Quebec", u"Qu\xe9bec", "Quebecois", u"Qu\xe9becois"]], ["New Brunswick", ["NB", "New Bruns", "N Bruns", "New Brunskick", "New Brunskicker"]], ["Nova Scotia", ["NS", "Nova Scot", "Nova Scotia", "Nova Scotian"]], ["Prince Edward Island", ["PEI", "Prince Ed", "Prince Ed Isl", "Prince Edward Island", "Prince Edward Islander"]], ["Newfoundland and Labrador", ["NL", "NFLD", "Newfoundland", "Newfoundland and Labrador", "Newfoundlander"]]]
-		for x in Provinces: #detect if any of the provincial titles are in the string. if so, fix it up and return it
-			for j in x[1]:
-				if re.search(regstr(j), Parties[0], re.I):
-					Parties[0] = re.sub('('+CleanUp(re.search(regstr(j), Parties[0], re.I).group())+')', x[0], Parties[0]) #replace (BC) or (Brit Col) etc with (British Columbia)
-		#print "After looking for provincial abbreviations, the string is: ", Parties[0]
 		# First, check if it is a statutory reference
 		Ref = ["Reference", "Ref", "Re", "In re", "In the matter of", "Dans l'affaire de"]
 		Statute = ["Statute", "Code", "Act", "Regulation", "Regulations", "Guidelines"]
@@ -296,45 +240,38 @@ def regstrElec(i):#i is a string input
 # else return False
 #Court must be surrounded by a space on each side
 def CheckForCourt(string): #pull the neutral citation from the list if there is one
+	print "**** Starting CheckForCourt"
 	print "Checking for court in string: ", string
-	Courts = ['SCC', 'FC', 'FCA', 'TCC', 'CMAC', 'Comp Trib', 'CHRT', 'PSSRB', 'ABCA', 'ABQB', 'ABPC', 'ABASC', 'BCCA', 'BCSC', 'BCPC', 'BCHRT', 'BCSECCOM', 'MBCA', 'MBQB', 'MBPC', 'NBCA', 'NBQB', 'NBPC', 'NFCA', 'NLSCTD', 'NWTCA', 'NWTSC', 'NWTTC', 'NSCA', 'NSSC', 'NSSF', 'NSPC', 'NUCJ', 'NUCA', 'ONCA', 'ONSC', 'ONCJ', 'ONWSIAT', 'ONLSAP', 'ONLSHP', 'PESCAD', 'PESCTD', 'QCCA', 'QCCS', 'QCCP', 'QCTP', 'CMCQ', 'QCCRT', 'SKCA', 'SKQB', 'SKPC', 'SKAIA', 'YKCA', 'YKSC', 'YKTC', 'YKSM', 'YKYC', 'CACT']
-	Reporters = ['SCR']
-	for x in Courts:
+	SupremeCourtReporters = ['US', 'S Ct', 'L Ed 2d', 'USLW']
+	Federal = ['F', 'F (2d)', 'F (3d)', 'F Supp', 'F (2d) Supp']
+	PreferredRegional = ['A', 'A (2d)', 'NE', 'NE (2d)', 'NW', 'NW (2d)', 'P', 'P (2d)', 'P (3d)', 'SE', 'SE (2d)',  'SW', 'SW (2d)',  'So', 'So (2d)']
+	PreferredState = ['Cal', 'Cal (2d)', 'Cal (3d)', 'Cal (4th)', 'NYS (2d)']
+	Regional = ['ALR', 'ALR (2d)', 'ALR (3d)', 'ALR (4th)', 'ALR (5th)', 'L Ed']
+	Professions = ['AMC', 'Av Cas', 'ICC', 'LAR']
+	NYAppeal = ['App Div (2d)']
+	ARAppeal = ['Ark App']
+	USAppeal = ['US App DC']
+	Other = ['Act', "A Int'l LC", 'ADIL', 'Ad & El', 'Ala', 'Ala (NS)', 'Alaska Fed', 'Alaska R', 'Ariz', 'Ark',  'CIJ M\\xe9moires', 'CIJ Rec', 'Cons sup N-F', 'CPJI (Ser A)', 'CPJI (S\\xe9r B)', 'CPJI (S\\xe9r A/B)', 'CPJI (S\\xe9r C)', 'F', 'F (2d)', 'F (3d)', 'F Cas', 'F Supp', 'F Supp (2d)', 'Hague Ct Rep', 'Hague Ct Rep (2d)', 'ICJ Pleadings', 'ICJ Rep', 'ICSID', 'I LR', 'Inter-Am Ct HR (Ser A)', 'Inter-Am Ct HR (Ser B)', 'Inter-Am Ct HR (Ser C)', 'NY', 'NY (2d)', 'RIAA', 'S Ct', 'SEC Dec', 'TMR', ]
+	for x in SupremeCourtReporters:
 		if re.search(regstrElec(x), string, re.I): 
-			print "Found neutral citation: ", x
+			print "Found a reporter that implies the USSC: ", x
 			return x
-	for x in Reporters:
-		if re.search(regstrElec(x), string, re.I):
-			 print "Supreme court reporter detected, returning SCC"
-			 return "SCC"
-	print string.lower(), "is not a neutral citation"
 	return False
 
 
 #returns a list: [Proper Abbreviation for jurisdiction, The search object that found it]
 #or returns False if no jurisdiction detected
 def FindJurisdiction(string):	
-	Canada = [["C"], ["can", "canada", "canadian"]]
-	LowerCanada = [["LC"], ["lc", "lower can", "lower ca", "lower canada", "lower c"]]
-	ProvCan = [["Prov C"], ["prov c", "prov can", "province of canada", "prov of c", "prov of can"]]
-	UpperCan = [["UC"], ["uc", "upper c", "upper can", "upper canada", "up can", "up c"]]
-	Alberta = [["Alta"], ["ab", "alberta", "alta", "albertan"]]
-	BC = [["BC"], ["bc", "british columbia", "brit col", "british columbian"]]
-	Manitoba = [["Man"], ["man", "mb", "manitoba", "manitoban"]]
-	NewBrunswick = [["NB"], ["nb", "new brunswick","new brunswicker"]]
-	Newfoundland = [["Nfld"], ["nf", "nfld", "newfoundland", "newfoundlander"]]
-	NewfoundlandLab = [["NL"], ["nl", "labrador"]]
-	NorthwestTerritories = [["NWT"], ["nwt", "north west territories", "north west terr", "northwest terr", "nortwest territories"]]
-	NovaScotia = [["NS"], ["ns", "nova scotia", "nova scotian"]]
-	Nunavut = [["Nu"], ["nu", "nun", "nunavut", "nvt"]]
-	Ontario = [["Ont"], ["on", "ont", "ontario", "ontarian"]]
-	PrinceEdwardIsland = [["PEI"], ["pei", "prince edward island"]]
-	Quebec = [["Qc"], ["qc", "quebec", u"qu\xe9bec"]]
-	Saskatchewan = [["Sask"], ["sk", "saskatchewan", "sask"]]
-	Yukon = [["Yu"], ["yu", "yukon", "yk"]]
-	Fed = [["F"], ["federal", "fed"]]
-	All = [LowerCanada, ProvCan, UpperCan, Canada, Alberta, BC, Manitoba, NewBrunswick, NewfoundlandLab, Newfoundland, NorthwestTerritories, NovaScotia, Nunavut, Ontario, PrinceEdwardIsland, Quebec, Saskatchewan, Yukon, Fed]
-	for jur in All:
+	States = [
+	["Ala", ["alabama", "al"]],
+	["Alaska", ["ak"]],
+	["Ariz", ["arizona", "az"]],
+	["Arkansas", ["alabama", "al"]],
+	["Ala", ["alabama", "al"]],
+	
+	
+	
+	for jur in States:
 		for abbr in jur[1]:
 			match = re.search(regstrElec(abbr), string, re.I)#regstrElec has the ^ + $ object
 			if match:

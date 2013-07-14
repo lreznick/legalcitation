@@ -423,9 +423,7 @@ def AutoPCPinpoint(Citation_Input): # choose the best reporter out of all of the
 			Priority +=1
 	#now sort List based on the priorities for each citation (sorted list is called Sorted)
 	print "After assigning priorities, List: ", List
-	if len(List)==1: #if there is only one reporter given, return it
-		return [List[0][0], False]
-	else:
+	if len(List)>1:
 		for x in List:
 			if x[2]:#if source is electronic
 				x[1] = Priority#set priority as last (to take account of whether there are unrecognized reporters)
@@ -434,12 +432,14 @@ def AutoPCPinpoint(Citation_Input): # choose the best reporter out of all of the
 	Sorted = sorted(List, key=lambda tup: tup[1])
 	print "Sorted is: ", Sorted
 	if NeutralCitation:
-		return [Sorted[0][0], False]
+		return [[Sorted[0][0], False], "neutral"]#allowed to pinpoint to paragraph on the neutral citation
+	if len(Sorted)==1: #if there is only one reporter given, return it
+		return [[Sorted[0][0], False], "one"]#allowed to pinpoint to paragraph or pinpoint to page on the one reporter
 	First = Sorted[0]
 	Second = Sorted[1]
 	if Second[2]:
-		return [First[0], False]
-	return [First[0], Second[0]]
+		return [[First[0], False], "one"]#allowed to pinpoint to paragraph or pinpoint to page on the one reporter
+	return [[First[0], Second[0]], "two"]#allowed to pinpoint to paragraph, pinpoint to page, or cite to either reporter
 
 
 

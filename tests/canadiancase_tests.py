@@ -125,6 +125,7 @@ def test_AutoPCPinpoint():
 #pincite = [pinpoint/cite, reporter, type (para or page), input]
 def test_ChooseBestReporters():           
     assert_equal(ChooseBestReporters(" 2008 SCC 9 (CanLII); [2008] 1 SCR 190, 229 NBR (2d) 1; 291 DLR (4th) 577; 64 CCEL (3d) 1; 69 Admin LR (4th) 1", False),"2008 SCC 9, [2008] 1 SCR 190")
+    assert_equal(ChooseBestReporters(" 321 DLR 32; 229 NBR (2d) 1; 291 DLR (4th) 577; 64 CCEL (3d) 1; 69 Admin LR (4th) 1", False), "229 NBR (2d) 1, 321 DLR 32")
     assert_equal(ChooseBestReporters("dfsdfsad", False),"dfsdfsad")
     assert_equal(ChooseBestReporters("2008 scc 9, CanLII", False),"2008 SCC 9 (available on CanLII)")
     assert_equal(ChooseBestReporters("Westlaw", False),"WL")
