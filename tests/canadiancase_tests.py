@@ -118,6 +118,9 @@ from legal.server.CanadianCase import *
 
 
 
+def test_AutoPCPinpoint():
+	assert_equal(AutoPCPinpoint(" 2008 SCC 9 (CanLII); [2008] 1 SCR 190, 229 NBR (2d) 1; 291 DLR (4th) 577; 64 CCEL (3d) 1; 69 Admin LR (4th) 1"), ["SCC", False])
+
 #input = (Citation_Input, pincite)
 #pincite = [pinpoint/cite, reporter, type (para or page), input]
 def test_ChooseBestReporters():           
