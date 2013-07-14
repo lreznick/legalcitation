@@ -67,17 +67,19 @@ Form Submissions
 			//Submitting the information to the server to be processed
 	jQuery('#GoButton').click(function() {
             //var input_string = jQuery("input#testingcases").val();
+		   
            // console.log("input"+ input_string);
             jQuery.ajax({ 
                 type: "POST", 
                 data: jQuery('#canadacase-form').serialize(),
 				url:'/form/CanadianCase',
                 success: function(data) {
+					console.log("the return data", data);
 					jQuery('#result-container').hide().fadeIn(200);
 					jQuery('#results').html(data).hide().fadeIn(400);
                 },
 			});
-			console.log(input_string); return false; 
+			return false; 
 	});
 		
 		// 
@@ -211,27 +213,27 @@ Validations
 					maxlength:250,	
 					//regex: "^(\\d{3})TN(\\d{4})$" , //detects sentences starting with a capital and then has lowercase letters and spaces					
 					//regex: "^([0-9]|[1-9][0-9]|[1-9][0-9][0-9])$", //0-999
-					required: true 
+					//required: true 
 				},
 				parallel: {
 					maxlength:250,	
 					//regex: "^(\\d{3})TN(\\d{4})$" , //detects sentences starting with a capital and then has lowercase letters and spaces					
 					//regex: "^([0-9]|[1-9][0-9]|[1-9][0-9][0-9])$", //0-999
-					required: true 
+					//required: true 
 				},
 				//reporter: ".ignore",
-				date: {
+				year: {
 					maxlength:250,	
 					//regex: "^(\\d{3})TN(\\d{4})$" , //detects sentences starting with a capital and then has lowercase letters and spaces					
 					//regex: "^([0-9]|[1-9][0-9]|[1-9][0-9][0-9])$", //0-999
-					required: true 
+					//required: true 
 				},
 
 				court: {
 					maxlength:250,	
 					//regex: "^(\\d{3})TN(\\d{4})$" , //detects sentences starting with a capital and then has lowercase letters and spaces					
 					//regex: "^([0-9]|[1-9][0-9]|[1-9][0-9][0-9])$", //0-999
-					required: true 
+					//required: true 
 				},
 
 			},

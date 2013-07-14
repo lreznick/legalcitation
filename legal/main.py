@@ -65,7 +65,7 @@ class Canada(object):
 		form = web.input()
 		CanadianCase(form)
 		print "in canada"
-		return
+		return "yo"
 
 	
 class Formparallel(object):
@@ -108,7 +108,6 @@ class Index(object):
 			return render.index()
 		elif webURL == "1":
 			print "1"
-			test123(webURL)
 			return testcase1
 		elif webURL == "2":
 			return testcase2
@@ -137,45 +136,54 @@ class About(object):
 		
 #if __name__ == "__main__":
   #  app.run()
-def CanadianCase(form):
-	return
-'''styleofcause		= "%s" % (form.styleofcause)
+def CanadianCase(form):	
+	print form
+	styleofcause		= "%s" % (form.styleofcause)
 	parallel				= "%s" % (form.parallel)
 	year					= "%s" % (form.year)
 	court					= "%s" % (form.court)
 	shortform 			= "%s" % (form.shortform)
-	#pincite = [pinpoint/cite, reporter, type (para or page), input]
-	pinCite 				= "%s" % (form.pincite)
-	judge = "%s" % (form.judge)
-		#[ [parallel,year, court, affirming/reversing], [..]]
-	history = "%s" % (form.history) #list of lists
-	#citing = "%s" % (form.citing)
-	citingStyle ="%s" % (form.citing-styleofcause)
-	citingParallel ="%s" % (form.citing-parallel)
-	citingYear ="%s" % (form.citing-year)
-	citingCourt="%s" % (form.citing-court)
+	judge 				= "%s" % (form.judge)
+	citingStyle 			= "%s" % (form.citing_styleofcause)
+	citingParallel		= "%s" % (form.citing_parallel)
+	citingYear 			= "%s" % (form.citing_year)
+	citingCourt			= "%s" % (form.citing_court)
+	pincite				= None;
+	#history 				= "%s" % (form.history) #list of lists
+	leaveSelection 	= "%s" % (form.leaveToAppeal_selection)
+	leaveCourt		 	= "%s" % (form.leaveToAppeal_court)
+	leaveCitation  	= "%s" % (form.leaveToAppeal_citation)
+	leaveDocket	  	= "%s" % (form.leaveToAppeal_docket)
+	subnom 			= "%s" % (form.subnom)
 	
 	#[granted, courtappeal, citation/or docketnumber, input of docket]
-	leaveToAppeal = "%s" % (form.leaveToAppeal) #deal with
-	subnom = "%s" % (form.subnom)
+	#leaveToAppeal = "%s" % (form.leaveToAppeal) #deal with
 	
-	if not styleofcause:
-		return #with error
-	else:
-		#checkStyleOfCause(styleofcause)
+	
+	#========	Style of Cause
+	if styleofcause:
+		#if checkStyleOfCause(styleofcause)
 		styleofcause = GetStyleOfCause(styleofcause)
 	
+	#======== Citations
 	if not parallel or year or court:
 		return #with error
 	else:
 		#checkCitations(parallel, court, year, pincite)
-		if not pincite:
+		if not form.pincite_radio:
 			pincite = False
 		else:
-			if (pincite[0] == "Cite To"):
-				citeTo = GetCiteTo(pincite)				
-		citations = GetCitations(parallel, court, year, pincite)
+			pinciteSelection  = "%s" % (form.pincite_selection)
+			pinciteRadio		= "%s" % (form.pincite_radio)
+			pinciteInput		= "%s" % (form.pincite_input)
+			# do dropdown
+			pincite 				= [pinciteSelection, pinciteRadio, "type", pinciteInput]	 #deal with				
+			if (pinciteSelection =="citeTo"):
+				return
+				#citeTo = GetCiteTo(pincite)				
+			citations = GetCitations(parallel, court, year, pincite)
 	
+	#======== Citations
 	if not (citingStyle and citingParallel and citingYear and citingCourt):
 		return #with error
 	else:
@@ -191,19 +199,24 @@ def CanadianCase(form):
 		shortform = GetShortForm(shortform)
 		
 	if judge:
-		judge = GetJudge(judge)
-		
-	
-	 if leaveToAppeal:
+		judge = GetJudge(judge)	
+
+	if leaveToAppeal:
 		#check leaveToAppeal	
 		leaveToAppeal = GetLeaveToAppeal(leaveToAppeal)
 	if subnom:
-		subnom = GetSubnom(subnom)
+		subnom = GetSubnom(subnom)		
+	return 
+'''
+	
 		
 	returnstring = styleofcause
 	return "yo" '''
 	
+'''print form
 
+	
+	return '''
 def main():
 	#webURL = "http://www.canlii.org/en/ca/scc/doc/1997/1997canlii400/1997canlii400.html"
 	#Connect2Web(webURL)

@@ -166,20 +166,20 @@ $def with (greeting= None)
 										</div>	
 										
 										
-										<!--pinpoint-->
+										<!--Pincite-->
 										<div class="control-group">			
 										<label class="control-label" for="CanadaCasePinpoint">Pinpoint</label>
 											<div class="controls">
-												<select>
-													<option>Pinpoint</option>
-													<option>Cite To</option>
+												<select name = "pincite_selection">
+													<option value ="pinPoint">Pinpoint</option>
+													<option value = "citeTo">Cite To</option>
 												</select>	
 												<label class="radio">
-												  <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+												  <input type="radio" name="pincite_radio" id="pinciteRadio1" value="option1" >
 												  Reporter 1
 												</label>
 												<label class="radio">
-												  <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+												  <input type="radio" name="pincite_radio" id="pinciteRadio1" value="option2" >
 												  Reporter2
 												</label>	
 												<div class="input-prepend">
@@ -193,7 +193,7 @@ $def with (greeting= None)
 													  <li> Page </li>
 													</ul>
 												  </div>
-												  <input class="span2" id="prependedDropdownButton" type="text">
+												  <input class="span2" id="prependedDropdownButton" name = "pincite_input" type="text">
 												</div>												
 											<!--	<input type="text" class="input-xxlarge" id="CanadaCasePinpoint"
 															placeholder="" name = "pinpoint"> -->
@@ -218,25 +218,25 @@ $def with (greeting= None)
 											<div class="input-prepend" style="padding-bottom:2px">
 											<span class="add-on" style="width:80px; ">Style Of Cause</span>
 												<input type="text" class="input-xlarge" id="CanadaCaseCiting-Style"
-															placeholder="" name = "citing-styleofcause">
+															placeholder="" name = "citing_styleofcause">
 											</div>
 												<!-- parallel -->
 											<div class="input-prepend" style="padding-bottom:2px">
 											<span class="add-on" style="width:80px">Parallel Citations</span>
 												<input type="text" class="input-xlarge" id="CanadaCaseCiting-Parallel"
-															placeholder="" name = "citing-parallel">
+															placeholder="" name = "citing_parallel">
 											</div>
 											<!-- year-->
 											<div class="input-prepend" style="padding-bottom:2px">
 											<span class="add-on"style="width:80px">Year of Decision</span>
 												<input type="text" class="input-xlarge" id="CanadaCaseCiting-Year"
-															placeholder="" name = "citing-year">
+															placeholder="" name = "citing_year">
 											</div>
 											<!-- court -->
 											<div class="input-prepend" style="padding-bottom:2px">
 											<span class="add-on"style="width:80px">Court</span>
 												<input type="text" class="input-xlarge" id="CanadaCaseCiting-Court"
-															placeholder="" name = "citing-court">
+															placeholder="" name = "citing_court">
 											</div>
 											</div>
 										</div>		
@@ -257,14 +257,14 @@ $def with (greeting= None)
 												<div class="input-prepend" style="padding-bottom:2px">
 												<span class="add-on" style="width:80px">Year of Decision</span>
 													<input type="text" class="input-xlarge" id="CanadaCaseHistory-Year"
-																placeholder="" name = "history-year">
+																placeholder="" name = "history_year">
 												</div>
 												
 												<!-- Reversed By-->
 												<div class="input-prepend" style="padding-bottom:2px">
 												<span class="add-on"style="width:80px">Court</span>
 													<input type="text" class="input-xlarge" id="CanadaCaseHistory-Court"
-																placeholder="" name = "history-court">
+																placeholder="" name = "history_court">
 												</div>
 												<select >
 													<option>Affirming</option>
@@ -278,31 +278,31 @@ $def with (greeting= None)
 										<div class="control-group">
 											<label class="control-label" for="CanadaCaseLeaveToAppeal">Leave To Appeal</label>
 											<div class="controls">
-											<select>
-													<option>Refused</option>
-													<option>Granted</option>
-													<option>Requested</option>
-													<option>As of Right</option>
+											<select name = "leaveToAppeal_selection">
+													<option value ="refused">Refused</option>
+													<option value ="granted">Granted</option>
+													<option value ="requested">Requested</option>
+													<option value ="asOfRight">As of Right</option>
 												</select>	
-											<!-- Affirming -->
+											<!-- court appealed to-->
 											<div class="input-prepend" style="padding-bottom:2px">
 											<span class="add-on" style="width:80px; ">Court Appealed To</span>
 												<input type="text" class="input-xlarge" id="CanadaCaseLeaveToAppeal"
-															placeholder="" name = "leaveToAppeal">
+															placeholder="" name = "leaveToAppeal_court">
 											</div>
 											
-											<!-- Reversing -->
+											<!-- citation -->
 											<div class="input-prepend" style="padding-bottom:2px">
 											<span class="add-on" style="width:80px">Citation</span>
 												<input type="text" class="input-xlarge" id="CanadaCaseHistory"
-															placeholder="" name = "history">
+															placeholder="" name = "leaveToAppeal_citation">
 											</div>
 											
-											<!-- Reversed By-->
+											<!-- docket no.-->
 											<div class="input-prepend" style="padding-bottom:2px">
 											<span class="add-on"style="width:80px">Docket No.</span>
 												<input type="text" class="input-xlarge" id="CanadaCaseHistory"
-															placeholder="" name = "history">
+															placeholder="" name = "leaveToAppeal_docket">
 											</div>
 
 											</div>
