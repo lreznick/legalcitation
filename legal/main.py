@@ -66,7 +66,11 @@ class Canlii(object):
 	def POST(self):
 		form = web.input()
 		url = "%s" % (form.url)
-		return Connect2Web(url)
+		out =Connect2Web(url)
+	
+		data = [ {'output':out[0], 'styleofcause':out[1][0], 'parallel':out[1][1], 'court':out[1][2]}]
+		data_string =json.dumps(data)
+		return data_string
 
 class Canada(object):
 	def POST(self):

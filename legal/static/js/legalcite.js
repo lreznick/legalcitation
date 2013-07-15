@@ -43,17 +43,19 @@ Form Submissions
 	//	Then reloads the page to display the contents
 
 	jQuery('#canlii-go').click(function(){
+			console.log("ingo");
 			jQuery.ajax({ 
                 type: "POST", 
 				url: '/form/canlii',
                 data:{url: jQuery('#canlii-input').val()},
 				dataType: 'json',
                 success: function(data) {
-					jQuery('#canlii-result').html(data[0].output).hide().fadeIn(400);
+					console.log(data[0]);
+					jQuery('#canlii-result').html('<b style ="font-size: 18px"> Result:   </b> '+data[0].output).hide().fadeIn(400);
                 },
 			});
-			}
-	})
+			return false; 	
+	});
 	
 	jQuery('#CanadaCaseParallel').blur(function(){
 			var parallelValue = jQuery(this).val();
