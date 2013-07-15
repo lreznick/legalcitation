@@ -51,14 +51,14 @@ def Connect2Web(webURL):
 		else:
 			print "Did not find Style of Cause after searching in Title."
 		Title = CleanUp(Title[len(styleofcause)+1:])
-		print "Title string modified to: ", Title
+		print "1. Title string modified to: ", Title
 		courtString = re.compile(r'(?<=\()(.*)(\))$')
 		courtSearch = courtString.search(Title)
 		if courtSearch:
 			court = courtString.search(Title).group(1)
 			print "Court: ", court
 			Title = CleanUp(re.sub('\(' + court + '\)', '', Title))
-			print "Title string modified to: ", Title
+			print "2. Title string modified to: ", Title
 		else:
 			print "No Court at backend of Title"
 		if parallel:
@@ -77,8 +77,9 @@ def Connect2Web(webURL):
 			date = PullDate(PC)
 			if date:
 				print "Date found in Parallel:", date
-	print "End of Connect2Web! Returning: ", [styleofcause, parallel, date, court], "*********"
-	return [styleofcause, parallel, date, court]
+	Output = GetStyleOfCause(styleofcause)+GetCitations(parallel, court, date, False)
+	print "End of Connect2Web! Returning: ", Output, "*********"
+	return [Output, [styleofcause, parallel, date, court]]
 
 
 def run():
