@@ -881,6 +881,12 @@ def PullDate(string):
 #this is the function that will ultimately call all of the other functions for the parallel citations
 #the input is what is written in the form for parallel citations
 def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
+	print "\n****** Starting GetCitations"
+	print "input is:"
+	print "citation string: ", Citation_Input
+	print "court: ", Court_Input
+	print "date: ", Date_Input
+	print "pincite: ", pincite, "\n"
 	#pincite = [pinpoint/cite, reporter, type (para or page), input]
 	TwoBest = ChooseBestReporters(Citation_Input, pincite) #this returns a string with the two best reporters already formatted
 	#TwoBest RETURNS THE REPORTERS THAT ARE USED
@@ -899,16 +905,16 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 		print "NOT COURT AND NOT CITATIONDATE DETECTED ****"
 		#Court_input = raw_input("Enter Court with Canadian Jurisdiction: \n")
 		Ct = CleanUpCourt(CleanUp(Court_Input)) 
-		Ct = TakeOutJurisdiction(Ct, TwoBest)
-		JudgementDate = CleanUp(Date_input)
+		Ct = TakeOutJurisdiction(Ct[0], TwoBest)
+		JudgementDate = CleanUp(Date_Input)
 		OUTPUT = ' ('+ JudgementDate + '), ' + TwoBest +' (' + Ct + ')'#combine all of this in the right way
 	if CitationDate and not Court: 
 		print "CITATIONDATE AND NOT COURT DETECTED ****"
 		#Court_input = raw_input("Enter Court with Canadian Jurisdiction: \n")
 		Ct = CleanUpCourt(CleanUp(Court_Input)) 
-		Ct = TakeOutJurisdiction(Ct, TwoBest)
+		Ct = TakeOutJurisdiction(Ct[0], TwoBest)
 		Date_input = raw_input("Enter Date: \n")
-		JudgementDate = CleanUp(Date_input)
+		JudgementDate = CleanUp(Date_Input)
 		if (JudgementDate==CitationDate): 
 			OUTPUT = ', ' + TwoBest + '(' + Ct + ')'
 		else:

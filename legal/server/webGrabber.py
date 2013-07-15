@@ -56,15 +56,20 @@ def Connect2Web(webURL):
 		courtSearch = courtString.search(Title)
 		if courtSearch:
 			court = courtString.search(Title).group(1)
-			print "Court: ", court
+			print "Court found in title string: ", court
 			Title = CleanUp(re.sub('\(' + court + '\)', '', Title))
 			print "2. Title string modified to: ", Title
 		else:
 			print "No Court at backend of Title"
 		if parallel:
+			Pcourt = CheckForCourt(parallel)
+			if Pcourt:
+				print "Court found in parallel: ", Pcourt
+				parallel = CleanUp(re.sub('\(' + Pcourt + '\)', '', parallel))
+				print "1. Parallel string modified to: ", parallel
 			if Title not in parallel:
 				parallel = parallel + "; " + Title
-				print "Parallel string modified to: ", parallel
+				print "2. Parallel string modified to: ", parallel
 		else: parallel = Title
 	else:
 		print "No Title string."
@@ -77,7 +82,7 @@ def Connect2Web(webURL):
 			date = PullDate(PC)
 			if date:
 				print "Date found in Parallel:", date
-	Output = GetStyleOfCause(styleofcause)+GetCitations(parallel, court, date, False)
+	Output = GetStyleOfCause(styleofcause)+GetCitations(parallel, court, date, False)+'.'
 	print "End of Connect2Web! Returning: ", Output, "*********"
 	return [Output, [styleofcause, parallel, date, court]]
 
