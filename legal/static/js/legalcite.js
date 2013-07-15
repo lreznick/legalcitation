@@ -42,6 +42,19 @@ Form Submissions
 	// Submit a form when the go button for canada case is submitted.
 	//	Then reloads the page to display the contents
 
+	jQuery('#canlii-go').click(function(){
+			jQuery.ajax({ 
+                type: "POST", 
+				url: '/form/canlii',
+                data:{url: jQuery('#canlii-input').val()},
+				dataType: 'json',
+                success: function(data) {
+					jQuery('#canlii-result').html(data[0].output).hide().fadeIn(400);
+                },
+			});
+			}
+	})
+	
 	jQuery('#CanadaCaseParallel').blur(function(){
 			var parallelValue = jQuery(this).val();
 			if (parallelValue != ""){			
@@ -51,14 +64,17 @@ Form Submissions
                 data:{parallel : parallelValue},
 				dataType: 'json',
                 success: function(data) {
-					jQuery('#CanadaCaseDate').val(data[0].date)
-					jQuery('#CanadaCaseCourt').val(data[0].court)
+					jQuery('#CanadaCaseDate').val(data[0].date);
+					jQuery('#CanadaCaseCourt').val(data[0].court);
+					console.log(data[0].reporters[0][0]);
+					console.log(data[0].reporters[0][1]);
+					console.log(data[0].reporters[1]);
                 },
 			});
 			}
 	})
 	
-	jQuery('#CanadaCaseParallel').blur(function(){
+	jQuery('#CanadaCaseCourt').blur(function(){
 			var courtVal = jQuery(this).val();
 			if (courtVal != ""){			
             jQuery.ajax({ 

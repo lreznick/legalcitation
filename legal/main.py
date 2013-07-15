@@ -38,7 +38,8 @@ urls = (
     '/' ,  'Index',
 	'/about', 'About',
 	'/form/parallel', 'Formparallel',
-	'/form/CanadianCase', 'Canada'
+	'/form/CanadianCase', 'Canada',
+	'/form/canlii', 'Canlii'
 
 )
 
@@ -60,6 +61,13 @@ testcase2 = "<i>Dunsmuir v. New Brunswick</i>, 2008 SCC 9 at para 132, [2008] 1 
 testcase3 = "<i>R v Sparrow</i>, [1990] 1 SCR 1075 at 1103, 70 DLR (4th) 385, Dickson CJC [<i>Sparrow</i>] citing <i>Pasco v Canadian National Railway Co</i>, [1986] 1 CNLR 35 at 37 (available on CanLII) (BCSC)."
 testcase4 = "<i>Reference re Securities Act</i>, 2011 SCC 66, [2011] 3 SCR 837."
 
+
+class Canlii(object):
+	def POST(self):
+		form = web.input()
+		url = "%s" % (form.url)
+		return Connect2Web(url)
+
 class Canada(object):
 	def POST(self):
 		return CanadianCase(web.input())
@@ -78,9 +86,11 @@ class Formparallel(object):
 			date = PullDate(parallel)
 			court = CheckForCourt(parallel)
 			reporters = AutoPCPinpoint(parallel)
-			#print reporters[0]
-			#print reporters[1]
-			data = [ {'date':date, 'court':court}]
+			print "reporters "
+			print  reporters[0]
+			print " something "
+			print reporters[1]
+			data = [ {'date':date, 'court':court, 'reporters':reporters}]
 			data_string =json.dumps(data)
 			print 'JSON:', data_string
 			return data_string

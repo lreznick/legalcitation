@@ -66,8 +66,8 @@ $def with (greeting= None)
 								<div class="control-group">
 									<!-- Name <label class="control-label" for="inputtest">test </label> -->
 									<div class="controls" style = "margin: 0px">
-										<input type="text" class="input-xxlarge" id="inputcanlii" placeholder=" ex: http://www.canlii.org/en/ca/scc/doc/2013/2013scc29/2013scc29.html" name="Case Name">
-										<button type="submit" class="btn btn-danger"  >Go</button>
+										<input type="text" class="input-xxlarge" id="canlii-input" placeholder=" ex: http://www.canlii.org/en/ca/scc/doc/2013/2013scc29/2013scc29.html" name="Case Name">
+										<button type="submit" class="btn btn-danger" id="canlii-go" >Go</button>
 									</div>
 									<!-- <button type="submit" class="btn">Go</button> -->
 								</div> 
@@ -75,7 +75,7 @@ $def with (greeting= None)
 								
 								</fieldset>
 								</form>
-						 
+						 <div id="canlii-result"> </div>
 						    
 						<div class="header2">Or Enter Your Information Manually</div>
 						<br>
