@@ -595,6 +595,7 @@ def CleanUp(string):
 # else return False
 #Court must be surrounded by a space on each side
 def CheckForCourt(string): #pull the neutral citation from the list if there is one
+	print "**** Starting CheckForCourt"
 	print "Checking for court in string: ", string
 	Courts = ['SCC', 'FC', 'FCA', 'TCC', 'CMAC', 'Comp Trib', 'CHRT', 'PSSRB', 'ABCA', 'ABQB', 'ABPC', 'ABASC', 'BCCA', 'BCSC', 'BCPC', 'BCHRT', 'BCSECCOM', 'MBCA', 'MBQB', 'MBPC', 'NBCA', 'NBQB', 'NBPC', 'NFCA', 'NLSCTD', 'NWTCA', 'NWTSC', 'NWTTC', 'NSCA', 'NSSC', 'NSSF', 'NSPC', 'NUCJ', 'NUCA', 'ONCA', 'ONSC', 'ONCJ', 'ONWSIAT', 'ONLSAP', 'ONLSHP', 'PESCAD', 'PESCTD', 'QCCA', 'QCCS', 'QCCP', 'QCTP', 'CMCQ', 'QCCRT', 'SKCA', 'SKQB', 'SKPC', 'SKAIA', 'YKCA', 'YKSC', 'YKTC', 'YKSM', 'YKYC', 'CACT']
 	Reporters = ['SCR']
@@ -613,6 +614,7 @@ def CheckForCourt(string): #pull the neutral citation from the list if there is 
 #returns a list: [Proper Abbreviation for jurisdiction, The search object that found it]
 #or returns False if no jurisdiction detected
 def FindJurisdiction(string):	
+	print "**** Starting FindJurisdiction"
 	Canada = [["C"], ["can", "canada", "canadian"]]
 	LowerCanada = [["LC"], ["lc", "lower can", "lower ca", "lower canada", "lower c"]]
 	ProvCan = [["Prov C"], ["prov c", "prov can", "province of canada", "prov of c", "prov of can"]]
@@ -646,6 +648,7 @@ def FindJurisdiction(string):
 #Returns a match. The comments will say what courts matched the input
 #NOTE: allow fo caps \xe9
 def FindCourt(string):
+	print "**** Starting FindCourt"
 	#sub all instances of "court" court ct etc with Ct for simpler searching
 	print "Searching: ", string
 	Ct = re.compile(r'(C(our)?t|Cour)', flags = re.I)
@@ -862,11 +865,11 @@ def TakeOutJurisdiction(Ct, Cite):
 #####*********** ALLOW OVERLAPPING IN THE ALL FINDER
 
 def PullDate(string):
-	FirstSearch = re.search(r'(\(?\[?)(1[4-9,0][0-9]{2}|200[0-9]{1}|201[1234]{1})(\)?\]?,?\s([A-Z]|\d{1,3}\s)[A-Za-z\s]{2})', string) #ex 2008 NBCA or (1843) Ex Ctf
+	FirstSearch = re.search(r'(\(?\[?)(1[4-9][0-9]{2}|200[0-9]{1}|201[01234]{1})(\)?\]?,?\s([A-Z]|\d{1,3}\s)[A-Za-z\s]{2})', string) #ex 2008 NBCA or (1843) Ex Ctf
 	if FirstSearch:
 		print "***** Detected on search 1: ", FirstSearch.group(), FirstSearch.group(1), FirstSearch.group(2), FirstSearch.group(3)
 		return FirstSearch.group(2)
-	All = re.findall(r'([^\d]{1}|^|\s)(1[4-9][0-9]{2}|200[0-9]{1}|201[1234]{1})([^\d]{1}|$|\s)', string)
+	All = re.findall(r'([^\d]{1}|^|\s)(1[4-9][0-9]{2}|200[0-9]{1}|201[01234]{1})([^\d]{1}|$|\s)', string)
 	if not All:
 		return False
 	Dates = []
@@ -887,6 +890,12 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 	print "court: ", Court_Input
 	print "date: ", Date_Input
 	print "pincite: ", pincite, "\n"
+	if not Citation_Input:
+		", ERROR: missing citation input"
+	if not Court_Input:
+		return ", ERROR: missing court input"
+	if not Date_Input:
+		return ", ERROR: missing date input"
 	#pincite = [pinpoint/cite, reporter, type (para or page), input]
 	TwoBest = ChooseBestReporters(Citation_Input, pincite) #this returns a string with the two best reporters already formatted
 	#TwoBest RETURNS THE REPORTERS THAT ARE USED
@@ -1046,6 +1055,12 @@ def BestReporter(Citation_Input): # choose the best reporter out of all of the o
 
 
 def GetHistoryCitations(Citation_Input, Court_Input, Date_Input):
+	if not Citation_Input:
+		", ERROR: missing citation input"
+	if not Court_Input:
+		return ", ERROR: missing court input"
+	if not Date_Input:
+		return ", ERROR: missing date input"
 	#pincite = [pinpoint/cite, reporter, type (para or page), input]
 	OneBest = BestReporter(Citation_Input, pincite) #this returns a string with the two best reporters already formatted
 	Court = False #first assume there is no court evident in the input

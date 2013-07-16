@@ -262,21 +262,207 @@ def CheckForCourt(string): #pull the neutral citation from the list if there is 
 #returns a list: [Proper Abbreviation for jurisdiction, The search object that found it]
 #or returns False if no jurisdiction detected
 def FindJurisdiction(string):	
-	States = [
-	["Ala", ["alabama", "al"]],
-	["Alaska", ["ak"]],
-	["Ariz", ["arizona", "az"]],
-	["Arkansas", ["alabama", "al"]],
-	["Ala", ["alabama", "al"]],
-	
-	
-	
-	for jur in States:
+	print "**** Starting FindJurisdiction"
+	Districts = [["ND", ["North Dist", "ND", "North District", "N Dist", "N District"]],
+	["SD", ["South Dist", "SD", "South District", "S Dist", "S District"]],
+	["ED", ["East Dist", "ED", "East District", "E Dist", "E District"]],
+	["WD", ["West Dist", "WD", "West District", "W Dist", "W District"]]]
+	Dist = False
+	for jur in Districts:
 		for abbr in jur[1]:
 			match = re.search(regstrElec(abbr), string, re.I)#regstrElec has the ^ + $ object
 			if match:
-				return [jur[0][0], match]
+				Dist = jur[0]
+	States = [["Ala", ["alabama", "al"]],
+	["Alaska", ["ak", "alas"]],
+	["Ariz", ["arizona", "az"]],
+	["Arkansas", ["alabama", "al"]],
+	["Cal", ["california", "cali", "calif", "californie", "cal"]],
+	["NC", ["Caroline du Nord", "North Carolina", "N Car"]],
+	["SC", ["Caroline de Sud", "South Carolina", "S Car"]],
+	["Colo", ["col", "colorado"]],
+	["Conn", ["Connecticut"]],
+	["N Dak", ["north dakota", "dakota du nord", "NoDak"]],
+	["S Dak", ["south dakota", "dakata du sud", "SD", "SoDak"]],
+	["Del", ["Delaware", "de"]],
+	["DC", ["district de colombie", "district of columbia", "Washington DC", "Wash DC", "dist of colom"]],
+	["US", ["etas unis", "etas-unis", "usa", "united states"]],
+	["Fla", ["florida", "flor", "floride", "fl"]],
+	["Ga", ["georgia", "georgie"]],
+	["Hawaii", ["HI"]],
+	["Idaho", ["Ida", "Id"]],
+	["Ill", ["Illinois", "Il", "Ills", "Ill's"]],
+	["Ind", ["Indiana", "Ind", "In"]],
+	["Iowa", ["Ia", "Ioa"]],
+	["Kan", ["Kansas", "Ks", "Ka"]],
+	["Ky", ["Kentucky", "Ken", "Kent"]],
+	["La", ["Louisiana", "Louisiane", "la"]],
+	["Me", ["Maine"]],
+	["Md", ["Maryland"]],
+	["Mass", ["Massachussetts", "ma"]],
+	["Mich", ["Michigan", "MI"]],
+	["Minn", ["Minnesota", "Mn"]],
+	["Miss", ["mississippi", "ms"]],
+	["Mo", ["Missouri"]],
+	["Mont", ["Montana", "mt"]],
+	["Neb", ["Nebraska", "ne"]],
+	["Nev", ["Nevada", "nv"]],
+	["NH", ["New Hampshire", "N Hamp"]],
+	["NJ", ["New Jersey"]],
+	["N Mex", ["New Mexico", "nm", "nouveau mexique", "new M"]],
+	["NY", ["new york", "n york"]],
+	["Ohio", ["Oh"]],
+	["Okla", ["oklahoma", "OK"]],
+	["Or", ["oregon", "oreg"]],
+	["Pa", ["pennsylvania", "penn", "penna", "pennsylvanie"]],
+	["RI", ["Rhode Isl", "Rhode Island", "R Isl"]],
+	["Tenn", ["Tennessee", "Tn"]],
+	["Tex", ["Texas", "tex", "Tx"]],
+	["Utah", ["ut"]],
+	["Vt", ["Vermont", "Verm"]],
+	["Va", ["Virginia", "virg", "virginie", "virgin"]],
+	["W Va", ["West virginia", "wv", "w virg", "virginie occidentale"]],
+	["Wash", ["Washington", "wn", "wa"]],
+	["Wis", ["wisconsin", "wi", "wisc"]],
+	["Wyo", ["Wyoming", "wy"]]]
+	for jur in States:
+		match = re.search(regstrElec(jur[0]), string, re.I)#regstrElec has the ^ + $ object
+		if match:
+			if Dist:
+				return [Dist +" "+ jur[0], match, "district"]
+			return [jur[0][0], match, "no district"]
+		for abbr in jur[1]:
+			match = re.search(regstrElec(abbr), string, re.I)#regstrElec has the ^ + $ object
+			if match:
+				if Dist:
+					return [Dist +" "+ jur[0], match, "district"]
+				return [jur[0][0], match, "no district"]
 	return False
+
+def FindCourt(string):
+	print "**** Starting FindCourt"
+	print "Searching: ", string
+	if Ct.search(string):
+		string = re.sub(Ct.search(string).group(), "Ct", string, flags = re.I)
+	Remove  = ["of", "des", "de" "la", "le", "the", "in"]
+	for r in Remove:
+		Rem = re.compile(regstr(r), flags = re.I)
+		if Rem.search(string):
+			string = re.sub(Rem.search(string).group(), " ", string, flags = re.I)
+	string = CleanUp(string)
+	print "Search modified to: ", string
+	AllCourts = [
+	["Admin Ct", re.compile(r"(^Admin(istrative)? Ct", flags = re.I)],
+	["Adm", re.compile(r"Admiral(ity)?", flags = re.I)],
+	["Alder Ct", re.compile(r"Alder(man's)?", flags = re.I)],
+	["App Ct", re.compile(r"Appe(als|llate) Ct", flags = re.I)],
+	["App Div", re.compile(r"Appellate Div(ision)?", flags = re.I)],
+	["BAP", re.compile(r"Bankrupt(cy)? Appe(als|llate) Panel", flags = re.I)],
+	["Bankr", re.compile(r"Bankruptcy", flags = re.I)],
+	["BTA", re.compile(r"(Board of Tax Appeals|BTA)( \(US\))?", flags = re.I)],
+	["Bor Ct", re.compile(r"Borough Ct", flags = re.I)],#name before
+	["Ch", re.compile(r"Chancery", flags = re.I)],#court/division
+	["Child Ct", re.compile(r"Child(ren's)? Ct", flags = re.I)],
+	["Cir Ct", re.compile(r"Cir(cuit)? Ct$", flags = re.I)],
+	["Cir", re.compile(r"Cir(cuit)? Ct App(eals)?( \((fed|federal|US)\))?", flags = re.I)],
+	["Cir Ct App", re.compile(r"Cir(cuit)? Ct App(eals)?", flags = re.I)],
+	["Cit Ct & Fam Ct", re.compile(r"", flags = re.I)],
+	["Cit AC", re.compile(r"", flags = re.I)],
+	["City Ct", re.compile(r"", flags = re.I)],#name before
+	["City & Parish Ct", re.compile(r"", flags = re.I)],
+	["Civ App", re.compile(r"", flags = re.I)],
+	["Civ Ct", re.compile(r"", flags = re.I)],
+	["Civ Ct Rec", re.compile(r"", flags = re.I)],
+	["Civ Dist Ct", re.compile(r"", flags = re.I)],
+	["Cl Ct", re.compile(r"", flags = re.I)],
+	["Comm Ct", re.compile(r"", flags = re.I)],
+	["CP", re.compile(r"", flags = re.I)],
+	["Commw Ct", re.compile(r"", flags = re.I)],
+	["Concil Ct", re.compile(r"", flags = re.I)],
+	["Const County Ct", re.compile(r"", flags = re.I)],
+	["Co Ct", re.compile(r"", flags = re.I)],
+	["County Ct at Law", re.compile(r"", flags = re.I)],
+	["Co Ct J Crim Ct", re.compile(r"", flags = re.I)],
+	["County J Ct", re.compile(r"", flags = re.I)],
+	["County Rec Ct", re.compile(r"", flags = re.I)],
+	["Cir", re.compile(r"", flags = re.I)],
+	["Ct App", re.compile(r"", flags = re.I)],
+	["Ct Ch", re.compile(r"", flags = re.I)],
+	["Ct Civ App", re.compile(r"", flags = re.I)],
+	["Ct Cl", re.compile(r"", flags = re.I)],
+	["Ct Com Pl", re.compile(r"", flags = re.I)],
+	["Ct Crim App", re.compile(r"", flags = re.I)],
+	["CCPA", re.compile(r"", flags = re.I)],
+	["Ct Cust App", re.compile(r"", flags = re.I)],
+	["Ct Err", re.compile(r"", flags = re.I)],
+	["Ct Err & App", re.compile(r"", flags = re.I)],
+	["Ct Fed Cl", re.compile(r"", flags = re.I)],
+	["Ct First Inst", re.compile(r"", flags = re.I)],
+	["Ct Gen Sess", re.compile(r"", flags = re.I)],
+	["Ct Spec Sess", re.compile(r"", flags = re.I)],
+	["Ct Int'l Trade", re.compile(r"", flags = re.I)],
+	["Ct Rev", re.compile(r"", flags = re.I)],
+	["Ct Spec App", re.compile(r"", flags = re.I)],
+	["Ct T Rev", re.compile(r"", flags = re.I)],
+	["Crim App", re.compile(r"", flags = re.I)],
+	["Crim Dist Ct", re.compile(r"", flags = re.I)],
+	["Cust Ct", re.compile(r"", flags = re.I)],
+	["D", re.compile(r"", flags = re.I)],
+	["Dist Ct", re.compile(r"", flags = re.I)],
+	["Dist Ct App", re.compile(r"", flags = re.I)],
+	["Dist Just Ct", re.compile(r"", flags = re.I)],
+	["Dom Rel Ct", re.compile(r"", flags = re.I)],
+	["Emer Ct App", re.compile(r"", flags = re.I)],
+	["Env Ct", re.compile(r"", flags = re.I)],
+	["Eq", re.compile(r"", flags = re.I)],
+	["Fam Ct", re.compile(r"", flags = re.I)],
+	["Gen Sess Ct", re.compile(r"", flags = re.I)],
+	["High Ct", re.compile(r"", flags = re.I)],
+	["Housing Ct", re.compile(r"", flags = re.I)],
+	["Intermed Ct App", re.compile(r"", flags = re.I)],
+	["J Ct", re.compile(r"", flags = re.I)],
+	["JP Ct", re.compile(r"", flags = re.I)],
+	["Juv Ct", re.compile(r"", flags = re.I)],
+	["Juv Del Ct", re.compile(r"", flags = re.I)],
+	["Juv & Fam Ct", re.compile(r"", flags = re.I)],
+	["Land  Ct", re.compile(r"", flags = re.I)],
+	["Law  Ct", re.compile(r"", flags = re.I)],
+	["Magis Ct", re.compile(r"", flags = re.I)],
+	["Magis Div", re.compile(r"", flags = re.I)],
+	["Mayor's Ct", re.compile(r"", flags = re.I)],
+	["Mun Ct", re.compile(r"", flags = re.I)],#name before
+	["Mun Ct not Rec", re.compile(r"", flags = re.I)],
+	["Mun Crim Ct Rec", re.compile(r"", flags = re.I)],
+	["Orphans' Ct", re.compile(r"", flags = re.I)],
+	["Parish Ct", re.compile(r"", flags = re.I)],#name before
+	["Police J Ct", re.compile(r"", flags = re.I)],
+	["Prerog Ct", re.compile(r"", flags = re.I)],
+	["Prob Ct", re.compile(r"", flags = re.I)],
+	["Rec Ct", re.compile(r"", flags = re.I)],
+	["Small Cl Ct", re.compile(r"", flags = re.I)],
+	["State Ct", re.compile(r"", flags = re.I)],
+	["Super Ct", re.compile(r"", flags = re.I)],
+	["US", re.compile(r"", flags = re.I)],
+	["Sup Ct", re.compile(r"", flags = re.I)],
+	["Sup Ct App Div", re.compile(r"", flags = re.I)],
+	["Sup Ct App", re.compile(r"", flags = re.I)],
+	["Sup Ct Err", re.compile(r"", flags = re.I)],
+	["USSC", re.compile(r"", flags = re.I)],
+	["Sup Jud Ct", re.compile(r"", flags = re.I)],
+	["Surr Ct", re.compile(r"", flags = re.I)],
+	["Tax App Ct", re.compile(r"", flags = re.I)],
+	["TC", re.compile(r"", flags = re.I)],
+	["Teen Ct", re.compile(r"", flags = re.I)],
+	["Town Ct", re.compile(r"", flags = re.I)],
+	["Traffic Ct", re.compile(r"", flags = re.I)],
+	["Tribal Ct", re.compile(r"", flags = re.I)],#name before
+	["Unif Fam Ct", re.compile(r"", flags = re.I)],
+	["Water Ct", re.compile(r"", flags = re.I)],
+	["Workers' Comp Ct", re.compile(r"", flags = re.I)],
+	["Youth ct", re.compile(r"", flags = re.I)]]	
+	return "yes"
+	
+
 
 #string entering this function does not contain jurisdiction, only the court name
 # entering string is CleanedUp
@@ -533,8 +719,6 @@ def GetCitations(Citation_Input, Court_Input):
 	#TwoBest RETURNS THE REPORTERS THAT ARE USED
 	Court = False #first assume there is no court evident in the input
 	Jurisdiction = False # assume there is no jurisdiction evident in the input
-	NeutralCite = False #first assume there is no neutral reporter evident in the input
-	JudgementDate = False #assume there is no date evident in the input judgement
 	CitationDate = False #assume there is no citation date evident in the input
 	Pinpont = False #assume there is no pinpoint for now
 	# Determine if there is a Citator Date or a Court evident in the Parallel citation

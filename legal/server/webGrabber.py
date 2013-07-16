@@ -52,18 +52,29 @@ def Connect2Web(webURL):
 			print "Did not find Style of Cause after searching in Title."
 		Title = CleanUp(Title[len(styleofcause)+1:])
 		print "1. Title string modified to: ", Title
-		courtString = re.compile(r'(?<=\()(.*)(\))$')
-		courtSearch = courtString.search(Title)
-		if courtSearch:
-			court = courtString.search(Title).group(1)
-			print "Court found in title string: ", court
-			Title = CleanUp(re.sub('\(' + court + '\)', '', Title))
-			print "2. Title string modified to: ", Title
+		court = CheckForCourt(Title)
+		print "Checking date in Title. Currently, date =", date
+		if not date:
+			print "Date is False. Checking for date in Title: ", Title
+			date = PullDate(Title)
+			if date:
+				print "Found Date in Title: ", date
+		if court:
+			print "Found court in Title string: ", court
 		else:
-			print "No Court at backend of Title"
+			courtString = re.compile(r'(?<=\()(.*)(\))$')
+			courtSearch = courtString.search(Title)
+			if courtSearch:
+				court = courtString.search(Title).group(1)
+				print "Court found in title string: ", court
+				Title = CleanUp(re.sub('\(' + court + '\)', '', Title))
+				print "2. Title string modified to: ", Title
+			else:
+				print "No Court at backend of Title"
 		if parallel:
 			Pcourt = CheckForCourt(parallel)
 			if Pcourt:
+				court = Pcourt
 				print "Court found in parallel: ", Pcourt
 				parallel = CleanUp(re.sub('\(' + Pcourt + '\)', '', parallel))
 				print "1. Parallel string modified to: ", parallel
@@ -74,12 +85,14 @@ def Connect2Web(webURL):
 	else:
 		print "No Title string."
 	if parallel:
+		print "Parallel string: ", parallel
 		if not court:
 			court = CheckForCourt(parallel)
 			if court:
 				print "Court found in Parallel:", court
+		print "Checking date in prallel. Currently, date =", date
 		if not date:
-			date = PullDate(PC)
+			date = PullDate(parallel)
 			if date:
 				print "Date found in Parallel:", date
 	Output = GetStyleOfCause(styleofcause)+GetCitations(parallel, court, date, False)+'.'
@@ -88,10 +101,11 @@ def Connect2Web(webURL):
 
 
 def run():
-  Connect2Web("http://www.canlii.org/en/ca/scc/doc/1997/1997canlii400/1997canlii400.html")
-  Connect2Web("http://canlii.ca/en/ab/abqb/doc/1986/1986canlii1825/1986canlii1825.html")
-  Connect2Web("http://canlii.ca/en/ca/scc/doc/1986/1986canlii73/1986canlii73.html")
-  Connect2Web("http://beta.canlii.org/en/bc/bcca/doc/1987/1987canlii2590/1987canlii2590.html")
+  #Connect2Web("http://www.canlii.org/en/ca/scc/doc/1997/1997canlii400/1997canlii400.html")
+  #Connect2Web("http://canlii.ca/en/ab/abqb/doc/1986/1986canlii1825/1986canlii1825.html")
+  #Connect2Web("http://canlii.ca/en/ca/scc/doc/1986/1986canlii73/1986canlii73.html")
+  #Connect2Web("http://beta.canlii.org/en/bc/bcca/doc/1987/1987canlii2590/1987canlii2590.html")
+  #Connect2Web("http://canlii.ca/en/ab/abpc/doc/2010/2010abpc27/2010abpc27.html")
 
 
 if __name__ == "__main__":
