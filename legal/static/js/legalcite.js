@@ -32,6 +32,8 @@ Set Up
 	jQuery("#pincite-form").hide();
 	jQuery("#stackednavs").hide();
 	jQuery("#reporter-container").hide();
+	jQuery("#history3").hide();
+	jQuery("#history2").hide();
 	
 /*
 =============================================
@@ -136,6 +138,22 @@ jQuery('#pincite-selection').change(function(){
 	console.log("pincite " + txt);
 });
 
+var historycount =1;
+
+
+jQuery('#addHistory').click(function(){
+	if (historycount ==1){
+		jQuery('#history2').show();
+		historycount ++;
+	}
+	else if (historycount ==2){
+		jQuery('#history3').show();
+		jQuery('#addHistory').hide();
+		
+	}
+
+
+});
 /*
 =============================================
 Tool Tips
@@ -396,12 +414,7 @@ Collapsing
 History
 =============================================
 */	
-	var historycount =0;
-	
-	var history = function(id){
-		this.id  = id;
-	}
-	
+
 /*
 =============================================
 Reporter List

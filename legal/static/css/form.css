@@ -30,8 +30,14 @@
 
 .leftHalf{ width: 750px; float: left; padding-right: 0px;}
 .rightHalf{ width: 250px; float: left; padding-left: 0px;}
-
-
+.input-prepend  .add-on{
+	font-size: 12px;
+	width: 100px;
+	height: 16px;
+	background-color: inherit;
+	border: none;
+	
+}
 #tooltips{
 	font-size: 12px;
 }
@@ -53,11 +59,13 @@ color: #333333;
  	border: 0 none; 
  }
  
-.addHistory{
+#addHistory{
 	width: 70px;
 	height: 25px;
 	background-color:#ccc;
 	margin-left: 15px;
+	margin-bottom: 15px;
+	margin-top: -10px;
 	font-size: 12px;
 	font-weight: bold;
 	text-align: center;
@@ -66,7 +74,7 @@ color: #333333;
 	color: white;
 	cursor: pointer;
 }
-.addHistory:hover{
+#addHistory:hover{
 
 	background-color:#FC5454
 }
