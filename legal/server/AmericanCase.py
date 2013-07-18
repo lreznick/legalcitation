@@ -243,7 +243,7 @@ def CheckForCourt(string): #pull the neutral citation from the list if there is 
 	print "**** Starting CheckForCourt"
 	print "Checking for court in string: ", string
 	SupremeCourtReporters = ['US', 'S Ct', 'L Ed 2d', 'USLW']
-	Federal = ['F', 'F (2d)', 'F (3d)', 'F Supp', 'F (2d) Supp']
+	Federal = ['F', 'F (2d)', 'F (3d)', 'F Supp', 'F Supp (2d)']
 	PreferredRegional = ['A', 'A (2d)', 'NE', 'NE (2d)', 'NW', 'NW (2d)', 'P', 'P (2d)', 'P (3d)', 'SE', 'SE (2d)',  'SW', 'SW (2d)',  'So', 'So (2d)']
 	PreferredState = ['Cal', 'Cal (2d)', 'Cal (3d)', 'Cal (4th)', 'NYS (2d)']
 	Regional = ['ALR', 'ALR (2d)', 'ALR (3d)', 'ALR (4th)', 'ALR (5th)', 'L Ed']
@@ -276,7 +276,7 @@ def FindJurisdiction(string):
 	States = [["Ala", ["alabama", "al"]],
 	["Alaska", ["ak", "alas"]],
 	["Ariz", ["arizona", "az"]],
-	["Arkansas", ["alabama", "al"]],
+	["Ark", ["arkansas"]],
 	["Cal", ["california", "cali", "calif", "californie", "cal"]],
 	["NC", ["Caroline du Nord", "North Carolina", "N Car"]],
 	["SC", ["Caroline de Sud", "South Carolina", "S Car"]],
@@ -337,19 +337,21 @@ def FindJurisdiction(string):
 				if Dist:
 					return [Dist +" "+ jur[0], match, "district"]
 				return [jur[0][0], match, "no district"]
-	return False
+	return string
 
-def FindCourt(string):
+def FindCourt(string, reporter):
 	print "**** Starting FindCourt"
 	print "Searching: ", string
+	print "Reporter being used is: ", reporter
+	Ct = re.compile(r'(C(our)?t|Cour)', flags = re.I)
 	if Ct.search(string):
 		string = re.sub(Ct.search(string).group(), "Ct", string, flags = re.I)
 	Remove  = ["of", "des", "de" "la", "le", "the", "in"]
 	for r in Remove:
 		Rem = re.compile(regstr(r), flags = re.I)
 		if Rem.search(string):
-			string = re.sub(Rem.search(string).group(), " ", string, flags = re.I)
-	string = CleanUp(string)
+			modString = re.sub(Rem.search(string).group(), " ", string, flags = re.I)
+	modString = CleanUp(modString)
 	print "Search modified to: ", string
 	AllCourts = [
 	["Admin Ct", re.compile(r"(^Admin(istrative)? Ct", flags = re.I)],
@@ -359,219 +361,107 @@ def FindCourt(string):
 	["App Div", re.compile(r"Appellate Div(ision)?", flags = re.I)],
 	["BAP", re.compile(r"Bankrupt(cy)? Appe(als|llate) Panel", flags = re.I)],
 	["Bankr", re.compile(r"Bankruptcy", flags = re.I)],
-	["BTA", re.compile(r"(Board of Tax Appeals|BTA)( \(US\))?", flags = re.I)],
+	["BTA", re.compile(r"(Board Tax Appeals|BTA)( \(US\))?", flags = re.I)],
 	["Bor Ct", re.compile(r"Borough Ct", flags = re.I)],#name before
 	["Ch", re.compile(r"Chancery", flags = re.I)],#court/division
 	["Child Ct", re.compile(r"Child(ren's)? Ct", flags = re.I)],
 	["Cir Ct", re.compile(r"Cir(cuit)? Ct$", flags = re.I)],
-	["Cir", re.compile(r"Cir(cuit)? Ct App(eals)?( \((fed|federal|US)\))?", flags = re.I)],
-	["Cir Ct App", re.compile(r"Cir(cuit)? Ct App(eals)?", flags = re.I)],
-	["Cit Ct & Fam Ct", re.compile(r"", flags = re.I)],
-	["Cit AC", re.compile(r"", flags = re.I)],
-	["City Ct", re.compile(r"", flags = re.I)],#name before
-	["City & Parish Ct", re.compile(r"", flags = re.I)],
-	["Civ App", re.compile(r"", flags = re.I)],
-	["Civ Ct", re.compile(r"", flags = re.I)],
-	["Civ Ct Rec", re.compile(r"", flags = re.I)],
-	["Civ Dist Ct", re.compile(r"", flags = re.I)],
-	["Cl Ct", re.compile(r"", flags = re.I)],
-	["Comm Ct", re.compile(r"", flags = re.I)],
-	["CP", re.compile(r"", flags = re.I)],
-	["Commw Ct", re.compile(r"", flags = re.I)],
-	["Concil Ct", re.compile(r"", flags = re.I)],
-	["Const County Ct", re.compile(r"", flags = re.I)],
-	["Co Ct", re.compile(r"", flags = re.I)],
-	["County Ct at Law", re.compile(r"", flags = re.I)],
-	["Co Ct J Crim Ct", re.compile(r"", flags = re.I)],
-	["County J Ct", re.compile(r"", flags = re.I)],
-	["County Rec Ct", re.compile(r"", flags = re.I)],
-	["Cir", re.compile(r"", flags = re.I)],
-	["Ct App", re.compile(r"", flags = re.I)],
-	["Ct Ch", re.compile(r"", flags = re.I)],
-	["Ct Civ App", re.compile(r"", flags = re.I)],
-	["Ct Cl", re.compile(r"", flags = re.I)],
-	["Ct Com Pl", re.compile(r"", flags = re.I)],
-	["Ct Crim App", re.compile(r"", flags = re.I)],
-	["CCPA", re.compile(r"", flags = re.I)],
-	["Ct Cust App", re.compile(r"", flags = re.I)],
-	["Ct Err", re.compile(r"", flags = re.I)],
-	["Ct Err & App", re.compile(r"", flags = re.I)],
-	["Ct Fed Cl", re.compile(r"", flags = re.I)],
-	["Ct First Inst", re.compile(r"", flags = re.I)],
-	["Ct Gen Sess", re.compile(r"", flags = re.I)],
-	["Ct Spec Sess", re.compile(r"", flags = re.I)],
-	["Ct Int'l Trade", re.compile(r"", flags = re.I)],
-	["Ct Rev", re.compile(r"", flags = re.I)],
-	["Ct Spec App", re.compile(r"", flags = re.I)],
-	["Ct T Rev", re.compile(r"", flags = re.I)],
-	["Crim App", re.compile(r"", flags = re.I)],
-	["Crim Dist Ct", re.compile(r"", flags = re.I)],
-	["Cust Ct", re.compile(r"", flags = re.I)],
-	["D", re.compile(r"", flags = re.I)],
-	["Dist Ct", re.compile(r"", flags = re.I)],
-	["Dist Ct App", re.compile(r"", flags = re.I)],
-	["Dist Just Ct", re.compile(r"", flags = re.I)],
-	["Dom Rel Ct", re.compile(r"", flags = re.I)],
-	["Emer Ct App", re.compile(r"", flags = re.I)],
-	["Env Ct", re.compile(r"", flags = re.I)],
-	["Eq", re.compile(r"", flags = re.I)],
-	["Fam Ct", re.compile(r"", flags = re.I)],
-	["Gen Sess Ct", re.compile(r"", flags = re.I)],
-	["High Ct", re.compile(r"", flags = re.I)],
-	["Housing Ct", re.compile(r"", flags = re.I)],
-	["Intermed Ct App", re.compile(r"", flags = re.I)],
-	["J Ct", re.compile(r"", flags = re.I)],
-	["JP Ct", re.compile(r"", flags = re.I)],
-	["Juv Ct", re.compile(r"", flags = re.I)],
-	["Juv Del Ct", re.compile(r"", flags = re.I)],
-	["Juv & Fam Ct", re.compile(r"", flags = re.I)],
-	["Land  Ct", re.compile(r"", flags = re.I)],
-	["Law  Ct", re.compile(r"", flags = re.I)],
-	["Magis Ct", re.compile(r"", flags = re.I)],
-	["Magis Div", re.compile(r"", flags = re.I)],
-	["Mayor's Ct", re.compile(r"", flags = re.I)],
-	["Mun Ct", re.compile(r"", flags = re.I)],#name before
-	["Mun Ct not Rec", re.compile(r"", flags = re.I)],
-	["Mun Crim Ct Rec", re.compile(r"", flags = re.I)],
-	["Orphans' Ct", re.compile(r"", flags = re.I)],
-	["Parish Ct", re.compile(r"", flags = re.I)],#name before
-	["Police J Ct", re.compile(r"", flags = re.I)],
-	["Prerog Ct", re.compile(r"", flags = re.I)],
-	["Prob Ct", re.compile(r"", flags = re.I)],
-	["Rec Ct", re.compile(r"", flags = re.I)],
-	["Small Cl Ct", re.compile(r"", flags = re.I)],
-	["State Ct", re.compile(r"", flags = re.I)],
-	["Super Ct", re.compile(r"", flags = re.I)],
-	["US", re.compile(r"", flags = re.I)],
-	["Sup Ct", re.compile(r"", flags = re.I)],
-	["Sup Ct App Div", re.compile(r"", flags = re.I)],
-	["Sup Ct App", re.compile(r"", flags = re.I)],
-	["Sup Ct Err", re.compile(r"", flags = re.I)],
-	["USSC", re.compile(r"", flags = re.I)],
-	["Sup Jud Ct", re.compile(r"", flags = re.I)],
-	["Surr Ct", re.compile(r"", flags = re.I)],
-	["Tax App Ct", re.compile(r"", flags = re.I)],
-	["TC", re.compile(r"", flags = re.I)],
-	["Teen Ct", re.compile(r"", flags = re.I)],
-	["Town Ct", re.compile(r"", flags = re.I)],
-	["Traffic Ct", re.compile(r"", flags = re.I)],
-	["Tribal Ct", re.compile(r"", flags = re.I)],#name before
-	["Unif Fam Ct", re.compile(r"", flags = re.I)],
-	["Water Ct", re.compile(r"", flags = re.I)],
-	["Workers' Comp Ct", re.compile(r"", flags = re.I)],
-	["Youth ct", re.compile(r"", flags = re.I)]]	
-	return "yes"
-	
-
-
-#string entering this function does not contain jurisdiction, only the court name
-# entering string is CleanedUp
-#Returns a match. The comments will say what courts matched the input
-#NOTE: allow fo caps \xe9
-def FindCourt(string):
-	#sub all instances of "court" court ct etc with Ct for simpler searching
-	print "Searching: ", string
-	Ct = re.compile(r'(C(our)?t|Cour)', flags = re.I)
-	if Ct.search(string):
-		string = re.sub(Ct.search(string).group(), "Ct", string, flags = re.I)
-	Remove  = ["of", "des", "de" "la", "le", "the", "in"]
-	for r in Remove:
-		Rem = re.compile(regstr(r), flags = re.I)
-		if Rem.search(string):
-			string = re.sub(Rem.search(string).group(), " ", string, flags = re.I)
-	string = CleanUp(string)
-	print "Search modified to: ", string
-	AllCourts = [["CA", re.compile(r"(^(Ct )?(of )?appeal(s)?$|^d?'?appel$|^appellate( of)?|^appeal ct( of)?)", flags = re.I)],
-	["Ct J", re.compile(r"^Ct (of )?Just(ice)?( of)?$", flags = re.I)],
-	["H Ct J", re.compile(r"H(igh)? Ct (of )?Just(ice)?( of)?", flags = re.I)],
-	["CP", re.compile(r"Ct Prov(inciale)?$", flags = re.I)],
-	["CS", re.compile(u"Ct Sup(e|\\xe9)rieure( de)?", flags = re.I)],
-	["HC", re.compile(r"^H(igh)? Ct( of)?$", flags = re.I)],
-	["Prov Ct", re.compile("^Prov(incial)? Ct( of)?$", flags = re.I)], 
-	["Sup Ct", re.compile("Sup(erior)? Ct( of)?$", flags = re.I)],
-	["Traffic Ct", re.compile("Traff?(ic)? Ct( of)?", flags = re.I)],
-	["Youth Ct", re.compile("^Youth Ct( of)?$", flags = re.I)],
-	["Cor Ct", re.compile("Cor(oner)?'?s Ct( of)?", flags = re.I)],
-	["CCI", re.compile(u"Ct can(adienne)? (de )?l?'?imp(o|\\xf4)ts?( de)?", flags = re.I)],
-	["CAF", re.compile(u"Ct d?'?appel f(e|\\xe9)d((e|\\xe9)rale)?", flags = re.I)],
-	["Cc", re.compile(u"Ct (de )?comt(e|\\xe9)( de)?$", flags = re.I)],
-	[u"Div g\xe9n Ont", re.compile(u"Ct (de )?l'Ontario, div(ision)? g(e|\\xe9)n((e|\\xe9)rale)?", flags = re.I)],
-	["C div & causes mat", re.compile("Ct (des )?div(orces) ((et|&) )?(des )?causes mat(rimoniales)?", flags = re.I)],
-	["C j Cc crim", re.compile(u"Ct (des )?juges (de )?(la )?comt(e|\\xe9) si(e|\\xe9)geant au criminel", flags = re.I)],
-	[u"C pet cr\xe9", re.compile(u"Ct (des )?petites cr(e|\\xe9)ances", flags = re.I)],
-	["C succ", re.compile("Ct (des )?succ(essions)?", flags = re.I)],
-	["C div", re.compile("Ct div(isionnaire)?$", flags = re.I)],
-	["BR", re.compile(r"Ct (du )?Banc (de )?(la )?Reine$", flags = re.I)],
-	["BR (div fam)", re.compile(r"(Ct (du )?Banc (de )?(la )?Reine|BR),? \(?Div(ision)? (de la )?fam(ille)?\)?", flags = re.I)],
-	["BR (1re inst)", re.compile(u"(Ct (du )?Banc (de )?(la )?Reine|BR),? \(?Div(ision)? (de )?(la )?(premi(e|\\xe8)re|1re) inst(ance)?\)?", flags = re.I)],
-	["CQ", re.compile(u"^Ct (du )?(Qu(e|\\xe9)bec|QC)$", flags = re.I)],
-	["CQ jeun", re.compile(u"Ct (du )?(Qu(e|\\xe9)bec|QC),? (Chambre )?(de )?(la )?jeun(esse)?", flags = re.I)],
-	["CQ civ", re.compile(u"(Ct (du )?(Qu(e|\\xe9)bec|QC)|CQ),? (Chambre )?civ(ile)?$", flags = re.I)],
-	[u"CQ civ (div pet cr\xe9)", re.compile(u"(Ct (du )?(Qu(e|\\xe9)bec|QC)|CQ),? (Chambre )?civ(ile)? \(?Div(ision)? des petites cr(e|\\xe9)(ances)?\)?", flags = re.I)],
-	[u"CQ crim & p\xe9n", re.compile(u"(Ct (du )?(Qu(e|\\xe9)bec|QC)|CQ),? (Chambre )?crim(inelle)? (et )?p(e|\\xe9)n(ale)?", flags = re.I)],
-	["CF (1re inst)", re.compile(u"Ct f(e|\\xe9)d((e|\\xe9)rale)?,? (premi(e|\\xe8)re|1re) inst(ance)?", flags = re.I)],
-	["CM", re.compile(r"Ct mun(icipale)?", flags = re.I)],
-	["CP Div civ", re.compile(r"(Ct prov(inciale)?|CP),? \(?Div(ision)? civ(ile)?\)?", flags = re.I)],
-	["CP Div crim", re.compile(r"(Ct prov(inciale)?|CP),? \(?Div(ision)? crim(inelle)?\)?", flags = re.I)],
-	["CP Div fam", re.compile(r"(Ct prov(inciale)?|CP),? \(?Div(ision)? (de )?(la )?fam(ille)?\)?", flags = re.I)],
-	["CS adm", re.compile(u"(Ct Sup((e|\\xe9)rieure)?|CS),? \(?(Chambre )?adm(in)?(istrative)?\)?", flags = re.I)],
-	["CS civ", re.compile(u"(Ct Sup((e|\\xe9)rieure)?|CS),? \(?(Chambre )?civ(ile)?\)?", flags = re.I)],
-	[u"CS crim & p\xe9n", re.compile(u"(Ct Sup((e|\\xe9)rieure)?|CS),? \(?(Chambre )?crim(inelle)? ((et|&) )?p(e|\\xe9)n(ale)?\)?", flags = re.I)],
-	["CS fam", re.compile(u"(Ct Sup((e|\\xe9)rieure)?|CS),? \(?(Chambre )?(de )?(la )?fam(ille)?\)?", flags = re.I)],
-	[u"CS p\xe9t cr\xe9", re.compile(u"(Ct Sup((e|\\xe9)rieure)?|CS),? \(?Div(ision)? (de(s)? )?p(e|\\xe9)t(ites)? cr(e|\\xe9)(ances)?\)?", flags = re.I)],
-	["CS fail & ins", re.compile(u"(Ct Sup((e|\\xe9)rieure)?|CS),? \(?(Chambre )?(de )?(la )?fail(lite)? ((et|&) )?(de )?(l')?ins(olvabilit(e|\\xe9))?\)?", flags = re.I)],
-	["C supr fam", re.compile(u"Ct? supr((e|\\xea)me)?,? \(?Div(ision)? (de )?(la )?fam(ille)?\)?", flags = re.I)],
-	["C supr A", re.compile(u"Ct? supr((e|\\xea)me)?,? \(?Div(ision)? d?'?appel\)?", flags = re.I)],
-	["C supr BR", re.compile(u"Ct? supr((e|\\xea)me)?,? \(?(Div(ision)? (du )?Banc (de )?(la )?Reine|BR)\)?", flags = re.I)],
-	["CSC", re.compile(r"(Ct? supr((e|\\xea)me)?|C supr) ((du|de) )?Can(ada)?", flags = re.I)],
-	["Ct Martial App Ct", re.compile(r"Ct Martial Appeal( Ct)?( of)?", flags = re.I)],
-	["CACM", re.compile(r"Ct d?'?appel (de )?(la )?Ct martiale", flags = re.I)],
-	["CA Eq", re.compile(r"Ct (of )?Appeal (in )?\(?Eq(uity)?\)?( of)?", flags = re.I)],
-	["Ct J (Gen Div)", re.compile(r"(Ct (of )?Just(ice)?|Ct J),? \(?Gen(eral)? Div(ision)?\)?( of)?$", flags = re.I)],
-	["Ct J (Gen Div Sm Cl Ct)", re.compile(r"(Ct (of )?Just(ice)?|Ct J),? \(?Gen(eral)? Div(ision)?,? Sm(all)? Cl(aims)?( Ct)?\)?( of)?", flags = re.I)],
-	["Ct J (Gen Div Fam Ct)", re.compile(r"(Ct (of )?Just(ice)?|Ct J),? \(?Gen(eral)? Div(ision)?,? Fam(ily)?( Ct)?\)?( of)?", flags = re.I)],
-	["Ct J (Prov Div)", re.compile(r"(Ct (of )?Just(ice)?|Ct J),? \(?Prov(incial)? Div(ision)?\)?$", flags = re.I)],
-	["Ct J (Prov Div Youth Ct)", re.compile(r"(Ct (of )?Just(ice)?|Ct J),? \(?Prov(incial)? Div(ision)?,? Youth\s?(Ct)?\)?( of)?", flags = re.I)],
-	["CQ", re.compile(u"^Ct (of )?(Qu(e|\\xe9)bec|QC)( of)?$", flags = re.I)],
-	["CQ (Civ Div)", re.compile(u"(Ct (of )?(Qu(e|\\xe9)bec|QC)|CQ),? \(?Ci(vil)? Div(ision)?\)?", flags = re.I)],
-	["CQ (Civ Div Sm Cl)", re.compile(u"(Ct (of )?(Qu(e|\\xe9)bec|QC)|CQ),? \(?Civ(il)? Div(ision)?,? Sm(all)? Cl(aims)?( Ct)?\)?( of)?", flags = re.I)],
-	["CQ (Crim & Pen Div)", re.compile(u"(Ct (of )?(Qu(e|\\xe9)bec|QC)|CQ),? \(?Crim(inal)? (&|and)?\s?Pen(al)? Div(ision)?\)?( of)?", flags = re.I)],
-	["CQ (Youth Div)", re.compile(u"(Ct (of )?(Qu(e|\\xe9)bec|QC)|CQ),? \(?Youth Div(ision)?\)?( of)?", flags = re.I)],
-	["QB", re.compile(r"^(Ct )?(of )?Queen'?s Bench$", flags = re.I)],
-	["QB (Fam Div)", re.compile(r"((Ct )?(of )?Queen'?s Bench|QB),? \(?Fam(ily)? Div(ision)?\)?", flags = re.I)],
-	["QB (TD)", re.compile(r"((Ct )?(of )?Queen'?s Bench|QB),?\s?\(?(Trial Div(ision)?|TD)\)?", flags = re.I)],
-	["Div Ct", re.compile(r"^Div(isional)? Ct$", flags = re.I)],
-	["Div & Mat Causes Ct", re.compile(r"Divorce(s)? ((&|and) )?Mat(rimonial)? Causes( Ct)?", flags = re.I)],
-	["FCA", re.compile(r"(Fed(eral)?\s?(Ct)?|FC)\s?Appeal", flags = re.I)],
-	["FCTD", re.compile(r"(Fed(eral)?( Ct)?|FC),? \(?(Tr(ial)? Div(ision)?|TD)\)?", flags = re.I)],
-	["Mun Ct", re.compile(r"Mun(icipal)? Ct", flags = re.I)],
-	["Prob Ct", re.compile(r"Prob((ate|ation|ationary))? Ct", flags = re.I)],
-	["Prov Ct (Civ Div)", re.compile(r"Prov(incial)? Ct,? \(?Civ(il)? Div(ision)?\)?$", flags = re.I)],
-	["Prov Ct (Civ Div Sm Cl Ct)", re.compile(r"Prov(incial)? Ct,? \(?Civ(il)? Div(ision)?,? Sm(all)? Cl(aims)?( Ct)?\)?", flags = re.I)],
-	["Prov Ct (Crim Div)", re.compile(r"Prov(incial)? Ct,? \(?Crim(inal)? Div(ision)?\)?", flags = re.I)],
-	["Prov Ct (Fam Ct)", re.compile(r"Prov(incial)? Ct,? \(?Fam(ily)? Ct\)?", flags = re.I)],
-	["Prov Ct (Fam Div)", re.compile(r"Prov(incial)? Ct,? \(?Fam(ily)? Div(ision)?\)?", flags = re.I)],	
-	["Prov Ct (Juv Div)", re.compile(r"Prov(incial)? Ct,? \(?Juv(enile)? Div(ision)?\)?", flags = re.I)],
-	["Prov Ct (Sm Cl Div)", re.compile(r"Prov(incial)? Ct,? \(?Sm(all) Cl(aims) Div(ision)?\)?", flags = re.I)],
-	["Prov Ct (Youth Ct)", re.compile(r"Prov(incial)? Ct,? \(?Youth( Ct)?\)?$", flags = re.I)],
-	["Prov Ct (Youth Div)", re.compile(r"Prov(incial)? Ct,? \(?Youth Div(ision)?\)?", flags = re.I)],
-	["Prov Off Ct", re.compile(r"Prov(incial)? Off(ences)? Ct", flags = re.I)],
-	["Sm Cl Ct", re.compile(r"^Sm(all)? Cl(aims)? Ct$", flags = re.I)],
-	["Sup Ct", re.compile(r"Sup(erior)? Ct (of )?\(?Can(ada)?\)?", flags = re.I)],
-	["Sup Ct (Adm Div)", re.compile(r"Sup(erior)? Ct,? \(?Adm(in)?(istrative)? Div(ision)?\)?", flags = re.I)],
-	["Sup Ct (Bank & Ins Div)", re.compile(r"Sup(erior)? Ct,? \(?Bank(ruptcy)? ((&|and) )?Ins(olvency)?( Div)?(ision)?\)?", flags = re.I)],
-	["Sup Ct (Civ Div)", re.compile(r"Sup(erior)? Ct,? \(?Civ(il)? Div(ision)?\)?$", flags = re.I)],
-	["Sup Ct (Crim & Pen Div)", re.compile(r"Sup(erior)? Ct,? \(?Crim(inal)? (&|and) Pen(al)? Div(ision)?\)?", flags = re.I)],
-	["Sup Ct (Fam Div)", re.compile(r"Sup(erior)? Ct,? \(?Fam(ily)? Div(ision)?\)?", flags = re.I)],
-	["Sup Ct (Sm Cl Div)", re.compile(r"Sup(erior)? Ct,? \(?Sm(all)? Cl(aims)? Div(ision)?\)?", flags = re.I)],
-	["SC (AD)", re.compile(r"(Sup(reme)? Ct|SC),? \(?(Appeal|Appellate) Div(ision)?\)?", flags = re.I)],
-	["SC (Fam Div)", re.compile(r"(Sup(reme)? Ct|SC),? \(?Fam(ily)? Div(ision)?\)?", flags = re.I)],
-	["SC (QB Div)", re.compile(r"(Sup(reme)? Ct|SC),? \(?Queen'?s Bench( Div)?(ision)?\)?", flags = re.I)],
-	["SC (TD)", re.compile(r"(Sup(reme)? Ct|SC),? \(?Tri?(al)?( Div)?(ision)?\)?", flags = re.I)],
-	["TCC", re.compile(r"Tax Ct( of)?( Can)?(ada)?", flags = re.I)],
-	["T Rev B", re.compile(r"Tax Rev(iew)? B(oar)?d?", flags = re.I)],
-	["Terr Ct", re.compile(r"Terr(itorial)? Ct$", flags = re.I)],
-	["Terr Ct Youth Ct", re.compile(r"Terr(itorial)? Ct \(?Youth( Ct)?\)?", flags = re.I)]]
+	["Cir", re.compile(r"Cir(cuit)? Ct App(eals)?( \((fed|federal|US)\))?", flags = re.I)], #FED
+	["Cir Ct App", re.compile(r"Cir(cuit)? Ct App(eals)?", flags = re.I)],#STATE
+	["Cir Ct & Fam Ct", re.compile(r"Cir(cuit)?( Ct)? (&|and) fam(ily)( ct)?", flags = re.I)],
+	["Cit AC", re.compile(r"Citizen(ship)? (AC|Appeals? Ct)", flags = re.I)],
+	["City Ct", re.compile(r"City Ct", flags = re.I)],#name before
+	["City & Parish Ct", re.compile(r"City (&|and) Par(ish)? Ct", flags = re.I)],
+	["Civ App", re.compile(r"Civ(il)? App(eals)?", flags = re.I)],
+	["Civ Ct", re.compile(r"Civil Ct", flags = re.I)],
+	["Civ Ct Rec", re.compile(r"Civ(il)? Ct Rec(ord)?", flags = re.I)],
+	["Civ Dist Ct", re.compile(r"Civ(il)? Dist(rict)? Ct", flags = re.I)],
+	["Small Cl Ct", re.compile(r"Small Claims Ct", flags = re.I)],
+	["Cl Ct", re.compile(r"Claims Ct", flags = re.I)],
+	["Comm Ct", re.compile(r"Commerce Ct", flags = re.I)],
+	["CP", re.compile(r"Common Pl(eas)?", flags = re.I)],
+	["Commw Ct", re.compile(r"Commonwealth Ct", flags = re.I)],
+	["Concil Ct", re.compile(r"Conciliation Ct", flags = re.I)],
+	["Const County Ct", re.compile(r"Constitutional County Ct", flags = re.I)],
+	["County Ct at Law", re.compile(r"County Ct( at)? Law", flags = re.I)],
+	["Co Ct J Crim Ct", re.compile(r"County( Ct)? Judges'? Crim(inal) Ct", flags = re.I)],
+	["County J Ct", re.compile(r"County Judge'?s'? Crim(inal)? Ct", flags = re.I)],
+	["County Rec Ct", re.compile(r"County Recorder'?s? Ct", flags = re.I)],
+	["Co Ct", re.compile(r"County Ct", flags = re.I)],
+	["Cir", re.compile(r"Ct Appeals?", flags = re.I)],#FED
+	["Ct App", re.compile(r"Ct Appeals?", flags = re.I)],#STATE
+	["Ct Ch", re.compile(r"Ct Chance(ry)?", flags = re.I)],
+	["Ct Civ App", re.compile(r"Ct Civ(il)? App(eals)?", flags = re.I)],
+	["Ct Cl", re.compile(r"Ct Claims", flags = re.I)],
+	["Ct Com Pl", re.compile(r"Ct Common Pleas", flags = re.I)],
+	["Ct Crim App", re.compile(r"Ct Crim(inal)? App(eals)?", flags = re.I)],
+	["CCPA", re.compile(r"Ct Cust(oms) (&|and) Patent App(eals)?", flags = re.I)],
+	["Ct Cust App", re.compile(r"Ct Customs App(eals)?", flags = re.I)],
+	["Ct Err", re.compile(r"Ct Errors", flags = re.I)],
+	["Ct Err & App", re.compile(r"Ct Errors (&|and) App(eals)?", flags = re.I)],
+	["Ct Fed Cl", re.compile(r"Ct Fed(eral)? Claims", flags = re.I)],
+	["Ct First Inst", re.compile(r"Ct First Instance", flags = re.I)],
+	["Ct Gen Sess", re.compile(r"Ct General Sessions", flags = re.I)],
+	["Ct Spec Sess", re.compile(r"Ct Special Sessions", flags = re.I)],
+	["Ct Int'l Trade", re.compile(r"Ct (Int'l|International) Trade", flags = re.I)],
+	["Ct Rev", re.compile(r"Ct Review", flags = re.I)],
+	["Ct Spec App", re.compile(r"Ct Special App(eals)?", flags = re.I)],
+	["Ct T Rev", re.compile(r"Ct Tax Rev(iew)?", flags = re.I)],
+	["Crim App", re.compile(r"Crim(inal)? App(eals)?", flags = re.I)],
+	["Crim Dist Ct", re.compile(r"Crim(inal)? Dist(rict)? Ct", flags = re.I)],
+	["Cust Ct", re.compile(r"Customs Ct", flags = re.I)],
+	["D", re.compile(r"Dist(rict)? Court", flags = re.I)],#FED
+	["Dist Ct", re.compile(r"Dist(rict)? Court", flags = re.I)],#STATE
+	["Dist Ct App", re.compile(r"Dist(rict)? Ct Appeals", flags = re.I)],
+	["Dist Just Ct", re.compile(r"Dist(rict)? Just(ice)? Ct", flags = re.I)],
+	["Dom Rel Ct", re.compile(r"Dom(estic)? Rel(ations)? Ct", flags = re.I)],
+	["Emer Ct App", re.compile(r"Emer(gency)? Ct App(eal)?s? ", flags = re.I)],
+	["Env Ct", re.compile(r"Environ(ment)?(al)?", flags = re.I)],
+	["Eq", re.compile(r"Equity", flags = re.I)],
+	["Fam Ct", re.compile(r"Fam(ily)? Ct", flags = re.I)],
+	["Gen Sess Ct", re.compile(r"Gen(eral)? Sess(ions)? Ct", flags = re.I)],
+	["High Ct", re.compile(r"High Ct", flags = re.I)],
+	["Housing Ct", re.compile(r"Housing Ct", flags = re.I)],
+	["Intermed Ct App", re.compile(r"Intermediate Ct App(eals)?", flags = re.I)],
+	["J Ct", re.compile(r"Just(ice) Ct", flags = re.I)],
+	["JP Ct", re.compile(r"Justice Peace'?s? Ct", flags = re.I)],
+	["Juv Ct", re.compile(r"Juvenile Ct", flags = re.I)],
+	["Juv Del Ct", re.compile(r"Juv(enile)? Del(inquent)?s?'? Ct", flags = re.I)],
+	["Juv & Fam Ct", re.compile(r"Juv(enile)? (&|and) Fam(ily)", flags = re.I)],
+	["Land  Ct", re.compile(r"Land Ct", flags = re.I)],
+	["Law  Ct", re.compile(r"Law Ct", flags = re.I)],
+	["Magis Ct", re.compile(r"Magistrate Ct", flags = re.I)],
+	["Magis Div", re.compile(r"Magistrate Division", flags = re.I)],
+	["Mayor's Ct", re.compile(r"Mayor'?s Ct", flags = re.I)],
+	["Mun Ct", re.compile(r"Municipal Ct", flags = re.I)],#name before
+	["Mun Ct not Rec", re.compile(r"Mun(icipal)? Ct (not|off) Record", flags = re.I)],
+	["Mun Crim Ct Rec", re.compile(r"Mun(icipal) Crim(inal)? Ct Record", flags = re.I)],
+	["Orphans' Ct", re.compile(r"Orphans?'? Ct", flags = re.I)],
+	["Parish Ct", re.compile(r"Parish Ct", flags = re.I)],#name before
+	["Police J Ct", re.compile(r"Pol(ice)? Just(ice)?'?s? Ct", flags = re.I)],
+	["Prerog Ct", re.compile(r"Prerogative Ct", flags = re.I)],
+	["Prob Ct", re.compile(r"Probate Ct", flags = re.I)],
+	["Rec Ct", re.compile(r"Recorder'?s Ct", flags = re.I)],
+	["State Ct", re.compile(r"State Ct", flags = re.I)],
+	["Super Ct", re.compile(r"Superior Ct", flags = re.I)],
+	["US", re.compile(r"Fed(eral)? Supreme Ct", flags = re.I)],#FED
+	["Sup Ct", re.compile(r"Supreme Court", flags = re.I)],#STATE
+	["Sup Ct App Div", re.compile(r"Supreme Ct? App(ellate|eals)? Div(ision)?", flags = re.I)],
+	["Sup Ct App", re.compile(r"Sup(reme)? Ct App(eals)?", flags = re.I)],
+	["Sup Ct Err", re.compile(r"Sup(reme)? Ct Errors", flags = re.I)],
+	["USSC", re.compile(r"(United States Supreme Ct|Supreme Ct United States|US Supreme Ct|Supreme Ct US)", flags = re.I)],
+	["Sup Jud Ct", re.compile(r"Supreme Jud(icial)? Ct", flags = re.I)],
+	["Surr Ct", re.compile(r"Surrogate Ct", flags = re.I)],
+	["Tax App Ct", re.compile(r"Tax App(eal)?s? Ct", flags = re.I)],
+	["TC", re.compile(r"Tax Ct", flags = re.I)],
+	["Teen Ct", re.compile(r"Teen Ct", flags = re.I)],
+	["Town Ct", re.compile(r"Town Ct", flags = re.I)],
+	["Traffic Ct", re.compile(r"Traffic Ct", flags = re.I)],
+	["Tribal Ct", re.compile(r"Tribal Ct", flags = re.I)],#name before
+	["Unif Fam Ct", re.compile(r"Unified Fam(ily) Ct", flags = re.I)],
+	["Water Ct", re.compile(r"Water Ct", flags = re.I)],
+	["Workers' Comp Ct", re.compile(r"Worker'?s?'? Comp(ensation)? Ct", flags = re.I)],
+	["Youth ct", re.compile(r"Youth Ct", flags = re.I)]]
 	Results = []
 	for Court in AllCourts:
 		if re.search('^'+Court[0]+r'$', string, re.I):
@@ -583,7 +473,28 @@ def FindCourt(string):
 		print "There were", len(Results), "results:", Results, "RETURN: ", Results[0]
 		return Results[0]
 	else: print "********* NO RESULTS for", string,"*********"
-	return Results
+	SupremeCourtReporters = ['US', 'S Ct', 'L Ed 2d', 'USLW']
+	Federal = ['F', 'F (2d)', 'F (3d)', 'F Supp', 'F Supp (2d)']
+	for x in Federal:
+		if re.search(regstrElec(x), string, re.I): 
+			print "YAY"
+	Change = [[r'Criminal', 'Crim'], [r'United States', 'US']
+	[r'Superior', 'Super'], 	[r'Juvenile', 'Juv'], 
+	[r'Magistrate', 'Magis'], 	[r'General', 'Gen'],
+	[r'Sessions?', 'Sess'], 	[r'App(ellate|eal)s?', 'App'],
+	[r'Family', 'Fam'], 		[r'Review', 'Rev'],
+	[r'Circuit', 'Cir'],		[r'Criminal', 'Crim'], 
+	[r'Supreme', 'Sup'], 		[r"Record(er)?'?s?", 'Rec'],
+	[r'District', 'Dist'], 		[r'Civil', 'Civ'], 
+	[r'Federal', 'Fed'], 		[r'Criminal', 'Crim'], 
+	[r"Child(ren)?'?s?", 'Child'], [r'Judicial', 'Jud'],
+	[r'Internaional', "Int'l"], [r'Intermediate', 'Intermed']]
+	for C in Change:
+		foo = re.compile(C[0], flags = re.I)
+		if foo.search(string):
+			string = re.sub(foo.search(string).group(), C[1], string, flags = re.I)
+	return string
+
 
 
 
@@ -705,15 +616,6 @@ def GetCitations(Citation_Input, Court_Input):
 	PC = CleanUp(Citation_Input
 	OUTPUT = "" #this will eventually be the output
 	#need to put the electronic sources in the correct format in case someone puts in (available on CanLII) without the ; or ,
-	Electronic = [["CanLII", "CanLII"], ["QL", "Quicklaw"], ["WL Can", "Westlaw Canada"], ["Azimut","Azimut"], ["LEXIS", "Lexis"], ["WL", "Westlaw"]]
-	for x in Electronic:
-		regzero = re.compile(r'[;,]?\s?\(?(available on)?\s?'+x[0]+r'\)?[;,]?') # create the regex objects 
-		regone = re.compile(r'[;,]?\s?\(?(available on)?\s?'+x[1]+r'\)?[;,]?')
-		if regzero.search(PC):
-			PC = re.sub(r'[;,]?\s?\(?(available on)?\s?'+x[0]+'\)?[;,]?', "; "+x[0]+"; ", PC)
-		if regone.search(PC):
-			PC = re.sub(r'[;,]?\s?\(?(available on)?\s?'+x[1]+'\)?[;,]?', "; "+x[0]+"; ", PC)
-	m = re.split('[,;]', PC) # 	#Split the citations based on positioning of commas and semicolons
 	for x in range(len(m)): m[x] = CleanUp(m[x]) #remove excess white spaces on either side
 	TwoBest = ChooseBestReporters(m) #this returns a string with the two best reporters already formatted
 	#TwoBest RETURNS THE REPORTERS THAT ARE USED
