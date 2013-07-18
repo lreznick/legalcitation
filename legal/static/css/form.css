@@ -53,12 +53,25 @@ color: #333333;
  	border: 0 none; 
  }
  
-.accordion{
-	width: 700px;
+.addHistory{
+	width: 70px;
+	height: 25px;
+	background-color:#ccc;
+	margin-left: 15px;
+	font-size: 12px;
+	font-weight: bold;
+	text-align: center;
+	padding-top: 3px;
+	#color: #0088cc;
+	color: white;
+	cursor: pointer;
 }
+.addHistory:hover{
 
+	background-color:#FC5454
+}
 .accordion-inner{
-	padding-right: 10px;
+	
 	padding-left:0px;
 }
 

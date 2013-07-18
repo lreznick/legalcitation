@@ -58,7 +58,8 @@ input[type="color"],
 }
 
 .well {
-  background-color: #fbfbfb;
+  background-color: #f7f7f7;
+  border-color: #C9C9C9;
 }
 
 .btn {
