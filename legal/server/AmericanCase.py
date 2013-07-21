@@ -143,6 +143,17 @@ def StyleAttributes(string):
 #takes a string and creates a regex string that can be used to detect the string in various patterns
 #ex. instead of just "AB" (which could be string like "ABC Corp"), we will only look for it where it would stand alone
 def regstr(i):#i is a string input
+	i = re.sub("\[", "\[", i)
+	i = re.sub("\]", "\]", i)
+	i = re.sub("\^", "\^", i)
+	i = re.sub("\$", "\$", i)
+	i = re.sub("\.", "\.", i)
+	i = re.sub("\|", "\|", i)
+	i = re.sub("\?", "\?", i)
+	i = re.sub("\*", "\*", i)
+	i = re.sub("\+", "\+", i)
+	i = re.sub("\(", "\(", i)
+	i = re.sub("\)", "\)", i)
 	one = r'\s'+i+ r'(?=,)'
 	two = r'\s'+i+ r'$'
 	thr = r'\s'+i+ r'\s'
@@ -221,10 +232,32 @@ def GetStyleOfCause(StyleOfCause_Input):
 	#print "At end of GetSoC: OUTPUT = ", OUTPUT
 	return CleanUp(OUTPUT)
 
-'''****************     CITATIONS     ****************'''
+'''****************     CITATIONS     ****************''''''****************     CITATIONS     ****************'''
+'''****************     CITATIONS     ****************''''''****************     CITATIONS     ****************'''
+'''****************     CITATIONS     ****************''''''****************     CITATIONS     ****************'''
+'''****************     CITATIONS     ****************''''''****************     CITATIONS     ****************'''
+'''****************     CITATIONS     ****************''''''****************     CITATIONS     ****************'''
+'''****************     CITATIONS     ****************''''''****************     CITATIONS     ****************'''
+'''****************     CITATIONS     ****************''''''****************     CITATIONS     ****************'''
+'''****************     CITATIONS     ****************''''''****************     CITATIONS     ****************'''
+'''****************     CITATIONS     ****************''''''****************     CITATIONS     ****************'''
+'''****************     CITATIONS     ****************''''''****************     CITATIONS     ****************'''
+'''****************     CITATIONS     ****************''''''****************     CITATIONS     ****************'''
+'''****************     CITATIONS     ****************''''''****************     CITATIONS     ****************'''
 
 
 def regstrElec(i):#i is a string input
+	i = re.sub("\[", "\[", i)
+	i = re.sub("\]", "\]", i)
+	i = re.sub("\^", "\^", i)
+	i = re.sub("\$", "\$", i)
+	i = re.sub("\.", "\.", i)
+	i = re.sub("\|", "\|", i)
+	i = re.sub("\?", "\?", i)
+	i = re.sub("\*", "\*", i)
+	i = re.sub("\+", "\+", i)
+	i = re.sub("\(", "\(", i)
+	i = re.sub("\)", "\)", i)
 	one = r'\s'+i+ r'(?=,)'
 	two = r'\s'+i+ r'$'
 	thr = r'\s'+i+ r'\s'
@@ -234,193 +267,353 @@ def regstrElec(i):#i is a string input
 	string =  r'('+ one + r'|' + two + r'|' + thr + r'|' + fou + r'|' + fiv + r'|' + six + r')'
 	return string
 
+#pulls a date (string format) from a string
+#first looks if the date is in the form "(1823), DF dsf", OR "2008 NBCA" etc.. (needs a capital following the date) if so, will return that date 
+#second, pulls the LOWEST date from a string, between 1400 until 2014	
+#will not pull a date from within a string of digits, but anything else
+#returns false if no date in string		
+def PullDate(string):
+	print "\n****** Starting PullDate"
+	FirstSearch = re.search(r'(\(?\[?)(1[4-9][0-9]{2}|200[0-9]{1}|201[01234]{1})(\)?\]?,?\s([A-Z]|\d{1,3}\s)[A-Za-z\s]{2})', string) #ex 2008 NBCA or (1843) Ex Ctf
+	if FirstSearch:
+		print "***** Detected on search 1: ", FirstSearch.group(2)
+		return FirstSearch.group(2)
+	All = re.findall(r'([^\d]{1}|^|\s)(1[4-9][0-9]{2}|200[0-9]{1}|201[01234]{1})([^\d]{1}|$|\s)', string)
+	if not All:
+		return False
+	Dates = []
+	for x in range(len(All)):
+		Dates.append(int(All[x][1]))
+	Sorted = sorted(Dates, key=lambda tup: tup)
+	print "***** Detected on search 2: ", str(Sorted[0])
+	return str(Sorted[0])
 
-#takes in a correctly formatted citation and checks if there is a court in it
-# if there is a court, return it
-# else return False
-#Court must be surrounded by a space on each side
-def CheckForCourt(string): #pull the neutral citation from the list if there is one
-	print "**** Starting CheckForCourt"
-	print "Checking for court in string: ", string
-	SupremeCourtReporters = ['US', 'S Ct', 'L Ed 2d', 'USLW']
-	Federal = ['F', 'F (2d)', 'F (3d)', 'F Supp', 'F Supp (2d)']
-	PreferredRegional = ['A', 'A (2d)', 'NE', 'NE (2d)', 'NW', 'NW (2d)', 'P', 'P (2d)', 'P (3d)', 'SE', 'SE (2d)',  'SW', 'SW (2d)',  'So', 'So (2d)']
-	PreferredState = ['Cal', 'Cal (2d)', 'Cal (3d)', 'Cal (4th)', 'NYS (2d)']
-	Regional = ['ALR', 'ALR (2d)', 'ALR (3d)', 'ALR (4th)', 'ALR (5th)', 'L Ed']
-	Professions = ['AMC', 'Av Cas', 'ICC', 'LAR']
-	NYAppeal = ['App Div (2d)']
-	ARAppeal = ['Ark App']
-	USAppeal = ['US App DC']
-	Other = ['Act', "A Int'l LC", 'ADIL', 'Ad & El', 'Ala', 'Ala (NS)', 'Alaska Fed', 'Alaska R', 'Ariz', 'Ark',  'CIJ M\\xe9moires', 'CIJ Rec', 'Cons sup N-F', 'CPJI (Ser A)', 'CPJI (S\\xe9r B)', 'CPJI (S\\xe9r A/B)', 'CPJI (S\\xe9r C)', 'F', 'F (2d)', 'F (3d)', 'F Cas', 'F Supp', 'F Supp (2d)', 'Hague Ct Rep', 'Hague Ct Rep (2d)', 'ICJ Pleadings', 'ICJ Rep', 'ICSID', 'I LR', 'Inter-Am Ct HR (Ser A)', 'Inter-Am Ct HR (Ser B)', 'Inter-Am Ct HR (Ser C)', 'NY', 'NY (2d)', 'RIAA', 'S Ct', 'SEC Dec', 'TMR', ]
-	for x in SupremeCourtReporters:
-		if re.search(regstrElec(x), string, re.I): 
-			print "Found a reporter that implies the USSC: ", x
-			return x
+#input is the date input. this function is called from BestReporter
+#returns [correctly date-formatted string, "ok"] OR [some string, "bad format!"]
+def CheckUSLWDate(string):
+	print "\n****** Starting CheckUSLWDate"
+	string = re.sub(',','', string)              #Remove all periods
+	months = [["January", "Jan", "01"], ["February", "Feb", "02"], ["March", "Mar", "03"],  ["April", "Apr", "04"],  ["May", "May", "05"],  ["June", "Jun", "06"], ["July", "Jul", "07"], ["August", "Aug", "08"], ["September", "Sept", "09"], ["October", "Oct", "10"], ["November", "Nov", "11"], ["December", "Dec", "12"]]
+	formatOne = re.compile(r'^((14|15|16|17|18|19|20)\d\d)[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$')#yyyy/mm/dd
+	m = formatOne.search(string)
+	if m:
+		yearFormatOne = m.group(1)
+		monthFormatOne = m.group(3)
+		for x in months:
+			if x[2]==monthFormatOne:
+				month = x[0]
+			else:
+				print "Error! no Month match on", monthFormatOne
+				month = monthFormatOne
+		dayFormatOne  = m.group(4)
+		if dayFormatOne[0]==0:
+			dayFormatOne = dayFormatOne[1]
+		string = dayFormatOne + ' ' + month + ' '+yearFormatOne
+		return [string, "ok"]
+	print "No yyyy/mm/dd found. Now looking for it written out. Running PullDate:"
+	yearFormatTwo = PullDate(string)
+	if not yearFormatTwo:
+		return [string, "bad format!"]
+	else:
+		string = CleanUp(re.sub(yearFormatTwo, ' ', string))
+		year = yearFormatTwo
+		print "year found: ", year
+		print "string modified to: ", string
+	Hit = False
+	for x in months:
+		print x[0]
+		monthFormatTwo = re.compile(regstrElec(x[0]), flags = re.I)
+		monthFormatThree = re.compile(regstrElec(x[1]), flags = re.I)
+		if monthFormatTwo.search(string):
+			print "Found month: ", x[0]
+			month = x[0]
+			Hit = True
+			string = CleanUp(re.sub(monthFormatTwo.search(string).group(), ' ', string))
+			break
+		elif monthFormatThree.search(string):
+			print "Found month: ", x[0]
+			month = x[0]
+			Hit = True
+			string = CleanUp(re.sub(monthFormatThree.search(string).group(), ' ', string))
+			break
+	if not Hit:
+		return [string, "bad format!"]
+	dayFormatTwo = re.compile(r'([1-9]|0[1-9]|[12][0-9]|3[01])')
+	if dayFormatTwo.search(string):
+		dayNum = dayFormatTwo.search(string).group()
+		if dayNum[0]==0:
+			dayNum = dayNum[1]
+		string = dayNum + ' ' + month + ' ' + year
+		return [string, "ok"]
+	else: return [string, "bad format!"]
+	
+#auxillary function for use in BestReporter
+def CheckReporter(m, list):
+	print "\n****** StartingCheckReporter within BestReporter"
+	print "Input reporter list: ", m
+	print "Checking to see if in, ", list
+	for r in m: #look at each reporter inputed in the input list
+		for x in list:#will run through the Federa; reporters in order.
+			match = re.search(regstr(x), r, re.I)
+			if match:
+				r = CleanUp(re.sub(match.group(), " "+x+" ", r, flags = re.I))
+				print "*Found a reporter* ::: ", x
+				return [r, "NA"]
 	return False
 
+#returns 3-part list [Reporter, "USSC"/"Fed"/"State", Date]
+def BestReporter(Citation_Input, Date):
+	print "******** Starting BestReporter **********"
+	print "Citation Input: ", Citation_Input
+	print "Date input: ", Date
+	if not PullDate(Date):
+		print "INVALID DATE IN BESTREPORTER"
+		return ["Error: Date is missing", "Error: Date is missing", "Error: Date is missing"]
+	PC = CleanUp(Citation_Input)
+	#need to put the electronic sources in the correct format in case someone puts in (available on CanLII) without the ; or ,
+	if re.search(r"(;|,)$", PC):
+		PC = CleanUp(PC[:-1])
+	if re.search(r"^(;|,)", PC):
+		PC = CleanUp(PC[1:])
+	m = re.split('[,;]', PC) # 	#Split the citations based on positioning of commas and semicolons
+	print "List of reporters: ", m
+	series = ["2d", "3d", "4th", "5th", "6th", "7th", "8th"]
+	for x in range(len(m)): #replace "2d" with "(2d)", etc (i.e. put them in brackets
+		for s in series:
+			match = re.search(' '+s+' ', m[x], re.I)
+			if match:
+				print "Found a series number without brackets"
+				m[x] = re.sub(match.group(), ' ('+s+') ', m[x])
+				break
+	print "List of reporters: ", m
+	for x in range(len(m)): m[x] = CleanUp(m[x]) #remove excess white spaces on either side
+	SupremeCourtReporters = ['US', 'S Ct', 'L Ed 2d', 'USLW']#order is important
+	for r in m: #look at each reporter inputed in the input list
+		for x in SupremeCourtReporters:#will run through the USSC reporters in order. reaching a match, it will return the reporter in order of priority
+			match = re.search(regstr(x), r, re.I)
+			if match:
+				r = CleanUp(re.sub(match.group(), " "+x+" ", r, flags = re.I))
+				print "Found a reporter that implies the USSC: ", x
+				if x == "US":
+					Date = PullDate(Date)# the date
+					if int(Date)<1875:
+						Editors = [["Wall", "Wallace"], ["Black"], ["How", "Howard"], ["Pet", "Peters"], ["Wheat", "Wheaton"], ["Cranch"], ["Dall", "Dallas"]]
+						for E in Editors:
+							if re.search(re.regstrElec(any(E(n) for n in range(len(E)))), r, re.I):
+								pass
+							else: return ['Reporter needs editor ex. "83 US (19 How) 324"', 'Reporter needs editor ex. "83 US (19 How) 324"', 'Reporter needs editor ex. "83 US (19 How) 324"']
+				if x == "USLW":#USLW has a special format for date, so check that
+					print "This is USLW. Checking the date."
+					Date = CheckUSLWDate(Date)
+					if Date[1]!="ok":
+						return ['Needs full date ex. "July 22, 2003"', 'Needs full date ex. "July 22, 2003"', 'Needs full date ex. "July 22, 2003"']
+					if Date[1]=="ok":
+						return [m, "USSC", Date[0]]#CheckUSLWDate returns a list
+				return [m, "USSC", Date]
+	Date = PullDate(Date)# the date
+	Federal = ['F Supp (2d)', 'F Supp', 'F (3d)', 'F (2d)', 'F']
+	F = CheckReporter(m, Federal)
+	if F:
+		print "Found a federal reporter: ", F[0]
+		return [F[0], "Fed", Date]
+	PreferredRegional = ['A (2d)', 'A', 'NE (2d)', 'NE', 'NW (2d)', 'NW', 'P (2d)', 'P (3d)', 'P', 'SE (2d)', 'SE', 'SW (2d)', 'SW', 'So (2d)', 'So']
+	F = CheckReporter(m, PreferredRegional)
+	if F:
+		print "Found a preferred regional reporter: ", F[0]
+		return [F[0], "State", Date]
+	Regional = ['ALR (2d)', 'ALR (3d)', 'ALR (4th)', 'ALR (5th)', 'ALR', 'L Ed']
+	F = CheckReporter(m, Regional)
+	if F:
+		print "Found a regional reporter: ", F[0]
+		return [F[0], "State", Date]
+	PreferredState = ['Cal (2d)', 'Cal (3d)', 'Cal (4th)', 'Cal', 'NYS (2d)']
+	F = CheckReporter(m, PreferredState)
+	if F:
+		print "Found a preferred state reporter: ", F[0]
+		return [F[0], "State", Date]
+	Professions = ['AMC', 'Av Cas', 'ICC', 'LAR']
+	F = CheckReporter(m, Professions)
+	if F:
+		print "Found a professional reporter: ", F[0]
+		return [F[0], "State", Date]
+	NYAppeal = ['App Div (2d)']
+	F = CheckReporter(m, NYAppeal)
+	if F:
+		print "Found NY reporter: ", F[0]
+		return [F[0], "State", Date]
+	ARAppeal = ['Ark App']
+	F = CheckReporter(m, ARAppeal)
+	if F:
+		print "Found an Arkansas reporter: ", F[0]
+		return [F[0], "State", Date]
+	USAppeal = ['US App DC']
+	F = CheckReporter(m, USAppeal)
+	if F:
+		print "Found a US Appeal reporter: ", F[0]
+		return [F[0], "State", Date]
+	Other = ['Act', "A Int'l LC", 'ADIL', 'Ad & El', 'Ala (NS)', 'Ala', 'Alaska Fed', 'Alaska R', 'Ariz', 'Ark',  u'CIJ M\xe9moires', 'CIJ Rec', 'Cons sup N-F', 'CPJI (Ser A)', u'CPJI (S\xe9r B)', u'CPJI (S\xe9r A/B)', u'CPJI (S\xe9r C)', 'F Cas', 'Hague Ct Rep', 'Hague Ct Rep (2d)', 'ICJ Pleadings', 'ICJ Rep', 'ICSID', 'I LR', 'Inter-Am Ct HR (Ser A)', 'Inter-Am Ct HR (Ser B)', 'Inter-Am Ct HR (Ser C)', 'NY (2d)', 'NY', 'RIAA', 'S Ct', 'SEC Dec', 'TMR', ]
+	F = CheckReporter(m, Other)
+	if F:
+		print "Found Other reporter: ", F[0]
+		return [F[0], "State", Date]
+	return [m[0],"State", Date]#return the input if it's not recognized
 
-#returns a list: [Proper Abbreviation for jurisdiction, The search object that found it]
-#or returns False if no jurisdiction detected
-def FindJurisdiction(string):	
-	print "**** Starting FindJurisdiction"
-	Districts = [["ND", ["North Dist", "ND", "North District", "N Dist", "N District"]],
-	["SD", ["South Dist", "SD", "South District", "S Dist", "S District"]],
-	["ED", ["East Dist", "ED", "East District", "E Dist", "E District"]],
-	["WD", ["West Dist", "WD", "West District", "W Dist", "W District"]]]
+
+#returns a list: return [modified string, District (or False), "don't remove ct" or "may remove ct"]
+def ShortenJurisdiction(string):	
+	print "\n**** Running ShortenJurisdiction within the CheckCt function"
+	print "Input jurisdiction: ", string
+	Districts = [["ND", ["North Dist", "ND", "North District", "N Dist", "N District", "Northern District", "Northern Dist"]],
+	["SD", ["South Dist", "SD", "South District", "S Dist", "S District", "Southern District", "Southern Dist"]],
+	["ED", ["East Dist", "ED", "East District", "E Dist", "E District", "Eastern District", "Eastern Dist"]],
+	["WD", ["West Dist", "WD", "West District", "W Dist", "W District", "Western District", "Western Dist"]]]
 	Dist = False
 	for jur in Districts:
 		for abbr in jur[1]:
-			match = re.search(regstrElec(abbr), string, re.I)#regstrElec has the ^ + $ object
-			if match:
+			matchDist = re.search(regstrElec(abbr), string, re.I)#regstrElec has the ^ + $ object
+			if matchDist:
 				Dist = jur[0]
-	States = [["Ala", ["alabama", "al"]],
-	["Alaska", ["ak", "alas"]],
-	["Ariz", ["arizona", "az"]],
-	["Ark", ["arkansas"]],
-	["Cal", ["california", "cali", "calif", "californie", "cal"]],
-	["NC", ["Caroline du Nord", "North Carolina", "N Car"]],
-	["SC", ["Caroline de Sud", "South Carolina", "S Car"]],
-	["Colo", ["col", "colorado"]],
-	["Conn", ["Connecticut"]],
-	["N Dak", ["north dakota", "dakota du nord", "NoDak"]],
-	["S Dak", ["south dakota", "dakata du sud", "SD", "SoDak"]],
-	["Del", ["Delaware", "de"]],
-	["DC", ["district de colombie", "district of columbia", "Washington DC", "Wash DC", "dist of colom"]],
-	["US", ["etas unis", "etas-unis", "usa", "united states"]],
-	["Fla", ["florida", "flor", "floride", "fl"]],
-	["Ga", ["georgia", "georgie"]],
-	["Hawaii", ["HI"]],
-	["Idaho", ["Ida", "Id"]],
-	["Ill", ["Illinois", "Il", "Ills", "Ill's"]],
-	["Ind", ["Indiana", "Ind", "In"]],
-	["Iowa", ["Ia", "Ioa"]],
-	["Kan", ["Kansas", "Ks", "Ka"]],
-	["Ky", ["Kentucky", "Ken", "Kent"]],
-	["La", ["Louisiana", "Louisiane", "la"]],
-	["Me", ["Maine"]],
-	["Md", ["Maryland"]],
-	["Mass", ["Massachussetts", "ma"]],
-	["Mich", ["Michigan", "MI"]],
-	["Minn", ["Minnesota", "Mn"]],
-	["Miss", ["mississippi", "ms"]],
-	["Mo", ["Missouri"]],
-	["Mont", ["Montana", "mt"]],
-	["Neb", ["Nebraska", "ne"]],
-	["Nev", ["Nevada", "nv"]],
-	["NH", ["New Hampshire", "N Hamp"]],
-	["NJ", ["New Jersey"]],
-	["N Mex", ["New Mexico", "nm", "nouveau mexique", "new M"]],
-	["NY", ["new york", "n york"]],
-	["Ohio", ["Oh"]],
-	["Okla", ["oklahoma", "OK"]],
-	["Or", ["oregon", "oreg"]],
-	["Pa", ["pennsylvania", "penn", "penna", "pennsylvanie"]],
-	["RI", ["Rhode Isl", "Rhode Island", "R Isl"]],
-	["Tenn", ["Tennessee", "Tn"]],
-	["Tex", ["Texas", "tex", "Tx"]],
-	["Utah", ["ut"]],
-	["Vt", ["Vermont", "Verm"]],
-	["Va", ["Virginia", "virg", "virginie", "virgin"]],
-	["W Va", ["West virginia", "wv", "w virg", "virginie occidentale"]],
-	["Wash", ["Washington", "wn", "wa"]],
-	["Wis", ["wisconsin", "wi", "wisc"]],
-	["Wyo", ["Wyoming", "wy"]]]
+				string = CleanUp(re.sub(matchDist.group(), ' ', string))
+	if Dist:
+		print "District found. String modified to: ", string
+	States = [["Ala", ["alabama", "al"]], ["Alaska", ["ak", "alas"]], ["Ariz", ["arizona", "az"]], ["Ark", ["arkansas"]],
+	["Cal", ["california", "cali", "calif", "californie", "cal"]], ["Colo", ["col", "colorado"]], ["Conn", ["Connecticut"]], ["Del", ["Delaware", "de"]], ["DC", ["district de colombie", "district of columbia", "Washington DC", "Wash DC", "dist of colom"]],
+	["Fla", ["florida", "flor", "floride", "fl"]], ["Ga", ["georgia", "georgie"]], ["Hawaii", ["HI"]], ["Idaho", ["Ida", "Id"]], ["Ill", ["Illinois", "Il", "Ills", "Ill's"]], ["Ind", ["Indiana", "Ind", "In"]], ["Iowa", ["Ia", "Ioa"]], ["Kan", ["Kansas", "Ks", "Ka"]], ["Ky", ["Kentucky", "Ken", "Kent"]], ["La", ["Louisiana", "Louisiane", "la"]],
+	["Me", ["Maine"]], ["Md", ["Maryland"]], ["Mass", ["Massachussetts", "ma"]], ["Mich", ["Michigan", "MI"]], ["Minn", ["Minnesota", "Mn"]], ["Miss", ["mississippi", "ms"]], ["Mo", ["Missouri"]], ["Mont", ["Montana", "mt"]],
+	["N Dak", ["north dakota", "dakota du nord", "NoDak"]], ["NC", ["Caroline du Nord", "North Carolina", "N Car"]], ["Neb", ["Nebraska", "ne"]], ["Nev", ["Nevada", "nv"]], ["NH", ["New Hampshire", "N Hamp"]], ["NJ", ["New Jersey"]], ["N Mex", ["New Mexico", "nm", "nouveau mexique", "new M"]], ["NY", ["new york", "n york"]], 
+	["Ohio", ["Oh"]], ["Okla", ["oklahoma", "OK"]], ["Or", ["oregon", "oreg"]], ["Pa", ["pennsylvania", "penn", "penna", "pennsylvanie"]], ["RI", ["Rhode Isl", "Rhode Island", "R Isl"]],
+	["S Dak", ["south dakota", "dakata du sud", "SD", "SoDak"]], ["SC", ["Caroline de Sud", "South Carolina", "S Car"]], ["Tenn", ["Tennessee", "Tn"]], ["Tex", ["Texas", "tex", "Tx"]], ["US", ["etas unis", "etas-unis", "usa", "united states"]], ["Utah", ["ut"]], ["Vt", ["Vermont", "Verm"]], ["Va", ["Virginia", "virg", "virginie", "virgin"]],
+	["W Va", ["West virginia", "wv", "w virg", "virginie occidentale"]], ["Wash", ["Washington", "wn", "wa"]], ["Wis", ["wisconsin", "wi", "wisc"]], ["Wyo", ["Wyoming", "wy"]]]
 	for jur in States:
 		match = re.search(regstrElec(jur[0]), string, re.I)#regstrElec has the ^ + $ object
 		if match:
 			if Dist:
-				return [Dist +" "+ jur[0], match, "district"]
-			return [jur[0][0], match, "no district"]
+				string = CleanUp(Dist + ' ' + jur[0] + ' ' + re.sub(match.group(), " ", string))
+			else:
+				string = CleanUp(re.sub(match.group(), ' '+jur[0]+' ', string))
+			if jur == ("Tex" or "Okla"):
+				print "Found Tex or Okla in ShortenJurisdiction, returning: ", [string, Dist, "don't remove ct"]
+				return [string, Dist, "don't remove ct"]
+			return [string, Dist, "may remove ct"]
 		for abbr in jur[1]:
 			match = re.search(regstrElec(abbr), string, re.I)#regstrElec has the ^ + $ object
 			if match:
 				if Dist:
-					return [Dist +" "+ jur[0], match, "district"]
-				return [jur[0][0], match, "no district"]
+					string = CleanUp(Dist + ' ' + jur[0] + ' ' + re.sub(match.group(), " ", string))
+				else:
+					string = CleanUp(re.sub(match.group(), ' '+jur[0]+' ', string))
+				if jur == ("Tex" or "Okla"):
+					return [string, Dist, "don't remove ct"]
+				return [string, Dist, "may remove ct"]
+	return [string, Dist, "may remove ct"]#just to be safe
+	
+def regstrCt(i):#i is a string input
+	one = r'\s'+i+ r'(?=,)'
+	two = r'\s'+i+ r'$'
+	thr = r'\s'+i+ r'\s'
+	fou = r'^' +i+ r'\s'
+	fiv = r'\('+i+ r'\)'
+	six = r'^'+i+ r'$'
+	string =  r'('+ one + r'|' + two + r'|' + thr + r'|' + fou + r'|' + fiv + r'|' + six + r')'
 	return string
-
-def FindCourt(string, reporter):
-	print "**** Starting FindCourt"
-	print "Searching: ", string
-	print "Reporter being used is: ", reporter
-	Ct = re.compile(r'(C(our)?t|Cour)', flags = re.I)
+	
+def ShortenCtName(string):
+	print "**** Running ShortenCtName within the CheckCt function"
+	Ct = re.compile(regstrCt('(C(our)?t|Cour)'), flags = re.I)
 	if Ct.search(string):
-		string = re.sub(Ct.search(string).group(), "Ct", string, flags = re.I)
+		string = CleanUp(re.sub(Ct.search(string).group(), " Ct ", string, flags = re.I))
 	Remove  = ["of", "des", "de" "la", "le", "the", "in"]
 	for r in Remove:
 		Rem = re.compile(regstr(r), flags = re.I)
 		if Rem.search(string):
-			modString = re.sub(Rem.search(string).group(), " ", string, flags = re.I)
-	modString = CleanUp(modString)
+			string = re.sub(Rem.search(string).group(), " ", string, flags = re.I)
+	string = CleanUp(string)
 	print "Search modified to: ", string
-	AllCourts = [
-	["Admin Ct", re.compile(r"(^Admin(istrative)? Ct", flags = re.I)],
-	["Adm", re.compile(r"Admiral(ity)?", flags = re.I)],
-	["Alder Ct", re.compile(r"Alder(man's)?", flags = re.I)],
-	["App Ct", re.compile(r"Appe(als|llate) Ct", flags = re.I)],
-	["App Div", re.compile(r"Appellate Div(ision)?", flags = re.I)],
-	["BAP", re.compile(r"Bankrupt(cy)? Appe(als|llate) Panel", flags = re.I)],
-	["Bankr", re.compile(r"Bankruptcy", flags = re.I)],
-	["BTA", re.compile(r"(Board Tax Appeals|BTA)( \(US\))?", flags = re.I)],
-	["Bor Ct", re.compile(r"Borough Ct", flags = re.I)],#name before
-	["Ch", re.compile(r"Chancery", flags = re.I)],#court/division
-	["Child Ct", re.compile(r"Child(ren's)? Ct", flags = re.I)],
+	return string
+
+def DefaultCt(string):
+	print "**** Running DefaultCt within the CheckCt function because no court was found"
+	Change = [[r'Criminal', 'Crim'], [r'United States', 'US'], [r'Superior', 'Super'], 	[r'Juvenile', 'Juv'], [r'Magistrate', 'Magis'], [r'General', 'Gen'], [r'Sessions?', 'Sess'], [r'App(ellate|eal)s?', 'App'],
+	[r'Family', 'Fam'], [r'Review', 'Rev'],	[r'Circuit', 'Cir'], [r'Criminal', 'Crim'], [r'Supreme', 'Sup'], [r"Record(er)?'?s?", 'Rec'], [r'District', 'Dist'], [r'Civil', 'Civ'], [r'Federal', 'Fed'], [r'Criminal', 'Crim'], [r"Child(ren)?'?s?", 'Child'], [r'Judicial', 'Jud'], [r'Internaional', "Int'l"], [r'Intermediate', 'Intermed']]
+	for C in Change:
+		foo = re.compile(C[0], flags = re.I)
+		if foo.search(string):
+			string = re.sub(foo.search(string).group(), C[1], string, flags = re.I)
+	return string
+
+def CheckStateCt(string, reporter):
+	print "**** Starting CheckStateCt"
+	print "Searching Court input: ", string
+	print "Reporter being used is: ", reporter
+	string = ShortenCtName(string)
+	JurisdictionChanged = ShortenJurisdiction(string) #[string, Dist, "don't remove ct"] or  [string, Dist, "may remove ct"] 
+	string = JurisdictionChanged[0]
+	print "Court string after shortening is: ", string
+	StateCts = [
+	["Admin Ct", re.compile(r"^Admin(istrative)? Ct", flags = re.I)],
+	["Adm", re.compile(r"Admiral(ity)?", flags = re.I)], 
+	["Alder Ct", re.compile(r"Alder(man's)?", flags = re.I)], 
+	["App Ct", re.compile(r"Appe(als|llate) Ct", flags = re.I)], 
+	["App Div", re.compile(r"Appellate Div(ision)?", flags = re.I)], 
+	["BAP", re.compile(r"Bankrupt(cy)? Appe(als|llate) Panel", flags = re.I)],	
+	["Bankr", re.compile(r"Bankruptcy", flags = re.I)],	
+	["BTA", re.compile(r"(Board Tax Appeals|BTA)( \(US\))?", flags = re.I)], 
+	["Bor Ct", re.compile(r"Borough Ct", flags = re.I)], 
+	["Ch", re.compile(r"Chancery", flags = re.I)], 
+	["Child Ct", re.compile(r"Child(ren's)? Ct", flags = re.I)], 
 	["Cir Ct", re.compile(r"Cir(cuit)? Ct$", flags = re.I)],
-	["Cir", re.compile(r"Cir(cuit)? Ct App(eals)?( \((fed|federal|US)\))?", flags = re.I)], #FED
-	["Cir Ct App", re.compile(r"Cir(cuit)? Ct App(eals)?", flags = re.I)],#STATE
-	["Cir Ct & Fam Ct", re.compile(r"Cir(cuit)?( Ct)? (&|and) fam(ily)( ct)?", flags = re.I)],
-	["Cit AC", re.compile(r"Citizen(ship)? (AC|Appeals? Ct)", flags = re.I)],
-	["City Ct", re.compile(r"City Ct", flags = re.I)],#name before
+	["Cir Ct App", re.compile(r"Cir(cuit)? Ct App(eals)?", flags = re.I)],
+	["Cir Ct & Fam Ct", re.compile(r"Cir(cuit)?( Ct)? (&|and) fam(ily)( ct)?", flags = re.I)],	
+	["Cit AC", re.compile(r"Citizen(ship)? (AC|Appeals Ct|Appeal Ct)", flags = re.I)],
+	["City Ct", re.compile(r"City Ct", flags = re.I)],
 	["City & Parish Ct", re.compile(r"City (&|and) Par(ish)? Ct", flags = re.I)],
 	["Civ App", re.compile(r"Civ(il)? App(eals)?", flags = re.I)],
 	["Civ Ct", re.compile(r"Civil Ct", flags = re.I)],
-	["Civ Ct Rec", re.compile(r"Civ(il)? Ct Rec(ord)?", flags = re.I)],
+	["Civ Ct Rec", re.compile(r"Civ(il)? Ct Rec(ord)?", flags = re.I)],	
 	["Civ Dist Ct", re.compile(r"Civ(il)? Dist(rict)? Ct", flags = re.I)],
 	["Small Cl Ct", re.compile(r"Small Claims Ct", flags = re.I)],
 	["Cl Ct", re.compile(r"Claims Ct", flags = re.I)],
 	["Comm Ct", re.compile(r"Commerce Ct", flags = re.I)],
-	["CP", re.compile(r"Common Pl(eas)?", flags = re.I)],
-	["Commw Ct", re.compile(r"Commonwealth Ct", flags = re.I)],
+	["CP", re.compile(r"Common Pl(eas)?", flags = re.I)], 
+	["Commw Ct", re.compile(r"Commonwealth Ct", flags = re.I)],	
 	["Concil Ct", re.compile(r"Conciliation Ct", flags = re.I)],
 	["Const County Ct", re.compile(r"Constitutional County Ct", flags = re.I)],
-	["County Ct at Law", re.compile(r"County Ct( at)? Law", flags = re.I)],
-	["Co Ct J Crim Ct", re.compile(r"County( Ct)? Judges'? Crim(inal) Ct", flags = re.I)],
-	["County J Ct", re.compile(r"County Judge'?s'? Crim(inal)? Ct", flags = re.I)],
-	["County Rec Ct", re.compile(r"County Recorder'?s? Ct", flags = re.I)],
-	["Co Ct", re.compile(r"County Ct", flags = re.I)],
-	["Cir", re.compile(r"Ct Appeals?", flags = re.I)],#FED
-	["Ct App", re.compile(r"Ct Appeals?", flags = re.I)],#STATE
-	["Ct Ch", re.compile(r"Ct Chance(ry)?", flags = re.I)],
-	["Ct Civ App", re.compile(r"Ct Civ(il)? App(eals)?", flags = re.I)],
-	["Ct Cl", re.compile(r"Ct Claims", flags = re.I)],
+	["County Ct at Law", re.compile(r"County Ct( at)? Law", flags = re.I)],	
+	["Co Ct J Crim Ct", re.compile(r"County( Ct)? Judges'? Crim(inal) Ct", flags = re.I)],	
+	["County J Ct", re.compile(r"County Judge'?s'? Crim(inal)? Ct", flags = re.I)],	
+	["County Rec Ct", re.compile(r"County Recorder'?s? Ct", flags = re.I)],	
+	["Co Ct", re.compile(r"County Ct", flags = re.I)], 
+	["Ct App", re.compile(r"Ct Appeals?", flags = re.I)],
+	["Ct Ch", re.compile(r"Ct Chance(ry)?", flags = re.I)],	
+	["Ct Civ App", re.compile(r"Ct Civ(il)? App(eals)?", flags = re.I)],	
+	["Ct Cl", re.compile(r"Ct Claims", flags = re.I)],	
 	["Ct Com Pl", re.compile(r"Ct Common Pleas", flags = re.I)],
-	["Ct Crim App", re.compile(r"Ct Crim(inal)? App(eals)?", flags = re.I)],
-	["CCPA", re.compile(r"Ct Cust(oms) (&|and) Patent App(eals)?", flags = re.I)],
+	["Ct Crim App", re.compile(r"Ct Crim(inal)? App(eals)?", flags = re.I)], 
+	["CCPA", re.compile(r"Ct Cust(oms) (&|and) Patent App(eals)?", flags = re.I)],	
 	["Ct Cust App", re.compile(r"Ct Customs App(eals)?", flags = re.I)],
-	["Ct Err", re.compile(r"Ct Errors", flags = re.I)],
-	["Ct Err & App", re.compile(r"Ct Errors (&|and) App(eals)?", flags = re.I)],
+	["Ct Err", re.compile(r"Ct Errors", flags = re.I)],	
+	["Ct Err & App", re.compile(r"Ct Errors (&|and) App(eals)?", flags = re.I)], 
 	["Ct Fed Cl", re.compile(r"Ct Fed(eral)? Claims", flags = re.I)],
-	["Ct First Inst", re.compile(r"Ct First Instance", flags = re.I)],
-	["Ct Gen Sess", re.compile(r"Ct General Sessions", flags = re.I)],
-	["Ct Spec Sess", re.compile(r"Ct Special Sessions", flags = re.I)],
+	["Ct First Inst", re.compile(r"Ct First Instance", flags = re.I)], 
+	["Ct Gen Sess", re.compile(r"Ct General Sessions", flags = re.I)], 
+	["Ct Spec Sess", re.compile(r"Ct Special Sessions", flags = re.I)],	
 	["Ct Int'l Trade", re.compile(r"Ct (Int'l|International) Trade", flags = re.I)],
-	["Ct Rev", re.compile(r"Ct Review", flags = re.I)],
+	["Ct Rev", re.compile(r"Ct Review", flags = re.I)],	
 	["Ct Spec App", re.compile(r"Ct Special App(eals)?", flags = re.I)],
-	["Ct T Rev", re.compile(r"Ct Tax Rev(iew)?", flags = re.I)],
+	["Ct T Rev", re.compile(r"Ct Tax Rev(iew)?", flags = re.I)], 
 	["Crim App", re.compile(r"Crim(inal)? App(eals)?", flags = re.I)],
 	["Crim Dist Ct", re.compile(r"Crim(inal)? Dist(rict)? Ct", flags = re.I)],
 	["Cust Ct", re.compile(r"Customs Ct", flags = re.I)],
-	["D", re.compile(r"Dist(rict)? Court", flags = re.I)],#FED
-	["Dist Ct", re.compile(r"Dist(rict)? Court", flags = re.I)],#STATE
+	["Dist Ct", re.compile(r"Dist(rict)? Court", flags = re.I)], 
 	["Dist Ct App", re.compile(r"Dist(rict)? Ct Appeals", flags = re.I)],
 	["Dist Just Ct", re.compile(r"Dist(rict)? Just(ice)? Ct", flags = re.I)],
 	["Dom Rel Ct", re.compile(r"Dom(estic)? Rel(ations)? Ct", flags = re.I)],
-	["Emer Ct App", re.compile(r"Emer(gency)? Ct App(eal)?s? ", flags = re.I)],
-	["Env Ct", re.compile(r"Environ(ment)?(al)?", flags = re.I)],
+	["Emer Ct App", re.compile(r"Emer(gency)? Ct App(eal)?s? ", flags = re.I)],	
+	["Env Ct", re.compile(r"Environ(ment)?(al)?", flags = re.I)],	
 	["Eq", re.compile(r"Equity", flags = re.I)],
-	["Fam Ct", re.compile(r"Fam(ily)? Ct", flags = re.I)],
+	["Fam Ct", re.compile(r"Fam(ily)? Ct", flags = re.I)],	
 	["Gen Sess Ct", re.compile(r"Gen(eral)? Sess(ions)? Ct", flags = re.I)],
-	["High Ct", re.compile(r"High Ct", flags = re.I)],
+	["High Ct", re.compile(r"High Ct", flags = re.I)], 
 	["Housing Ct", re.compile(r"Housing Ct", flags = re.I)],
 	["Intermed Ct App", re.compile(r"Intermediate Ct App(eals)?", flags = re.I)],
 	["J Ct", re.compile(r"Just(ice) Ct", flags = re.I)],
@@ -428,229 +621,211 @@ def FindCourt(string, reporter):
 	["Juv Ct", re.compile(r"Juvenile Ct", flags = re.I)],
 	["Juv Del Ct", re.compile(r"Juv(enile)? Del(inquent)?s?'? Ct", flags = re.I)],
 	["Juv & Fam Ct", re.compile(r"Juv(enile)? (&|and) Fam(ily)", flags = re.I)],
-	["Land  Ct", re.compile(r"Land Ct", flags = re.I)],
+	["Land  Ct", re.compile(r"Land Ct", flags = re.I)],	
 	["Law  Ct", re.compile(r"Law Ct", flags = re.I)],
-	["Magis Ct", re.compile(r"Magistrate Ct", flags = re.I)],
-	["Magis Div", re.compile(r"Magistrate Division", flags = re.I)],
+	["Magis Ct", re.compile(r"Magistrate Ct", flags = re.I)], 
+	["Magis Div", re.compile(r"Magistrate Division", flags = re.I)], 
 	["Mayor's Ct", re.compile(r"Mayor'?s Ct", flags = re.I)],
-	["Mun Ct", re.compile(r"Municipal Ct", flags = re.I)],#name before
-	["Mun Ct not Rec", re.compile(r"Mun(icipal)? Ct (not|off) Record", flags = re.I)],
+	["Mun Ct", re.compile(r"Municipal Ct", flags = re.I)],
+	["Mun Ct not Rec", re.compile(r"Mun(icipal)? Ct (not|off) Record", flags = re.I)],	
 	["Mun Crim Ct Rec", re.compile(r"Mun(icipal) Crim(inal)? Ct Record", flags = re.I)],
 	["Orphans' Ct", re.compile(r"Orphans?'? Ct", flags = re.I)],
-	["Parish Ct", re.compile(r"Parish Ct", flags = re.I)],#name before
-	["Police J Ct", re.compile(r"Pol(ice)? Just(ice)?'?s? Ct", flags = re.I)],
-	["Prerog Ct", re.compile(r"Prerogative Ct", flags = re.I)],
+	["Parish Ct", re.compile(r"Parish Ct", flags = re.I)],
+	["Police J Ct", re.compile(r"Pol(ice)? Just(ice)?'?s? Ct", flags = re.I)],	
+	["Prerog Ct", re.compile(r"Prerogative Ct", flags = re.I)],	
 	["Prob Ct", re.compile(r"Probate Ct", flags = re.I)],
 	["Rec Ct", re.compile(r"Recorder'?s Ct", flags = re.I)],
-	["State Ct", re.compile(r"State Ct", flags = re.I)],
-	["Super Ct", re.compile(r"Superior Ct", flags = re.I)],
-	["US", re.compile(r"Fed(eral)? Supreme Ct", flags = re.I)],#FED
-	["Sup Ct", re.compile(r"Supreme Court", flags = re.I)],#STATE
-	["Sup Ct App Div", re.compile(r"Supreme Ct? App(ellate|eals)? Div(ision)?", flags = re.I)],
-	["Sup Ct App", re.compile(r"Sup(reme)? Ct App(eals)?", flags = re.I)],
-	["Sup Ct Err", re.compile(r"Sup(reme)? Ct Errors", flags = re.I)],
-	["USSC", re.compile(r"(United States Supreme Ct|Supreme Ct United States|US Supreme Ct|Supreme Ct US)", flags = re.I)],
-	["Sup Jud Ct", re.compile(r"Supreme Jud(icial)? Ct", flags = re.I)],
-	["Surr Ct", re.compile(r"Surrogate Ct", flags = re.I)],
+	["State Ct", re.compile(r"State Ct", flags = re.I)], 
+	["Super Ct", re.compile(r"Superior Ct", flags = re.I)], 
+	["Sup Ct", re.compile(r"Supreme Court", flags = re.I)],	
+	["Sup Ct App Div", re.compile(r"Supreme Ct? App(ellate|eals)? Div(ision)?", flags = re.I)],	
+	["Sup Ct App", re.compile(r"Sup(reme)? Ct App(eals)?", flags = re.I)],	
+	["Sup Ct Err", re.compile(r"Sup(reme)? Ct Errors", flags = re.I)],	
+	["USSC", re.compile(r"(United States Supreme Ct|Supreme Ct United States|US Supreme Ct|Supreme Ct US)", flags = re.I)],	
+	["Sup Jud Ct", re.compile(r"Supreme Jud(icial)? Ct", flags = re.I)],	
+	["Surr Ct", re.compile(r"Surrogate Ct", flags = re.I)],	
 	["Tax App Ct", re.compile(r"Tax App(eal)?s? Ct", flags = re.I)],
 	["TC", re.compile(r"Tax Ct", flags = re.I)],
-	["Teen Ct", re.compile(r"Teen Ct", flags = re.I)],
-	["Town Ct", re.compile(r"Town Ct", flags = re.I)],
-	["Traffic Ct", re.compile(r"Traffic Ct", flags = re.I)],
-	["Tribal Ct", re.compile(r"Tribal Ct", flags = re.I)],#name before
-	["Unif Fam Ct", re.compile(r"Unified Fam(ily) Ct", flags = re.I)],
-	["Water Ct", re.compile(r"Water Ct", flags = re.I)],
-	["Workers' Comp Ct", re.compile(r"Worker'?s?'? Comp(ensation)? Ct", flags = re.I)],
+	["Teen Ct", re.compile(r"Teen Ct", flags = re.I)],	
+	["Town Ct", re.compile(r"Town Ct", flags = re.I)],	
+	["Traffic Ct", re.compile(r"Traffic Ct", flags = re.I)],	
+	["Tribal Ct", re.compile(r"Tribal Ct", flags = re.I)],	
+	["Unif Fam Ct", re.compile(r"Unified Fam(ily) Ct", flags = re.I)],	
+	["Water Ct", re.compile(r"Water Ct", flags = re.I)],	
+	["Workers' Comp Ct", re.compile(r"Worker'?s?'? Comp(ensation)? Ct", flags = re.I)],	
 	["Youth ct", re.compile(r"Youth Ct", flags = re.I)]]
 	Results = []
-	for Court in AllCourts:
-		if re.search('^'+Court[0]+r'$', string, re.I):
-			print string, "gave a perfect hit, RETURN: ", Court[0]
-			return Court[0]
-		if Court[1].search(string):
-			Results.append(Court[0])
+	Change = False
+	for Court in StateCts:
+		matchOne = re.search(Court[0], string, re.I)
+		if matchOne:
+			print string, "got a perfect hit: ", Court[0]
+			if (Court[0]=="Sup Ct") and (JurisdictionChanged[2]=="may remove ct"):
+				string = CleanUp(re.sub(matchOne.group(), ' ', flags = re.I))
+			string = re.sub(matchOne.group(), Court[0], flags = re.I)
+			Change = True
+		matchTwo = re.search(Court[1], string, re.I)
+		if matchTwo:
+			Results.append([Court[0], matchTwo])
 	if Results: 
-		print "There were", len(Results), "results:", Results, "RETURN: ", Results[0]
-		return Results[0]
-	else: print "********* NO RESULTS for", string,"*********"
-	SupremeCourtReporters = ['US', 'S Ct', 'L Ed 2d', 'USLW']
-	Federal = ['F', 'F (2d)', 'F (3d)', 'F Supp', 'F Supp (2d)']
-	for x in Federal:
-		if re.search(regstrElec(x), string, re.I): 
-			print "YAY"
-	Change = [[r'Criminal', 'Crim'], [r'United States', 'US']
-	[r'Superior', 'Super'], 	[r'Juvenile', 'Juv'], 
-	[r'Magistrate', 'Magis'], 	[r'General', 'Gen'],
-	[r'Sessions?', 'Sess'], 	[r'App(ellate|eal)s?', 'App'],
-	[r'Family', 'Fam'], 		[r'Review', 'Rev'],
-	[r'Circuit', 'Cir'],		[r'Criminal', 'Crim'], 
-	[r'Supreme', 'Sup'], 		[r"Record(er)?'?s?", 'Rec'],
-	[r'District', 'Dist'], 		[r'Civil', 'Civ'], 
-	[r'Federal', 'Fed'], 		[r'Criminal', 'Crim'], 
-	[r"Child(ren)?'?s?", 'Child'], [r'Judicial', 'Jud'],
-	[r'Internaional', "Int'l"], [r'Intermediate', 'Intermed']]
-	for C in Change:
-		foo = re.compile(C[0], flags = re.I)
-		if foo.search(string):
-			string = re.sub(foo.search(string).group(), C[1], string, flags = re.I)
-	return string
+		print "There were", len(Results), "results:", Results, "CHOOSING: ", Results[0][0]
+		if (Results[0][0]=="Sup Ct") and (JurisdictionChanged[2]=="may remove ct"):
+				string = CleanUp(re.sub(Results[0][1].group(), ' ', flags = re.I))
+		string = re.sub(Results[0][1].group(), Court[0], flags = re.I)
+		Change = True
+	NYAppeal = ['App Div (2d)', 'NYS (2d)']
+	for r in NYAppeal:
+		Rem = re.compile(regstr("NY"), flags = re.I)
+		if Rem.search(string):
+			string = re.sub(Rem.search(string).group(), " ", string, flags = re.I)
+	CalState = ['Cal (2d)', 'Cal (3d)', 'Cal (4th)', 'Cal']
+	for r in CalState:
+		Rem = re.compile(regstr("Cal"), flags = re.I)
+		if Rem.search(string):
+			string = re.sub(Rem.search(string).group(), " ", string, flags = re.I)
+	ARAppeal = ['Ark App']
+	for r in ARAppeal:
+		Rem = re.compile(regstr("Ark"), flags = re.I)
+		if Rem.search(string):
+			string = re.sub(Rem.search(string).group(), " ", string, flags = re.I)
+	#if Change:
+	#	print "RETURNING: ", string
+	#	return string
+	#else: return DefaultCt(string)
+	return DefaultCt(string)
+
+def CheckFedCt(string):
+	print "**** Starting CheckFedCt"
+	print "Searching Court input: ", string
+	string = ShortenCtName(string)
+	string = ShortenJurisdiction(string)[0]
+	print "Court string after shortening is: ", string
+	FedCts = [["Cir", re.compile(r"Cir(cuit)? Ct App(eals)?( \((fed|federal|US)\))?", flags = re.I)], ["D", re.compile(r"Dist(rict)? Court", flags = re.I)], ["Cir", re.compile(r"Ct Appeals?", flags = re.I)]]
+	Numbers = [["1st", "first", "1", "one"], ["2nd", "second", "2", "two"], ["3rd", "third", "3", "three"],	["4th", "fourth", "4", "four"],	["5th", "fifth", "5", "five"],
+	["6th", "sixth", "6", "six"], ["7th", "seventh", "7", "seven"], ["8th", "eigth", "8", "eight"], ["9th", "ninth", "9", "nine"], ["10th", "tenth", "10", "ten"], ["11th", "eleventh", "11", "eleven"]]
+	for n in Numbers:
+		for i in n:	
+			matchNum = re.search(regstrElec(i), string, re.I)
+			if matchNum:
+				print "Found number match in CheckFedCt! Returning: ", n[0] + " Cir"
+				return n[0] + " Cir"
+	Change = False
+	for Court in FedCts:
+		matchOne = re.search(regstrElec(Court[0]), string, re.I)
+		if matchOne:
+			print string, "got a perfect hit: ", Court[0]
+			string = re.sub(matchOne.group(), Court[0], string, flags = re.I)
+			Change = True
+		matchTwo = Court[1].search(string)
+		if matchTwo:
+			print "got an imperfect hit: ", matchTwo.group()
+			string = re.sub(matchOne.group(), Court[0], string, flags = re.I)
+			Change = True
+	if Change:
+		print "RETURNING: ", string
+		return string
+	return DefaultCt(string)
 
 
 
+#returns [citation, court, date]
+#pincite = [pinpoint/cite, input]
+def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
+	print "\n****** Starting GetCitations"
+	print "input is:\n", "citation string: ", Citation_Input, "\n", "court: ", Court_Input, "\n", "date: ", Date_Input, "\n", "pincite: ", pincite, "\n"
+	if not Citation_Input:
+		return "ERROR: missing citation input"
+	if not Court_Input:
+		return "ERROR: missing court input"
+	if not Date_Input:
+		return "ERROR: missing date input"
+	repDate = BestReporter(CleanUp(Citation_Input), Date_Input)
+	print "\nrepDate = ", repDate, "\n"
+	#pincite = [pinpoint/cite, input]
+	if pincite:
+		if pincite[0] == "pinpoint":
+			repDate[0] = repDate[0] + ' at ' + pincite[2]
+	if repDate[1]=="USSC":
+		if re.search(regstr("USLW"), repDate[0]):
+			repDate[2]= "US "+ repDate[2]
+		return ', '+repDate[0]+'('+repDate[2]+')'
+	if repDate[1]=="Fed":
+		Court = CheckFedCt(CleanUp(Court_Input))
+	elif repDate[1]=="State":
+		Court = CheckStateCt(CleanUp(Court_Input), repDate[0])
+	else:
+		print "****DANGER ASSIGNMENT ERROR"
+		Court = "Ct Error"
+	return [repDate[0], Court, repDate[2]]#citation #court #date
+	
+	
+#print GetCitations("114 F Supp 2d 896", "North District California", "1999", False)
+#	WORKS: ['114 F Supp (2d) 896', 'ND Cal', '1999']
+#print GetCitations("114 F Supp 2d 896", "second circuit court of appeals", "1999", False)
+#	WORKS: ['114 F Supp (2d) 896', '2nd Cir', '1999']
+print GetCitations("68 USLW 4625", "ussc", "june 28, 2000", False)
+	
+'''****************     HISTORY     ****************'''
 
-#first detects whether there is a neutral citation present: if so, returns true
-#Detects in the input the jurisdiction and the court and adds them together
-#input is CleanedUp
-#input will not be a neutral citation
-#returns False if there is no jurisdiction at all
-#returns list [Court, whether jurisdiction in the court name, in which case we do not run TakeOutJurisdiction******************* (True or False)]
-def CleanUpCourt(string):
-	print "***** Checking: ", string
-	'''************ LOOKING FOR NEUTRAL CITATION ************'''
-	NC = CheckForCourt(string)
-	if NC:
-		print "Found neutral citation: returning it \t\t**", 
-		return [NC, True]
-	'''************ LOOKING FOR JURISDICTION ************'''
-	Jurisdiction = FindJurisdiction(string)
-	if not Jurisdiction: #i.e. there was no jurisdiction
-		print "Found no jurisdiction: returning False \t\t**"
-		return False #FindCourt(string) #return False
-	print "Found jurisdiction: ", Jurisdiction[0]
-	'''************ FOUND JURISDICTION ************'''
-	'''************ LOOKING FOR JURISDICTION - IN - COURT NAMES ************'''
-	#there are some courts that have the name of the jurisdiction built in. in those cases, don't remove the jurisdiction before matching the court name
-	print "Searching for regex match with court-with-jurisdiction: ", string
-	Ct = re.compile(r'(C(our)?t|Cour)', flags = re.I)
-	StringJ = string #create string (Jurisdiction) to look for the jurisdiction
-	if Ct.search(StringJ):
-		StringJ = re.sub(Ct.search(StringJ).group(), "Ct", StringJ, flags = re.I)
-	Remove  = ["of", "des", "de" "la", "le", "the", "in"]
-	for r in Remove:
-		Rem = re.compile(regstr(r), flags = re.I)
-		if Rem.search(StringJ):
-			StringJ = re.sub(Rem.search(StringJ).group(), " ", StringJ, flags = re.I)
-	StringJ = CleanUp(StringJ)
-	print "Search modified to: ", StringJ
-	DontRemove = [["CQ", re.compile(u"^Ct (of )?(Qu(e|\\xe9)bec|QC)( of)?$", flags = re.I)],
-	["CAF", re.compile(u"Ct d?'?appel f(e|\\xe9)d((e|\\xe9)rale)?", flags = re.I)],
-	["FCA", re.compile(r"(Fed(eral)?\s?(Ct)?|FC)\s?Appeal", flags = re.I)],
-	["FCTD", re.compile(r"(Fed(eral)?( Ct)?|FC),? \(?(Tr(ial)? Div(ision)?|TD)\)?", flags = re.I)],
-	["CQ (Civ Div)", re.compile(u"(Ct (of )?(Qu(e|\\xe9)bec|QC)|CQ),? \(?Ci(vil)? Div(ision)?\)?", flags = re.I)],
-	["CQ (Civ Div Sm Cl)", re.compile(u"(Ct (of )?(Qu(e|\\xe9)bec|QC)|CQ),? \(?Civ(il)? Div(ision)?,? Sm(all)? Cl(aims)?( Ct)?\)?( of)?", flags = re.I)],
-	["CQ (Crim & Pen Div)", re.compile(u"(Ct (of )?(Qu(e|\\xe9)bec|QC)|CQ),? \(?Crim(inal)? (&|and)?\s?Pen(al)? Div(ision)?\)?( of)?", flags = re.I)],
-	["CQ (Youth Div)", re.compile(u"(Ct (of )?(Qu(e|\\xe9)bec|QC)|CQ),? \(?Youth Div(ision)?\)?( of)?", flags = re.I)],
-	["CQ", re.compile(u"^Ct (du )?(Qu(e|\\xe9)bec|QC)$", flags = re.I)],
-	["CQ jeun", re.compile(u"Ct (du )?(Qu(e|\\xe9)bec|QC),? (Chambre )?(de )?(la )?jeun(esse)?", flags = re.I)],
-	["CQ civ", re.compile(u"(Ct (du )?(Qu(e|\\xe9)bec|QC)|CQ),? (Chambre )?civ(ile)?$", flags = re.I)],
-	[u"CQ civ (div pet cr\xe9)", re.compile(u"(Ct (du )?(Qu(e|\\xe9)bec|QC)|CQ),? (Chambre )?civ(ile)? \(?Div(ision)? des petites cr(e|\\xe9)(ances)?\)?", flags = re.I)],
-	[u"CQ crim & p\xe9n", re.compile(u"(Ct (du )?(Qu(e|\\xe9)bec|QC)|CQ),? (Chambre )?crim(inelle)? (et )?p(e|\\xe9)n(ale)?", flags = re.I)],
-	["CSC", re.compile(r"(Ct? supr((e|\\xea)me)?|C supr) ((du|de) )?Can(ada)?", flags = re.I)],
-	["SCC", re.compile(r"supr(eme)? Ct (of )?Can(ada)?", flags = re.I)],
-	["Sup Ct", re.compile(r"Sup(erior)? Ct (of )?\(?Can(ada)?\)?", flags = re.I)],
-	["TCC", re.compile(r"Tax Ct( of)?( Can)?(ada)?", flags = re.I)],
-	[u"Div g\xe9n Ont", re.compile(u"Ct (de )?l'Ontario, div(ision)? g(e|\\xe9)n((e|\\xe9)rale)?", flags = re.I)]]
-	for Court in DontRemove:
-		if re.search('^'+Court[0]+r'$', StringJ, re.I):
-			print StringJ, "gave a perfect hit, RETURN: ", Court[0]
-			return [Court[0], True]
-		if Court[1].search(StringJ):
-			print StringJ, "gave a regex match, RETURN: ", Court[0]
-			return [Court[0], True]
-	print "Did not find a court with jurisdiction built into the name."
-	'''************ LOOKING FOR COURT  ************'''
-	print "Searching string: ", string
-	string = re.sub(Jurisdiction[1].group(), "", string)#take the name of the jurisdiction out
-	print "String with jurisdiction removed is: ", CleanUp(string)
-	Court = FindCourt(CleanUp(string))#search the cleaned string for the court (w/ the jurisdiction OUT)
-	print "Court found is: ", Court
-	print "Returning: ", CleanUp(Jurisdiction[0] +" "+ Court), "\t\t**"
-	return [CleanUp(Jurisdiction[0] +" "+ Court), False]
 
-#inputs: the court selected by the machine beforehand (with the jurisdiction), and the citation used
-#outputs the court (without the jurisdiction)
-def TakeOutJurisdiction(Ct, Cite):
-	print "In 'TakeOutJurisdiction(Ct, Cite):' the Ct = ", Ct, ", and Cite = ", Cite
-	if " FCR" in Cite: Ct = re.sub("F", "", Ct)
-	if " Alta" in Cite: Ct = re.sub("Alta", "", Ct)
-	if (" BC" in Cite) and (" BCD" not in Cite): Ct = re.sub("BC", "", Ct)
-	if (" Man" in Cite) and (" Man & G" not in Cite): Ct = re.sub("BC", "", Ct)
-	if " NB" in Cite: Ct = re.sub("NB", "", Ct)
-	if " Nfld LR" in Cite: Ct = re.sub("Nfld", "", Ct)
-	if (" NS" in Cite) and (" NSW" not in Cite): Ct = re.sub("NS", "", Ct)
-	if " NWT" in Cite: Ct = re.sub("NWT", "", Ct)
-	if (" OAC" or " OAR" or " OELD" or " OFLR" or " OHRC" or " OIC" or " OLR" or " OMB" or " Ont" or " OPR" or " OR " or " OSC" or "OW") in Cite: Ct = re.sub("Ont", "", Ct)
-	if " PEI" in Cite: Ct = re.sub("PEI", "", Ct)
-	if " Sask" in Cite: Ct = re.sub("Sask", "", Ct)
-	if " YR" in Cite: Ct = re.sub("Yu", "", Ct)
-	Ct = CleanUp(Ct)#Ct.strip() #strip trailing white spaces
-	#Ct = re.sub(' +',' ', Ct) #Remove excess white spaces
-	return Ct
+#FIX INDEXES WHAT IS HAPPENING
+def GetHistory(listoflists):
+	#[[parallel, year, court, affirming/reversing],]
+	List = []
+	for Instance in listoflists:
+		if re.search("affirming", CleanUp(Instance[0]), re.I):
+			List.append("aff'g"+ GetCitations(Instance[0], Instance[2], Instance[1]))
+		if re.search("reversing", CleanUp(Instance[0]), re.I):
+			List.append("rev'g"+ GetCitations(Instance[1], Instance[2], Instance[3]))
+		if re.search("affirmed", CleanUp(Instance[0]), re.I):
+			List.append("aff'd"+ GetCitations(Instance[1], Instance[2], Instance[3]))
+		if re.search("reversed", CleanUp(Instance[0]), re.I):
+			List.append("rev'd"+ GetCitations(Instance[1], Instance[2], Instance[3]))
+	output = ""
+	for x in List:
+		output = output + x + ", "
+	output = CleanUp(output[:-2])
+	return output
 
-			
-#pulls a date (string format) from a string
-#first looks if the date is in the form "(1823), DF dsf", OR "2008 NBCA" etc.. (needs a capital following the date) if so, will return that date 
-#second, pulls the LOWEST date from a string, between 1400 until 2014	
-#will not pull a date from within a string of digits, but anything else
-#returns false if no date in string		
-#####*********** ALLOW OVERLAPPING IN THE ALL FINDER
-def PullDate(string):
-	FirstSearch = re.search(r'(\(?\[?)(1[4-9,0][0-9]{2}|200[0-9]{1}|201[1234]{1})(\)?\]?,?\s([A-Z]|\d{1,3}\s)[A-Za-z\s]{2})', string) #ex 2008 NBCA or (1843) Ex Ctf
-	if FirstSearch:
-		print "***** Detected on search 1: ", FirstSearch.group(), FirstSearch.group(1), FirstSearch.group(2), FirstSearch.group(3)
-		return FirstSearch.group(2)
-	All = re.findall(r'([^\d]{1}|^|\s)(1[4-9,0][0-9]{2}|200[0-9]{1}|201[1234]{1})([^\d]{1}|$|\s)', string)
-	if not All:
-		return False
-	Dates = []
-	for x in range(len(All)):
-		Dates.append(int(All[x][1]))
-	Sorted = sorted(Dates, key=lambda tup: tup)
-	print "***** Detected on search 2: ", str(Sorted)
-	return str(Sorted[0])
+'''****************     CITING     ****************'''
+
+def GetCiting(SoC, Parallel, Year, Court):
+	SoC = GetStyleOfCause(SoC)
+	Citation = GetCitations(Citation_Input, Court_Input, Date_Input, False)
+	return "<i>"+string+"</i>" + Citation
 	
 
-#this is the function that will ultimately call all of the other functions for the parallel citations
-#the input is what is written in the form for parallel citations
-def GetCitations(Citation_Input, Court_Input):
-	PC = CleanUp(Citation_Input
-	OUTPUT = "" #this will eventually be the output
-	#need to put the electronic sources in the correct format in case someone puts in (available on CanLII) without the ; or ,
-	for x in range(len(m)): m[x] = CleanUp(m[x]) #remove excess white spaces on either side
-	TwoBest = ChooseBestReporters(m) #this returns a string with the two best reporters already formatted
-	#TwoBest RETURNS THE REPORTERS THAT ARE USED
-	Court = False #first assume there is no court evident in the input
-	Jurisdiction = False # assume there is no jurisdiction evident in the input
-	CitationDate = False #assume there is no citation date evident in the input
-	Pinpont = False #assume there is no pinpoint for now
-	# Determine if there is a Citator Date or a Court evident in the Parallel citation
-	if PullDate(TwoBest): CitationDate = PullDate(TwoBest) #set the citation date to be the lowest date in the string
-	if CheckForCourt(TwoBest): Court = True
-	print "Court = ", Court #True or False
-	print "Citation Date = ", CitationDate #year or False
-	if not Court and not CitationDate:
-		print "NOT COURT AND NOT CITATIONDATE DETECTED ****"
-		#Court_input = raw_input("Enter Court with Canadian Jurisdiction: \n")
-		Ct = CleanUpCourt(CleanUp(Court_Input)) 
-		Ct = TakeOutJurisdiction(Ct, TwoBest)
-		Date_input = raw_input("Enter Date: \n")
-		JudgementDate = CleanUp(Date_input)
-		OUTPUT = ' ('+ JudgementDate + '), ' + TwoBest +' (' + Ct + ').'#combine all of this in the right way
-	if CitationDate and not Court: 
-		print "CITATIONDATE AND NOT COURT DETECTED ****"
-		#Court_input = raw_input("Enter Court with Canadian Jurisdiction: \n")
-		Ct = CleanUpCourt(CleanUp(Court_Input)) 
-		Ct = TakeOutJurisdiction(Ct, TwoBest)
-		Date_input = raw_input("Enter Date: \n")
-		JudgementDate = CleanUp(Date_input)
-		if (JudgementDate==CitationDate): 
-			OUTPUT = ', ' + TwoBest + '(' + Ct + ').'
-		else:
-			OUTPUT = ' ('+ JudgementDate + '), ' + TwoBest + ' (' + Ct+ ').'
-	if CitationDate and Court:
-		#print "CITATIONDATE AND COURT DETECTED"
-		OUTPUT = ", " + TwoBest + '.'
-	print "Result:", OUTPUT
-	return OUTPUT
+'''****************     LEAVE TO APPEAL     ****************'''
+
+def GetLeaveToAppeal(array):
+	#[granted/requested/etc, court type, court appealed to, citation/or docketnumber]
+	#get Court first
+	if array[1]=="Fed":
+		Court = CheckFedCt(CleanUp(Court_Input))
+	else: Court = CheckStateCt(CleanUp(Court_Input))
+	#format stuff
+	if re.search("Requested", CleanUp(array[0]), re.I):
+		return "leave to appeal to " + Court + " requested"
+	if re.search("Granted", CleanUp(array[0]), re.I):
+		return "leave to appeal to " + Court + " granted, " + array[3]
+	if re.search("Refused", CleanUp(array[0]), re.I):
+		return "leave to appeal to " + Court + " refused, " + array[3]
+	if re.search("As of Right", CleanUp(array[0]), re.I):
+		return "appeal as of right to " + Court	
+	return "Error"
 
 
+'''****************     SHORT FORM     ****************'''
+
+def GetShortForm(string):
+	return " [<i>"+string+"</i>]"
+
+'''****************     JUDGE    ****************'''
+
+#need to have some front-end searching to find J or JJ, etc
+#need to know if it's dissenting
+def GetJudge(string, dissenting):
+	string = Capitalize(string)
+	if dissenting:
+		string = string + ", dissenting"
+	return ", " + string

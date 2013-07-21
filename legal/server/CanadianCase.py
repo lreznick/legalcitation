@@ -899,12 +899,11 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 	#pincite = [pinpoint/cite, reporter, type (para or page), input]
 	TwoBest = ChooseBestReporters(Citation_Input, pincite) #this returns a string with the two best reporters already formatted
 	#TwoBest RETURNS THE REPORTERS THAT ARE USED
-	Court = False #first assume there is no court evident in the input
-	Jurisdiction = False # assume there is no jurisdiction evident in the input
-	NeutralCite = False #first assume there is no neutral reporter evident in the input
+	Court = False #first assume there is no court evident in the reporter
+	Jurisdiction = False # assume there is no jurisdiction evident in the reporter
+	NeutralCite = False #first assume there is no neutral reporter evident in the reporter
 	JudgementDate = False #assume there is no date evident in the input judgement
 	CitationDate = False #assume there is no citation date evident in the input
-	Pinpont = False #assume there is no pinpoint for now
 	# Determine if there is a Citator Date or a Court evident in the Parallel citation
 	if PullDate(TwoBest): CitationDate = PullDate(TwoBest) #set the citation date to be the lowest date in the string
 	if CheckForCourt(TwoBest): Court = True
@@ -922,7 +921,6 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 		#Court_input = raw_input("Enter Court with Canadian Jurisdiction: \n")
 		Ct = CleanUpCourt(CleanUp(Court_Input)) 
 		Ct = TakeOutJurisdiction(Ct[0], TwoBest)
-		Date_input = raw_input("Enter Date: \n")
 		JudgementDate = CleanUp(Date_Input)
 		if (JudgementDate==CitationDate): 
 			OUTPUT = ', ' + TwoBest + '(' + Ct + ')'
@@ -1145,7 +1143,8 @@ def GetLeaveToAppeal(array):
 
 def GetCiteTo(pincite):
 	#pincite = [pinpoint/cite, reporter, type (para or page), input]
-	return "yes"
+	if pincite[0] == "cite":
+		return ' [cited to ', pincite[1], ']'
 
 '''****************     SHORT FORM     ****************'''
 
@@ -1156,9 +1155,9 @@ def GetShortForm(string):
 
 #need to have some front-end searching to find J or JJ, etc
 #need to know if it's dissenting
-def GetJudge(string):
+def GetJudge(string, dissenting):
 	string = Capitalize(string)
-	#if array[1]:
-	#	string = string + ", dissenting"
+	if dissenting:
+		string = string + ", dissenting"
 	return ", " + string
 	
