@@ -338,9 +338,18 @@ def CheckUSLWDate(string):
 			break
 	if not Hit:
 		return [string, "bad format!"]
-	dayFormatTwo = re.compile(r'([1-9]|0[1-9]|[12][0-9]|3[01])')
+	dayFormatTwo = re.compile(r'(0[1-9]|[12][0-9]|3[01])')
 	if dayFormatTwo.search(string):
 		dayNum = dayFormatTwo.search(string).group()
+		print "Day: ", dayNum
+		if dayNum[0]==0:
+			dayNum = dayNum[1]
+		string = dayNum + ' ' + month + ' ' + year
+		return [string, "ok"]
+	dayFormatThree = re.compile(r'[1-9]')
+	if dayFormatThree.search(string):
+		dayNum = dayFormatThree.search(string).group()
+		print "Day: ", dayNum
 		if dayNum[0]==0:
 			dayNum = dayNum[1]
 		string = dayNum + ' ' + month + ' ' + year
@@ -408,8 +417,8 @@ def BestReporter(Citation_Input, Date):
 					if Date[1]!="ok":
 						return ['Needs full date ex. "July 22, 2003"', 'Needs full date ex. "July 22, 2003"', 'Needs full date ex. "July 22, 2003"']
 					if Date[1]=="ok":
-						return [m, "USSC", Date[0]]#CheckUSLWDate returns a list
-				return [m, "USSC", Date]
+						return [r, "USSC", Date[0]]#CheckUSLWDate returns a list
+				return [r, "USSC", Date]
 	Date = PullDate(Date)# the date
 	Federal = ['F Supp (2d)', 'F Supp', 'F (3d)', 'F (2d)', 'F']
 	F = CheckReporter(m, Federal)
@@ -477,7 +486,7 @@ def ShortenJurisdiction(string):
 	if Dist:
 		print "District found. String modified to: ", string
 	States = [["Ala", ["alabama", "al"]], ["Alaska", ["ak", "alas"]], ["Ariz", ["arizona", "az"]], ["Ark", ["arkansas"]],
-	["Cal", ["california", "cali", "calif", "californie", "cal"]], ["Colo", ["col", "colorado"]], ["Conn", ["Connecticut"]], ["Del", ["Delaware", "de"]], ["DC", ["district de colombie", "district of columbia", "Washington DC", "Wash DC", "dist of colom"]],
+	["Cal", ["california", "cali", "calif", "californie", "cal"]], ["Colo", ["col", "colorado"]], ["Conn", ["Connecticut"]], ["Del", ["Delaware", "de"]], ["DC", ["district colombie", "district columbia", "Washington DC", "Wash DC", "dist colom"]],
 	["Fla", ["florida", "flor", "floride", "fl"]], ["Ga", ["georgia", "georgie"]], ["Hawaii", ["HI"]], ["Idaho", ["Ida", "Id"]], ["Ill", ["Illinois", "Il", "Ills", "Ill's"]], ["Ind", ["Indiana", "Ind", "In"]], ["Iowa", ["Ia", "Ioa"]], ["Kan", ["Kansas", "Ks", "Ka"]], ["Ky", ["Kentucky", "Ken", "Kent"]], ["La", ["Louisiana", "Louisiane", "la"]],
 	["Me", ["Maine"]], ["Md", ["Maryland"]], ["Mass", ["Massachussetts", "ma"]], ["Mich", ["Michigan", "MI"]], ["Minn", ["Minnesota", "Mn"]], ["Miss", ["mississippi", "ms"]], ["Mo", ["Missouri"]], ["Mont", ["Montana", "mt"]],
 	["N Dak", ["north dakota", "dakota du nord", "NoDak"]], ["NC", ["Caroline du Nord", "North Carolina", "N Car"]], ["Neb", ["Nebraska", "ne"]], ["Nev", ["Nevada", "nv"]], ["NH", ["New Hampshire", "N Hamp"]], ["NJ", ["New Jersey"]], ["N Mex", ["New Mexico", "nm", "nouveau mexique", "new M"]], ["NY", ["new york", "n york"]], 
@@ -491,7 +500,7 @@ def ShortenJurisdiction(string):
 				string = CleanUp(Dist + ' ' + jur[0] + ' ' + re.sub(match.group(), " ", string))
 			else:
 				string = CleanUp(re.sub(match.group(), ' '+jur[0]+' ', string))
-			if jur == ("Tex" or "Okla"):
+			if jur[0]==("Tex" or "Okla"):
 				print "Found Tex or Okla in ShortenJurisdiction, returning: ", [string, Dist, "don't remove ct"]
 				return [string, Dist, "don't remove ct"]
 			return [string, Dist, "may remove ct"]
@@ -502,8 +511,9 @@ def ShortenJurisdiction(string):
 					string = CleanUp(Dist + ' ' + jur[0] + ' ' + re.sub(match.group(), " ", string))
 				else:
 					string = CleanUp(re.sub(match.group(), ' '+jur[0]+' ', string))
-				if jur == ("Tex" or "Okla"):
-					return [string, Dist, "don't remove ct"]
+			if jur[0]==("Tex" or "Okla"):
+				print "Found Tex or Okla in ShortenJurisdiction, returning: ", [string, Dist, "don't remove ct"]
+				return [string, Dist, "don't remove ct"]
 				return [string, Dist, "may remove ct"]
 	return [string, Dist, "may remove ct"]#just to be safe
 	
@@ -532,7 +542,7 @@ def ShortenCtName(string):
 	return string
 
 def DefaultCt(string):
-	print "**** Running DefaultCt within the CheckCt function because no court was found"
+	print "**** Running DefaultCt within the CheckCt function. Input: ", string
 	Change = [[r'Criminal', 'Crim'], [r'United States', 'US'], [r'Superior', 'Super'], 	[r'Juvenile', 'Juv'], [r'Magistrate', 'Magis'], [r'General', 'Gen'], [r'Sessions?', 'Sess'], [r'App(ellate|eal)s?', 'App'],
 	[r'Family', 'Fam'], [r'Review', 'Rev'],	[r'Circuit', 'Cir'], [r'Criminal', 'Crim'], [r'Supreme', 'Sup'], [r"Record(er)?'?s?", 'Rec'], [r'District', 'Dist'], [r'Civil', 'Civ'], [r'Federal', 'Fed'], [r'Criminal', 'Crim'], [r"Child(ren)?'?s?", 'Child'], [r'Judicial', 'Jud'], [r'Internaional', "Int'l"], [r'Intermediate', 'Intermed']]
 	for C in Change:
@@ -549,6 +559,8 @@ def CheckStateCt(string, reporter):
 	JurisdictionChanged = ShortenJurisdiction(string) #[string, Dist, "don't remove ct"] or  [string, Dist, "may remove ct"] 
 	string = JurisdictionChanged[0]
 	print "Court string after shortening is: ", string
+	print "District?: ", JurisdictionChanged[1]
+	print "Allowed to remove Sup Ct?: ", JurisdictionChanged[2]
 	StateCts = [
 	["Admin Ct", re.compile(r"^Admin(istrative)? Ct", flags = re.I)],
 	["Adm", re.compile(r"Admiral(ity)?", flags = re.I)], 
@@ -604,7 +616,7 @@ def CheckStateCt(string, reporter):
 	["Crim App", re.compile(r"Crim(inal)? App(eals)?", flags = re.I)],
 	["Crim Dist Ct", re.compile(r"Crim(inal)? Dist(rict)? Ct", flags = re.I)],
 	["Cust Ct", re.compile(r"Customs Ct", flags = re.I)],
-	["Dist Ct", re.compile(r"Dist(rict)? Court", flags = re.I)], 
+	["Dist Ct", re.compile(r"Dist(rict)? Ct", flags = re.I)], 
 	["Dist Ct App", re.compile(r"Dist(rict)? Ct Appeals", flags = re.I)],
 	["Dist Just Ct", re.compile(r"Dist(rict)? Just(ice)? Ct", flags = re.I)],
 	["Dom Rel Ct", re.compile(r"Dom(estic)? Rel(ations)? Ct", flags = re.I)],
@@ -637,7 +649,7 @@ def CheckStateCt(string, reporter):
 	["Rec Ct", re.compile(r"Recorder'?s Ct", flags = re.I)],
 	["State Ct", re.compile(r"State Ct", flags = re.I)], 
 	["Super Ct", re.compile(r"Superior Ct", flags = re.I)], 
-	["Sup Ct", re.compile(r"Supreme Court", flags = re.I)],	
+	["Sup Ct", re.compile(r"Supreme Ct", flags = re.I)],	
 	["Sup Ct App Div", re.compile(r"Supreme Ct? App(ellate|eals)? Div(ision)?", flags = re.I)],	
 	["Sup Ct App", re.compile(r"Sup(reme)? Ct App(eals)?", flags = re.I)],	
 	["Sup Ct Err", re.compile(r"Sup(reme)? Ct Errors", flags = re.I)],	
@@ -661,18 +673,19 @@ def CheckStateCt(string, reporter):
 		if matchOne:
 			print string, "got a perfect hit: ", Court[0]
 			if (Court[0]=="Sup Ct") and (JurisdictionChanged[2]=="may remove ct"):
-				string = CleanUp(re.sub(matchOne.group(), ' ', flags = re.I))
+				string = CleanUp(re.sub(matchOne.group(), ' ', string, flags = re.I))
 			string = re.sub(matchOne.group(), Court[0], flags = re.I)
 			Change = True
-		matchTwo = re.search(Court[1], string, re.I)
+		matchTwo = Court[1].search(string)
 		if matchTwo:
 			Results.append([Court[0], matchTwo])
 	if Results: 
 		print "There were", len(Results), "results:", Results, "CHOOSING: ", Results[0][0]
 		if (Results[0][0]=="Sup Ct") and (JurisdictionChanged[2]=="may remove ct"):
-				string = CleanUp(re.sub(Results[0][1].group(), ' ', flags = re.I))
-		string = re.sub(Results[0][1].group(), Court[0], flags = re.I)
+				string = CleanUp(re.sub(Results[0][1].group(), ' ', string, flags = re.I))
+		string = re.sub(Results[0][1].group(), Results[0][0], string, flags = re.I)
 		Change = True
+	print "After going through the state courts, string is: ", string
 	NYAppeal = ['App Div (2d)', 'NYS (2d)']
 	for r in NYAppeal:
 		Rem = re.compile(regstr("NY"), flags = re.I)
@@ -748,7 +761,7 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 	if repDate[1]=="USSC":
 		if re.search(regstr("USLW"), repDate[0]):
 			repDate[2]= "US "+ repDate[2]
-		return ', '+repDate[0]+'('+repDate[2]+')'
+		return [repDate[0], "", repDate[2]]
 	if repDate[1]=="Fed":
 		Court = CheckFedCt(CleanUp(Court_Input))
 	elif repDate[1]=="State":
@@ -763,7 +776,12 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 #	WORKS: ['114 F Supp (2d) 896', 'ND Cal', '1999']
 #print GetCitations("114 F Supp 2d 896", "second circuit court of appeals", "1999", False)
 #	WORKS: ['114 F Supp (2d) 896', '2nd Cir', '1999']
-print GetCitations("68 USLW 4625", "ussc", "june 28, 2000", False)
+#print GetCitations("68 USLW 4625", "ussc", "june 31, 2000", False)
+#	WORKS: ['68 USLW 4625', '', 'US 31 June 2000']
+#print GetCitations("114 F Supp 2d 896", "District of Columbia Circuit court", "1999", False)
+#	WORKS: ['114 F Supp (2d) 896', 'DC Cir Ct', '1999']
+#print GetCitations("382 P 2d 109", "oklahoma supreme court", "1963", False)
+#	WORKS: ['382 P (2d) 109', 'Okla Sup Ct', '1963']
 	
 '''****************     HISTORY     ****************'''
 
