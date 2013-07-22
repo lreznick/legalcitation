@@ -406,11 +406,15 @@ def BestReporter(Citation_Input, Date):
 				if x == "US":
 					Date = PullDate(Date)# the date
 					if int(Date)<1875:
-						Editors = [["Wall", "Wallace"], ["Black"], ["How", "Howard"], ["Pet", "Peters"], ["Wheat", "Wheaton"], ["Cranch"], ["Dall", "Dallas"]]
-						for E in Editors:
-							if re.search(re.regstrElec(any(E(n) for n in range(len(E)))), r, re.I):
-								pass
-							else: return ['Reporter needs editor ex. "83 US (19 How) 324"', 'Reporter needs editor ex. "83 US (19 How) 324"', 'Reporter needs editor ex. "83 US (19 How) 324"']
+						Editor = False
+						AllEditors = [["Wall", "Wallace"], ["Black"], ["How", "Howard"], ["Pet", "Peters"], ["Wheat", "Wheaton"], ["Cranch"], ["Dall", "Dallas"]]
+						for E in AllEditors:
+							for n in E:
+								if re.search(regstrElec(n), r, re.I):
+									Editor = True
+									break
+						if Editor: pass
+						else: return ['Reporter needs editor ex. "83 US (19 How) 324"', 'Reporter needs editor ex. "83 US (19 How) 324"', 'Reporter needs editor ex. "83 US (19 How) 324"']
 				if x == "USLW":#USLW has a special format for date, so check that
 					print "This is USLW. Checking the date."
 					Date = CheckUSLWDate(Date)
@@ -688,19 +692,19 @@ def CheckStateCt(string, reporter):
 	print "After going through the state courts, string is: ", string
 	NYAppeal = ['App Div (2d)', 'NYS (2d)']
 	for r in NYAppeal:
-		Rem = re.compile(regstr("NY"), flags = re.I)
+		Rem = re.compile(regstrElec("NY"), flags = re.I)
 		if Rem.search(string):
-			string = re.sub(Rem.search(string).group(), " ", string, flags = re.I)
+			string = CleanUp(re.sub(Rem.search(string).group(), " ", string, flags = re.I))
 	CalState = ['Cal (2d)', 'Cal (3d)', 'Cal (4th)', 'Cal']
 	for r in CalState:
-		Rem = re.compile(regstr("Cal"), flags = re.I)
+		Rem = re.compile(regstrElec("Cal"), flags = re.I)
 		if Rem.search(string):
-			string = re.sub(Rem.search(string).group(), " ", string, flags = re.I)
+			string = CleanUp(re.sub(Rem.search(string).group(), " ", string, flags = re.I))
 	ARAppeal = ['Ark App']
 	for r in ARAppeal:
-		Rem = re.compile(regstr("Ark"), flags = re.I)
+		Rem = re.compile(regstrElec("Ark"), flags = re.I)
 		if Rem.search(string):
-			string = re.sub(Rem.search(string).group(), " ", string, flags = re.I)
+			string = CleanUp(re.sub(Rem.search(string).group(), " ", string, flags = re.I))
 	#if Change:
 	#	print "RETURNING: ", string
 	#	return string
@@ -749,7 +753,14 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 	if not Citation_Input:
 		return "ERROR: missing citation input"
 	if not Court_Input:
-		return "ERROR: missing court input"
+		SC = False
+		SupremeCourtReporters = ['US', 'S Ct', 'L Ed 2d', 'USLW']#order is important
+		for x in SupremeCourtReporters:
+			if re.search(regstrElec(x), Citation_Input, re.I):
+				SC = True
+				break
+		if not SC:
+			return "ERROR: missing court input"
 	if not Date_Input:
 		return "ERROR: missing date input"
 	repDate = BestReporter(CleanUp(Citation_Input), Date_Input)
@@ -757,7 +768,7 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 	#pincite = [pinpoint/cite, input]
 	if pincite:
 		if pincite[0] == "pinpoint":
-			repDate[0] = repDate[0] + ' at ' + pincite[2]
+			repDate[0] = repDate[0] + ' at ' + pincite[1]
 	if repDate[1]=="USSC":
 		if re.search(regstr("USLW"), repDate[0]):
 			repDate[2]= "US "+ repDate[2]
@@ -782,7 +793,15 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 #	WORKS: ['114 F Supp (2d) 896', 'DC Cir Ct', '1999']
 #print GetCitations("382 P 2d 109", "oklahoma supreme court", "1963", False)
 #	WORKS: ['382 P (2d) 109', 'Okla Sup Ct', '1963']
-	
+#print GetCitations("308 III App 3d 441", "Appeals Ct", "1999", ["pinpoint", "445"])
+#	WORKS: ['308 III App (3d) 441 at 445', 'App Ct', '1999']
+#print GetCitations("165 Cal Rptr 308, 472 Cal 25", "Cal Supreme Court", "1990", ["pinpoint", "445"])
+#	WORKS: ['165 Cal Rptr 308 at 445', '', '1990']
+#print GetCitations("20 S Ct 231,243 USLW 23, 308 US 441; 342 L Ed 2d 23", "USSC", "2010", False)
+#	WORKS: ['20 S Ct 231', '', '2010']	
+#print GetCitations("60 US 17 393", "", "1860", False)
+#	Doesn't work, need bluebook
+
 '''****************     HISTORY     ****************'''
 
 
