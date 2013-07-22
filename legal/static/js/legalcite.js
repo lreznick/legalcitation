@@ -46,10 +46,10 @@ Form Submissions
 */		
 
 	// Submit a form when the go button for canada case is submitted.
-	//	Then reloads the page to display the contents
+	//	Then reloads the page to display the contentss
 
 	jQuery('#canlii-go').click(function(){
-			console.log("ingo");
+			console.log("in go");
 			jQuery.ajax({ 
                 type: "POST", 
 				url: '/form/canlii',
@@ -612,4 +612,4 @@ $('.uni').hover(function() {
 
 	
 	
-}); //End of Document
+}); //End of Document.
