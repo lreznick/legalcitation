@@ -29,7 +29,10 @@
  
 
 .leftHalf{ width: 750px; float: left; padding-right: 0px;}
-.rightHalf{ width: 250px; float: left; padding-left: 0px;}
+.rightHalf{ width: 260px; float: left; }
+.accordion{
+	width: 750px;
+}
 .input-prepend  .add-on{
 	font-size: 12px;
 	width: 100px;
@@ -40,6 +43,7 @@
 }
 #tooltips{
 	font-size: 12px;
+	margin-left: 760px;
 }
 
 .tooltip-title{
@@ -54,6 +58,10 @@ color: #333333;
 	padding: none;
 	padding-left:400px;
 	
+}
+.control-label{
+
+	font-weight: bold;
 }
 #collapseTwo-extra {
  	border: 0 none; 

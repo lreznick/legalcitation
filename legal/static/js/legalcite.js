@@ -28,12 +28,16 @@ Set Up
 	
 	//hiding all forms 
 	//jQuery("#hidden-forms").hide();
+	//jQuery(".textarea").wysihtml5();
 	jQuery("#result-container").hide();
 	jQuery("#pincite-form").hide();
 	jQuery("#stackednavs").hide();
 	jQuery("#reporter-container").hide();
 	jQuery("#history3").hide();
 	jQuery("#history2").hide();
+	
+	
+	//jQuery("#CanadaCaseHistory-Group").hide();
 	
 /*
 =============================================
@@ -54,6 +58,16 @@ Form Submissions
                 success: function(data) {
 					console.log(data[0]);
 					jQuery('#canlii-result').html('<b style ="font-size: 18px"> Result:   </b> '+data[0].output).hide().fadeIn(400);
+					var fadeoutTime = 300;
+					jQuery('#manual-header').fadeOut(fadeoutTime);
+					jQuery('#CanadaCaseCourt-controlgroup').fadeOut(fadeoutTime);
+					jQuery('#CanadaCaseParallel-controlgroup').fadeOut(fadeoutTime);
+					jQuery('#CanadaCaseParallel-reporter').fadeOut(fadeoutTime);
+					jQuery('#CanadaCaseDate-controlgroup').fadeOut(fadeoutTime);
+					jQuery('#CanadaCaseStyle-controlgroup').fadeOut(fadeoutTime);
+					
+				//	jQuery('#').hide();
+				//	jQuery('#manual-header').hide();
                 },
 			});
 			return false; 	
@@ -68,15 +82,57 @@ Form Submissions
                 data:{parallel : parallelValue},
 				dataType: 'json',
                 success: function(data) {
+					$('#pincite-selection').removeAttr('disabled');
+					$('#pinciteWrapper').remove();
+					jQuery('#pinciteWrapper').tooltip('destroy');
+					
+					
 					jQuery('#CanadaCaseDate').val(data[0].date);
 					jQuery('#CanadaCaseCourt').val(data[0].court);
-					console.log(data[0].reporters[0][0]);
-					console.log(data[0].reporters[0][1]);
-					console.log(data[0].reporters[1]);
+					console.log("reporter 1::"+ data[0].reporters[0][0]);
+					console.log("reporter 2 ::" + data[0].reporters[0][1]);
+					var reporterType = data[0].reporters[1];
+						console.log("reporterType ::" +reporterType );
+					// two reporters
+					if (reporterType == "two") { 
+						//everything
+						jQuery('#pincite-selection>option[value="citeTo"]').show();
+						jQuery('#pincite-selection>option[value="pinPoint_page"]').show();//attr({ disabled: 'disabled' });
+						jQuery('#pinciteRadio_Reporter1').html(data[0].reporters[0][0]);
+						jQuery('#pinciteRadio_Reporter2').html(data[0].reporters[0][1]);
+						jQuery('#pinciteRadio2').show();
+						
+					}
+					else{
+						jQuery('#pincite-selection>option[value="citeTo"]').hide();
+						if ( reporterType == "one"){
+						// pinpoint page , pinpoint para or nothing
+							jQuery('#pincite-selection>option[value="pinPoint_page"]').show();//attr({ disabled: 'disabled' });													
+							jQuery('#pinciteRadio_Reporter1').html(data[0].reporters[0][0]);
+							jQuery('#pinciteRadio2').hide();
+							
+						}
+						if ( reporterType == "neutral"){
+						//pinpoint para or nothing
+							jQuery('#pincite-selection>option[value="pinPoint_page"]').hide();//attr({ disabled: 'disabled' });
+							jQuery('#pinciteRadio_Reporter1').html(data[0].reporters[0][0]);
+							jQuery('#pinciteRadio2').hide();
+						}
+					}
+					
                 },
+				
+	/*			ONE
+- only allow pinpoint page or pinpoint para or nothing. Do not allow cite to
+
+NEUTRAL
+- only allow pinpoint para or nothing. Do not allow pinpoint page or cite to.
+
+ */
 			});
 			}
 	})
+	
 	
 	jQuery('#CanadaCaseCourt').blur(function(){
 			var courtVal = jQuery(this).val();
@@ -116,6 +172,11 @@ Form Submissions
 Form Events
 =============================================
 */	
+jQuery('#pinciteWrapper').tooltip({
+	trigger: 'hover',
+	placement: 'right',
+	title: "filling out Parallel Citations will enable this"
+});
 
 jQuery('#pincite-selection').change(function(){
 	var txt = jQuery(this).val();
@@ -129,9 +190,12 @@ jQuery('#pincite-selection').change(function(){
 			jQuery("#pincite-form-input").hide();
 		}
 		else if (txt == "pinPoint_para"){	
+			jQuery("#pincite-form-input").show();
 			jQuery("#pincite-form-input").attr('placeholder',"paragraph");
+			
 		}
 		else if (txt == "pinPoint_page"){
+			jQuery("#pincite-form-input").show();
 			jQuery("#pincite-form-input").attr('placeholder',"page");
 		}
 	}
@@ -152,37 +216,66 @@ jQuery('#addHistory').click(function(){
 		
 	}
 
-
 });
+
+jQuery('#leaveToAppeal-selection').change(function(){
+	var txt = jQuery(this).val();
+	console.log("txt" + txt);
+	if(txt =="granted" || txt =="refused")	{
+		jQuery("#CanadaCaseLeaveToAppeal-Docket").show();
+	}
+	else{
+		jQuery("#CanadaCaseLeaveToAppeal-Docket").hide();
+	}
+});
+
 /*
 =============================================
 Tool Tips
 =============================================
 */	
 var tooltip_header              = "<div class=\"tooltip-title\">"
-var tooltip_styleOfCause	    = tooltip_header + "Style of Cause     </div> ex. Dunsmuir v New Brunswick. <br> Input the style of cause as you see it on the case (i.e. the names of the parties or the reference name). <br> Don't worry about periods or formatting, just capitalize words that you particularly want capitalized (like \"AOL News\"). "
-var tooltip_parallelCitation	= tooltip_header + "Parallel Citations </div> ex. 2008 SCC 9 (CanLII); [2008] 1 SCR 190; 229 NBR (2d) 1; 291 DLR (4th) 577; 64 CCEL (3d) 1; 69 Admin LR (4th) 1 <br> Input the abbreviated reporter names instead of the full names (ex. WWR (4d) instead of Western Weekly Reports, Fourth Series). Browse through our catalog and click to input a reporter's abbreviation if you don't know it. <br>Note that case citations require two reporters, unless there is only one available. Intra Vires will choose the best two for you. <br>Separate reporters by commas or semicolons. <br>Don't worry about periods or formatting, Intra Vires will figure it out. <br>"
-var tooltip_date	                = tooltip_header + "Year                  </div> ex. 2008 <br>You only need the year of the decision. If you input the day, month, and year, as in \"06-15-1990\" or \"June 15, 1990,\" Intra Vires will select out the year for you. <br>"
-var tooltip_court                 = tooltip_header + "Court                 </div> ex. supreme court of canada or SCC <br>Input the abbreviated name if you know it, or the jurisdiction and court and Intra Vires will format it correctly depending on what information is already present in the parallel citations. <br>"
+var tooltip_styleofcause	    = tooltip_header + "Style of Cause     </div><font class = \"red\"> ex. Dunsmuir v New Brunswick. </font><br> Input the style of cause as you see it on the case (i.e. the names of the parties or the reference name). <br> Don't worry about periods or formatting, just capitalize words that you particularly want capitalized (like \"AOL News\"). "
+var tooltip_parallel				= tooltip_header + "Parallel Citations </div><font class = \"red\"> ex. 2008 SCC 9 (CanLII); [2008] 1 SCR 190; 229 NBR (2d) 1; 291 DLR (4th) 577; 64 CCEL (3d) 1; 69 Admin LR (4th) 1 </font><br> Input the abbreviated reporter names instead of the full names (ex. WWR (4d) instead of Western Weekly Reports, Fourth Series). Browse through our catalog and click to input a reporter's abbreviation if you don't know it. <br>Note that case citations require two reporters, unless there is only one available. Intra Vires will choose the best two for you. <br>Separate reporters by commas or semicolons. <br>Don't worry about periods or formatting, Intra Vires will figure it out. <br>"
+var tooltip_year	                = tooltip_header + "Year                  </div><font class = \"red\"> ex. 2008 </font><br>You only need the year of the decision. If you input the day, month, and year, as in \"06-15-1990\" or \"June 15, 1990,\" Intra Vires will select out the year for you. <br>"
+var tooltip_court                 = tooltip_header + "Court                 </div><font class = \"red\"> ex. supreme court of canada or SCC </font><br>Input the abbreviated name if you know it, or the jurisdiction and court and Intra Vires will format it correctly depending on what information is already present in the parallel citations. <br>"
 
-var tooltip_pinpoint            = tooltip_header + "Pinpoint             </div> ex. \"para 132\" <br>Use paragraph numbers where available, be sure to tell us you are doing so. <br>ex. \"SCR 205\" <br>If you are using page numbers, be sure to input the reporter you are citing to."
-var tooltip_citeTo 	            = tooltip_header + "Cite To              </div> ex. SCR <br>If you are not pinpointing the case now, but you will later on in your paper, you need to tell the reader which reporter you will be citing to in the future. Input the abbreviated reporter you will be citing (ex. SCR). <br>"
-var tooltip_history 	            = tooltip_header + "History              </div> Affirming or Reversing <br> ex. \"(2006), 297 NBR (2d) 151 (NBCA)\" or \"2006 NBCA 27\" <br>Input the citation for the lower court case that was cited. Here, only one reporter is required. <br>No style of cause is required. <br>Affirmed or Reversed <br>ex. 2008 SCC 9 (CanLII); [2008] 1 SCR 190 <br>Input two citations, separated by commas or semicolons. <br> "
-var tooltip_leaveToAppeal    = tooltip_header + "Leave To Appeal </div> Requested: input the court. <br>ex. \"SCC\" <br>Granted: input the court and where the case will be cited. <br> ex. \"SCC, [2008] 1 SCR xiv\" or <br>Refused: input the court and docket number <br>ex. \"SCC, 23424 (November 20, 2009)\". <br>As of right: input the court. <br>ex. \"SCC\" "
-var tooltip_judge 				= tooltip_header  + "Judge                </div> ex. Binnie J <br>CJC = Chief Justice of Canada <br>CJA = Chief Justice of Appeal <br>CJ = Chief Justice <br>JA = Justice of Appeal <br>JJA = Justices of Appeal <br>J = Justice <br>JJ = Justices <br>Mag = Magistrate <br>"
-var tooltip_subNom     		= tooltip_header  + "Sub nom           </div>  ex. DLR (4th), The Achilleas <br>Input only if the case is referred to by another name in the reporter you have inputted.<br>"
-var tooltip_shortForm     		= tooltip_header  + "Short Form         </div> ex. Dunsmuir <br>If you'll refer to this judgement by a shortened form later in your paper, input it here. It is normally the first party name. <br>"
-var tooltip_citing         		= tooltip_header  + "Citing               </div>  ex. Crevier v AG Quebec, [1981] 2 SCR 220; [1981] 127 DLR (3d) 1 <br>Input the style of cause and two citations, separated by semicolons or commas. <br> Use this if the main judgement cites a passage from another case, in order to give authority to the original passage. <br>"
+var tooltip_pincite            = tooltip_header + "Pinpoint             	</div><font class = \"red\"> ex. \"para 132\" <br>Use paragraph numbers where available, be sure to tell us you are doing so. <br>ex. \"SCR 205\" </font><br>If you are using page numbers, be sure to input the reporter you are citing to."
+var tooltip_citeTo 	            = tooltip_header + "Cite To              </div><font class = \"red\"> ex. SCR </font><br>If you are not pinpointing the case now, but you will later on in your paper, you need to tell the reader which reporter you will be citing to in the future. Input the abbreviated reporter you will be citing (ex. SCR). <br>"
+var tooltip_history 	            = tooltip_header + "History              </div><font class = \"red\"> Affirming or Reversing <br> ex. \"(2006), 297 NBR (2d) 151 (NBCA)\" or \"2006 NBCA 27\" </font><br>Input the citation for the lower court case that was cited. Here, only one reporter is required. <br>No style of cause is required. <br>Affirmed or Reversed <br>ex. 2008 SCC 9 (CanLII); [2008] 1 SCR 190 <br>Input two citations, separated by commas or semicolons. <br> "
+var tooltip_leavetoappeal    = tooltip_header + "Leave To Appeal </div><font class = \"red\"> Requested: input the court. <br>ex. \"SCC\" </font><br>Granted: input the court and where the case will be cited. <br> ex. \"SCC, [2008] 1 SCR xiv\" or <br>Refused: input the court and docket number <br>ex. \"SCC, 23424 (November 20, 2009)\". <br>As of right: input the court. <br>ex. \"SCC\" "
+var tooltip_judge 				= tooltip_header  + "Judge               </div><font class = \"red\"> ex. Binnie J </font><br>CJC = Chief Justice of Canada <br>CJA = Chief Justice of Appeal <br>CJ = Chief Justice <br>JA = Justice of Appeal <br>JJA = Justices of Appeal <br>J = Justice <br>JJ = Justices <br>Mag = Magistrate <br>"
+var tooltip_subnom     		= tooltip_header  + "Sub nom           </div><font class = \"red\">  ex. DLR (4th), The Achilleas </font><br>Input only if the case is referred to by another name in the reporter you have inputted.<br>"
+var tooltip_shortform     		= tooltip_header  + "Short Form      	</div><font class = \"red\"> ex. Dunsmuir</font> <br>If you'll refer to this judgement by a shortened form later in your paper, input it here. It is normally the first party name. <br>"
+var tooltip_citing         		= tooltip_header  + "Citing               </div><font class = \"red\">  ex. Crevier v AG Quebec, [1981] 2 SCR 220; [1981] 127 DLR (3d) 1</font> <br>Input the style of cause and two citations, separated by semicolons or commas. <br> Use this if the main judgement cites a passage from another case, in order to give authority to the original passage. <br>"
 
+//jQuery('#CanadaCase-Form ').focus(function(){
+jQuery('#CanadaCase-Form input').focus(function(){
+		var name = jQuery(this).attr('name') // get Forms name
+		var tool = eval('tooltip_'+name); // convert it to a variable
+		jQuery('#tooltips').html(tool); // display the tooltip
+		var formTop = jQuery("#CanadaCase-Form").offset();
+		var currentForm = jQuery(this).offset();
+		
+		var positionDifference = currentForm.top - formTop.top;
+		console.log(Math.floor(positionDifference/200)*200);
+		console.log(Math.round(positionDifference));
+		
+		jQuery('#tooltips').css('margin-top', Math.floor(positionDifference/200)*200);
+					
+		
+		//console.log(jQuery(this).attr('class').split(' ')[1]); // get the second class
+		//console.log(jQuery(this).parent('.control-group'));
+});
 
+jQuery('#CanadaCase-Form select').change(function(){
+	console.log(jQuery(this).attr('name'));
+	// Do something in here
+});
 //jQuery('#tooltips').html(tooltip_styleOfCause);
 
- jQuery('#CanadaCaseStyle').focus(function(){
-	jQuery('#tooltips').html(tooltip_styleOfCause);
-});
-jQuery('#CanadaCaseParallel').focus(function(){
-	jQuery('#tooltips').html(tooltip_parallelCitation);
-});
+ 
+
 jQuery('#CanadaCaseDate').focus(function(){
 	jQuery('#tooltips').html(tooltip_date);
 });
@@ -215,7 +308,7 @@ jQuery('#CanadaCaseLeaveToAppeal').focus(function(){
 jQuery('#CanadaCaseSubnom').focus(function(){
 	jQuery('#tooltips').html(tooltip_subNom);
 });
-
+/*
 
 //Scroll with the page
 $(function() {
@@ -267,7 +360,7 @@ $(function() {
 
 	})
 });
-
+*/
 /*
 =============================================
 Validations 

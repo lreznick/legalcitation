@@ -170,7 +170,7 @@ def CanadianCase(form):
 	#history 				= "%s" % (form.history) #list of lists
 	leaveSelection 	= "%s" % (form.leaveToAppeal_selection)
 	leaveCourt		 	= "%s" % (form.leaveToAppeal_court)
-	leaveCitation  	= "%s" % (form.leaveToAppeal_citation)
+	#leaveCitation  	= "%s" % (form.leaveToAppeal_citation)
 	leaveDocket	  	= "%s" % (form.leaveToAppeal_docket)
 		
 	citations ="" 

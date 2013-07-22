@@ -3,16 +3,18 @@
 }
 #signup-title{
 	font-family:RalewayReg;
-	font-size: 40px;
+	font-size: 25px;
+	top: 20px;
 	color: white;
-	text-align: center;
 
 }
 .signup-titlebar{
-	height: 45px;
+	height: 40px;
 	background:#e85a56;
 	width:100%;
 	margin-bottom:20px;
+	text-align:center;
+		vertical-align:middle;
 
 }
 #login{

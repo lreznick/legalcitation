@@ -13,10 +13,7 @@ src: url(../fonts/Raleway-Medium.ttf);
 font-family:RalewayBold;
 src: url(../fonts/Raleway-Bold.ttf);
 }
-p{
-font-family:RalewayMed;
 
-}
 h2{
 font-family:RalewayReg;
 }
@@ -33,12 +30,14 @@ color: #333333;
 margin: 0 auto;
 text-align: center;
 }
+.red{
+	color: red;
+}
 .footer a:hover,a:active
 {
 	/*line-height:20px;
 	font-weight:bold;*/
 	color: black;
-	
 }
 .footer a:link,a:visited{
 	color:grey;
