@@ -4,24 +4,19 @@ from hashlib import sha1
 from web import form
 
 urls = (
-  "", "reblog",
+  "", "Register",
   "/(.*)", "blog"
 )
 
 
 
-signup_form = form.Form(form.Textbox('username',
-						form.Validator('Username already exists.', lambda x: x not in users.keys()), description='Username:'),
-						form.Password('password', description='Password:'),
-						form.Password('password_again', description='Repeat your password:'),
-						validators = [form.Validator("Passwords didn't match.", lambda i: i.password == i.password_again)])
 
 signin_form = form.Form(form.Textbox('username',
 						form.Validator('Unknown username.', lambda x: x in users.keys()),description='Username:'),
                         form.Password('password',description='Password:'),
                         validators = [form.Validator("Username and password didn't match.",
                                       lambda x: users[x.username].check_password(x.password)) ])			
-									  
+								  
 class PasswordHash(object):
     def __init__(self, password_):
         self.salt = "".join(chr(random.randint(33,127)) for x in xrange(64))
@@ -33,6 +28,9 @@ users = {
     'Kermit' : PasswordHash('frog'), 
     'ET' : PasswordHash('eetee'),  
     'falken' : PasswordHash('joshua') }									  
+
+
+
 class hello:
     def GET(self):
         my_signin = signin_form()
@@ -46,23 +44,6 @@ class hello:
             session.user = my_signin['username'].value
             return render.hello(session.user, my_signin)
 
-
-
-class Register(object):
-	def GET(self):
-		my_signup = signup_form()
-		return render.signup(my_signup)
-		
-		
-	def POST(self):
-		my_signup = signup_form()
-		if not my_signup.validates(): 
-			return render.signup(my_signup)
-		else:
-			username = my_signup['username'].value
-			password = my_signup['password'].value
-			users[username] = PasswordHash(password)
-			raise web.seeother('/')
 
 
 
@@ -79,4 +60,4 @@ class blog:
 	def GET(self, path):
 		return "blog " + path
 
-app_signup = web.application(urls, locals())
+app_signup = web.application(urls, globals())

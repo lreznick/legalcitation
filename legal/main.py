@@ -20,12 +20,13 @@ urls = (
     '/formInput', 'Index',	
 	'/about', 'About',
 	'/form', app_formHandler,
-	'/register', app_signup,
+	'/login', app_signup,
+	'/register', 'Register',
 	'/', 'Index'
 
 )
 
-app = web.application(urls, globals())
+app = web.application(urls, globals(),True)
 #render = web.template.render('webclient/templates/', base = 'layout')
 
 
@@ -58,8 +59,39 @@ class Index(object):
 		webURL = "%s" % (form.styleofcause)
 		return webURL
 
+'''
+signup_form = form.Form(
+						form.Textbox('username', 
+						form.Validator('Username already exists.', lambda x: x not in users.keys()), description='Username:'),
+						form.Password('password', description='Password:'),
+						form.Password('password_again', description='Repeat your password:'),
+						validators = [form.Validator("Passwords didn't match.", lambda i: i.password == i.password_again)])		
+'''			
+signup_form =form.Form(
+						form.Textbox('name', placeholder = "email", class_ = "input"),
+						form.Password('password',  placeholder = "password", class_ = "input"),
+						form.Password('password_again',  placeholder = "password again", class_ = "input"),
+						validators = [form.Validator("Passwords didn't match.", lambda i: i.password == i.password_again)]		
+						)
+			
+class Register(object):
+	def GET(self):
+		my_signup = signup_form()
+		return render.signup(my_signup)
+		
+		
+	def POST(self):
+		my_signup = signup_form()
+		if not my_signup.validates(): 
+			return render.signup(my_signup)
+		else:
+			username = my_signup['username'].value
+			password = my_signup['password'].value
+			#users[username] = PasswordHash(password)
+			raise web.seeother('/')
 
 
+			
 def main():
 	db = web.database(dbn='mysql', host='127.0.0.1', port=3306, user='root', pw='root', db='mydb')
 	string = app.run() #
