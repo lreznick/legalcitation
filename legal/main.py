@@ -7,7 +7,7 @@
 from server.testyface import test123
 from server.formcode.webGrabber import *
 from server.formcode.CanadianCase import *
-from server.subapplications.signup import *
+from server.subapplications.dbConnector import *
 from server.formHandler import *
 
 import web
@@ -17,7 +17,7 @@ from web import form
  
 # mapping. Each post request contains what to do.    '/' ,  'Index', '/signup', 'SignUp',
 urls = (
-    '/formInput', 'Index',	
+    '/formInput', 'Index',	#
 	'/about', 'About',
 	'/form', app_formHandler,
 	'/login', app_signup,
@@ -67,35 +67,53 @@ signup_form = form.Form(
 						form.Password('password_again', description='Repeat your password:'),
 						validators = [form.Validator("Passwords didn't match.", lambda i: i.password == i.password_again)])		
 '''			
+passwords_match = form.Validator("Passwords didn't match.", lambda i: i.password == i.password_again)			
+username_required = form.Validator("Username not provided", bool)
+password_required = form.Validator("Password not provided", bool)
+password_length = form.Validator("Password length should be minimum 7 characters", lambda p: p is None or len(p) >= 7)
+
 signup_form =form.Form(
-						form.Textbox('name', placeholder = "email", class_ = "input"),
+						form.Textbox('username', username_required, placeholder = "email", note ="", class_ = "input"),
 						form.Password('password',  placeholder = "password", class_ = "input"),
 						form.Password('password_again',  placeholder = "password again", class_ = "input"),
-						validators = [form.Validator("Passwords didn't match.", lambda i: i.password == i.password_again)]		
+						validators = [passwords_match]		
 						)
-			
+
 class Register(object):
 	def GET(self):
 		my_signup = signup_form()
 		return render.signup(my_signup)
 		
-		
 	def POST(self):
 		my_signup = signup_form()
-		if not my_signup.validates(): 
-			return render.signup(my_signup)
-		else:
-			username = my_signup['username'].value
-			password = my_signup['password'].value
+		if my_signup.validates(): 
+			myvar = dict(username = my_signup['username'].value)
+			email = my_signup['username'].value
+			password = my_signup['password_again'].value
+			result = insert_new_user(email, password)
+			if (result == False):
+				return "username already there!"
+				
+	
 			#users[username] = PasswordHash(password)
 			raise web.seeother('/')
+		else:
+			print "didn't validate baby"
+			print "note", my_signup['username'].note
+			print my_signup['username'].value
+			print my_signup['password'].value
+			print my_signup['password_again'].value
+			return render.signup(my_signup)
+			
 
 
 			
 def main():
-	db = web.database(dbn='mysql', host='127.0.0.1', port=3306, user='root', pw='root', db='mydb')
-	string = app.run() #
+	app.internalerror = web.debugerror
+	string = app.run() 
 	print string
   
 if __name__ == "__main__":
+	
 	main()
+	

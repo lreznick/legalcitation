@@ -13,7 +13,7 @@ $def with (form)
 		<!-- Style Of Cause -->
         <div class="control-group">
 			<div class="controls">
-				$:form.name.render()
+				$:form.username.render()
 			</div>
 			<div class="controls">
 				$:form.password.render()
@@ -22,8 +22,8 @@ $def with (form)
 			<div class="controls">
 			$:form.password_again.render()
 			</div>
-			 $if form.password.note:
-				<span class="error">$f.email.note</span>
+			 $if form.username.note :
+				<span class="error">$:form.username.note</span>
 			<button type="submit" class="btn">Sign in</button>
 			
 		</div>  
