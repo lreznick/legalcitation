@@ -366,7 +366,12 @@ $(function() {
 Validations 
 =============================================
 */		
-
+	var regex_style 		= /^[a-zA-Z0-9.,;:'!@#$%^&()<>ßÄÖÜäöüÑñÉéÈèÁáÀàÂâŶĈĉĜĝŷÊêÔôÛûŴŵ\s]*$/
+	var regex_parallel 	= /^[a-zA-Z0-9.,;'&()ÉéÈèÁáô\[\]\s]*$/
+	var regex_year 		= /^[a-zA-Z0-9.,;'&()ÉéÈèÁáô\[\]\s]*$/
+	var regex_digits 	=/^\d+$/
+	var regex_court 		=/^[a-zA-Z\s.()éÉÈèîÎôÔÁáÀàÂâ]*$/
+	var regex_judge		=/^[a-zA-Z\s.éÉÈèîÎôÔÁáÀàÂâ]*$/
 	// Validates the form to check if a form works or not
 	// Note: rules are based on name of form
 		jQuery('#canadacase-form').validate({
@@ -374,33 +379,69 @@ Validations
 			rules: { 
 				styleofcause: {
 					maxlength:250,	
-					regex: /^[a-zA-Z0-9.,;:'!@#$%^&()<>ßÄÖÜäöüÑñÉéÈèÁáÀàÂâŶĈĉĜĝŷÊêÔôÛûŴŵ]*$/, //0-999
+					regex: regex_style, 
 					required: true 
 				},
 				parallel: {
 					maxlength:250,	
-					regex: /^[a-zA-Z0-9.,;'&()ÉéÈèÁáô\[\]\s]*$/, 
+					regex: regex_parallel, 
 					required: true 
 				},
 				year: {
 					maxlength:4,	
-					regex2: /^\d+$/,
-					regex: /^(1[4-9][0-9]{2}|200[0-9]{1}|201[1234]{1})$/,
+					regex2: regex_digits,
+					regex: regex_year,
 					required: true 
 				},
 				court: {
 					maxlength:250,	
-					regex: /^[a-zA-Z.()éÉÈèîÎôÔÁáÀàÂâ]*$/, 
+					regex: regex_court, 
 					required: true 
 				},
 				shortform: {
 					maxlength:100,	
-					regex: /^[a-zA-Z0-9.,;:'!@#$%^&()<>ßÄÖÜäöüÑñÉéÈèÁáÀàÂâŶĈĉĜĝŷÊêÔôÛûŴŵ]*$/
+					regex: regex_style,
 				},
 				pincite_input:{
 					maxlength:10,	
-					regex: /^\d+$/,
+					regex: /^[\d,-\s]*$/,
 				},
+				judge:{
+					maxlength:10,	
+					regex: regex_judge
+				},
+				
+				citing_styleofcause:{
+					maxlength:10,	
+					regex: regex_style
+				},
+				citing_parallel:{
+					maxlength:10,	
+					regex: regex_parallel,
+				},
+				citing_year:{
+					maxlength:4,	
+					regex2: regex_digits,
+					regex: regex_year,
+				},
+				citing_court:{
+					maxlength:10,	
+					regex: regex_court, 
+				},
+				history_parallel:{
+					maxlength:250,	
+					regex: regex_parallel, 
+				
+				},
+				history_year: {
+					maxlength:4,	
+					regex2: regex_digits,
+					regex: regex_year,	
+				},
+				history_court: {
+					maxlength:250,	
+					regex: regex_court,
+				},				
 				
 
 			},
@@ -444,7 +485,12 @@ Validations
 				pincite_input:{
 					maxlength: "Maximum length: 10 characters",
 					regex: "digits only, please"
-				}
+				},
+				citing_year:{
+					maxlength: "Maximum length: 4 characters",
+					regex: "Enter a year between 1400 and 2014",
+					regex2: "digits only, please",
+				},
 			}
 		}); 
 	
