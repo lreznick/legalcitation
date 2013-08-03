@@ -70,7 +70,7 @@ def Capitalize(string):
 #Everything is already capitalized properly before being inputted to this function
 #note: removes empty brackets like "()"
 def StyleAttributes(string):
-	#print("\nStart:: " + string)
+	##print("\nStart:: " + string)
 	string = CleanUp(string) # clean up the string before it enters the machine
 	# (1) GUARDIAN AD LITEM
 	adlit = re.compile(r'\(?(g|G)uardian\s(a|A)d\s(l|L)item\s?((O|o)f)?\)?')
@@ -78,14 +78,14 @@ def StyleAttributes(string):
 		match = adlit.search(string)#detect the match object
 		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
 		string = re.sub(sub, '', string) + " (Guardian ad litem of)"
-	#print("gaurdian:: " + string +"\n")
+	##print("gaurdian:: " + string +"\n")
 	# (2) LITIGATION GUARDIAN
 	lit = re.compile(r'\(?(l|L)itigation\s(g|G)uardian\s?((o|O)f)?\)?')
 	if lit.search(string):
 		match = lit.search(string)#detect the match object
 		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
 		string = re.sub(sub, '', string) + " (Litigation guardian of)"
-	#print("lit gaurdian:: " + string+"\n")
+	##print("lit gaurdian:: " + string+"\n")
 	# (3) CORPORATIONS
 	corp = re.compile(r'(\s(c|C)orp(oration)?$|^(c|C)orp(oration)?\s|\s(c|C)orp(oration)?\s)')
 	if corp.search(string):
@@ -112,28 +112,28 @@ def StyleAttributes(string):
 				match = reg_three.search(string)#detect the match object
 				sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
 				string = re.sub(sub, x[0], string)
-	#print("Corporation:: " + string+"\n")
+	##print("Corporation:: " + string+"\n")
 	# (5) TRUSTEE
 	trustee = re.compile(r'(\(?(t|T)rustee\s?((o|O)f)\)?|\(?(t|T)rustee\s?((o|O)f)?\)?$)')
 	if trustee.search(string):
 		match = trustee.search(string)#detect the match object
 		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
 		string = re.sub(sub, '', string) + " (Trustee of)"
-	#print("trustee:: " + string+"\n")
+	##print("trustee:: " + string+"\n")
 	# (6) RECEIVERSHIPS
 	rec = re.compile(r'(\(?(r|R)eceiver(ship)?\s?((o|O)f)\)?|\(?(r|R)eceiver(ship)?\s?((o|O)f)?\)?$)')
 	if rec.search(string):
 		match = rec.search(string)#detect the match object
 		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
 		string = re.sub(sub, '', string) + " (Receiver of)"
-	#print("receiv:: " + string+"\n")
+	##print("receiv:: " + string+"\n")
 	# (7) LIQUIDATOR
 	liq = re.compile(r'(\(?(l|L)iquidat(e|or)s?\s?((o|O)f)\)?|\(?(l|L)iquidat(e|or)s?\s?((o|O)f)?\)?$)')
 	if liq.search(string):
 		match = liq.search(string)#detect the match object
 		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
 		string = re.sub(sub, '', string) + " (Liquidator of)"
-	#print("liquid:: " + string+"\n")
+	##print("liquid:: " + string+"\n")
 	# (8) COUNTRIES (need list of countries)
 	# (9) CITIES (need database of cities and municipalities)
 	# (10) PROVINCES
@@ -146,49 +146,49 @@ def StyleAttributes(string):
 			reg_three = re.compile(r'\s'+i+r'$', re.I)
 			reg_four = re.compile(r'^'+i+r'$', re.I)
 			if reg_one.search(string):
-				#print "Province match one\n"
+				##print "Province match one\n"
 				m == True
 				match = reg_one.search(string)#detect the match object
 				sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
 				string = re.sub(sub, x[0], string)
 			if m == True: break
 			if reg_two.search(string):
-				#print "Province match two\n"
+				##print "Province match two\n"
 				m = True
 				match = reg_two.search(string)#detect the match object
 				sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
 				string = re.sub(sub, x[0], string)
 			if m == True: break
 			if reg_three.search(string):
-				#print "Province match three\n"
+				##print "Province match three\n"
 				m = True
 				match = reg_three.search(string)#detect the match object
 				sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
 				string = re.sub(sub, x[0], string)
 			if m == True: break
 			if reg_four.search(string):
-				#print "Province match four\n"
+				##print "Province match four\n"
 				m = True
 				match = reg_four.search(string)#detect the match object
 				sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
 				string = re.sub(sub, x[0], string)
-	#print("Provinces:: " + string+"\n")
+	##print("Provinces:: " + string+"\n")
 	# (11) CROWN CIVIL (AG and MNR)
 	AG = re.compile(r'(\(?(a|A)tt(orney)?\s?(g|G)en(eral)?\s?((o|O)f)?\)?|\(?(A|a)(G|g)\)?)')
 	if AG.search(string):
 		match = AG.search(string)#detect the match object
 		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
-		#print "sub = "+sub+"\n"	#print "string = "+string+"\n"		#print "subbed in = "+re.sub(sub, '', string)+"\n"
+		##print "sub = "+sub+"\n"	##print "string = "+string+"\n"		##print "subbed in = "+re.sub(sub, '', string)+"\n"
 		string = re.sub(sub, '', string) + " (AG)"
 	MNR = re.compile(r'(\(?(m|M)inister\s?((o|O)f)?\s(n|N)at(ional)?\s(r|R)ev(enue)?\)?|\(?(M|m)(N|n)(R|r)\)?)')
 	if MNR.search(string):
 		match = MNR.search(string)#detect the match object
 		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
-		#print "sub = "+sub+"\n"	#print "string = "+string+"\n"		#print "subbed in = "+re.sub(sub, '', string)+"\n"
+		##print "sub = "+sub+"\n"	##print "string = "+string+"\n"		##print "subbed in = "+re.sub(sub, '', string)+"\n"
 		string = re.sub(sub, '', string) + " (MNR)"
 	string = re.sub('\(\s*?\)', '', string)#there are brackets sometimes not subbed out of the string, so I remove empty ones
 	string = CleanUp(string)#clean string for final presentation
-	#print("End:: " + string+"\n")
+	##print("End:: " + string+"\n")
 	return string
 
 #takes a string and creates a regex string that can be used to detect the string in various patterns
@@ -226,15 +226,15 @@ def StatuteChallenge(string):
 		if x.lower() in string.lower(): string = string.replace(x, "Re ")
 	#Reference
 	#if "ref " in string.lower(): re.sub(r'(r|R)ef', 'Reference', string)
-	#print "Made it here with: ", string
+	##print "Made it here with: ", string
 	Ref = re.compile(r'(^\(?(r|R)ef(erence)?\s?((r|R)e)?\)?|[\(\s]?(r|R)ef(erence)?.{0,2}\s?((r|R)e)?$)')
 	if Ref.search(string):
-		#print "Detected a reference in: ", string, ", adding 'Reference Re'"
+		##print "Detected a reference in: ", string, ", adding 'Reference Re'"
 		match = Ref.search(string)#detect the match object
 		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
 		string = "Reference Re " + re.sub(sub, '', string)
 		string = re.sub('\(\s*?\)', '', string)#there are brackets sometimes not subbed out of the string, so I remove empty ones
-		#print "Added: string is now: ", string
+		##print "Added: string is now: ", string
 	#fix P in Ex Parte to Ex parte
 	if "Ex Parte" in string: string = string.replace("Ex Parte", "Ex parte")
 	#Detect provincial thing
@@ -252,7 +252,7 @@ def StatuteChallenge(string):
 	if re.search("provin", string, re.I): 
 		return CleanUp(string)
 	else: return string + ' (Canada)' #default to saying it is a national statute if it is not made reference to
-	#print "At the end of StatuteChallenge, string is: ", string
+	##print "At the end of StatuteChallenge, string is: ", string
 	
 	
 #This is a function only for a single style of cause (i.e. no joinder). it looks at both parties (or one, as the case may be) and adds
@@ -261,21 +261,21 @@ def Action(StyleOfCause):
 	for x in range(len(Parties)): #capitalize each party individually (best to do each and not altogether because the 'v' is lowercase and might throw off the capitalization algorithm.
 		Parties[x] = Capitalize(Parties[x])
 	if len(Parties)==1: #If there is only one party
-		#print "Length of party is one: ", Parties[0]
+		##print "Length of party is one: ", Parties[0]
 		#Replace provincial acronyms with the correct format
 		Provinces = [["British Columbia", ["BC", "Brit Col", "Brit Colum", "British Columbia", "British Columbian"]], ["Alberta", ["AB", "Alta", "Alberta", "Albertan"]], ["Saskatchewan", ["SK", "Sask", "Saskatchewan", "Saskatchewanian"]], ["Manitoba", ["MB", "Manitoba", "Manitoban"]], ["Ontario", ["ON", "Ont", "Ontario", "Ontarian"]], ["Quebec", ["QB", "Que","Qc", "Quebec", u"Qu\xe9bec", "Quebecois", u"Qu\xe9becois"]], ["New Brunswick", ["NB", "New Bruns", "N Bruns", "New Brunskick", "New Brunskicker"]], ["Nova Scotia", ["NS", "Nova Scot", "Nova Scotia", "Nova Scotian"]], ["Prince Edward Island", ["PEI", "Prince Ed", "Prince Ed Isl", "Prince Edward Island", "Prince Edward Islander"]], ["Newfoundland and Labrador", ["NL", "NFLD", "Newfoundland", "Newfoundland and Labrador", "Newfoundlander"]]]
 		for x in Provinces: #detect if any of the provincial titles are in the string. if so, fix it up and return it
 			for j in x[1]:
 				if re.search(regstr(j), Parties[0], re.I):
 					Parties[0] = re.sub('('+CleanUp(re.search(regstr(j), Parties[0], re.I).group())+')', x[0], Parties[0]) #replace (BC) or (Brit Col) etc with (British Columbia)
-		#print "After looking for provincial abbreviations, the string is: ", Parties[0]
+		##print "After looking for provincial abbreviations, the string is: ", Parties[0]
 		# First, check if it is a statutory reference
 		Ref = ["Reference", "Ref", "Re", "In re", "In the matter of", "Dans l'affaire de"]
 		Statute = ["Statute", "Code", "Act", "Regulation", "Regulations", "Guidelines"]
 		if any(re.search(regstr(x), Parties[0], re.I) for x in Ref) and any(re.search(regstr(x), Parties[0], re.I) for x in Statute): #if the style of cause discloses that it is a reference
-			#print "Calling StatuteChallenge for: ", Parties[0]
+			##print "Calling StatuteChallenge for: ", Parties[0]
 			OUTPUT = StatuteChallenge(Parties[0]) #see if the SoC discloses it is a challenge to a statute and correct it if so
-			#print "After Calling StatuteChallenge, string is: ", OUTPUT
+			##print "After Calling StatuteChallenge, string is: ", OUTPUT
 		# Second, check if it is it is a reference to an estate without "Re" in front. If so, add Re and get rid of extraneous words
 		elif re.search(regstr("Estate"), Parties[0], re.I) and not re.search(regstr("re"), StyleOfCause, re.I):
 			OUTPUT = "Re " + StyleAttributes(NotAllowed(Parties[0]))
@@ -287,7 +287,7 @@ def Action(StyleOfCause):
 			Parties[j] = StyleAttributes(NotAllowed(Parties[j]))#take out disallowed words and format the patterns as in StyleAttributes
 			OUTPUT = OUTPUT + Parties[j] + " v " #add all of the parties together
 		OUTPUT = re.sub('\sv\s$', '', OUTPUT) #remove the last " v " on the end
-	#print "OUTPUT at end of Action: ", OUTPUT
+	##print "OUTPUT at end of Action: ", OUTPUT
 	return CleanUp(OUTPUT)
 			
 #this is the function to call to reformat the style of cause
@@ -296,7 +296,7 @@ def GetStyleOfCause(StyleOfCause_Input):
 	StyleOfCause = CleanUp(StyleOfCause_Input) #Properly capitalize SoC and clean it up
 	Suits = re.split(r'\b(?:\s*);(?:\s*)\b', StyleOfCause)
 	if len(Suits)==1:
-		#print "Calling Action for only 1 suit on: ", StyleOfCause
+		##print "Calling Action for only 1 suit on: ", StyleOfCause
 		OUTPUT = Action(StyleOfCause)
 	else:
 		OUTPUT = ""
@@ -304,7 +304,7 @@ def GetStyleOfCause(StyleOfCause_Input):
 			Suits[j] = Action(Suits[j])
 			OUTPUT = OUTPUT + Suits[j] + "; " #add all of the parties together
 		OUTPUT = re.sub(';\s$', '', OUTPUT) #remove the last " v " on the end
-	#print "At end of GetSoC: OUTPUT = ", OUTPUT
+	##print "At end of GetSoC: OUTPUT = ", OUTPUT
 	OUTPUT = CleanUp(OUTPUT)
 	return "<i>"+OUTPUT+"</i>"
 
@@ -324,7 +324,7 @@ def NeutralCourts():
 	Nunavut = [["NUCJ", 2001, ["Court of Justice", "CJ"]], ["NUCA", 2006, ["Appeal Court", "Court of Appeal", "CA"]]]
 	Ontario = [["ONCA", 2007, ["Appeal Court", "Court of Appeal", "CA"]], ["ONSC", 2010, ["Superior Court", "SC"]], ["ONCJ", 2004, ["Court of Justice", "CJ"]], ["ONWSIAT", 2000, ["Workplace Safety and Insurance Appeals Tribunal"]], ["ONLSAP", 2004, ["Law Society Appeal Panel"]], ["ONLSHP", 2004, ["Law Society Hearing Panel"]]]
 	PrinceEdwardIsland = [["PESCAD", 2000, ["Supreme Court, Appeal Division", "Appeal Court", "Court of Appeal", "CA", "SCAD"]], ["PESCTD", 2000, ["Supreme Court, Trial Division", "SCTD", "Trial Court", "Trial Division"]]]
-	Quebec = [["QCCA", 2005, ["Appeal Court", "Court of Appeal", "CA"]], ["QCCS", 2006, "Superior Court", "SC"], ["QCCP", 2006, "Court of Quebec"], ["QCTP", 1999, "Tribunal des professions"], ["CMCQ", 2000, ["Conseil de la magitrature"]], ["QCCRT", 2002, ["Commission des relations du travail"]]]
+	Quebec = [["QCCA", 2005, ["Appeal Court", "Court of Appeal", "CA"]], ["QCCS", 2006, "Superior Court", "SC"], ["QCCP", 2006, "Court of Quebec"], ["QCTP", 1999, "Tribunal des professions"], ["CMQC", 2000, ["Conseil de la magitrature"]], ["QCCRT", 2002, ["Commission des relations du travail"]]]
 	Saskatchewan = [["SKCA", 2000, ["Appeal Court", "Court of Appeal", "CA"]], ["SKQB", 1999, ["Court of Queen's Bench", "Queen's Bench", "QB"]], ["SKPC", 2002, ["Provincial Court", "Prov Court", "PC"]], ["SKAIA", 2003, ["Automobile Injury Appeal Commission"]]]
 	Yukon = [["YKCA", 2000, ["Appeal Court", "Court of Appeal", "CA"]], ["YKSC", 2000, ["Supreme Court", "SC", "Supreme Court of the Yukon Territory"]], ["YKTC", 1999, ["Territorial Court", "TC"]], ["YKSM", 2004, ["Small Claims Court", "SM", "Small Claims"]], ["YKYC", 2001, ["Youth Court", "YC"]]]
 
@@ -358,8 +358,8 @@ def regstrElec(i):#i is a string input
 # [Best reporter, Second Best Reporter] if there are 2
 # [Only Reporter, False] if there is only 1
 def AutoPCPinpoint(Citation_Input): # choose the best reporter out of all of the ones in the list
-	print "******** Starting AutoPCPinpoint **********"
-	print "input: ", Citation_Input
+	#print "******** Starting AutoPCPinpoint **********"
+	#print "input: ", Citation_Input
 	PC = CleanUp(Citation_Input)
 	#need to put the electronic sources in the correct format in case someone puts in (available on CanLII) without the ; or ,
 	Electronic = [["CanLII", "CanLII"], ["QL", "Quicklaw"], ["WL Can", "Westlaw Canada"], ["Azimut","Azimut"], ["LEXIS", "Lexis"], ["WL", "Westlaw"]]
@@ -374,11 +374,11 @@ def AutoPCPinpoint(Citation_Input): # choose the best reporter out of all of the
 		PC = CleanUp(PC[:-1])
 	if re.search(r"^(;|,)", PC):
 		PC = CleanUp(PC[1:])	
-	print "PC after manipulation: ", PC
+	#print "PC after manipulation: ", PC
 	m = re.split('[,;]', PC) # 	#Split the citations based on positioning of commas and semicolons
 	for x in range(len(m)): m[x] = CleanUp(m[x]) #remove excess white spaces on either side
 	Present = 2013
-	NC = [['SCC', 2000, Present], ['FC', 2001, Present], ['FCA', 2001, Present], ['TCC', 2003, Present], ['CMAC', 2001, Present], ['Comp Trib', 2001, Present], ['CHRT', 2003, Present], ['PSSRB', 2000, Present], ['ABCA', 1998, Present], ['ABQB', 1998, Present], ['ABPC', 1998, Present], ['ABASC', 2004, Present], ['BCCA', '1999', Present], ['BCSC', 2000, Present], ['BCPC', 1999, Present], ['BCHRT', 2000, Present], ['BCSECCOM', 2000, Present], ['MBCA', 2000, Present], ['MBQB', 2000, Present], ['MBPC', 2007, Present], ['NBCA', 2001, Present], ['NBQB', 2002, Present], ['NBPC', 2002, Present], ['NWTCA', 1999, Present], ['NWTSC', 1999, Present], ['NWTTC', 1999, Present], ['NSCA', 1999, Present], ['NSSC', 2000, Present], ['NSSF', 2001, Present], ['NSPC', 2001, Present], ['NUCJ', 2001, Present], ['NUCA', 2006, Present], ['ONCA', 2007, Present], ['ONSC', 2010, Present], ['ONCJ', 2004, Present], ['ONWSIAT', 2000, Present], ['ONLSAP', 2004, Present], ['ONLSHP', 2004, Present], ['PESCAD', 2000, Present], ['PESCTD', 2000, Present], ['QCCA', 2005, Present], ['QCCS', 2006, Present], ['QCCP', 2006, Present], ['QCTP', 1999, Present], ['CMCQ', 2000, Present], ['QCCRT', 2002, Present], ['SKCA', 2000, Present], ['SKQB', 1999, Present], ['SKPC', 2002, Present], ['SKAIA', 2003, Present], ['YKCA', 2000, Present], ['YKSC', 2000, Present], ['YKTC', 1999, Present], ['YKSM', 2004, Present], ['YKYC', 2001, Present]]
+	NC = [['SCC', 2000, Present], ['FC', 2001, Present], ['FCA', 2001, Present], ['TCC', 2003, Present], ['CMAC', 2001, Present], ['Comp Trib', 2001, Present], ['CHRT', 2003, Present], ['PSSRB', 2000, Present], ['ABCA', 1998, Present], ['ABQB', 1998, Present], ['ABPC', 1998, Present], ['ABASC', 2004, Present], ['BCCA', '1999', Present], ['BCSC', 2000, Present], ['BCPC', 1999, Present], ['BCHRT', 2000, Present], ['BCSECCOM', 2000, Present], ['MBCA', 2000, Present], ['MBQB', 2000, Present], ['MBPC', 2007, Present], ['NBCA', 2001, Present], ['NBQB', 2002, Present], ['NBPC', 2002, Present], ['NWTCA', 1999, Present], ['NWTSC', 1999, Present], ['NWTTC', 1999, Present], ['NSCA', 1999, Present], ['NSSC', 2000, Present], ['NSSF', 2001, Present], ['NSPC', 2001, Present], ['NUCJ', 2001, Present], ['NUCA', 2006, Present], ['ONCA', 2007, Present], ['ONSC', 2010, Present], ['ONCJ', 2004, Present], ['ONWSIAT', 2000, Present], ['ONLSAP', 2004, Present], ['ONLSHP', 2004, Present], ['PESCAD', 2000, Present], ['PESCTD', 2000, Present], ['QCCA', 2005, Present], ['QCCS', 2006, Present], ['QCCP', 2006, Present], ['QCTP', 1999, Present], ['CMQC', 2000, Present], ['QCCRT', 2002, Present], ['SKCA', 2000, Present], ['SKQB', 1999, Present], ['SKPC', 2002, Present], ['SKAIA', 2003, Present], ['YKCA', 2000, Present], ['YKSC', 2000, Present], ['YKTC', 1999, Present], ['YKSM', 2004, Present], ['YKYC', 2001, Present]]
 	Official = [["Ex CR", 1875, 1970], ["FCR", 1971, Present], ["SCR", 1876, Present]]
 	Semi = [["AR", 1976, Present], ["Alta AR", 1908, 1932], ["BCR", 1867, 1947], ["BR", 1892, 1969], ["CA", 1970, 1985], ["CBES", 1975, 1985], ["CP", 1975, 1987], ["CS", 1967, Present], ["CSP", 1975, Present], ["Man R", 1883, 1961], ["NBR", 1969, Present], ["Nfld & PEIR", 1971, Present], ["NSR", 1965, 1969], ["NSR (2d)", 1969, Present], ["NWTR", 1983, 1998], ["OLR", 1900, 1931], ["OR", 1931, 1973], ["OR (2d)", 1973, Present], ["OWN", 1909, 1962], ["RJQ", 1975, Present], ["Sask LR", 1907, 1931], ["Terr LR", 1885, 1907], ["TJ", 1975, Present], ["YR", 1986, 1989]]
 	Preferred = [["DLR (2d)", 1956, 1968], ["DLR (3d)", 1969, 1984], ["DLR (4th)", 1984, Present], ["DLR", 1912, 1955], ["WWR (NS)", 1951, 1970], ["WWR", 1911, 1950], ["WWR", 1971, Present], ["ACWS (2d)", 1980, 1986], ["ACWS (3d)", 1986, Present], ["ACWS", 1970, 1979]]
@@ -390,7 +390,7 @@ def AutoPCPinpoint(Citation_Input): # choose the best reporter out of all of the
 	for x in range(len(m)):
 		List.append([m[x], False, False]) # replace each of the sources in the input with a list including that input and "False". False will be changed to the priority if there is a number, and if there is no match then it will be default be placed last in priority (except for elec)
 		# Key: [citation, priority (default False until there is a match), whether source is electronic (default False)]
-	print "List before numbering: ", List
+	#print "List before numbering: ", List
 	#go through each of the types of reporters and look for a match. if there is one, place it in priority
 	for i in NC:
 		for x in List:
@@ -398,7 +398,7 @@ def AutoPCPinpoint(Citation_Input): # choose the best reporter out of all of the
 			if re.search(regstr(i[0]), x[0], re.I):
 				x[0] = i[0]
 				x[1] = Priority
-				print x[0], "was given priority", x[1], "********************************"
+				#print x[0], "was given priority", x[1], "********************************"
 				Priority +=1
 				NeutralCitation = True
 	for i in Official:
@@ -407,7 +407,7 @@ def AutoPCPinpoint(Citation_Input): # choose the best reporter out of all of the
 			if re.search(regstr(i[0]), x[0], re.I):
 				x[0] = i[0]
 				x[1] = Priority
-				print x[0], "was given priority", x[1], "********************************"
+				#print x[0], "was given priority", x[1], "********************************"
 				Priority +=1
 	for i in Semi:
 		for x in List:
@@ -415,7 +415,7 @@ def AutoPCPinpoint(Citation_Input): # choose the best reporter out of all of the
 			if re.search(regstr(i[0]), x[0], re.I):
 				x[0] = i[0]
 				x[1] = Priority
-				print x[0], "was given priority", x[1], "********************************"
+				#print x[0], "was given priority", x[1], "********************************"
 				Priority +=1
 	for i in Preferred:
 		for x in List:
@@ -423,7 +423,7 @@ def AutoPCPinpoint(Citation_Input): # choose the best reporter out of all of the
 			if re.search(regstr(i[0]), x[0], re.I):
 				x[0] = i[0]
 				x[1] = Priority
-				print x[0], "was given priority", x[1], "********************************"
+				#print x[0], "was given priority", x[1], "********************************"
 				Priority +=1
 	for i in Other:
 		for x in List:
@@ -431,33 +431,33 @@ def AutoPCPinpoint(Citation_Input): # choose the best reporter out of all of the
 			if re.search(regstr(i), x[0], re.I):
 				x[0] = i[0]
 				x[1] = Priority
-				print x[0], "was given priority", x[1], "********************************"
+				#print x[0], "was given priority", x[1], "********************************"
 				Priority +=1
 	for i in Electronic:
 		for x in List:
 			if x[1]: continue
-			#print "List string:", x[0], "and Electronic is either:", i[0], "OR", i[1]
+			##print "List string:", x[0], "and Electronic is either:", i[0], "OR", i[1]
 			if re.search(regstrElec(i[0]), x[0], re.I) or re.search(regstrElec(i[1]), x[0], re.I):
 				x[0] = i[0]
 				x[1] = Priority
-				print x[0], "was given priority", x[1], "********************************"
+				#print x[0], "was given priority", x[1], "********************************"
 				Priority +=1
 				x[2] = True
 	for x in List: # in case there is no match for a particular reporter, just place it last in priority
 		if not x[1]:
 			x[1] = Priority
-			print x[0], "was not recognized but is given priority", x[1], "********************************"
+			#print x[0], "was not recognized but is given priority", x[1], "********************************"
 			Priority +=1
 	#now sort List based on the priorities for each citation (sorted list is called Sorted)
-	print "After assigning priorities, List: ", List
+	#print "After assigning priorities, List: ", List
 	if len(List)>1:
 		for x in List:
 			if x[2]:#if source is electronic
 				x[1] = Priority#set priority as last (to take account of whether there are unrecognized reporters)
 				Priority +=1
-	print "After modifying priorities of electronics, List: ", List
+	#print "After modifying priorities of electronics, List: ", List
 	Sorted = sorted(List, key=lambda tup: tup[1])
-	print "Sorted is: ", Sorted
+	#print "Sorted is: ", Sorted
 	if NeutralCitation:
 		return [[Sorted[0][0], False], "neutral"]#allowed to pinpoint to paragraph on the neutral citation
 	if len(Sorted)==1: #if there is only one reporter given, return it
@@ -470,10 +470,9 @@ def AutoPCPinpoint(Citation_Input): # choose the best reporter out of all of the
 
 
 
-#takes in a list of citations. All electronic reporters must be given with their citations or just ex. "CanLII", (i.e. no (Available on CanLII) stuff
-def ChooseBestReporters(Citation_Input, pincite): # choose the best reporter out of all of the ones in the list
-	print "******** Starting ChooseBestReporters **********"
-	print "input: ", Citation_Input
+def SplitUpParallel(Citation_Input):
+	#print "******** Starting SplitUpParallel **********"
+	#print "input: ", Citation_Input
 	PC = CleanUp(Citation_Input)
 	#need to put the electronic sources in the correct format in case someone puts in (available on CanLII) without the ; or ,
 	Electronic = [["CanLII", "CanLII"], ["QL", "Quicklaw"], ["WL Can", "Westlaw Canada"], ["Azimut","Azimut"], ["LEXIS", "Lexis"], ["WL", "Westlaw"]]
@@ -489,12 +488,36 @@ def ChooseBestReporters(Citation_Input, pincite): # choose the best reporter out
 		PC = CleanUp(PC[:-1])
 	if re.search(r"^(;|,)", PC):
 		PC = CleanUp(PC[1:])
-	print "PC after manipulation: ", PC
+	#print "PC after manipulation: ", PC
 	m = re.split('[,;]', PC) # 	#Split the citations based on positioning of commas and semicolons
-	print "m: ", m
+	#print "m: ", m
+	return m
+
+#takes in a list of citations. All electronic reporters must be given with their citations or just ex. "CanLII", (i.e. no (Available on CanLII) stuff
+def ChooseBestReporters(Citation_Input, pincite): # choose the best reporter out of all of the ones in the list
+	#print "******** Starting ChooseBestReporters **********"
+	#print "input: ", Citation_Input
+	PC = CleanUp(Citation_Input)
+	#need to put the electronic sources in the correct format in case someone puts in (available on CanLII) without the ; or ,
+	Electronic = [["CanLII", "CanLII"], ["QL", "Quicklaw"], ["WL Can", "Westlaw Canada"], ["Azimut","Azimut"], ["LEXIS", "Lexis"], ["WL", "Westlaw"]]
+	for x in Electronic:
+		regzero = re.compile(r'[;,]?\s?\((available on)?\s?'+x[0]+r'\)[;,]?') # create the regex objects 
+		regone = re.compile(r'[;,]?\s?\((available on)?\s?'+x[1]+r'\)[;,]?')
+		if regzero.search(PC):
+			PC = re.sub(r'[;,]?\s?\(?(available on)?\s?'+x[0]+'\)?[;,]?', "; "+x[0]+"; ", PC)
+		if regone.search(PC):
+			PC = re.sub(r'[;,]?\s?\(?(available on)?\s?'+x[1]+'\)?[;,]?', "; "+x[0]+"; ", PC)
+	PC = CleanUp(PC)
+	if re.search(r"(;|,)$", PC):
+		PC = CleanUp(PC[:-1])
+	if re.search(r"^(;|,)", PC):
+		PC = CleanUp(PC[1:])
+	#print "PC after manipulation: ", PC
+	m = re.split('[,;]', PC) # 	#Split the citations based on positioning of commas and semicolons
+	#print "m: ", m
 	for x in range(len(m)): m[x] = CleanUp(m[x]) #remove excess white spaces on either side
 	Present = 2013
-	NC = [['SCC', 2000, Present], ['FC', 2001, Present], ['FCA', 2001, Present], ['TCC', 2003, Present], ['CMAC', 2001, Present], ['Comp Trib', 2001, Present], ['CHRT', 2003, Present], ['PSSRB', 2000, Present], ['ABCA', 1998, Present], ['ABQB', 1998, Present], ['ABPC', 1998, Present], ['ABASC', 2004, Present], ['BCCA', '1999', Present], ['BCSC', 2000, Present], ['BCPC', 1999, Present], ['BCHRT', 2000, Present], ['BCSECCOM', 2000, Present], ['MBCA', 2000, Present], ['MBQB', 2000, Present], ['MBPC', 2007, Present], ['NBCA', 2001, Present], ['NBQB', 2002, Present], ['NBPC', 2002, Present], ['NWTCA', 1999, Present], ['NWTSC', 1999, Present], ['NWTTC', 1999, Present], ['NSCA', 1999, Present], ['NSSC', 2000, Present], ['NSSF', 2001, Present], ['NSPC', 2001, Present], ['NUCJ', 2001, Present], ['NUCA', 2006, Present], ['ONCA', 2007, Present], ['ONSC', 2010, Present], ['ONCJ', 2004, Present], ['ONWSIAT', 2000, Present], ['ONLSAP', 2004, Present], ['ONLSHP', 2004, Present], ['PESCAD', 2000, Present], ['PESCTD', 2000, Present], ['QCCA', 2005, Present], ['QCCS', 2006, Present], ['QCCP', 2006, Present], ['QCTP', 1999, Present], ['CMCQ', 2000, Present], ['QCCRT', 2002, Present], ['SKCA', 2000, Present], ['SKQB', 1999, Present], ['SKPC', 2002, Present], ['SKAIA', 2003, Present], ['YKCA', 2000, Present], ['YKSC', 2000, Present], ['YKTC', 1999, Present], ['YKSM', 2004, Present], ['YKYC', 2001, Present]]
+	NC = [['SCC', 2000, Present], ['FC', 2001, Present], ['FCA', 2001, Present], ['TCC', 2003, Present], ['CMAC', 2001, Present], ['Comp Trib', 2001, Present], ['CHRT', 2003, Present], ['PSSRB', 2000, Present], ['ABCA', 1998, Present], ['ABQB', 1998, Present], ['ABPC', 1998, Present], ['ABASC', 2004, Present], ['BCCA', '1999', Present], ['BCSC', 2000, Present], ['BCPC', 1999, Present], ['BCHRT', 2000, Present], ['BCSECCOM', 2000, Present], ['MBCA', 2000, Present], ['MBQB', 2000, Present], ['MBPC', 2007, Present], ['NBCA', 2001, Present], ['NBQB', 2002, Present], ['NBPC', 2002, Present], ['NWTCA', 1999, Present], ['NWTSC', 1999, Present], ['NWTTC', 1999, Present], ['NSCA', 1999, Present], ['NSSC', 2000, Present], ['NSSF', 2001, Present], ['NSPC', 2001, Present], ['NUCJ', 2001, Present], ['NUCA', 2006, Present], ['ONCA', 2007, Present], ['ONSC', 2010, Present], ['ONCJ', 2004, Present], ['ONWSIAT', 2000, Present], ['ONLSAP', 2004, Present], ['ONLSHP', 2004, Present], ['PESCAD', 2000, Present], ['PESCTD', 2000, Present], ['QCCA', 2005, Present], ['QCCS', 2006, Present], ['QCCP', 2006, Present], ['QCTP', 1999, Present], ['CMQC', 2000, Present], ['QCCRT', 2002, Present], ['SKCA', 2000, Present], ['SKQB', 1999, Present], ['SKPC', 2002, Present], ['SKAIA', 2003, Present], ['YKCA', 2000, Present], ['YKSC', 2000, Present], ['YKTC', 1999, Present], ['YKSM', 2004, Present], ['YKYC', 2001, Present]]
 	Official = [["Ex CR", 1875, 1970], ["FCR", 1971, Present], ["SCR", 1876, Present]]
 	Semi = [["AR", 1976, Present], ["Alta AR", 1908, 1932], ["BCR", 1867, 1947], ["BR", 1892, 1969], ["CA", 1970, 1985], ["CBES", 1975, 1985], ["CP", 1975, 1987], ["CS", 1967, Present], ["CSP", 1975, Present], ["Man R", 1883, 1961], ["NBR", 1969, Present], ["Nfld & PEIR", 1971, Present], ["NSR", 1965, 1969], ["NSR (2d)", 1969, Present], ["NWTR", 1983, 1998], ["OLR", 1900, 1931], ["OR", 1931, 1973], ["OR (2d)", 1973, Present], ["OWN", 1909, 1962], ["RJQ", 1975, Present], ["Sask LR", 1907, 1931], ["Terr LR", 1885, 1907], ["TJ", 1975, Present], ["YR", 1986, 1989]]
 	Preferred = [["DLR", 1912, 1955], ["DLR (2d)", 1956, 1968], ["DLR (3d)", 1969, 1984], ["DLR (4th)", 1984, Present], ["WWR", 1911, 1950], ["WWR", 1971, Present], ["WWR (NS)", 1951, 1970], ["ACWS", 1970, 1979], ["ACWS (2d)", 1980, 1986], ["ACWS (3d)", 1986, Present]]
@@ -505,7 +528,7 @@ def ChooseBestReporters(Citation_Input, pincite): # choose the best reporter out
 	for x in range(len(m)):
 		List.append([m[x], False, False]) # replace each of the sources in the input with a list including that input and "False". False will be changed to the priority if there is a number, and if there is no match then it will be default be placed last in priority (except for elec)
 		# Key: [citation, priority (default False until there is a match), whether source is electronic (default False)]
-	print "List before numbering: ", List
+	#print "List before numbering: ", List
 	#go through each of the types of reporters and look for a match. if there is one, place it in priority
 	for i in NC:
 		for x in List:
@@ -513,7 +536,7 @@ def ChooseBestReporters(Citation_Input, pincite): # choose the best reporter out
 			if re.search(regstr(i[0]), x[0], re.I):
 				x[0] = CleanUp(re.sub(regstr(i[0]), " "+i[0]+" ", x[0], flags = re.I))
 				x[1] = Priority
-				print x[0], "was given priority", x[1], "********************************"
+				#print x[0], "was given priority", x[1], "********************************"
 				Priority +=1
 	for i in Official:
 		for x in List:
@@ -521,7 +544,7 @@ def ChooseBestReporters(Citation_Input, pincite): # choose the best reporter out
 			if re.search(regstr(i[0]), x[0], re.I):
 				x[0] = CleanUp(re.sub(regstr(i[0]), " "+i[0]+" ", x[0], flags = re.I))
 				x[1] = Priority
-				print x[0], "was given priority", x[1], "********************************"
+				#print x[0], "was given priority", x[1], "********************************"
 				Priority +=1
 	for i in Semi:
 		for x in List:
@@ -529,7 +552,7 @@ def ChooseBestReporters(Citation_Input, pincite): # choose the best reporter out
 			if re.search(regstr(i[0]), x[0], re.I):
 				x[0] = CleanUp(re.sub(regstr(i[0]), " "+i[0]+" ", x[0], flags = re.I))
 				x[1] = Priority
-				print x[0], "was given priority", x[1], "********************************"
+				#print x[0], "was given priority", x[1], "********************************"
 				Priority +=1
 	for i in Preferred:
 		for x in List:
@@ -537,7 +560,7 @@ def ChooseBestReporters(Citation_Input, pincite): # choose the best reporter out
 			if re.search(regstr(i[0]), x[0], re.I):
 				x[0] = CleanUp(re.sub(regstr(i[0]), " "+i[0]+" ", x[0], flags = re.I))
 				x[1] = Priority
-				print x[0], "was given priority", x[1], "********************************"
+				#print x[0], "was given priority", x[1], "********************************"
 				Priority +=1
 	for i in Other:
 		for x in List:
@@ -545,30 +568,30 @@ def ChooseBestReporters(Citation_Input, pincite): # choose the best reporter out
 			if re.search(regstr(i), x[0], re.I):
 				x[0] = CleanUp(re.sub(regstr(i), " "+i+" ", x[0], flags = re.I))
 				x[1] = Priority
-				print x[0], "was given priority", x[1], "********************************"
+				#print x[0], "was given priority", x[1], "********************************"
 				Priority +=1
 	for i in Electronic:
 		for x in List:
 			if x[1]: continue
-			#print "List string:", x[0], "and Electronic is either:", i[0], "OR", i[1]
+			##print "List string:", x[0], "and Electronic is either:", i[0], "OR", i[1]
 			if re.search(regstrElec(i[0]), x[0], re.I) or re.search(regstrElec(i[1]), x[0], re.I):
-				#print "HHEEEERRE"
+				##print "HHEEEERRE"
 				if len(List)==1: # the priority is one, then we will sub whatever abbreviation they used with the correct one
 					x[0] = CleanUp(re.sub(regstrElec(i[0]), " "+i[0]+" ", x[0], flags = re.I)) #they used the real name
 					x[0] = CleanUp(re.sub(regstrElec(i[1]), " "+i[0]+" ", x[0], flags = re.I)) #they used another name
 				else: # if there is some reporter other than an electronic reporter, we only need the name of the electronic service and not the citation docket
 					x[0] = " (available on "+i[0]+")"
 				x[1] = Priority
-				print x[0], "was given priority", x[1], "********************************"
+				#print x[0], "was given priority", x[1], "********************************"
 				Priority +=1
 				x[2] = True
 	for x in List: # in case there is no match for a particular reporter, just place it last in priority
 		if not x[1]:
 			x[1] = Priority
-			print x[0], "was not recognized but is given priority", x[1], "********************************"
+			#print x[0], "was not recognized but is given priority", x[1], "********************************"
 			Priority +=1
 	#now sort List based on the priorities for each citation (sorted list is called Sorted)
-	print "After assigning priorities, List: ", List
+	#print "After assigning priorities, List: ", List
 	#pincite = [pinpoint/cite, reporter, type (para or page), input]
 	citestring = False
 	citereporter = "No Reporter"
@@ -589,9 +612,9 @@ def ChooseBestReporters(Citation_Input, pincite): # choose the best reporter out
 			if x[2]:
 				x[1] = Priority
 				Priority +=1
-	print "After modifying priorities of electronics, List: ", List
+	#print "After modifying priorities of electronics, List: ", List
 	Sorted = sorted(List, key=lambda tup: tup[1])
-	print "Sorted is: ", Sorted
+	#print "Sorted is: ", Sorted
 	First = Sorted[0]
 	Second = Sorted[1]
 	if pincite:
@@ -610,26 +633,26 @@ def ChooseBestReporters(Citation_Input, pincite): # choose the best reporter out
 # else return False
 #Court must be surrounded by a space on each side
 def CheckForCourt(string): #pull the neutral citation from the list if there is one
-	print "**** Starting CheckForCourt"
-	print "Checking for court in string: ", string
-	Courts = ['SCC', 'FC', 'FCA', 'TCC', 'CMAC', 'Comp Trib', 'CHRT', 'PSSRB', 'ABCA', 'ABQB', 'ABPC', 'ABASC', 'BCCA', 'BCSC', 'BCPC', 'BCHRT', 'BCSECCOM', 'MBCA', 'MBQB', 'MBPC', 'NBCA', 'NBQB', 'NBPC', 'NFCA', 'NLSCTD', 'NWTCA', 'NWTSC', 'NWTTC', 'NSCA', 'NSSC', 'NSSF', 'NSPC', 'NUCJ', 'NUCA', 'ONCA', 'ONSC', 'ONCJ', 'ONWSIAT', 'ONLSAP', 'ONLSHP', 'PESCAD', 'PESCTD', 'QCCA', 'QCCS', 'QCCP', 'QCTP', 'CMCQ', 'QCCRT', 'SKCA', 'SKQB', 'SKPC', 'SKAIA', 'YKCA', 'YKSC', 'YKTC', 'YKSM', 'YKYC', 'CACT']
+	#print "**** Starting CheckForCourt"
+	#print "Checking for court in string: ", string
+	Courts = ['SCC', 'FC', 'FCA', 'TCC', 'CMAC', 'Comp Trib', 'CHRT', 'PSSRB', 'ABCA', 'ABQB', 'ABPC', 'ABASC', 'BCCA', 'BCSC', 'BCPC', 'BCHRT', 'BCSECCOM', 'MBCA', 'MBQB', 'MBPC', 'NBCA', 'NBQB', 'NBPC', 'NFCA', 'NLSCTD', 'NWTCA', 'NWTSC', 'NWTTC', 'NSCA', 'NSSC', 'NSSF', 'NSPC', 'NUCJ', 'NUCA', 'ONCA', 'ONSC', 'ONCJ', 'ONWSIAT', 'ONLSAP', 'ONLSHP', 'PESCAD', 'PESCTD', 'QCCA', 'QCCS', 'QCCP', 'QCTP', 'CMQC', 'QCCRT', 'SKCA', 'SKQB', 'SKPC', 'SKAIA', 'YKCA', 'YKSC', 'YKTC', 'YKSM', 'YKYC', 'CACT']
 	Reporters = ['SCR']
 	for x in Courts:
 		if re.search(regstrElec(x), string, re.I): 
-			print "Found neutral citation: ", x
+			#print "Found neutral citation: ", x
 			return x
 	for x in Reporters:
 		if re.search(regstrElec(x), string, re.I):
-			 print "Supreme court reporter detected, returning SCC"
+			 #print "Supreme court reporter detected, returning SCC"
 			 return "SCC"
-	print string.lower(), "is not a neutral citation"
+	#print string.lower(), "is not a neutral citation"
 	return False
 
 
 #returns a list: [Proper Abbreviation for jurisdiction, The search object that found it]
 #or returns False if no jurisdiction detected
 def FindJurisdiction(string):	
-	print "**** Starting FindJurisdiction"
+	#print "**** Starting FindJurisdiction"
 	Canada = [["C"], ["can", "canada", "canadian"]]
 	LowerCanada = [["LC"], ["lc", "lower can", "lower ca", "lower canada", "lower c"]]
 	ProvCan = [["Prov C"], ["prov c", "prov can", "province of canada", "prov of c", "prov of can"]]
@@ -673,9 +696,9 @@ def regstrCt(i):#i is a string input
 #Returns a match. The comments will say what courts matched the input
 #NOTE: allow fo caps \xe9
 def FindCourt(string):
-	print "**** Starting FindCourt"
+	#print "**** Starting FindCourt"
 	#sub all instances of "court" court ct etc with Ct for simpler searching
-	print "Searching: ", string
+	#print "Searching: ", string
 	Ct = re.compile(regstrCt('(C(our)?t|Cour)'), flags = re.I)
 	if Ct.search(string):
 		string = re.sub(Ct.search(string).group(), "Ct", string, flags = re.I)
@@ -685,7 +708,7 @@ def FindCourt(string):
 		if Rem.search(string):
 			string = re.sub(Rem.search(string).group(), " ", string, flags = re.I)
 	string = CleanUp(string)
-	print "Search modified to: ", string
+	#print "Search modified to: ", string
 	AllCourts = [["CA", re.compile(r"(^(Ct )?(of )?appeal(s)?$|^d?'?appel$|^appellate( of)?|^appeal ct( of)?)", flags = re.I)],
 	["Ct J", re.compile(r"^Ct (of )?Just(ice)?( of)?$", flags = re.I)],
 	["H Ct J", re.compile(r"H(igh)? Ct (of )?Just(ice)?( of)?", flags = re.I)],
@@ -780,15 +803,15 @@ def FindCourt(string):
 	Results = []
 	for Court in AllCourts:
 		if re.search('^'+Court[0]+r'$', string, re.I):
-			print string, "gave a perfect hit, RETURN: ", Court[0]
-			return Court[0]
+			#print string, "gave a perfect hit, RETURN: ", Court[0]
+			return [Court[0], True]
 		if Court[1].search(string):
 			Results.append(Court[0])
 	if Results: 
-		print "There were", len(Results), "results:", Results, "RETURN: ", Results[0]
-		return Results[0]
-	else: print "********* NO RESULTS for", string,"*********"
-	return Results
+		#print "There were", len(Results), "results:", Results, "RETURN: ", Results[0]
+		return [Results[0], True]
+	else: pass#print "********* NO RESULTS for", string,"*********"
+	return [Capitalize(string), False]
 
 
 
@@ -798,28 +821,87 @@ def FindCourt(string):
 #input will not be a neutral citation
 #returns False if there is no jurisdiction at all
 #returns list [Court, whether jurisdiction in the court name, in which case we do not run TakeOutJurisdiction******************* (True or False)]
-def CleanUpCourt(string):
-	print "***** Checking: ", string
-	print "Checking validation ..."
+def CleanUpCourt(string, parallelInput):
+	#print "***** Checking: ", string
+	#print "Checking validation ..."
 	regexCourt = re.compile(ur'^[a-zA-Z\.,\'\^&\(\)\]\[\s\u00E9\u00E8\u00C9\u00C8\u00C1\u00E1\u00F4\u00EE\u00F4\u00D4\u00E0\u00C2\u00E2]+$', flags = re.UNICODE)
+	NCConversion = [['ABCA', 'Alta CA'],
+	['ABQB', 'Alta QB'],
+	['ABPC', 'Alta Prov Ct'],
+	['ABASC', 'Alta ASC'],
+	['BCCA', 'BC CA'],
+	['BCSC', 'BC SC'],
+	['BCPC', 'BC Prov Ct'],
+	['BCHRT', 'BC HRT'], 
+	['MBCA', "Man CA"],
+	['MBQB', 'Man QB'],
+	['MBPC', 'Man PC'],
+	['NBCA', 'NB CA'],
+	['NBQB', 'NB QB'],
+	['NBPC', 'NB Prov Ct'],
+	['NFCA', 'NL CA'],
+	['NLSCTD', 'NL Sup Ct (TD)'],
+	['NWTCA', 'NWT CA'],
+	['NWTSC', 'NWT SC'],
+	['NWTTC', 'NWT Terr Ct'],
+	['NSCA', 'NS CA'],
+	['NSSC', 'NS SC'],
+	['NSSF', 'NS SC (Fam Div)'],
+	['NSPC', 'NS Prov Ct'],
+	['NUCJ', 'Nu Ct J'],
+	['NUCA', 'Nu CA'],
+	['ONCA', 'Ont CA'],
+	['ONSC', 'Ont SC'],
+	['ONCJ', 'Ont Ct J'],
+	['ONWSIAT', 'Ont WSIAT'],
+	['ONLSAP', 'Ont LSAP'],
+	['ONLSHP', 'Ont LSHP'],
+	['PESCAD', 'PEI SC (AD)'],
+	['PESCTD', 'PEI SC (TD)'],
+	['QCCA', 'QC CA'],
+	['QCCS', 'QC CS'],
+	['QCCP', 'QC CP'],
+	['QCTP', 'QC TP'],
+	['CMQC', 'CM CQ'],
+	['QCCRT', 'QC CRT'],
+	['SKCA', 'Sask CA'],
+	['SKQB', 'Sask QB'],
+	['SKPC', 'Sask Prov Ct'],
+	['SKAIA', 'Sask AIA'],
+	['YKCA', 'Yu CA'], 
+	['YKSC', 'Yu SC'],
+	['YKTC', 'Yu Terr Ct'],
+	['YKSM', 'Yu Sm Cl'],
+	['YKYC', 'Yu Youth Ct']]
 	if not regexCourt.search(string): 
-		print string + " is invalid"
+		#print string + " is invalid"
 		return [string, False]
 	'''************ LOOKING FOR NEUTRAL CITATION ************'''
 	NC = CheckForCourt(string)
 	if NC:
-		print "Found neutral citation: returning it \t\t**", 
+		#print "Found neutral citation: " + NC +"\t\t**"
+		m = SplitUpParallel(parallelInput)
+		Neut = False
+		for x in m:
+			if CheckForCourt(x):
+				Neut = True
+				break
+		if not Neut: #if there is not a neutral citation present, then we need to change the input to a recognized form
+			for x in NCConversion:
+				if NC==x[0]:
+					NC = x[1]
+		#print "Returning in CleanUpCt:: ", NC
 		return [NC, True]
 	'''************ LOOKING FOR JURISDICTION ************'''
 	Jurisdiction = FindJurisdiction(string)
 	if not Jurisdiction: #i.e. there was no jurisdiction
-		print "Found no jurisdiction: returning False \t\t**"
-		return False #FindCourt(string) #return False
-	print "Found jurisdiction: ", Jurisdiction[0]
+		#print "Found no jurisdiction: returning:: ", Capitalize(string)
+		return [Capitalize(string), False] #FindCourt(string) #return False
+	#print "Found jurisdiction: ", Jurisdiction[0]
 	'''************ FOUND JURISDICTION ************'''
 	'''************ LOOKING FOR JURISDICTION - IN - COURT NAMES ************'''
 	#there are some courts that have the name of the jurisdiction built in. in those cases, don't remove the jurisdiction before matching the court name
-	print "Searching for regex match with court-with-jurisdiction: ", string
+	#print "Searching for regex match with court-with-jurisdiction: ", string
 	Ct = re.compile(r'(C(our)?t|Cour)', flags = re.I)
 	StringJ = string #create string (Jurisdiction) to look for the jurisdiction
 	if Ct.search(StringJ):
@@ -830,7 +912,7 @@ def CleanUpCourt(string):
 		if Rem.search(StringJ):
 			StringJ = re.sub(Rem.search(StringJ).group(), " ", StringJ, flags = re.I)
 	StringJ = CleanUp(StringJ)
-	print "Search modified to: ", StringJ
+	#print "Search modified to: ", StringJ
 	DontRemove = [["CQ", re.compile(u"^Ct (of )?(Qu(e|\\xe9)bec|QC)( of)?$", flags = re.I)],
 	["CAF", re.compile(u"Ct d?'?appel f(e|\\xe9)d((e|\\xe9)rale)?", flags = re.I)],
 	["FCA", re.compile(r"(Fed(eral)?\s?(Ct)?|FC)\s?Appeal", flags = re.I)],
@@ -851,25 +933,31 @@ def CleanUpCourt(string):
 	[u"Div g\xe9n Ont", re.compile(u"Ct (de )?l'Ontario, div(ision)? g(e|\\xe9)n((e|\\xe9)rale)?", flags = re.I)]]
 	for Court in DontRemove:
 		if re.search('^'+Court[0]+r'$', StringJ, re.I):
-			print StringJ, "gave a perfect hit, RETURN: ", Court[0]
+			#print StringJ, "gave a perfect hit, RETURN: ", Court[0]
 			return [Court[0], True]
 		if Court[1].search(StringJ):
-			print StringJ, "gave a regex match, RETURN: ", Court[0]
+			#print StringJ, "gave a regex match, RETURN: ", Court[0]
 			return [Court[0], True]
-	print "Did not find a court with jurisdiction built into the name."
+	#print "Did not find a court with jurisdiction built into the name."
 	'''************ LOOKING FOR COURT  ************'''
-	print "Searching string: ", string
+	#print "Searching string: ", string
 	string = re.sub(Jurisdiction[1].group(), "", string)#take the name of the jurisdiction out
-	print "String with jurisdiction removed is: ", CleanUp(string)
-	Court = FindCourt(CleanUp(string))#search the cleaned string for the court (w/ the jurisdiction OUT)
-	print "Court found is: ", Court
-	print "Returning: ", CleanUp(Jurisdiction[0] +" "+ Court), "\t\t**"
-	return [CleanUp(Jurisdiction[0] +" "+ Court), False]
+	#print "String with jurisdiction removed is: ", CleanUp(string)
+	FCourt = FindCourt(CleanUp(string))#search the cleaned string for the court (w/ the jurisdiction OUT)
+	if FCourt[1]:
+		#print "Court found is: ", FCourt[0]
+		#print "Returning: ", CleanUp(Jurisdiction[0] +" "+ FCourt[0]), "\t\t**"
+		return [CleanUp(Jurisdiction[0] +" "+ FCourt[0]), True]
+	else:
+		#print "Did not recongize court, returning this anyways: ", CleanUp(Jurisdiction[0] +" "+ FCourt[0])
+		return [CleanUp(Jurisdiction[0] +" "+ FCourt[0]), False]
+
+CleanUpCourt("absdaQB", "no way, jose")
 
 #inputs: the court selected by the machine beforehand (with the jurisdiction), and the citation used
 #outputs the court (without the jurisdiction)
 def TakeOutJurisdiction(Ct, Cite):
-	print "In 'TakeOutJurisdiction(Ct, Cite):' the Ct = ", Ct, ", and Cite = ", Cite
+	#print "In 'TakeOutJurisdiction(Ct, Cite):' the Ct = ", Ct, ", and Cite = ", Cite
 	if " FCR" in Cite: Ct = re.sub("F", "", Ct)
 	if " Alta" in Cite: Ct = re.sub("Alta", "", Ct)
 	if (" BC" in Cite) and (" BCD" not in Cite): Ct = re.sub("BC", "", Ct)
@@ -897,7 +985,7 @@ def TakeOutJurisdiction(Ct, Cite):
 def PullDate(string):
 	FirstSearch = re.search(r'(\(?\[?)(1[4-9][0-9]{2}|200[0-9]{1}|201[01234]{1})(\)?\]?,?\s([A-Z]|\d{1,3}\s)[A-Za-z\s]{2})', string) #ex 2008 NBCA or (1843) Ex Ctf
 	if FirstSearch:
-		print "***** Detected on search 1: ", FirstSearch.group(2)
+		#print "***** Detected on search 1: ", FirstSearch.group(2)
 		return FirstSearch.group(2)
 	All = re.findall(r'([^\d]{1}|^|\s)(1[4-9][0-9]{2}|200[0-9]{1}|201[01234]{1})([^\d]{1}|$|\s)', string)
 	if not All:
@@ -906,7 +994,7 @@ def PullDate(string):
 	for x in range(len(All)):
 		Dates.append(int(All[x][1]))
 	Sorted = sorted(Dates, key=lambda tup: tup)
-	print "***** Detected on search 2: ", str(Sorted)
+	#print "***** Detected on search 2: ", str(Sorted)
 	return str(Sorted[0])
 	
 
@@ -914,9 +1002,9 @@ def PullDate(string):
 #this is the function that will ultimately call all of the other functions for the parallel citations
 #the input is what is written in the form for parallel citations
 def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
-	print "\n****** Starting GetCitations"
-	print "\n****** Starting GetCitations"
-	print "input is:\n", "citation string: ", Citation_Input, "\n", "court: ", Court_Input, "\n", "date: ", Date_Input, "\n", "pincite: ", pincite, "\n"
+	#print "\n****** Starting GetCitations"
+	#print "\n****** Starting GetCitations"
+	#print "input is:\n", "citation string: ", Citation_Input, "\n", "court: ", Court_Input, "\n", "date: ", Date_Input, "\n", "pincite: ", pincite, "\n"
 	if not Citation_Input:
 		return "ERROR: missing citation input"
 	if not Court_Input:
@@ -934,19 +1022,19 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 	# Determine if there is a Citator Date or a Court evident in the Parallel citation
 	if PullDate(TwoBest): CitationDate = PullDate(TwoBest) #set the citation date to be the lowest date in the string
 	if CheckForCourt(TwoBest): Court = True
-	print "Court = ", Court #True or False
-	print "Citation Date = ", CitationDate #year or False
+	#print "Court = ", Court #True or False
+	#print "Citation Date = ", CitationDate #year or False
 	if not Court and not CitationDate:
-		print "NOT COURT AND NOT CITATIONDATE DETECTED ****"
+		#print "NOT COURT AND NOT CITATIONDATE DETECTED ****"
 		#Court_input = raw_input("Enter Court with Canadian Jurisdiction: \n")
-		Ct = CleanUpCourt(CleanUp(Court_Input)) 
+		Ct = CleanUpCourt(CleanUp(Court_Input), Citation_Input) 
 		Ct = TakeOutJurisdiction(Ct[0], TwoBest)
 		JudgementDate = CleanUp(Date_Input)
 		OUTPUT = ' ('+ JudgementDate + '), ' + TwoBest +' (' + Ct + ')'#combine all of this in the right way
 	if CitationDate and not Court: 
-		print "CITATIONDATE AND NOT COURT DETECTED ****"
+		#print "CITATIONDATE AND NOT COURT DETECTED ****"
 		#Court_input = raw_input("Enter Court with Canadian Jurisdiction: \n")
-		Ct = CleanUpCourt(CleanUp(Court_Input)) 
+		Ct = CleanUpCourt(CleanUp(Court_Input), Citation_Input) 
 		Ct = TakeOutJurisdiction(Ct[0], TwoBest)
 		JudgementDate = CleanUp(Date_Input)
 		if (JudgementDate==CitationDate): 
@@ -954,9 +1042,9 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 		else:
 			OUTPUT = ' ('+ JudgementDate + '), ' + TwoBest + ' (' + Ct+ ')'
 	if CitationDate and Court:
-		print "CITATIONDATE AND COURT DETECTED"
+		#print "CITATIONDATE AND COURT DETECTED"
 		OUTPUT = ", " + TwoBest
-	print "Result:", OUTPUT
+	#print "Result:", OUTPUT
 	return OUTPUT
 	
 	
@@ -964,8 +1052,8 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 
 #takes in a list of citations. All electronic reporters must be given with their citations or just ex. "CanLII", (i.e. no (Available on CanLII) stuff
 def BestReporter(Citation_Input): # choose the best reporter out of all of the ones in the list
-	print "******** Starting ChooseBestReporters **********"
-	print "input: ", Citation_Input
+	#print "******** Starting ChooseBestReporters **********"
+	#print "input: ", Citation_Input
 	PC = CleanUp(Citation_Input)
 	#need to put the electronic sources in the correct format in case someone puts in (available on CanLII) without the ; or ,
 	Electronic = [["CanLII", "CanLII"], ["QL", "Quicklaw"], ["WL Can", "Westlaw Canada"], ["Azimut","Azimut"], ["LEXIS", "Lexis"], ["WL", "Westlaw"]]
@@ -981,20 +1069,20 @@ def BestReporter(Citation_Input): # choose the best reporter out of all of the o
 		PC = CleanUp(PC[:-1])
 	if re.search(r"^(;|,)", PC):
 		PC = CleanUp(PC[1:])
-	print "PC after manipulation: ", PC
+	#print "PC after manipulation: ", PC
 	m = re.split('[,;]', PC) # 	#Split the citations based on positioning of commas and semicolons
-	print "m: ", m
+	#print "m: ", m
 	for x in range(len(m)): m[x] = CleanUp(m[x]) #remove excess white spaces on either side
 	series = ["2d", "3d", "4th", "5th", "6th", "7th", "8th"]
 	for x in range(len(m)): #replace "2d" with "(2d)", etc (i.e. put them in brackets
 		for s in series:
 			match = re.search(' '+s+' ', m[x], re.I)
 			if match:
-				print "Found a series number without brackets"
+				#print "Found a series number without brackets"
 				m[x] = re.sub(match.group(), ' ('+s+') ', m[x])
 				break
 	Present = 2013
-	NC = [['SCC', 2000, Present], ['FC', 2001, Present], ['FCA', 2001, Present], ['TCC', 2003, Present], ['CMAC', 2001, Present], ['Comp Trib', 2001, Present], ['CHRT', 2003, Present], ['PSSRB', 2000, Present], ['ABCA', 1998, Present], ['ABQB', 1998, Present], ['ABPC', 1998, Present], ['ABASC', 2004, Present], ['BCCA', '1999', Present], ['BCSC', 2000, Present], ['BCPC', 1999, Present], ['BCHRT', 2000, Present], ['BCSECCOM', 2000, Present], ['MBCA', 2000, Present], ['MBQB', 2000, Present], ['MBPC', 2007, Present], ['NBCA', 2001, Present], ['NBQB', 2002, Present], ['NBPC', 2002, Present], ['NWTCA', 1999, Present], ['NWTSC', 1999, Present], ['NWTTC', 1999, Present], ['NSCA', 1999, Present], ['NSSC', 2000, Present], ['NSSF', 2001, Present], ['NSPC', 2001, Present], ['NUCJ', 2001, Present], ['NUCA', 2006, Present], ['ONCA', 2007, Present], ['ONSC', 2010, Present], ['ONCJ', 2004, Present], ['ONWSIAT', 2000, Present], ['ONLSAP', 2004, Present], ['ONLSHP', 2004, Present], ['PESCAD', 2000, Present], ['PESCTD', 2000, Present], ['QCCA', 2005, Present], ['QCCS', 2006, Present], ['QCCP', 2006, Present], ['QCTP', 1999, Present], ['CMCQ', 2000, Present], ['QCCRT', 2002, Present], ['SKCA', 2000, Present], ['SKQB', 1999, Present], ['SKPC', 2002, Present], ['SKAIA', 2003, Present], ['YKCA', 2000, Present], ['YKSC', 2000, Present], ['YKTC', 1999, Present], ['YKSM', 2004, Present], ['YKYC', 2001, Present]]
+	NC = [['SCC', 2000, Present], ['FC', 2001, Present], ['FCA', 2001, Present], ['TCC', 2003, Present], ['CMAC', 2001, Present], ['Comp Trib', 2001, Present], ['CHRT', 2003, Present], ['PSSRB', 2000, Present], ['ABCA', 1998, Present], ['ABQB', 1998, Present], ['ABPC', 1998, Present], ['ABASC', 2004, Present], ['BCCA', '1999', Present], ['BCSC', 2000, Present], ['BCPC', 1999, Present], ['BCHRT', 2000, Present], ['BCSECCOM', 2000, Present], ['MBCA', 2000, Present], ['MBQB', 2000, Present], ['MBPC', 2007, Present], ['NBCA', 2001, Present], ['NBQB', 2002, Present], ['NBPC', 2002, Present], ['NWTCA', 1999, Present], ['NWTSC', 1999, Present], ['NWTTC', 1999, Present], ['NSCA', 1999, Present], ['NSSC', 2000, Present], ['NSSF', 2001, Present], ['NSPC', 2001, Present], ['NUCJ', 2001, Present], ['NUCA', 2006, Present], ['ONCA', 2007, Present], ['ONSC', 2010, Present], ['ONCJ', 2004, Present], ['ONWSIAT', 2000, Present], ['ONLSAP', 2004, Present], ['ONLSHP', 2004, Present], ['PESCAD', 2000, Present], ['PESCTD', 2000, Present], ['QCCA', 2005, Present], ['QCCS', 2006, Present], ['QCCP', 2006, Present], ['QCTP', 1999, Present], ['CMQC', 2000, Present], ['QCCRT', 2002, Present], ['SKCA', 2000, Present], ['SKQB', 1999, Present], ['SKPC', 2002, Present], ['SKAIA', 2003, Present], ['YKCA', 2000, Present], ['YKSC', 2000, Present], ['YKTC', 1999, Present], ['YKSM', 2004, Present], ['YKYC', 2001, Present]]
 	Official = [["Ex CR", 1875, 1970], ["FCR", 1971, Present], ["SCR", 1876, Present]]
 	Semi = [["AR", 1976, Present], ["Alta AR", 1908, 1932], ["BCR", 1867, 1947], ["BR", 1892, 1969], ["CA", 1970, 1985], ["CBES", 1975, 1985], ["CP", 1975, 1987], ["CS", 1967, Present], ["CSP", 1975, Present], ["Man R", 1883, 1961], ["NBR", 1969, Present], ["Nfld & PEIR", 1971, Present], ["NSR", 1965, 1969], ["NSR (2d)", 1969, Present], ["NWTR", 1983, 1998], ["OLR", 1900, 1931], ["OR", 1931, 1973], ["OR (2d)", 1973, Present], ["OWN", 1909, 1962], ["RJQ", 1975, Present], ["Sask LR", 1907, 1931], ["Terr LR", 1885, 1907], ["TJ", 1975, Present], ["YR", 1986, 1989]]
 	Preferred = [["DLR", 1912, 1955], ["DLR (2d)", 1956, 1968], ["DLR (3d)", 1969, 1984], ["DLR (4th)", 1984, Present], ["WWR", 1911, 1950], ["WWR", 1971, Present], ["WWR (NS)", 1951, 1970], ["ACWS", 1970, 1979], ["ACWS (2d)", 1980, 1986], ["ACWS (3d)", 1986, Present]]
@@ -1007,7 +1095,7 @@ def BestReporter(Citation_Input): # choose the best reporter out of all of the o
 	for x in range(len(m)):
 		List.append([m[x], False, False]) # replace each of the sources in the input with a list including that input and "False". False will be changed to the priority if there is a number, and if there is no match then it will be default be placed last in priority (except for elec)
 		# Key: [citation, priority (default False until there is a match), whether source is electronic (default False)]
-	print "List before numbering: ", List
+	#print "List before numbering: ", List
 	#go through each of the types of reporters and look for a match. if there is one, place it in priority
 	for i in NC:
 		for x in List:
@@ -1015,7 +1103,7 @@ def BestReporter(Citation_Input): # choose the best reporter out of all of the o
 			if re.search(regstr(i[0]), x[0], re.I):
 				x[0] = CleanUp(re.sub(regstr(i[0]), " "+i[0]+" ", x[0], flags = re.I))
 				x[1] = Priority
-				print x[0], "was given priority", x[1], "********************************"
+				#print x[0], "was given priority", x[1], "********************************"
 				Priority +=1
 				Paper = True
 	for i in Official:
@@ -1024,7 +1112,7 @@ def BestReporter(Citation_Input): # choose the best reporter out of all of the o
 			if re.search(regstr(i[0]), x[0], re.I):
 				x[0] = CleanUp(re.sub(regstr(i[0]), " "+i[0]+" ", x[0], flags = re.I))
 				x[1] = Priority
-				print x[0], "was given priority", x[1], "********************************"
+				#print x[0], "was given priority", x[1], "********************************"
 				Priority +=1
 				Paper = True
 	for i in Semi:
@@ -1033,7 +1121,7 @@ def BestReporter(Citation_Input): # choose the best reporter out of all of the o
 			if re.search(regstr(i[0]), x[0], re.I):
 				x[0] = CleanUp(re.sub(regstr(i[0]), " "+i[0]+" ", x[0], flags = re.I))
 				x[1] = Priority
-				print x[0], "was given priority", x[1], "********************************"
+				#print x[0], "was given priority", x[1], "********************************"
 				Priority +=1
 				Paper = True
 	for i in Preferred:
@@ -1042,7 +1130,7 @@ def BestReporter(Citation_Input): # choose the best reporter out of all of the o
 			if re.search(regstr(i[0]), x[0], re.I):
 				x[0] = CleanUp(re.sub(regstr(i[0]), " "+i[0]+" ", x[0], flags = re.I))
 				x[1] = Priority
-				print x[0], "was given priority", x[1], "********************************"
+				#print x[0], "was given priority", x[1], "********************************"
 				Priority +=1
 				Paper = True
 	for i in Other:
@@ -1051,39 +1139,39 @@ def BestReporter(Citation_Input): # choose the best reporter out of all of the o
 			if re.search(regstr(i), x[0], re.I):
 				x[0] = CleanUp(re.sub(regstr(i), " "+i+" ", x[0], flags = re.I))
 				x[1] = Priority
-				print x[0], "was given priority", x[1], "********************************"
+				#print x[0], "was given priority", x[1], "********************************"
 				Priority +=1
 				Paper = True	
 	for i in Electronic:
 		for x in List:
 			if x[1]: continue
-			#print "List string:", x[0], "and Electronic is either:", i[0], "OR", i[1]
+			##print "List string:", x[0], "and Electronic is either:", i[0], "OR", i[1]
 			if re.search(regstrElec(i[0]), x[0], re.I) or re.search(regstrElec(i[1]), x[0], re.I):
-				#print "HHEEEERRE"
+				##print "HHEEEERRE"
 				if len(List)==1: # the priority is one, then we will sub whatever abbreviation they used with the correct one
 					x[0] = CleanUp(re.sub(regstrElec(i[0]), " "+i[0]+" ", x[0], flags = re.I)) #they used the real name
 					x[0] = CleanUp(re.sub(regstrElec(i[1]), " "+i[0]+" ", x[0], flags = re.I)) #they used another name
 				else: # if there is some reporter other than an electronic reporter, we only need the name of the electronic service and not the citation docket
 					x[0] = " (available on "+i[0]+")"
 				x[1] = Priority
-				print x[0], "was given priority", x[1], "********************************"
+				#print x[0], "was given priority", x[1], "********************************"
 				Priority +=1
 				x[2] = True
 				Elec = True
 	for x in List: # in case there is no match for a particular reporter, just place it last in priority
 		if not x[1]:
 			x[1] = Priority
-			print x[0], "was not recognized but is given priority", x[1], "********************************"
+			#print x[0], "was not recognized but is given priority", x[1], "********************************"
 			Priority +=1
 	#now sort List based on the priorities for each citation (sorted list is called Sorted)
-	print "After assigning priorities, List: ", List
+	#print "After assigning priorities, List: ", List
 	for x in List:
 		if x[2]:
 			x[1] = Priority
 			Priority +=1
-	print "After modifying priorities of electronics, List: ", List
+	#print "After modifying priorities of electronics, List: ", List
 	Sorted = sorted(List, key=lambda tup: tup[1])
-	print "Sorted is: ", Sorted
+	#print "Sorted is: ", Sorted
 	return Sorted[0][0]
 
 
@@ -1105,19 +1193,19 @@ def GetHistoryCitations(Citation_Input, Court_Input, Date_Input):
 	# Determine if there is a Citator Date or a Court evident in the Parallel citation
 	if PullDate(OneBest): CitationDate = PullDate(OneBest) #set the citation date to be the lowest date in the string
 	if CheckForCourt(OneBest): Court = True
-	print "Court = ", Court #True or False
-	print "Citation Date = ", CitationDate #year or False
+	#print "Court = ", Court #True or False
+	#print "Citation Date = ", CitationDate #year or False
 	if not Court and not CitationDate:
-		print "NOT COURT AND NOT CITATIONDATE DETECTED ****"
+		#print "NOT COURT AND NOT CITATIONDATE DETECTED ****"
 		#Court_input = raw_input("Enter Court with Canadian Jurisdiction: \n")
-		Ct = CleanUpCourt(CleanUp(Court_Input)) 
+		Ct = CleanUpCourt(CleanUp(Court_Input), Citation_Input) 
 		Ct = TakeOutJurisdiction(Ct, OneBest)
 		JudgementDate = CleanUp(Date_input)
 		OUTPUT = ' ('+ JudgementDate + '), ' + OneBest +' (' + Ct + ')'#combine all of this in the right way
 	if CitationDate and not Court: 
-		print "CITATIONDATE AND NOT COURT DETECTED ****"
+		#print "CITATIONDATE AND NOT COURT DETECTED ****"
 		#Court_input = raw_input("Enter Court with Canadian Jurisdiction: \n")
-		Ct = CleanUpCourt(CleanUp(Court_Input)) 
+		Ct = CleanUpCourt(CleanUp(Court_Input), Citation_Input) 
 		Ct = TakeOutJurisdiction(Ct, OneBest)
 		Date_input = raw_input("Enter Date: \n")
 		JudgementDate = CleanUp(Date_input)
@@ -1126,9 +1214,9 @@ def GetHistoryCitations(Citation_Input, Court_Input, Date_Input):
 		else:
 			OUTPUT = ' ('+ JudgementDate + '), ' + OneBest + ' (' + Ct+ ')'
 	if CitationDate and Court:
-		print "CITATIONDATE AND COURT DETECTED"
+		#print "CITATIONDATE AND COURT DETECTED"
 		OUTPUT = OneBest
-	print "Result:", OUTPUT
+	#print "Result:", OUTPUT
 	return OUTPUT
 
 
@@ -1162,7 +1250,7 @@ def GetCiting(SoC, Parallel, Year, Court):
 
 def GetLeaveToAppeal(array):
 	#[granted, courtappeal, citation/or docketnumber, input of docket]
-	Court = CleanUpCourt(array[1])
+	Court = CleanUpCourt(array[1], "no way; not a chance")
 	if re.search("Requested", CleanUp(array[0]), re.I):
 		return "leave to appeal to " + Court + " requested"
 	if re.search("Granted", CleanUp(array[0]), re.I):
