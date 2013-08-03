@@ -7,11 +7,7 @@
 from server.testyface import test123
 from server.formcode.webGrabber import *
 from server.formcode.CanadianCase import *
-<<<<<<< HEAD
 from server.subapplications.dbConnector import *
-=======
-from server.subapplications.signup import *
->>>>>>> 36252128df9cd3be1e01926159581c1602c89bb0
 from server.formHandler import *
 
 import web
@@ -21,18 +17,11 @@ from web import form
  
 # mapping. Each post request contains what to do.    '/' ,  'Index', '/signup', 'SignUp',
 urls = (
-<<<<<<< HEAD
     '/formInput', 'Index',	#
 	'/about', 'About',
 	'/form', app_formHandler,
 	'/login', app_signup,
 	'/register', 'Register',
-=======
-    '/formInput', 'Index',	
-	'/about', 'About',
-	'/form', app_formHandler,
-	'/register', app_signup,
->>>>>>> 36252128df9cd3be1e01926159581c1602c89bb0
 	'/', 'Index'
 
 )
@@ -70,15 +59,7 @@ class Index(object):
 		webURL = "%s" % (form.styleofcause)
 		return webURL
 
-<<<<<<< HEAD
-'''
-signup_form = form.Form(
-						form.Textbox('username', 
-						form.Validator('Username already exists.', lambda x: x not in users.keys()), description='Username:'),
-						form.Password('password', description='Password:'),
-						form.Password('password_again', description='Repeat your password:'),
-						validators = [form.Validator("Passwords didn't match.", lambda i: i.password == i.password_again)])		
-'''			
+	
 passwords_match = form.Validator("Passwords didn't match.", lambda i: i.password == i.password_again)			
 username_required = form.Validator("Username not provided", bool)
 password_required = form.Validator("Password not provided", bool)
@@ -123,13 +104,6 @@ class Register(object):
 def main():
 	app.internalerror = web.debugerror
 	string = app.run() 
-=======
-
-
-def main():
-	db = web.database(dbn='mysql', host='127.0.0.1', port=3306, user='root', pw='root', db='mydb')
-	string = app.run() #
->>>>>>> 36252128df9cd3be1e01926159581c1602c89bb0
 	print string
   
 if __name__ == "__main__":

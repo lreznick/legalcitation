@@ -7,13 +7,9 @@ urls = (
 	'/canlii', 'Canlii'
 )
 
-<<<<<<< HEAD
 def validator(array):
 	return 
 	
-=======
-
->>>>>>> 36252128df9cd3be1e01926159581c1602c89bb0
 class Canlii(object):
 	def POST(self):
 		form = web.input()
