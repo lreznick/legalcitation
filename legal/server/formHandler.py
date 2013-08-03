@@ -1,11 +1,20 @@
 import web
 import json
 from formcode.CanadianCase import *
+from formcode.webGrabber import *
+
 urls = (
 	'/parallel', 'Formparallel',
 	'/CanadianCase', 'Canada',
 	'/canlii', 'Canlii'
 )
+class FormContainer:
+	def __init__(self, type, form):
+		self.type 	= type
+		self.valid  	= False
+		self.errors 	= []  
+		self.form 	= form
+		
 
 def validator(array):
 	return 
@@ -46,47 +55,84 @@ class Formparallel(object):
 			data_string =json.dumps(data)
 			print 'JSON:', data_string
 			return data_string
-			
-def CanadianCase(form):	
-	print "in Canadian"
-	styleofcause		= "%s" % (form.styleofcause)
-	parallel				= "%s" % (form.parallel)
-	year					= "%s" % (form.year)
-	court					= "%s" % (form.court)
-	shortform 			= "%s" % (form.shortform)
-	judge 				= "%s" % (form.judge)
-	citingStyle 			= "%s" % (form.citing_styleofcause)
-	citingParallel		= "%s" % (form.citing_parallel)
-	citingYear 			= "%s" % (form.citing_year)
-	citingCourt			= "%s" % (form.citing_court)
+
+def CreateFormClass(type,form):
+	f = FormContainer(type,form)
+	return f
 	
-	pinciteSelection  = "%s" % (form.pincite_selection)
-	pinciteRadio		= "%s" % (form.pincite_radio)
-	pinciteInput		= "%s" % (form.pincite_input)	
+def GenerateErrorMsg(formContainer, inputName,input, message, ):
+	error = [inputName, input, message]
+	formContainer.errors.append(error)
+	return
+	
+def Validate(regex, string):
+	if regex.search(string): return True
+	return False
+	
+regexStyle = re.compile(ur'^[\wa-zA-Z0-9\.,;:\'!\$\^&\(\)<>\s]+$', flags = re.UNICODE)
+regexParallel = re.compile(ur'^[a-zA-Z0-9\.,;\'!\^&\(\)\]\[\s\u00E9\u00E8\u00C9\u00C8\u00C1\u00E1\u00F4]+$', flags = re.UNICODE)
+regexYear = re.compile(r'^(1[4-9][0-9]{2}|200[0-9]{1}|201[01234]{1})$')
+regexDigits = re.compile(r'^\d+$')
+regexCourt = re.compile(ur'^[a-zA-Z\.,\'\^&\(\)\]\[\s\u00E9\u00E8\u00C9\u00C8\u00C1\u00E1\u00F4\u00EE\u00F4\u00D4\u00E0\u00C2\u00E2]+$', flags = re.UNICODE)
+regexJudge = re.compile(ur'^[\wa-zA-Z\.,&\s]+$', flags = re.UNICODE)
+regexPinpoint = re.compile(r'^[0-9-,\s]*$')
+	
+def CanadianCase(form):	
+	print "\n\n\n\n\n\n\n\n\n\ ======in Canadian"
+	
+	b = "<b>"
+	b1 ="<\\b>"
+	
+	f = CreateFormClass("canadian case", form)
+	styleofcause		= "%s" % (f.form.styleofcause)
+	parallel				= "%s" % (f.form.parallel)
+	year					= "%s" % (f.form.year)
+	court					= "%s" % (f.form.court)
+	shortform 			= "%s" % (f.form.shortform)
+	judge 				= "%s" % (f.form.judge)
+	citingStyle 			= "%s" % (f.form.citing_styleofcause)
+	citingParallel		= "%s" % (f.form.citing_parallel)
+	citingYear 			= "%s" % (f.form.citing_year)
+	citingCourt			= "%s" % (f.form.citing_court)
+	
+	pinciteSelection  = "%s" % (f.form.pincite_selection)
+	pinciteRadio		= "%s" % (f.form.pincite_radio)
+	pinciteInput		= "%s" % (f.form.pincite_input)	
 	pincite 				= [pinciteSelection, pinciteRadio, "page", pinciteInput]	 #deal with	
 	#history 				= "%s" % (form.history) #list of lists
-	leaveSelection 	= "%s" % (form.leaveToAppeal_selection)
-	leaveCourt		 	= "%s" % (form.leaveToAppeal_court)
+	leaveSelection 	= "%s" % (f.form.leaveToAppeal_selection)
+	leaveCourt		 	= "%s" % (f.form.leaveToAppeal_court)
 	#leaveCitation  	= "%s" % (form.leaveToAppeal_citation)
-	leaveDocket	  	= "%s" % (form.leaveToAppeal_docket)
+	leaveDocket	  	= "%s" % (f.form.leaveToAppeal_docket)
 		
 	citations ="" 
 	leaveToAppeal =""
 	history =""
+	
+	#ValidateCanadianCase(f)
+	
 	#[granted, courtappeal, citation/or docketnumber, input of docket]
 	#leaveToAppeal = "%s" % (form.leaveToAppeal) #deal with
 	
 	
 	#========	Style of Cause
 	if styleofcause:
-		#if checkStyleOfCause(styleofcause)
-		print "set style" + styleofcause
-		styleofcause = GetStyleOfCause(styleofcause)
-	
+		if Validate(regexStyle, styleofcause):
+			styleofcause = GetStyleOfCause(styleofcause)
+		else:
+			GenerateErrorMsg(f,"styleofcause","", "The " +b+ "style of cause" + b1 +" is invalid.")
+			
+	else:
+		GenerateErrorMsg(f,"styleofcause","", "You must enter a " +b+ "style of cause." +b1)
+		
 	#======== Citations
 	if not (parallel and year and court):
-		print "exit 1"
-		return #with error
+		if not parallel:
+			GenerateErrorMsg(f,"parallel","", "You must enter a " +b+ "Parallel Citation."+b1)
+		if not year:
+			GenerateErrorMsg(f,"year","", "You must enter a " +b+ "year."+b1)			
+		if not court:
+			GenerateErrorMsg(f,"court","", "You must enter a" +b+ " court."+b1)						
 	else:
 		#checkCitations(parallel, court, year, pincite)
 		if pinciteSelection:

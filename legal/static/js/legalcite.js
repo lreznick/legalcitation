@@ -14,7 +14,7 @@ Set Up
             var re = new RegExp(regexp);
             return this.optional(element) || re.test(value);
         },
-        "Detected an invalid character"
+        "Detected an invalid character."
 	);
 	 //adding a method that allows regular expressions to check for validation
  jQuery.validator.addMethod(
@@ -175,7 +175,7 @@ Form Events
 jQuery('#pinciteWrapper').tooltip({
 	trigger: 'hover',
 	placement: 'right',
-	title: "filling out Parallel Citations will enable this"
+	title: "Fill out Parallel Citations before pinpointing."
 });
 
 jQuery('#pincite-selection').change(function(){
@@ -366,11 +366,11 @@ $(function() {
 Validations 
 =============================================
 */		
-	var regex_style 		= /^[a-zA-Z0-9.,;:'!@#$%^&()<>ßÄÖÜäöüÑñÉéÈèÁáÀàÂâŶĈĉĜĝŷÊêÔôÛûŴŵ\s]*$/
+	var regex_style 		= /^[a-zA-Z0-9.,;:'!@#$%^&()<>-ßÄÖÜäöüÑñÉéÈèÁáÀàÂâŶĈĉĜĝŷÊêÔôÛûŴŵ\s]*$/
 	var regex_parallel 	= /^[a-zA-Z0-9.,;'&()ÉéÈèÁáô\[\]\s]*$/
-	var regex_year 		= /^[a-zA-Z0-9.,;'&()ÉéÈèÁáô\[\]\s]*$/
+	var regex_year 		= /^(1[4-9][0-9]{2}|200[0-9]{1}|201[01234]{1})$/
 	var regex_digits 	=/^\d+$/
-	var regex_court 		=/^[a-zA-Z\s.()éÉÈèîÎôÔÁáÀàÂâ]*$/
+	var regex_court 		=/^[a-zA-Z\s.()-éÉÈèîÎôÔÁáÀàÂâ]*$/
 	var regex_judge		=/^[a-zA-Z\s.éÉÈèîÎôÔÁáÀàÂâ]*$/
 	// Validates the form to check if a form works or not
 	// Note: rules are based on name of form
@@ -410,7 +410,7 @@ Validations
 					maxlength:10,	
 					regex: regex_judge
 				},
-				
+				//Citing======
 				citing_styleofcause:{
 					maxlength:10,	
 					regex: regex_style
@@ -428,10 +428,10 @@ Validations
 					maxlength:10,	
 					regex: regex_court, 
 				},
+				//History======
 				history_parallel:{
 					maxlength:250,	
 					regex: regex_parallel, 
-				
 				},
 				history_year: {
 					maxlength:4,	
@@ -441,8 +441,41 @@ Validations
 				history_court: {
 					maxlength:250,	
 					regex: regex_court,
-				},				
-				
+				},	
+				history_parallel2:{
+					maxlength:250,	
+					regex: regex_parallel, 
+				},
+				history_year2: {
+					maxlength:4,	
+					regex2: regex_digits,
+					regex: regex_year,	
+				},
+				history_court2: {
+					maxlength:250,	
+					regex: regex_court,
+				},		
+				history_parallel3:{
+					maxlength:250,	
+					regex: regex_parallel, 
+				},
+				history_year3: {
+					maxlength:4,	
+					regex2: regex_digits,
+					regex: regex_year,	
+				},
+				history_court3: {
+					maxlength:250,	
+					regex: regex_court,
+				},					
+				leaveToAppeal_docket: {
+					maxlength:20,	
+					regex: /^[\d,-\s]*$/,
+				},		
+				leaveToAppeal_court:{
+					maxlength:250,	
+					regex: regex_court,
+				},					
 
 			},
 			highlight: function(element) {
@@ -457,40 +490,80 @@ Validations
 			},
 			messages: { 
 				styleofcause: {
-					maxlength: "Maximum length: 250 characters",
-					regex: "detected an invalid character",
+					maxlength: "Maximum length: 250 characters.",
 					required: " "
 				},
 				parallel: {
-					maxlength: "Maximum length: 250 characters",
-					regex: "detected an invalid character",
+					maxlength: "Maximum length: 250 characters.",
 					required: " "
 				},
 				year: {
-					maxlength: "Maximum length: 4 characters",
-					regex: "Enter a year between 1400 and 2014",
-					regex2: "digits only, please",
+					maxlength: "Maximum length: 4 characters.",
+					regex: "Enter a year between 1400 and 2014.",
+					regex2: "Digits only, please.",
 					required: " "
 				},
 				court: {
-					maxlength: "Maximum length: 250 characters",
-					regex: "detected an invalid character",
+					maxlength: "Maximum length: 250 characters.",
 					required: " "
 				},
 				shortform: {
-					maxlength: "Maximum length: 100 characters",
-					regex: "detected an invalid character",
+					maxlength: "Maximum length: 100 characters.",
 					required: " "
 				},		
 				pincite_input:{
-					maxlength: "Maximum length: 10 characters",
-					regex: "digits only, please"
+					maxlength: "Maximum length: 10 characters.",
+					regex: "Digits only, please."
 				},
 				citing_year:{
-					maxlength: "Maximum length: 4 characters",
-					regex: "Enter a year between 1400 and 2014",
-					regex2: "digits only, please",
+					maxlength: "Maximum length: 4 characters.",
+					regex: "Enter a year between 1400 and 2014.",
+					regex2: "Digits only, please.",
 				},
+				citing_court:{
+					maxlength: "Maximum length: 10 characters.",	
+				},
+				//History======
+				history_parallel:{
+					maxlength: "Maximum length: 250 characters.",
+				},
+				history_year: {
+					maxlength:"Maximum length: 4 characters.",	
+					regex:"Enter a year between 1400 and 2014.",
+					regex2:"Digits only, please.",
+				},
+				history_court: {
+					maxlength:"Maximum length: 250 characters.",	
+				},	
+				history_parallel2:{
+					maxlength: "Maximum length: 250 characters.",
+				},
+				history_year2: {
+					maxlength:"Maximum length: 4 characters.",	
+					regex:"Enter a year between 1400 and 2014.",
+					regex2:"Digits only, please.",
+				},
+				history_court2: {
+					maxlength:"Maximum length: 250 characters.",	
+				},	
+				history_parallel3:{
+					maxlength: "Maximum length: 250 characters.",
+				},
+				history_year3: {
+					maxlength:"Maximum length: 4 characters.",	
+					regex:"Enter a year between 1400 and 2014.",
+					regex2:"Digits only, please.",
+				},
+				history_court3: {
+					maxlength:"Maximum length: 250 characters.",	
+				},					
+				leaveToAppeal_docket: {
+					maxlength:"Maximum length: 20 characters.",	
+					regex:"Digits only, please.",
+				},		
+				leaveToAppeal_court:{
+					maxlength:"Maximum length: 250 characters.",	
+				}				
 			}
 		}); 
 	
@@ -638,23 +711,7 @@ Reporter List
 		}
 	});
 	
-/*
-=============================================
 
-=============================================
-*/
-var uniNumber;
-$('.uni').hover(function() {
-		uniNumber = $(this).attr("src");
-		var patt =/\d+/;
-		uniNumber = patt.exec(uniNumber);
-		//console.log("string " + uniNumber);
-		
-		$(this).attr("src", "./static/img/uni/"+ uniNumber + ".png");
-		
-   },function(){
-           $(this).attr("src", "./static/img/uni/"+uniNumber +"d.png");
-	});
 
 	
 	

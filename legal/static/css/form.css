@@ -94,7 +94,7 @@ color: #333333;
 
 label.valid {
   width: 24px;
-  height: 24px;
+  margin:0 auto;
   background: url(../img/valid.png) center center no-repeat;
   display: inline-block;
   text-indent: -9999px;
@@ -102,8 +102,8 @@ label.valid {
 label.error {
   font-weight: bold;
   color: red;
-  padding: 2px 8px;
-  margin-top: 2px;
+  padding: 0px 2px;
+
 }
 
 button.browsebutton { 

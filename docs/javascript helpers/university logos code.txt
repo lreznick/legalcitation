@@ -1,0 +1,76 @@
+/*
+=============================================
+
+=============================================
+*/
+var uniNumber;
+$('.uni').hover(function() {
+		uniNumber = $(this).attr("src");
+		var patt =/\d+/;
+		uniNumber = patt.exec(uniNumber);
+		//console.log("string " + uniNumber);
+		
+		$(this).attr("src", "./static/img/uni/"+ uniNumber + ".png");
+		
+   },function(){
+           $(this).attr("src", "./static/img/uni/"+uniNumber +"d.png");
+	});
+
+
+	
+	<div class="container">
+		<table id="university-logos">
+			<tr>
+				<td>
+					<img src ="./static/img/uni/1d.png" class = "uni"> 
+				</td>
+				<td>
+					<img src ="./static/img/uni/2d.png" class = "uni"> 
+				</td>
+				<td>
+					<img src ="./static/img/uni/3d.png" class = "uni"> 
+				</td>
+				<td>
+					<img src ="./static/img/uni/4d.png" class = "uni"> 
+				</td>
+				<td>
+					<img src ="./static/img/uni/5d.png" class = "uni"> 
+				</td>				
+			</tr>
+			<tr>
+
+				<td>
+					<img src ="./static/img/uni/6d.png" class = "uni"> 
+				</td>				
+				<td>
+					<img src ="./static/img/uni/7d.png" class = "uni"> 
+				</td>
+				<td>
+					<img src ="./static/img/uni/8d.png" class = "uni"> 
+				</td>	
+				<td>
+					<img src ="./static/img/uni/9d.png" class = "uni"> 
+				</td>
+				<td>
+					<img src ="./static/img/uni/10d.png" class = "uni"> 		
+				</td>
+			</tr>	
+			<tr>			
+				<td>
+					<img src ="./static/img/uni/11d.png" class = "uni"> 
+				</td>
+				<td>
+					<img src ="./static/img/uni/12d.png" class = "uni"> 
+				</td>	
+				<td>
+					<img src ="./static/img/uni/13d.png" class = "uni"> 
+				</td>	
+				<td>
+					<img src ="./static/img/uni/14d.png" class = "uni"> 
+				</td>
+				<td>
+					<img src ="./static/img/uni/15d.png" class = "uni"> 		
+				</td>			
+			</tr>							
+		</table>
+		</div>
