@@ -24,7 +24,7 @@ Installation
 ============
 To install from source using ``setup.py``::
 
-   python setup.py install
+   p
 
 For more detailed installation & testing instructions, see "docs/install.rst"
 
