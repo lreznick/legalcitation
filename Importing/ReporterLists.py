@@ -42,18 +42,18 @@ print "Other Length", len(Other)'''
 
 
 
-
+'''
 #US
 SupCt = ['US', 'S Ct', 'L Ed 2d', 'USLW']
 Fed = ['F', 'F Supp']
-
+'''
 
 Other = []
 
 print "Other:\n"
 b = 1
 for x in ALL:
-	if any(re.search(r'(USA|International)', j, re.I) for j in x[2]):
+	if any(re.search(r'(United Kingdom|Scotland|Ireland|International)', j, re.I) for j in x[2]):
 		print b,". ",x[0], "\t\t", x[1]
 		Other.append(x[0])
 		b+=1

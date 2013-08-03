@@ -210,8 +210,10 @@ def regstr(i):#i is a string input
 	thr = r'\s'+i+ r'\s'
 	fou = r'^' +i+ r'\s'
 	fiv = r'\('+i+ r'\)'
-	string =  r'('+ one + r'|' + two + r'|' + thr + r'|' + fou + r'|' + fiv + r')'
+	six = r'\['+i+ r'\]'
+	string =  r'('+ one + r'|' + two + r'|' + thr + r'|' + fou + r'|' + fiv + r'|' + six + r')'
 	return string
+
 
 #Puts in the references and the Jurisdiction if not already there
 #Shortens "In Re" etc to just "Re"
@@ -344,8 +346,9 @@ def regstrElec(i):#i is a string input
 	thr = r'\s'+i+ r'\s'
 	fou = r'^' +i+ r'\s'
 	fiv = r'\('+i+ r'\)'
-	six = r'^'+i+ r'$'
-	string =  r'('+ one + r'|' + two + r'|' + thr + r'|' + fou + r'|' + fiv + r'|' + six + r')'
+	six = r'\['+i+ r'\]'
+	sev = r'^'+i+ r'$'
+	string =  r'('+ one + r'|' + two + r'|' + thr + r'|' + fou + r'|' + fiv + r'|' + six + r'|' + sev + r')'
 	return string
 
 
@@ -601,18 +604,6 @@ def ChooseBestReporters(Citation_Input, pincite): # choose the best reporter out
 	else:
 		return First[0]+", " + Second[0]
 
-#CleanUp gets rid of all periods, excess spaces, and leading or trailing spaces in a string, and fixes spaces after commas	
-def CleanUp(string):
-	NoPeriods = re.sub('\.+','', string)              #Remove all periods
-	Comma     = re.sub('\s*?,\s*?', ', ', NoPeriods)  #put a space after a comma instead of multiple spaces or no space
-	LBracket  = re.sub('\s*?\(', ' (', Comma)        #put a space before a left bracket instead of multiple spaces or no space
-	RBracket  = re.sub('\)\s*?', ') ', LBracket)     #put a space after a right bracket instead of multiple spaces or no space
-	Colon     = re.sub('\s*?:\s*?', ': ', RBracket)   #put a space after a comma instead of multiple spaces or no space
-	SemiColon = re.sub('\s*?;\s*?', '; ', Colon)      #put a space after a semicolon instead of multiple spaces or no space
-	Spaces    = re.sub(' +',' ', SemiColon)           #Remove excess white spaces
-	Strip     = Spaces.strip()                        #Remove leading or trailing white spaces
-	return Strip
-			
 
 #takes in a correctly formatted citation and checks if there is a court in it
 # if there is a court, return it
@@ -901,7 +892,7 @@ def TakeOutJurisdiction(Ct, Cite):
 def PullDate(string):
 	FirstSearch = re.search(r'(\(?\[?)(1[4-9][0-9]{2}|200[0-9]{1}|201[01234]{1})(\)?\]?,?\s([A-Z]|\d{1,3}\s)[A-Za-z\s]{2})', string) #ex 2008 NBCA or (1843) Ex Ctf
 	if FirstSearch:
-		print "***** Detected on search 1: ", FirstSearch.group(), FirstSearch.group(1), FirstSearch.group(2), FirstSearch.group(3)
+		print "***** Detected on search 1: ", FirstSearch.group(2)
 		return FirstSearch.group(2)
 	All = re.findall(r'([^\d]{1}|^|\s)(1[4-9][0-9]{2}|200[0-9]{1}|201[01234]{1})([^\d]{1}|$|\s)', string)
 	if not All:
@@ -919,13 +910,10 @@ def PullDate(string):
 #the input is what is written in the form for parallel citations
 def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 	print "\n****** Starting GetCitations"
-	print "input is:"
-	print "citation string: ", Citation_Input
-	print "court: ", Court_Input
-	print "date: ", Date_Input
-	print "pincite: ", pincite, "\n"
+	print "\n****** Starting GetCitations"
+	print "input is:\n", "citation string: ", Citation_Input, "\n", "court: ", Court_Input, "\n", "date: ", Date_Input, "\n", "pincite: ", pincite, "\n"
 	if not Citation_Input:
-		", ERROR: missing citation input"
+		return "ERROR: missing citation input"
 	if not Court_Input:
 		return ", ERROR: missing court input"
 	if not Date_Input:
@@ -992,6 +980,14 @@ def BestReporter(Citation_Input): # choose the best reporter out of all of the o
 	m = re.split('[,;]', PC) # 	#Split the citations based on positioning of commas and semicolons
 	print "m: ", m
 	for x in range(len(m)): m[x] = CleanUp(m[x]) #remove excess white spaces on either side
+	series = ["2d", "3d", "4th", "5th", "6th", "7th", "8th"]
+	for x in range(len(m)): #replace "2d" with "(2d)", etc (i.e. put them in brackets
+		for s in series:
+			match = re.search(' '+s+' ', m[x], re.I)
+			if match:
+				print "Found a series number without brackets"
+				m[x] = re.sub(match.group(), ' ('+s+') ', m[x])
+				break
 	Present = 2013
 	NC = [['SCC', 2000, Present], ['FC', 2001, Present], ['FCA', 2001, Present], ['TCC', 2003, Present], ['CMAC', 2001, Present], ['Comp Trib', 2001, Present], ['CHRT', 2003, Present], ['PSSRB', 2000, Present], ['ABCA', 1998, Present], ['ABQB', 1998, Present], ['ABPC', 1998, Present], ['ABASC', 2004, Present], ['BCCA', '1999', Present], ['BCSC', 2000, Present], ['BCPC', 1999, Present], ['BCHRT', 2000, Present], ['BCSECCOM', 2000, Present], ['MBCA', 2000, Present], ['MBQB', 2000, Present], ['MBPC', 2007, Present], ['NBCA', 2001, Present], ['NBQB', 2002, Present], ['NBPC', 2002, Present], ['NWTCA', 1999, Present], ['NWTSC', 1999, Present], ['NWTTC', 1999, Present], ['NSCA', 1999, Present], ['NSSC', 2000, Present], ['NSSF', 2001, Present], ['NSPC', 2001, Present], ['NUCJ', 2001, Present], ['NUCA', 2006, Present], ['ONCA', 2007, Present], ['ONSC', 2010, Present], ['ONCJ', 2004, Present], ['ONWSIAT', 2000, Present], ['ONLSAP', 2004, Present], ['ONLSHP', 2004, Present], ['PESCAD', 2000, Present], ['PESCTD', 2000, Present], ['QCCA', 2005, Present], ['QCCS', 2006, Present], ['QCCP', 2006, Present], ['QCTP', 1999, Present], ['CMCQ', 2000, Present], ['QCCRT', 2002, Present], ['SKCA', 2000, Present], ['SKQB', 1999, Present], ['SKPC', 2002, Present], ['SKAIA', 2003, Present], ['YKCA', 2000, Present], ['YKSC', 2000, Present], ['YKTC', 1999, Present], ['YKSM', 2004, Present], ['YKYC', 2001, Present]]
 	Official = [["Ex CR", 1875, 1970], ["FCR", 1971, Present], ["SCR", 1876, Present]]

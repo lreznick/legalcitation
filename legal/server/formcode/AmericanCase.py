@@ -752,6 +752,8 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 	print "input is:\n", "citation string: ", Citation_Input, "\n", "court: ", Court_Input, "\n", "date: ", Date_Input, "\n", "pincite: ", pincite, "\n"
 	if not Citation_Input:
 		return "ERROR: missing citation input"
+	if not Date_Input:
+		return ", ERROR: missing date input"
 	if not Court_Input:
 		SC = False
 		SupremeCourtReporters = ['US', 'S Ct', 'L Ed 2d', 'USLW']#order is important
