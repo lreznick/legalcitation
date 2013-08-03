@@ -78,12 +78,27 @@ body{
 	background-color:grey;
 
 }
+
+#entire-body{
+	position: relative;
+	width:1198px;
+	margin: 0 auto;
+	
+	
+}
+#titlebar-edge{
+	
+	position: relative;
+	width:1198px;
+	margin: 0 auto;
+	top: 22px;
+	opacity: 0.48;
+}
 #white-page{
 	z-index: 1;
 	margin: 0 auto;
 	position: relative;
-	top: 0;
-
+	top: -56px;
 	width: 1100px;
 	background-color:white;
 
@@ -114,17 +129,7 @@ body{
 	background:#fbfbfb;
 	
 }
-#titlebar-edge{
-	z-index: 2;		
-	
-	position: absolute;
-	width:1198px;
-	left:50%;
-    margin-left:-599px;
-	margin-top: 20px;
-	
-	opacity: 0.48;
-}
+
 
 
 .inner-titlebar{

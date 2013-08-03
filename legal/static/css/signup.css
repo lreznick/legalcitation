@@ -1,18 +1,22 @@
 #signup{
+	position: relative;
+	left: 620px;
+	top: 420px;
 	width:300px;
 }
 #signup-title{
 	font-family:RalewayReg;
 	font-size: 25px;
-	top: 20px;
+
 	color: white;
 
 }
 .signup-titlebar{
-	height: 40px;
+	height: 30px;
 	background:#e85a56;
 	width:100%;
 	margin-bottom:20px;
+	padding-top: 10px;
 	text-align:center;
 		vertical-align:middle;
 

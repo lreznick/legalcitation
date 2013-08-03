@@ -86,14 +86,17 @@ def insert_new_user(user_email, password):
 				
 				#print list(results)
 				if not list(results):
+					stringhash = '$6$rounds=8522$vPs3OVkyt6T2hcAL$B677TcZH9/R2afqQReyQ6oCfzsuq4y1ZxnZQuU68DSGxFGtmMX1SUP50PQVdWn85FpsOdyJ4gXVBkIs0/AuDw1'
 					hashobj = PasswordHash(password)
 					#print "hash"
-					print len(hashobj.saltedpw)
-					print len(hashobj.salt)
+					print "pw", len(hashobj.saltedpw)
+					print "\n\n\n", hashobj.saltedpw
+					print "\n\n\n"
+					print "salt", len(hashobj.salt)
 					id = random.randint(33,1270)
-					print id
+					print "id" , id
 					#user1 = dict(user_email = email, user_ID = id , user_hash = hash.salt)
-					sequence_id = db.insert('users',  user_id = id, email = user_email, hash = hashobj.saltedpw, salt = hashobj.salt )
+					sequence_id = db.insert('users',  user_id = id, email = user_email, hash = hashobj.saltedpw, salt = hashobj.salt , create_date = web.SQLLiteral("NOW()"))
 					#sequence_id = db.insert('users',  user_id = "$id", email ="$user_email" ,vars = locals(), _test=True)#, joindate=web.SQLLiteral("NOW()") vars = {)
 					return "hooray"
 				else:
