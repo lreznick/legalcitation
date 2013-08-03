@@ -7,7 +7,11 @@
 from server.testyface import test123
 from server.formcode.webGrabber import *
 from server.formcode.CanadianCase import *
+<<<<<<< HEAD
 from server.subapplications.dbConnector import *
+=======
+from server.subapplications.signup import *
+>>>>>>> 36252128df9cd3be1e01926159581c1602c89bb0
 from server.formHandler import *
 
 import web
@@ -17,11 +21,18 @@ from web import form
  
 # mapping. Each post request contains what to do.    '/' ,  'Index', '/signup', 'SignUp',
 urls = (
+<<<<<<< HEAD
     '/formInput', 'Index',	#
 	'/about', 'About',
 	'/form', app_formHandler,
 	'/login', app_signup,
 	'/register', 'Register',
+=======
+    '/formInput', 'Index',	
+	'/about', 'About',
+	'/form', app_formHandler,
+	'/register', app_signup,
+>>>>>>> 36252128df9cd3be1e01926159581c1602c89bb0
 	'/', 'Index'
 
 )
@@ -59,6 +70,7 @@ class Index(object):
 		webURL = "%s" % (form.styleofcause)
 		return webURL
 
+<<<<<<< HEAD
 '''
 signup_form = form.Form(
 						form.Textbox('username', 
@@ -111,6 +123,13 @@ class Register(object):
 def main():
 	app.internalerror = web.debugerror
 	string = app.run() 
+=======
+
+
+def main():
+	db = web.database(dbn='mysql', host='127.0.0.1', port=3306, user='root', pw='root', db='mydb')
+	string = app.run() #
+>>>>>>> 36252128df9cd3be1e01926159581c1602c89bb0
 	print string
   
 if __name__ == "__main__":
