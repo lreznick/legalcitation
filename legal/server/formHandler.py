@@ -95,7 +95,7 @@ def CanadianCase(form):
 	citingYear 			= "%s" % (f.form.citing_year)
 	citingCourt			= "%s" % (f.form.citing_court)
 	
-	pinciteSelection  = "%s" % (f.form.pincite_selection)
+	pinciteSelection  = "%s" % (f.form.pincite_selection)#
 	pinciteRadio		= "%s" % (f.form.pincite_radio)
 	pinciteInput		= "%s" % (f.form.pincite_input)	
 	pincite 				= [pinciteSelection, pinciteRadio, "page", pinciteInput]	 #deal with	

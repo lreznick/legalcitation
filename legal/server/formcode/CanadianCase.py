@@ -800,6 +800,11 @@ def FindCourt(string):
 #returns list [Court, whether jurisdiction in the court name, in which case we do not run TakeOutJurisdiction******************* (True or False)]
 def CleanUpCourt(string):
 	print "***** Checking: ", string
+	print "Checking validation ..."
+	regexCourt = re.compile(ur'^[a-zA-Z\.,\'\^&\(\)\]\[\s\u00E9\u00E8\u00C9\u00C8\u00C1\u00E1\u00F4\u00EE\u00F4\u00D4\u00E0\u00C2\u00E2]+$', flags = re.UNICODE)
+	if not regexCourt.search(string): 
+		print string + " is invalid"
+		return [string, False]
 	'''************ LOOKING FOR NEUTRAL CITATION ************'''
 	NC = CheckForCourt(string)
 	if NC:

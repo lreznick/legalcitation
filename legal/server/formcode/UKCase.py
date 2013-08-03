@@ -440,7 +440,7 @@ def LawReports(Citation_Input):
 					string = CleanUp("[input year] " + x + " " + string)
 				if x == ("HL" or "PC"):
 					return [string, "court"]
-				else return [string, "no court"]
+				else: return [string, "no court"]
 		#if there is no proper instance of the law reports, see if the words LR or Law Reports are mentioned, and if so have a drop down menu
 		matchone = re.search(regstr("LR"), s, re.I)
 		matchtwo = re.search(regstr("Law Reports"), string, re.I)
@@ -449,9 +449,9 @@ def LawReports(Citation_Input):
 	return [string, "none"]
 
 #returns [string, "court"/"no court"]
-def InterpretLRInput(string):
+def InterpretLRInput(string):#how to do it when Law Reports (LR) are used
 	 "******** Starting InterpretLRInput **********"
-	print "Citation Input: ", Citation_Input
+	print "Input: ", string
 	KeepAsIs = [["Appeal Cases (AC)", 'AC'], ["Chancery (Ch)", "Ch"],["Common Pleas (CP)", "CP"], ["Exchequer (Ex)", "Ex"], ["Family (Fam)", "Fam"], ["Industrial Courts Reports (ICR)", "ICR"], ["King's Bench (KB)", ""], ["Probate (P)", "P"], ["Queen's Bench (QB)", "QB"], ["Law Reports Restrictive Practices (LR RP)", ""]]
 	Change = [["Admirality and Ecclesiastical Cases (A & E)", 'A & E'], ["Chancery Appeals (Ch App)", 'Ch App'], ['Crown Cases Reserved (CCR)', 'CCR'], ['Equity Cases (Eq)', 'Eq'], ['English and Irish Appeal Cases (HL)', 'HL'], ['Ireland (Ir)', 'Ir'], ['Privy Council (PC)', 'PC'], ['Scotch and Divorce Appeal Cases (Sc & Div)', 'Sc & Div']]
 	for x in KeepAsIs:
@@ -669,4 +669,4 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 	print "Result:", OUTPUT
 	return OUTPUT
 
-
+GetCitations("R v Woollin", "2004 UKHL 22, 2004 2 LR AC 457", "2004", False)
