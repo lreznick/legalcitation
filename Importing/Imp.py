@@ -55,13 +55,7 @@ def PullJurisdiction(string):
 	return Places
 
 
-def safe_str(obj):
-    """ return the byte string representation of obj """
-    try:
-        return str(obj)
-    except UnicodeEncodeError:
-        # obj is unicode
-        return unicode(obj).encode('unicode_escape')
+
 
 wbtwo = xlrd.open_workbook('beg.xls')
 shtwo = wbtwo.sheet_by_index(0)
@@ -69,11 +63,7 @@ shtwo = wbtwo.sheet_by_index(0)
 All = []
 Present = 2013
 
-def chunks(l, n):
-    """ Yield successive n-sized chunks from l.
-    """
-    for i in xrange(0, len(l), n):
-        yield l[i:i+n]
+
 
 def Format(Row):
 	s = safe_str(Row)
