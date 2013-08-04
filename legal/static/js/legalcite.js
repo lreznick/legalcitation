@@ -103,23 +103,26 @@ Form Submissions
 				url:'/form/CanadianCase',
 				dataType: 'json',
                 success: function(data) {
+					clearErrors("#canadacase-form")
 					console.log("the return data", data);
 					console.log("the return data", data[0].errors);
 					console.log("the return data", data[0].message);
 					 if( data[0].valid ==true) {
+						
 						var results = data[0].message; 
 						jQuery('#result-container').hide().fadeIn(200);
 						jQuery('#results').html(results).hide().fadeIn(400);
+						
 					 }
 					 else{
 
 						var errorlist=data[0].errors;
 						console.log("errorlist" + errorlist);
 					 	for (var i =0; i<errorlist.length; i++){
-							//#error = [inputName, input, message]
+							//error = [inputName, input, message]
 							var input = errorlist[i][1];
 							var message = errorlist[i][2];
-							generateErrorMessage("#canadacase-form",message)
+							generateErrorMessage("#canadacase-form",message);
 						}	
 						
 					 }
@@ -205,7 +208,11 @@ Form Submissions
                 },
 			});
 			}
-	})
+	});
+	
+	function clearErrors(form){
+		jQuery(form+' #error-container').html("");
+	}
 	
 	function generateErrorMessage(form,message){
 	html = "<div class=\"alert alert-error\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>"	+	message		+"</div>"
@@ -284,19 +291,9 @@ var tooltip_parallel				= tooltip_header + "Parallel Citations </div><font class
 var tooltip_year	                = tooltip_header + "Year of Decision    </div><font class = \"red\"> ex. 1985 </font><br>"
 var tooltip_court                 = tooltip_header + "Court                 </div><font class = \"red\"> ex. Alberta qb </font><br>Our recognition algorithm will format your input correctly. <br>"
 var tooltip_shortform     		= tooltip_header  + "Short Form      	</div><font class = \"red\"> ex. Van der Peet</font> <br>Use a short form to refer to the judgment later in your paper. <br>It is normally the first party name. <br>"
-<<<<<<< HEAD
-var tooltip_pincite            = tooltip_header + "Pinpoint             	</div><font class = \"red\"> ex. \"132\" <br>Use paragraphs where available, otherwise pages. <br>Use the radio button to indicate which reporter you are citing to."
-var tooltip_citeTo 	            = tooltip_header + "Cite To              </div><font class = \"red\"> ex. WWR (2d) </font><br>\"Cite to\" a reporter if you will pinpoint to it at some point other than the first instance of the citation. <br>"
-var tooltip_judge 				= tooltip_header  + "Judge               </div><font class = \"red\"> ex. Binnie J </font><br>CJC = Chief Justice of Canada <br>CJA = Chief Justice of Appeal <br>CJ = Chief Justice <br>JA = Justice of Appeal <br>JJA = Justices of Appeal <br>J = Justice <br>JJ = Justices <br>Mag = Magistrate <br>"
 
-var tooltip_history 	            = tooltip_header + "History              </div><font class = \"red\"> Affirming or Reversing <br> ex. \"2003 BCSC 14\" </font><br>Input minimum <b>one<\b> citation for the lower court judgement. <br><font class = \"red\">Affirmed or Reversed <br>ex. 2011 SCC 66, [2011] 3 SCR 837 <br>Input minimum <b>two<\b> citations for the upper court judgement. <br> "
-
-var tooltip_leavetoappeal    = tooltip_header + "Leave To Appeal </div> Granted: input court and pre-citation. <br> <font class = \"red\">ex. \"SCC, [2008] 1 SCR xiv\" <\font><br>Refused: input court and docket number. <br><font class = \"red\">ex. \"SCC, 23424 (November 20, 2009)\" <\font><br>Requested or As of right: input court. <br><font class = \"red\">ex. \"SCC\" </font><br>"
-
-=======
 //var tooltip_pincite_input     	= tooltip_header + "Pinpoint             	</div><font class = \"red\"> ex. 132 </font><br>Use paragraphs where available, otherwise pages. <br>Use the radio button to indicate which reporter you are citing to."
 var tooltip_pincite_input     	= tooltip_header + "Pinpoint             	</div><font class = \"red\"> ex. 132 </font><br>Use paragraphs where available, otherwise pages. <br>Use the radio button to indicate which reporter you are citing to.<br><br>"+ tooltip_header +  "Cite to </div> Use the radio buttons to select a reporter if you will pinpoint to it at some point other than the first instance of the citation. <br>"
->>>>>>> cb9bf6ffbbb86a4bcb7d0d1968ad18073e341278
 var tooltip_citing         		= tooltip_header  + "Citing               </div><font class = \"red\">  ex. Crevier v AG Quebec, [1981] 2 SCR 220; [1981] 127 DLR (3d) 1</font> <br>Use the citing feature if the main judgement cites a passage from another case, if appropriate. <br>"
 var tooltip_judge 				= tooltip_header  + "Judge               </div><font class = \"red\"> ex. Binnie J </font><br>CJC = Chief Justice of Canada <br>CJA = Chief Justice of Appeal <br>CJ = Chief Justice <br>JA = Justice of Appeal <br>JJA = Justices of Appeal <br>J = Justice <br>JJ = Justices <br>Mag = Magistrate <br>"
 //var tooltip_citeTo 	            = tooltip_header + "Cite To              </div><font class = \"red\"> ex. WWR (2d) </font><br>\"Cite to\" a reporter if you will pinpoint to it at some point other than the first instance of the citation. <br>"
