@@ -3,7 +3,7 @@ import re #regexs
 from formcode.CanadianCase import *
 
 b = "<b>"
-b1 ="<\\b>"
+b1 ="</b>"
 
 def ErrorMsgInvalid(string):
 	return "The " +b+ string+ b1 +" is invalid."
@@ -19,7 +19,7 @@ def ErrorMsgCiting():
 	return "The "+b+"citing option" + b1 + " must either be completed or left empty."
 
 	
-def GenerateErrorMsg(formContainer, inputName,input, message, ):
+def GenerateErrorMsg(formContainer, inputName, input, message, ):
 	error = [inputName, input, message]
 	formContainer.errors.append(error)
 	print "creating new error"

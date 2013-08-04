@@ -1,5 +1,22 @@
     // <!-- input#input01 accesses the input of id input01 -->
 jQuery(document).ready(function() {
+
+/*
+=============================================
+THE TESTING BUTOON!!!!!!=================================================
+=============================================
+*/		
+jQuery("#thetestbutton").click(function(){
+
+	generateErrorMessage("#canadacase-form","oh noes")
+
+})
+/*
+=============================================
+THE TESTING BUTOON!!!!!!=================================================
+=============================================
+*/
+
 	 
 /*
 =============================================
@@ -76,6 +93,42 @@ Form Submissions
 			});
 			return false; 	
 	});
+		//Submitting the information to the server to be processed
+	jQuery('#GoButton').click(function() {
+            //generateErrorMessage("#canadacase-form","oh noes")
+
+            jQuery.ajax({ 
+                type: "POST", 
+                data: jQuery('#canadacase-form').serialize(),
+				url:'/form/CanadianCase',
+				dataType: 'json',
+                success: function(data) {
+					console.log("the return data", data);
+					console.log("the return data", data[0].errors);
+					console.log("the return data", data[0].message);
+					 if( data[0].valid ==true) {
+						var results = data[0].message; 
+						jQuery('#result-container').hide().fadeIn(200);
+						jQuery('#results').html(results).hide().fadeIn(400);
+					 }
+					 else{
+
+						var errorlist=data[0].errors;
+						console.log("errorlist" + errorlist);
+					 	for (var i =0; i<errorlist.length; i++){
+							//#error = [inputName, input, message]
+							var input = errorlist[i][1];
+							var message = errorlist[i][2];
+							generateErrorMessage("#canadacase-form",message)
+						}	
+						
+					 }
+					 
+
+                },
+			});
+			return false; 
+	});
 	
 	jQuery('#CanadaCaseParallel').blur(function(){
 			var parallelValue = jQuery(this).val();
@@ -131,14 +184,7 @@ Form Submissions
 					}
 					
                 },
-				
-	/*			ONE
-- only allow pinpoint page or pinpoint para or nothing. Do not allow cite to
-
-NEUTRAL
-- only allow pinpoint para or nothing. Do not allow pinpoint page or cite to.
-
- */
+			
 			});
 			}
 	})
@@ -160,23 +206,13 @@ NEUTRAL
 			});
 			}
 	})
-			//Submitting the information to the server to be processed
-	jQuery('#GoButton').click(function() {
-            //var input_string = jQuery("input#testingcases").val();
-		   
-           // console.log("input"+ input_string);
-            jQuery.ajax({ 
-                type: "POST", 
-                data: jQuery('#canadacase-form').serialize(),
-				url:'/form/CanadianCase',
-                success: function(data) {
-					console.log("the return data", data);
-					jQuery('#result-container').hide().fadeIn(200);
-					jQuery('#results').html(data).hide().fadeIn(400);
-                },
-			});
-			return false; 
-	});
+	
+	function generateErrorMessage(form,message){
+	html = "<div class=\"alert alert-error\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>"	+	message		+"</div>"
+			jQuery(form+' #error-container').append(html);
+			//jQuery('#reporter-table').html(outputstring);
+	}
+
 		
 /*
 =============================================
@@ -342,6 +378,10 @@ jQuery('#CanadaCaseLeaveToAppeal').focus(function(){
 jQuery('#CanadaCaseSubnom').focus(function(){
 	jQuery('#tooltips').html(tooltip_subNom);
 });
+
+
+
+
 
 /*
 =============================================

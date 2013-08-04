@@ -16,6 +16,7 @@ class FormContainer:
 		self.type 		= type
 		self.valid  		= True
 		self.errors 		= []  
+		#error = [inputName, input, message]
 		self.warnings 	= []  
 		self.form 		= form
 
@@ -77,6 +78,7 @@ class FormParallel(object):
 def CanadianCase(form):	
 	print "\n\n======in Canadian"
 	f = CreateFormClass("canadian case", form)	
+	print form
 
 	styleofcause		= "%s" % (f.form.styleofcause)
 	parallel				= "%s" % (f.form.parallel)
@@ -84,7 +86,7 @@ def CanadianCase(form):
 	court					= "%s" % (f.form.court)
 	shortform 			= "%s" % (f.form.shortform)
 	judge 				= "%s" % (f.form.judge)
-	dissenting			= "%s" % (f.form.judge_dissenting)
+	#dissenting			= "%s" % (f.form.judge_dissenting)
 	
 	citingStyle 			= "%s" % (f.form.citing_styleofcause)
 	citingParallel		= "%s" % (f.form.citing_parallel)
@@ -119,56 +121,63 @@ def CanadianCase(form):
 	history =""
 	
 	ValidateCanadianCase(f)
-	
-	#[granted, courtappeal, citation/or docketnumber, input of docket]
-	#leaveToAppeal = "%s" % (form.leaveToAppeal) #deal with
-	
-	
-	#========	Style of Cause
-	if styleofcause:
-			styleofcause = GetStyleOfCause(styleofcause)
+	if f.valid:
+		#[granted, courtappeal, citation/or docketnumber, input of docket]
+		#leaveToAppeal = "%s" % (form.leaveToAppeal) #deal with
 		
-	#======== Citations
-	if not (parallel and year and court):				
-		return
-	else:
-		#checkCitations(parallel, court, year, pincite)
-		if pinciteSelection:
-			# do dropdown
-			if (pinciteSelection =="citeTo"):
-				print "exit cite-to"
-				return			
-				#citeTo = GetCiteTo(pincite)				
-		citations = GetCitations(parallel, court, year, pincite)
-	
-	#======== Citations
-	if (citingStyle == citingParallel == citingYear == citingCourt):
-		print "exit citing"
 		
-	else:
-		if (citingStyle and  citingParallel and citingYear and citingCourt):
-			#checkCiting(citingStyle, citingParallel, citingYear, citingCourt)
-			citing = GetCiting(citingStyle, citingParallel, citingYear, citingCourt)
+		#========	Style of Cause
+		if styleofcause:
+				styleofcause = GetStyleOfCause(styleofcause)
+			
+		#======== Citations
+		if not (parallel and year and court):				
+			return
 		else:
-			print "didnt fully fill out citing"
-	
-	#check history -> see if its all completed
-	#validatehistory
-	#if history:
-		#history = GetHistory(history)
-	
-	if shortform:
-		shortform = GetShortForm(shortform)
+			#checkCitations(parallel, court, year, pincite)
+			if pinciteSelection:
+				# do dropdown
+				if (pinciteSelection =="citeTo"):
+					print "exit cite-to"
+					return			
+					#citeTo = GetCiteTo(pincite)				
+			citations = GetCitations(parallel, court, year, pincite)
 		
-	if judge:
-		judge = GetJudge(judge,dissenting)	
+		#======== Citations
+		if (citingStyle == citingParallel == citingYear == citingCourt):
+			print "exit citing"
+			
+		else:
+			if (citingStyle and  citingParallel and citingYear and citingCourt):
+				#checkCiting(citingStyle, citingParallel, citingYear, citingCourt)
+				citing = GetCiting(citingStyle, citingParallel, citingYear, citingCourt)
+			else:
+				print "didnt fully fill out citing"
+		
+		#check history -> see if its all completed
+		#validatehistory
+		#if history:
+			#history = GetHistory(history)
+		
+		if shortform:
+			shortform = GetShortForm(shortform)
+			
+		if judge:
+			judge = GetJudge(judge,dissenting)	
 
-	if leaveToAppeal:
-		#check leaveToAppeal	
-		leaveToAppeal = GetLeaveToAppeal(leaveToAppeal)
-	
-	returnString = styleofcause + citations +judge + shortform + leaveToAppeal + history
-	print returnString
-	return returnString #http://localhost:8080/static/img/intropage.jpg			
+		if leaveToAppeal:
+			#check leaveToAppeal	
+			leaveToAppeal = GetLeaveToAppeal(leaveToAppeal)
+		
+		returnString = styleofcause + citations +judge + shortform + leaveToAppeal + history
+		print returnString
+	else:
+		returnString =""
+		
+	data = [ {'message':returnString, 'valid':f.valid, 'errors':f.errors}]
+	data_string =json.dumps(data)
+	print 'JSON:', data_string
+	#return returnString #http://localhost:8080/static/img/intropage.jpg			
+	return data_string
 
 app_formHandler = web.application(urls, locals())
