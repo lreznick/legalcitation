@@ -35,6 +35,11 @@ Set Up
 	jQuery("#history3").hide();
 	jQuery("#history2").hide();
 	
+	jQuery('#pinciteWrapper').tooltip({
+		trigger: 'hover',
+		placement: 'right',
+		title: "Fill out Parallel Citations before pinpointing."
+	});
 	
 	//jQuery("#CanadaCaseHistory-Group").hide();
 	
@@ -74,7 +79,9 @@ Form Submissions
 	
 	jQuery('#CanadaCaseParallel').blur(function(){
 			var parallelValue = jQuery(this).val();
-			if (parallelValue != ""){			
+				
+			if (parallelValue != ""){	
+			
             jQuery.ajax({ 
                 type: "POST", 
 				url: '/form/parallel',
@@ -82,12 +89,15 @@ Form Submissions
 				dataType: 'json',
                 success: function(data) {
 					$('#pincite-selection').removeAttr('disabled');
+					jQuery('#pinciteWrapper').tooltip('disable');	
 					$('#pinciteWrapper').remove();
-					jQuery('#pinciteWrapper').tooltip('destroy');
 					
-					
-					jQuery('#CanadaCaseDate').val(data[0].date);
-					jQuery('#CanadaCaseCourt').val(data[0].court);
+					if (data[0].date != false){
+						jQuery('#CanadaCaseDate').val(data[0].date);
+					}
+					if (data[0].court != false){
+						jQuery('#CanadaCaseCourt').val(data[0].court);
+					}
 					console.log("reporter 1::"+ data[0].reporters[0][0]);
 					console.log("reporter 2 ::" + data[0].reporters[0][1]);
 					var reporterType = data[0].reporters[1];
@@ -172,11 +182,7 @@ NEUTRAL
 Form Events
 =============================================
 */	
-jQuery('#pinciteWrapper').tooltip({
-	trigger: 'hover',
-	placement: 'right',
-	title: "Fill out Parallel Citations before pinpointing."
-});
+
 
 jQuery('#pincite-selection').change(function(){
 	var txt = jQuery(this).val();
@@ -236,18 +242,36 @@ Tool Tips
 */	
 var tooltip_header              = "<div class=\"tooltip-title\">"
 var tooltip_styleofcause	    = tooltip_header + "Style of Cause     </div><font class = \"red\"> ex. Tilden Rent-A-Car Co. v Clendenning</font><br> Input the style of cause as written on the case. <br>"
-var tooltip_parallel				= tooltip_header + "Parallel Citations </div><font class = \"red\"> ex. 2008 SCC 9 (CanLII); [2008] 1 SCR 190; 229 NBR (2d) 1; 291 DLR (4th) 577 </font><br> Separate abbreviated reporters by commas or semicolons. Browse through the catalog to find abbreviations. <br>Input at least two reporters, unless only one is available. <br>Don't worry about formatting. <br>"
+//var tooltip_parallel				= tooltip_header + "Parallel Citations </div><font class = \"red\"> ex. 2008 SCC 9 (CanLII); [2008] 1 SCR 190; 229 NBR (2d) 1; 291 DLR (4th) 577 </font><br> Separate abbreviated reporters by commas or semicolons. Browse through the catalog to find abbreviations. <br>Input at least two reporters, unless only one is available. <br>Don't worry about formatting. <br>"
+var tooltip_parallel				= tooltip_header + "Parallel Citations </div><font class = \"red\"> ex. 2008 9 (CanLII); [2008] 1 SCR 190; 229 NBR (2d) 1; 291 DLR (4th) 577 </font><br> Separate abbreviated reporters by commas or semicolons. Browse through the catalog to find abbreviations. <br>Input at least two reporters, unless only one is available. <br>Don't worry about formatting. <br>"
 var tooltip_year	                = tooltip_header + "Year of Decision    </div><font class = \"red\"> ex. 1985 </font><br>"
 var tooltip_court                 = tooltip_header + "Court                 </div><font class = \"red\"> ex. Alberta qb </font><br>Our recognition algorithm will format your input correctly. <br>"
 var tooltip_shortform     		= tooltip_header  + "Short Form      	</div><font class = \"red\"> ex. Van der Peet</font> <br>Use a short form to refer to the judgment later in your paper. <br>It is normally the first party name. <br>"
-var tooltip_pincite            = tooltip_header + "Pinpoint             	</div><font class = \"red\"> ex. \"132\" <br>Use paragraphs where available, otherwise pages. <br>Use the radio button to indicate which reporter you are citing to."
-var tooltip_citeTo 	            = tooltip_header + "Cite To              </div><font class = \"red\"> ex. WWR (2d) </font><br>\"Cite to\" a reporter if you will pinpoint to it at some point other than the first instance of the citation. <br>"
-var tooltip_history 	            = tooltip_header + "History              </div><font class = \"red\"> Affirming or Reversing <br> ex. \"2003 BCSC 14\" </font><br>Input minimum <b>one<\b> citation for the lower court judgement. <br><font class = \"red\">Affirmed or Reversed <br>ex. 2011 SCC 66, [2011] 3 SCR 837 <br>Input minimum <b>two<\b> citations for the upper court judgement. <br> "
-var tooltip_leavetoappeal    = tooltip_header + "Leave To Appeal </div> Granted: input court and pre-citation. <br> <font class = \"red\">ex. \"SCC, [2008] 1 SCR xiv\" <\font><br>Refused: input court and docket number. <br><font class = \"red\">ex. \"SCC, 23424 (November 20, 2009)\" <\font><br>Requested or As of right: input court. <br><font class = \"red\">ex. \"SCC\" </font><br>"
-var tooltip_judge 				= tooltip_header  + "Judge               </div><font class = \"red\"> ex. Binnie J </font><br>CJC = Chief Justice of Canada <br>CJA = Chief Justice of Appeal <br>CJ = Chief Justice <br>JA = Justice of Appeal <br>JJA = Justices of Appeal <br>J = Justice <br>JJ = Justices <br>Mag = Magistrate <br>"
+//var tooltip_pincite_input     	= tooltip_header + "Pinpoint             	</div><font class = \"red\"> ex. 132 </font><br>Use paragraphs where available, otherwise pages. <br>Use the radio button to indicate which reporter you are citing to."
+var tooltip_pincite_input     	= tooltip_header + "Pinpoint             	</div><font class = \"red\"> ex. 132 </font><br>Use paragraphs where available, otherwise pages. <br>Use the radio button to indicate which reporter you are citing to.<br><br>"+ tooltip_header +  "Cite to </div> Use the radio buttons to select a reporter if you will pinpoint to it at some point other than the first instance of the citation. <br>"
 var tooltip_citing         		= tooltip_header  + "Citing               </div><font class = \"red\">  ex. Crevier v AG Quebec, [1981] 2 SCR 220; [1981] 127 DLR (3d) 1</font> <br>Use the citing feature if the main judgement cites a passage from another case, if appropriate. <br>"
+var tooltip_judge 				= tooltip_header  + "Judge               </div><font class = \"red\"> ex. Binnie J </font><br>CJC = Chief Justice of Canada <br>CJA = Chief Justice of Appeal <br>CJ = Chief Justice <br>JA = Justice of Appeal <br>JJA = Justices of Appeal <br>J = Justice <br>JJ = Justices <br>Mag = Magistrate <br>"
+//var tooltip_citeTo 	            = tooltip_header + "Cite To              </div><font class = \"red\"> ex. WWR (2d) </font><br>\"Cite to\" a reporter if you will pinpoint to it at some point other than the first instance of the citation. <br>"
+var tooltip_history 	            = tooltip_header + "History              </div>Affirming or Reversing <font class = \"red\"> <br> ex. 2003 BCSC 14 </font><br>Input minimum <b>one</b> citation for the lower court judgement. <br> <br>Affirmed or Reversed <br><font class = \"red\">ex. 2011 SCC 66, [2011] 3 SCR 837 </font> <br>Input minimum <b>two</b> citations for the upper court judgement. <br> "
+var tooltip_leavetoappeal    = tooltip_header + "Leave To Appeal </div> Granted: input court and pre-citation. <br> <font class = \"red\">ex. SCC, [2008] 1 SCR xiv <\font><br>Refused: input court and docket number. <br><font class = \"red\">ex. SCC, 23424 (November 20, 2009) <\font><br>Requested or As of right: input court. <br><font class = \"red\">ex. \"SCC\" </font><br>"
 
-//jQuery('#CanadaCase-Form ').focus(function(){
+var tooltip_citing_styleofcause = tooltip_citing_parallel = tooltip_citing_year=tooltip_citing_court=tooltip_citing;
+var tooltip_history_parallel1
+= tooltip_history_year1
+= tooltip_history_court1
+= tooltip_history_parallel2
+= tooltip_history_year2
+= tooltip_history_court2
+= tooltip_history_parallel3
+= tooltip_history_year3
+= tooltip_history_court3 = tooltip_history;
+
+var tooltip_leaveToAppeal_selection
+= tooltip_leaveToAppeal_court
+= tooltip_leaveToAppeal_citation
+= tooltip_leaveToAppeal_docket = tooltip_leavetoappeal;
+
+
 jQuery('#CanadaCase-Form input').focus(function(){
 		var name = jQuery(this).attr('name') // get Forms name
 		var tool = eval('tooltip_'+name); // convert it to a variable
@@ -275,14 +299,14 @@ jQuery('#CanadaCase-Form select').change(function(){
  
 
 jQuery('#CanadaCaseDate').focus(function(){
-	jQuery('#tooltips').html(tooltip_date);
+	jQuery('#tooltips').html(tooltip_year);
 });
 jQuery('#CanadaCaseCourt').focus(function(){
 	jQuery('#tooltips').html(tooltip_court);
 });
 
 jQuery('#CanadaCaseShortForm').focus(function(){
-	jQuery('#tooltips').html(tooltip_shortForm);
+	jQuery('#tooltips').html(tooltip_shortform);
 });
 jQuery('#CanadaCasePinpoint').focus(function(){
 	jQuery('#tooltips').html(tooltip_pinpoint);
@@ -306,59 +330,7 @@ jQuery('#CanadaCaseLeaveToAppeal').focus(function(){
 jQuery('#CanadaCaseSubnom').focus(function(){
 	jQuery('#tooltips').html(tooltip_subNom);
 });
-/*
 
-//Scroll with the page
-$(function() {
-	var tooltipScroll = jQuery("#tooltips");
-	var tooltipPos = tooltipScroll.offset();
-	var formScroll = jQuery(".leftHalf");
-	var formPos = formScroll.offset();
-	
-	var patt =/\d+/;
-	var leftWidth = formScroll.css('width'); //remove the px
-	leftWidth = patt.exec(leftWidth);
-	console.log("string " + leftWidth);
-	var tooltipOffset = parseInt(leftWidth);//tooltipPos.left + parseInt(leftWidth);
-	console.log("offset" + tooltipOffset);
-	
-	
-	
-	jQuery(window).scroll(function() {
-		if(jQuery(this).scrollTop() < (tooltipPos.top ) && tooltipScroll.css('position') == 'fixed')	{
-			console.log("scrollTop" + jQuery(window).scrollTop() );
-			tooltipScroll.css({
-					"margin-left" : tooltipOffset, 
-					top: '20px',
-					position: 'static', 
-					width: '200px'
-				});
-						
-			
-			console.log("yo1 " + tooltipOffset);
-		}
-		else if ( jQuery(this).scrollTop() >= (tooltipPos.top+  formScroll.height() - 320) ){
-			tooltipScroll.css({
-					"margin-left" : tooltipOffset, 
-					top:'5px',
-					position: 'static',
-					width: '200px'
-				});
-		console.log("yo3");
-		}		
-		else if ( jQuery(this).scrollTop() >= tooltipPos.top){
-			tooltipScroll.css({
-					"margin-left" : tooltipOffset, 
-					top:'20px',
-					position: 'fixed',
-					width: '200px'
-				});
-		console.log("yo2");
-		}
-
-	})
-});
-*/
 /*
 =============================================
 Validations 
@@ -719,6 +691,9 @@ jQuery('#CanadaCaseReset').click(function(){
 	jQuery("#reporter-container").hide();
 	jQuery("#history3").hide();
 	jQuery("#history2").hide();
+	jQuery('#pinciteWrapper').tooltip('enable');
+	$('#pincite-selection').prop('disabled',true);
+	//$('#pinciteWrapper').remove();
 	
 	//$("#canadacase-Form .error").html("RAAAAAAAAAAAAAAAWR2")
 //remove();

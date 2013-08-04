@@ -58,11 +58,11 @@ class FormParallel(object):
 		else:
 			print "in formparallel"
 			
-			#f= ValidateCanadianParallel(f)
-			#if (f.valid ==True):
-			date = PullDate(parallel)
-			court = CheckForCourt(parallel)
-			reporters = AutoPCPinpoint(parallel)
+			f= ValidateCanadianParallel(f)
+			if (f.valid ==True):
+				date = PullDate(parallel)
+				court = CheckForCourt(parallel)
+				reporters = AutoPCPinpoint(parallel)
 			#print "reporters "
 			#print  reporters[0]
 			#print " something "
@@ -84,6 +84,8 @@ def CanadianCase(form):
 	court					= "%s" % (f.form.court)
 	shortform 			= "%s" % (f.form.shortform)
 	judge 				= "%s" % (f.form.judge)
+	dissenting			= "%s" % (f.form.judge_dissenting)
+	
 	citingStyle 			= "%s" % (f.form.citing_styleofcause)
 	citingParallel		= "%s" % (f.form.citing_parallel)
 	citingYear 			= "%s" % (f.form.citing_year)
@@ -159,7 +161,7 @@ def CanadianCase(form):
 		shortform = GetShortForm(shortform)
 		
 	if judge:
-		judge = GetJudge(judge)	
+		judge = GetJudge(judge,dissenting)	
 
 	if leaveToAppeal:
 		#check leaveToAppeal	
