@@ -139,12 +139,13 @@ NEUTRAL
 			if (courtVal != ""){			
             jQuery.ajax({ 
                 type: "POST", 
-				url: '/form/courtVal',
-                data:{parallel : parallelValue},
+				url: '/form/court',
+                data:{court : courtVal},
 				dataType: 'json',
                 success: function(data) {
-					jQuery('#CanadaCaseDate').val(data[0].date)
-					jQuery('#CanadaCaseCourt').val(data[0].court)
+					//jQuery('#CanadaCaseDate').val(data[0].date)
+					//jQuery('#CanadaCaseCourt').val(data[0].court)
+					console.log("hooray!")
                 },
 			});
 			}
@@ -374,7 +375,7 @@ Validations
 	var regex_judge		=/^[a-zA-Z\s.éÉÈèîÎôÔÁáÀàÂâ]*$/
 	// Validates the form to check if a form works or not
 	// Note: rules are based on name of form
-		jQuery('#canadacase-form').validate({
+	var CanadianCaseValidator = jQuery('#canadacase-form').validate({
 			//ignore: ".search-query",
 			rules: { 
 				styleofcause: {
@@ -429,16 +430,16 @@ Validations
 					regex: regex_court, 
 				},
 				//History======
-				history_parallel:{
+				history_parallel1:{
 					maxlength:250,	
 					regex: regex_parallel, 
 				},
-				history_year: {
+				history_year1: {
 					maxlength:4,	
 					regex2: regex_digits,
 					regex: regex_year,	
 				},
-				history_court: {
+				history_court1: {
 					maxlength:250,	
 					regex: regex_court,
 				},	
@@ -712,7 +713,21 @@ Reporter List
 	});
 	
 
+/*
+=============================================
+Reset-button
+=============================================
+*/
+jQuery('#CanadaCaseReset').click(function(){
+	CanadianCaseValidator.resetForm();
+//$("#CanadaCase-Form .control-group").removeClass('error')
+//remove();
+//element .text('OK!').addClass('valid').closest('.control-group').removeClass('error')//.addClass('success'); 
+//$("#CanadaCase-Form .error").remove();
+//$("#CanadaCase-Form label").removeClass("error valid");
 
+
+})
 	
 	
 }); //End of Document.

@@ -56,7 +56,8 @@ $def with (greeting= None)
 
                             
 
-                            <form class="form-horizontal" action="/form/CanadianCase" method="POST"  id ="canadacase-form">
+                            <!--<form class="form-horizontal" action="/form/CanadianCase" method="POST"  id ="canadacase-form"> -->
+							<form class="form-horizontal" id ="canadacase-form"> 
                             <fieldset>
                             <!-- Style Of Cause -->
                             <div class="control-group"  id ="CanadaCaseStyle-controlgroup">
@@ -236,21 +237,21 @@ $def with (greeting= None)
 														<div class="input-prepend" style="padding-bottom:2px">
 														<span class="add-on" >Parallel Citations</span>
 															<input type="text" class="input-xlarge" id="CanadaCaseHistory-Parallel"
-																		placeholder="" name = "history_parallel">
+																		placeholder="" name = "history_parallel1">
 														</div>
 														
 														<!-- Reversing -->
 														<div class="input-prepend" style="padding-bottom:2px">
 														<span class="add-on" >Year of Decision</span>
 															<input type="text" class="input-xlarge" id="CanadaCaseHistory-Year"
-																		placeholder="" name = "history_year">
+																		placeholder="" name = "history_year1">
 														</div>
 														
 														<!-- Reversed By-->
 														<div class="input-prepend" style="padding-bottom:2px">
 														<span class="add-on">Court</span>
 															<input type="text" class="input-xlarge" id="CanadaCaseHistory-Court"
-																		placeholder="" name = "history_court">
+																		placeholder="" name = "history_court1">
 														</div>
 
 													</div> <!-- well -->
@@ -378,7 +379,7 @@ $def with (greeting= None)
 							
 							<!-- Submit Button -->
 							<button type="submit" class="btn btn-danger" id ="GoButton"> Generate!</button>
-							<button type="reset" class="btn"  >reset</button>
+							<button type="reset" class="btn"  id="CanadaCaseReset">reset</button>
 							<!--<button type = "button"	class="btn" id ="" style ="float:right" >sign up</button> -->
 
 

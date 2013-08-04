@@ -103,7 +103,7 @@ label.valid {
 label.error {
   font-weight: bold;
   color: red;
-  padding: 0px 2px;
+  padding: 0px 0px;
 
 }
 

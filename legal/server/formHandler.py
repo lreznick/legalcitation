@@ -2,22 +2,26 @@ import web
 import json
 from formcode.CanadianCase import *
 from formcode.webGrabber import *
+from validator import *
 
 urls = (
-	'/parallel', 'Formparallel',
+	'/parallel', 'FormParallel',
+	'/court', 'FormCourt',
 	'/CanadianCase', 'Canada',
 	'/canlii', 'Canlii'
 )
+
 class FormContainer:
 	def __init__(self, type, form):
-		self.type 	= type
-		self.valid  	= False
-		self.errors 	= []  
-		self.form 	= form
-		
+		self.type 		= type
+		self.valid  		= True
+		self.errors 		= []  
+		self.warnings 	= []  
+		self.form 		= form
 
-def validator(array):
-	return 
+def CreateFormClass(type,form):
+	f = FormContainer(type,form)
+	return f		
 	
 class Canlii(object):
 	def POST(self):
@@ -33,57 +37,47 @@ class Canada(object):
 	def POST(self):
 		return CanadianCase(web.input())
 
-	
-class Formparallel(object):
-	def GET(self):
-		return
+class FormCourt(object):
 	def POST(self):
 		form = web.input()
+		f = CreateFormClass("canadian case", form)	
+		f = ValidateCanadianCourt(f)
+		data = [ {'court':f.form.court, 'valid':f.valid, 'errors':f.errors}]
+		data_string =json.dumps(data)
+		print 'JSON:', data_string
+		return data_string
+
+class FormParallel(object):
+	def POST(self):
+		form = web.input()
+		f = CreateFormClass("canadian case", form)	
+		
 		parallel = "%s" % (form.parallel)
 		if not parallel: 
 			return render.index()
 		else:
 			print "in formparallel"
+			
+			#f= ValidateCanadianParallel(f)
+			#if (f.valid ==True):
 			date = PullDate(parallel)
 			court = CheckForCourt(parallel)
 			reporters = AutoPCPinpoint(parallel)
-			print "reporters "
-			print  reporters[0]
-			print " something "
-			print reporters[1]
+			#print "reporters "
+			#print  reporters[0]
+			#print " something "
+			#print reporters[1]
 			data = [ {'date':date, 'court':court, 'reporters':reporters}]
 			data_string =json.dumps(data)
-			print 'JSON:', data_string
+			#print 'JSON:', data_string
 			return data_string
 
-def CreateFormClass(type,form):
-	f = FormContainer(type,form)
-	return f
-	
-def GenerateErrorMsg(formContainer, inputName,input, message, ):
-	error = [inputName, input, message]
-	formContainer.errors.append(error)
-	return
-	
-def Validate(regex, string):
-	if regex.search(string): return True
-	return False
-	
-regexStyle = re.compile(ur'^[\wa-zA-Z0-9\.,;:\'!\$\^&\(\)<>\s]+$', flags = re.UNICODE)
-regexParallel = re.compile(ur'^[a-zA-Z0-9\.,;\'!\^&\(\)\]\[\s\u00E9\u00E8\u00C9\u00C8\u00C1\u00E1\u00F4]+$', flags = re.UNICODE)
-regexYear = re.compile(r'^(1[4-9][0-9]{2}|200[0-9]{1}|201[01234]{1})$')
-regexDigits = re.compile(r'^\d+$')
-regexCourt = re.compile(ur'^[a-zA-Z\.,\'\^&\(\)\]\[\s\u00E9\u00E8\u00C9\u00C8\u00C1\u00E1\u00F4\u00EE\u00F4\u00D4\u00E0\u00C2\u00E2]+$', flags = re.UNICODE)
-regexJudge = re.compile(ur'^[\wa-zA-Z\.,&\s]+$', flags = re.UNICODE)
-regexPinpoint = re.compile(r'^[0-9-,\s]*$')
-	
+
+
 def CanadianCase(form):	
-	print "\n\n\n\n\n\n\n\n\n\ ======in Canadian"
-	
-	b = "<b>"
-	b1 ="<\\b>"
-	
-	f = CreateFormClass("canadian case", form)
+	print "\n\n======in Canadian"
+	f = CreateFormClass("canadian case", form)	
+
 	styleofcause		= "%s" % (f.form.styleofcause)
 	parallel				= "%s" % (f.form.parallel)
 	year					= "%s" % (f.form.year)
@@ -99,7 +93,20 @@ def CanadianCase(form):
 	pinciteRadio		= "%s" % (f.form.pincite_radio)
 	pinciteInput		= "%s" % (f.form.pincite_input)	
 	pincite 				= [pinciteSelection, pinciteRadio, "page", pinciteInput]	 #deal with	
-	#history 				= "%s" % (form.history) #list of lists
+	
+	historyParallel1	= "%s" % (f.form.history_parallel1) 
+	historyYear1		= "%s" % (f.form.history_year1) 
+	historyCourt1		= "%s" % (f.form.history_court1)
+	historyParallel2	= "%s" % (f.form.history_parallel2) 
+	historyYear2		= "%s" % (f.form.history_year2) 
+	historyCourt2		= "%s" % (f.form.history_court2)
+	historyParallel3	= "%s" % (f.form.history_parallel3) 
+	historyYear3		= "%s" % (f.form.history_year3) 
+	historyCourt3		= "%s" % (f.form.history_court3)	
+	histories = [[historyParallel1,historyYear1,historyCourt1]
+					,[historyParallel2,historyYear2,historyCourt2]
+					,[historyParallel3,historyYear3,historyCourt3]]
+	
 	leaveSelection 	= "%s" % (f.form.leaveToAppeal_selection)
 	leaveCourt		 	= "%s" % (f.form.leaveToAppeal_court)
 	#leaveCitation  	= "%s" % (form.leaveToAppeal_citation)
@@ -109,7 +116,7 @@ def CanadianCase(form):
 	leaveToAppeal =""
 	history =""
 	
-	#ValidateCanadianCase(f)
+	ValidateCanadianCase(f)
 	
 	#[granted, courtappeal, citation/or docketnumber, input of docket]
 	#leaveToAppeal = "%s" % (form.leaveToAppeal) #deal with
@@ -117,22 +124,11 @@ def CanadianCase(form):
 	
 	#========	Style of Cause
 	if styleofcause:
-		if Validate(regexStyle, styleofcause):
 			styleofcause = GetStyleOfCause(styleofcause)
-		else:
-			GenerateErrorMsg(f,"styleofcause","", "The " +b+ "style of cause" + b1 +" is invalid.")
-			
-	else:
-		GenerateErrorMsg(f,"styleofcause","", "You must enter a " +b+ "style of cause." +b1)
 		
 	#======== Citations
-	if not (parallel and year and court):
-		if not parallel:
-			GenerateErrorMsg(f,"parallel","", "You must enter a " +b+ "Parallel Citation."+b1)
-		if not year:
-			GenerateErrorMsg(f,"year","", "You must enter a " +b+ "year."+b1)			
-		if not court:
-			GenerateErrorMsg(f,"court","", "You must enter a" +b+ " court."+b1)						
+	if not (parallel and year and court):				
+		return
 	else:
 		#checkCitations(parallel, court, year, pincite)
 		if pinciteSelection:
