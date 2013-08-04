@@ -236,10 +236,10 @@ Tool Tips
 =============================================
 */	
 var tooltip_header              = "<div class=\"tooltip-title\">"
-var tooltip_styleofcause	    = tooltip_header + "Style of Cause     </div><font class = \"red\"> ex.  Fraser River Pile \& Dredge Ltd. v. Can-Dive Services Ltd. </font><br> Input the style of cause as written on the case. <br>"
+var tooltip_styleofcause	    = tooltip_header + "Style of Cause     </div><font class = \"red\"> ex. Tilden Rent-A-Car Co. v Clendenning</font><br> Input the style of cause as written on the case. <br>"
 var tooltip_parallel				= tooltip_header + "Parallel Citations </div><font class = \"red\"> ex. 2008 SCC 9 (CanLII); [2008] 1 SCR 190; 229 NBR (2d) 1; 291 DLR (4th) 577 </font><br> Separate abbreviated reporters by commas or semicolons. Browse through the catalog to find abbreviations. <br>Input at least two reporters, unless only one is available. <br>Don't worry about formatting. <br>"
-var tooltip_year	                = tooltip_header + "Year of Decision    </div><font class = \"red\"> ex. 1985 </font><br>Input the year of the judgement. <br>"
-var tooltip_court                 = tooltip_header + "Court                 </div><font class = \"red\"> ex. alberta qb </font><br>Our recognition algorithm will format your input correctly. <br>"
+var tooltip_year	                = tooltip_header + "Year of Decision    </div><font class = \"red\"> ex. 1985 </font><br>"
+var tooltip_court                 = tooltip_header + "Court                 </div><font class = \"red\"> ex. Alberta qb </font><br>Our recognition algorithm will format your input correctly. <br>"
 var tooltip_shortform     		= tooltip_header  + "Short Form      	</div><font class = \"red\"> ex. Van der Peet</font> <br>Use a short form to refer to the judgment later in your paper. <br>It is normally the first party name. <br>"
 var tooltip_pincite            = tooltip_header + "Pinpoint             	</div><font class = \"red\"> ex. \"132\" <br>Use paragraphs where available, otherwise pages. <br>Use the radio button to indicate which reporter you are citing to."
 var tooltip_citeTo 	            = tooltip_header + "Cite To              </div><font class = \"red\"> ex. WWR (2d) </font><br>\"Cite to\" a reporter if you will pinpoint to it at some point other than the first instance of the citation. <br>"
@@ -365,9 +365,9 @@ $(function() {
 Validations 
 =============================================
 */		
-	var regex_style 		= /^[a-zA-Z0-9.,;:'!@#$%^&()<>-ßÄÖÜäöüÑñÉéÈèÁáÀàÂâŶĈĉĜĝŷÊêÔôÛûŴŵ\s]*$/
+	var regex_style 		= /^[\wa-zA-Z0-9.,;:'!@#$%^&()<>-ßÄÖÜäöüÑñÉéÈèÁáÀàÂâŶĈĉĜĝŷÊêÔôÛûŴŵ\s]*$/
 	var regex_parallel 	= /^[a-zA-Z0-9.,;'&()ÉéÈèÁáô\[\]\s]*$/
-	var regex_year 		= /^(1[4-9][0-9]{2}|200[0-9]{1}|201[01234]{1})$/
+	var regex_year 		= /(1[4-9][0-9]{2}|200[0-9]{1}|201[01234]{1})/
 	var regex_digits 	=/^\d+$/
 	var regex_court 		=/^[a-zA-Z\s.()-éÉÈèîÎôÔÁáÀàÂâ]*$/
 	var regex_judge		=/^[a-zA-Z\s.éÉÈèîÎôÔÁáÀàÂâ]*$/
@@ -387,8 +387,7 @@ Validations
 					required: true 
 				},
 				year: {
-					maxlength:4,	
-					regex2: regex_digits,
+					maxlength:15,
 					regex: regex_year,
 					required: true 
 				},
@@ -419,8 +418,7 @@ Validations
 					regex: regex_parallel,
 				},
 				citing_year:{
-					maxlength:4,	
-					regex2: regex_digits,
+					maxlength:20,	
 					regex: regex_year,
 				},
 				citing_court:{
@@ -433,8 +431,7 @@ Validations
 					regex: regex_parallel, 
 				},
 				history_year1: {
-					maxlength:4,	
-					regex2: regex_digits,
+					maxlength:20,	
 					regex: regex_year,	
 				},
 				history_court1: {
@@ -446,8 +443,7 @@ Validations
 					regex: regex_parallel, 
 				},
 				history_year2: {
-					maxlength:4,	
-					regex2: regex_digits,
+					maxlength:20,	
 					regex: regex_year,	
 				},
 				history_court2: {
@@ -459,8 +455,7 @@ Validations
 					regex: regex_parallel, 
 				},
 				history_year3: {
-					maxlength:4,	
-					regex2: regex_digits,
+					maxlength:20,	
 					regex: regex_year,	
 				},
 				history_court3: {
@@ -468,8 +463,8 @@ Validations
 					regex: regex_court,
 				},					
 				leaveToAppeal_docket: {
-					maxlength:20,	
-					regex: /^[\d,-\s]*$/,
+					maxlength:50,	
+					regex: regex_parallel,
 				},		
 				leaveToAppeal_court:{
 					maxlength:250,	
@@ -497,9 +492,8 @@ Validations
 					required: " "
 				},
 				year: {
-					maxlength: "Maximum length: 4 characters.",
+					maxlength: "Maximum length: 20 characters.",
 					regex: "Enter a year between 1400 and 2014.",
-					regex2: "Digits only, please.",
 					required: " "
 				},
 				court: {
@@ -515,32 +509,29 @@ Validations
 					regex: "Digits only, please."
 				},
 				citing_year:{
-					maxlength: "Maximum length: 4 characters.",
-					regex: "Enter a year between 1400 and 2014.",
-					regex2: "Digits only, please.",
+					maxlength: "Maximum length: 20 characters.",
+					regex: "Enter a year between 1400 and 2014."
 				},
 				citing_court:{
 					maxlength: "Maximum length: 10 characters.",	
 				},
 				//History======
-				history_parallel:{
+				history_parallel1:{
 					maxlength: "Maximum length: 250 characters.",
 				},
-				history_year: {
-					maxlength:"Maximum length: 4 characters.",	
-					regex:"Enter a year between 1400 and 2014.",
-					regex2:"Digits only, please.",
+				history_year1: {
+					maxlength:"Maximum length: 20 characters.",	
+					regex:"Enter a year between 1400 and 2014."
 				},
-				history_court: {
+				history_court1: {
 					maxlength:"Maximum length: 250 characters.",	
 				},	
 				history_parallel2:{
 					maxlength: "Maximum length: 250 characters.",
 				},
 				history_year2: {
-					maxlength:"Maximum length: 4 characters.",	
-					regex:"Enter a year between 1400 and 2014.",
-					regex2:"Digits only, please.",
+					maxlength:"Maximum length: 20 characters.",	
+					regex:"Enter a year between 1400 and 2014."
 				},
 				history_court2: {
 					maxlength:"Maximum length: 250 characters.",	
@@ -549,16 +540,15 @@ Validations
 					maxlength: "Maximum length: 250 characters.",
 				},
 				history_year3: {
-					maxlength:"Maximum length: 4 characters.",	
-					regex:"Enter a year between 1400 and 2014.",
-					regex2:"Digits only, please.",
+					maxlength:"Maximum length: 20 characters.",	
+					regex:"Enter a year between 1400 and 2014."
 				},
 				history_court3: {
 					maxlength:"Maximum length: 250 characters.",	
 				},					
 				leaveToAppeal_docket: {
-					maxlength:"Maximum length: 20 characters.",	
-					regex:"Digits only, please.",
+					maxlength:"Maximum length: 50 characters.",	
+					regex:"Enter a valid docket number or citation.",
 				},		
 				leaveToAppeal_court:{
 					maxlength:"Maximum length: 250 characters.",	
