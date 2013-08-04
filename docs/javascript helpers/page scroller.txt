@@ -1,0 +1,53 @@
+/*
+
+//Scroll with the page
+$(function() {
+	var tooltipScroll = jQuery("#tooltips");
+	var tooltipPos = tooltipScroll.offset();
+	var formScroll = jQuery(".leftHalf");
+	var formPos = formScroll.offset();
+	
+	var patt =/\d+/;
+	var leftWidth = formScroll.css('width'); //remove the px
+	leftWidth = patt.exec(leftWidth);
+	console.log("string " + leftWidth);
+	var tooltipOffset = parseInt(leftWidth);//tooltipPos.left + parseInt(leftWidth);
+	console.log("offset" + tooltipOffset);
+	
+	
+	
+	jQuery(window).scroll(function() {
+		if(jQuery(this).scrollTop() < (tooltipPos.top ) && tooltipScroll.css('position') == 'fixed')	{
+			console.log("scrollTop" + jQuery(window).scrollTop() );
+			tooltipScroll.css({
+					"margin-left" : tooltipOffset, 
+					top: '20px',
+					position: 'static', 
+					width: '200px'
+				});
+						
+			
+			console.log("yo1 " + tooltipOffset);
+		}
+		else if ( jQuery(this).scrollTop() >= (tooltipPos.top+  formScroll.height() - 320) ){
+			tooltipScroll.css({
+					"margin-left" : tooltipOffset, 
+					top:'5px',
+					position: 'static',
+					width: '200px'
+				});
+		console.log("yo3");
+		}		
+		else if ( jQuery(this).scrollTop() >= tooltipPos.top){
+			tooltipScroll.css({
+					"margin-left" : tooltipOffset, 
+					top:'20px',
+					position: 'fixed',
+					width: '200px'
+				});
+		console.log("yo2");
+		}
+
+	})
+});
+*/

@@ -107,9 +107,7 @@ def ValidateCanadianCase(f):
 	#leaveCitation  	= "%s" % (form.leaveToAppeal_citation)
 	leaveDocket	  	= "%s" % (f.form.leaveToAppeal_docket)
 		
-	citations ="" 
-	leaveToAppeal =""
-	history =""
+
 	
 	
 	#========	Style of Cause
