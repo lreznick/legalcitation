@@ -952,7 +952,6 @@ def CleanUpCourt(string, parallelInput):
 		#print "Did not recongize court, returning this anyways: ", CleanUp(Jurisdiction[0] +" "+ FCourt[0])
 		return [CleanUp(Jurisdiction[0] +" "+ FCourt[0]), False]
 
-CleanUpCourt("absdaQB", "no way, jose")
 
 #inputs: the court selected by the machine beforehand (with the jurisdiction), and the citation used
 #outputs the court (without the jurisdiction)

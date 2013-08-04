@@ -2,7 +2,6 @@ import re
 import sys
 
 
-#in Capitalize: try to capitalize it but if the first character is a weird one then skip over
 
 '''****************     STYLE OF CAUSE     ****************'''
 
@@ -136,56 +135,6 @@ def StyleAttributes(string):
 	#print("liquid:: " + string+"\n")
 	# (8) COUNTRIES (need list of countries)
 	# (9) CITIES (need database of cities and municipalities)
-	# (10) PROVINCES
-	Provinces = [["British Columbia", ["BC", "Brit Col", "Brit Colum"], "British Columbian"], ["Alberta", ["AB", "Alta"], "Albertan"], ["Saskatchewan", ["SK", "Sask"], "Saskatchewanian"], ["Manitoba", ["MB"], "Manitoban"], ["Ontario", ["ON", "Ont"], "Ontarian"], ["Quebec", ["QB", "Que","Qc"], "Quebecois"], ["New Brunswick", ["NB", "New Bruns", "N Bruns"], "New Brunskicker"], ["Nova Scotia", ["NS", "Nova Scot"], "Nova Scotian"], ["Prince Edward Island", ["PEI", "Prince Ed", "Prince Ed Isl"], "Prince Edward Islander"], ["Newfoundland and Labrador", ["NL", "NFLD", "Newfoundland"], "Newfoundlander"]]
-	for x in Provinces:
-		m = False #assume there is no match yet
-		for i in x[1]:
-			reg_one = re.compile(r'^'+i+r'\s', re.I)
-			reg_two = re.compile(r'\s'+i+r'\s', re.I)
-			reg_three = re.compile(r'\s'+i+r'$', re.I)
-			reg_four = re.compile(r'^'+i+r'$', re.I)
-			if reg_one.search(string):
-				#print "Province match one\n"
-				m == True
-				match = reg_one.search(string)#detect the match object
-				sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
-				string = re.sub(sub, x[0], string)
-			if m == True: break
-			if reg_two.search(string):
-				#print "Province match two\n"
-				m = True
-				match = reg_two.search(string)#detect the match object
-				sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
-				string = re.sub(sub, x[0], string)
-			if m == True: break
-			if reg_three.search(string):
-				#print "Province match three\n"
-				m = True
-				match = reg_three.search(string)#detect the match object
-				sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
-				string = re.sub(sub, x[0], string)
-			if m == True: break
-			if reg_four.search(string):
-				#print "Province match four\n"
-				m = True
-				match = reg_four.search(string)#detect the match object
-				sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
-				string = re.sub(sub, x[0], string)
-	#print("Provinces:: " + string+"\n")
-	# (11) CROWN CIVIL (AG and MNR)
-	AG = re.compile(r'(\(?(a|A)tt(orney)?\s?(g|G)en(eral)?\s?((o|O)f)?\)?|\(?(A|a)(G|g)\)?)')
-	if AG.search(string):
-		match = AG.search(string)#detect the match object
-		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
-		#print "sub = "+sub+"\n"	#print "string = "+string+"\n"		#print "subbed in = "+re.sub(sub, '', string)+"\n"
-		string = re.sub(sub, '', string) + " (AG)"
-	MNR = re.compile(r'(\(?(m|M)inister\s?((o|O)f)?\s(n|N)at(ional)?\s(r|R)ev(enue)?\)?|\(?(M|m)(N|n)(R|r)\)?)')
-	if MNR.search(string):
-		match = MNR.search(string)#detect the match object
-		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
-		#print "sub = "+sub+"\n"	#print "string = "+string+"\n"		#print "subbed in = "+re.sub(sub, '', string)+"\n"
-		string = re.sub(sub, '', string) + " (MNR)"
 	string = re.sub('\(\s*?\)', '', string)#there are brackets sometimes not subbed out of the string, so I remove empty ones
 	string = CleanUp(string)#clean string for final presentation
 	#print("End:: " + string+"\n")
@@ -210,8 +159,7 @@ def regstr(i):#i is a string input
 	thr = r'\s'+i+ r'\s'
 	fou = r'^' +i+ r'\s'
 	fiv = r'\('+i+ r'\)'
-	six = r'\['+i+ r'\]'
-	string =  r'('+ one + r'|' + two + r'|' + thr + r'|' + fou + r'|' + fiv + r'|' + six + r')'
+	string =  r'('+ one + r'|' + two + r'|' + thr + r'|' + fou + r'|' + fiv + r')'
 	return string
 
 #Puts in the references and the Jurisdiction if not already there
@@ -236,23 +184,7 @@ def StatuteChallenge(string):
 		#print "Added: string is now: ", string
 	#fix P in Ex Parte to Ex parte
 	if "Ex Parte" in string: string = string.replace("Ex Parte", "Ex parte")
-	#Detect provincial thing
-	Provinces = [["British Columbia", ["BC", "Brit Col", "Brit Colum", "British Columbia", "British Columbian"]], ["Alberta", ["AB", "Alta", "Alberta", "Albertan"]], ["Saskatchewan", ["SK", "Sask", "Saskatchewan", "Saskatchewanian"]], ["Manitoba", ["MB", "Manitoba", "Manitoban"]], ["Ontario", ["ON", "Ont", "Ontario", "Ontarian"]], ["Quebec", ["QB", "Que","Qc", "Quebec", u"Qu\xe9bec", "Quebecois", u"Qu\xe9becois"]], ["New Brunswick", ["NB", "New Bruns", "N Bruns", "New Brunskick", "New Brunskicker"]], ["Nova Scotia", ["NS", "Nova Scot", "Nova Scotia", "Nova Scotian"]], ["Prince Edward Island", ["PEI", "Prince Ed", "Prince Ed Isl", "Prince Edward Island", "Prince Edward Islander"]], ["Newfoundland and Labrador", ["NL", "NFLD", "Newfoundland", "Newfoundland and Labrador", "Newfoundlander"]]]
-	Canada = ["Canada", ["CA", "Can", "Canada", "Canadian", "National", "Federal"]]
-	for x in Canada[1]: #detect if any of the federal titles are in the string. if so, fix it up and return it
-		if re.search(regstr(x), string, re.I): 
-			string = re.sub(r'\('+CleanUp(re.search(regstr(x), string, re.I).group())+r'\)', x[0], string) #replace (BC) or (Brit Col) etc with (British Columbia)
-			return string
-	for x in Provinces: #detect if any of the provincial titles are in the string. if so, fix it up and return it
-		for j in x[1]:
-			if re.search(regstr(j), string, re.I):
-				string = re.sub('('+CleanUp(re.search(regstr(j), string, re.I).group())+')', x[0], string) #replace (BC) or (Brit Col) etc with (British Columbia)
-				return string
-	if re.search("provin", string, re.I): 
-		return CleanUp(string)
-	else: return string + ' (Canada)' #default to saying it is a national statute if it is not made reference to
-	#print "At the end of StatuteChallenge, string is: ", string
-	
+	return CleanUp(string)
 	
 #This is a function only for a single style of cause (i.e. no joinder). it looks at both parties (or one, as the case may be) and adds
 def Action(StyleOfCause):
@@ -262,12 +194,6 @@ def Action(StyleOfCause):
 	if len(Parties)==1: #If there is only one party
 		#print "Length of party is one: ", Parties[0]
 		#Replace provincial acronyms with the correct format
-		Provinces = [["British Columbia", ["BC", "Brit Col", "Brit Colum", "British Columbia", "British Columbian"]], ["Alberta", ["AB", "Alta", "Alberta", "Albertan"]], ["Saskatchewan", ["SK", "Sask", "Saskatchewan", "Saskatchewanian"]], ["Manitoba", ["MB", "Manitoba", "Manitoban"]], ["Ontario", ["ON", "Ont", "Ontario", "Ontarian"]], ["Quebec", ["QB", "Que","Qc", "Quebec", u"Qu\xe9bec", "Quebecois", u"Qu\xe9becois"]], ["New Brunswick", ["NB", "New Bruns", "N Bruns", "New Brunskick", "New Brunskicker"]], ["Nova Scotia", ["NS", "Nova Scot", "Nova Scotia", "Nova Scotian"]], ["Prince Edward Island", ["PEI", "Prince Ed", "Prince Ed Isl", "Prince Edward Island", "Prince Edward Islander"]], ["Newfoundland and Labrador", ["NL", "NFLD", "Newfoundland", "Newfoundland and Labrador", "Newfoundlander"]]]
-		for x in Provinces: #detect if any of the provincial titles are in the string. if so, fix it up and return it
-			for j in x[1]:
-				if re.search(regstr(j), Parties[0], re.I):
-					Parties[0] = re.sub('('+CleanUp(re.search(regstr(j), Parties[0], re.I).group())+')', x[0], Parties[0]) #replace (BC) or (Brit Col) etc with (British Columbia)
-		#print "After looking for provincial abbreviations, the string is: ", Parties[0]
 		# First, check if it is a statutory reference
 		Ref = ["Reference", "Ref", "Re", "In re", "In the matter of", "Dans l'affaire de"]
 		Statute = ["Statute", "Code", "Act", "Regulation", "Regulations", "Guidelines"]
@@ -304,8 +230,8 @@ def GetStyleOfCause(StyleOfCause_Input):
 			OUTPUT = OUTPUT + Suits[j] + "; " #add all of the parties together
 		OUTPUT = re.sub(';\s$', '', OUTPUT) #remove the last " v " on the end
 	#print "At end of GetSoC: OUTPUT = ", OUTPUT
-	OUTPUT = CleanUp(OUTPUT)
-	return "<i>"+OUTPUT+"</i>"
+	return CleanUp(OUTPUT)
+
 
 '''****************     CITATIONS     ****************''''''****************     CITATIONS     ****************'''
 '''****************     CITATIONS     ****************''''''****************     CITATIONS     ****************'''
@@ -354,7 +280,7 @@ def regstrCt(i):#i is a string input
 	return string
 
 def PullDate(string):
-	print "**** Starting PullDate"
+	print "**** Starting PullDate on:" , string
 	FirstSearch = re.search(r'(\(?\[?)(1[4-9][0-9]{2}|200[0-9]{1}|201[01234]{1})(\)?\]?,?\s([A-Z]|\d{1,3}\s)[A-Za-z\s]{2})', string) #ex 2008 NBCA or (1843) Ex Ctf
 	if FirstSearch:
 		print "***** Detected on search 1: ", FirstSearch.group(2)
@@ -374,42 +300,40 @@ def PullDate(string):
 #returns: [string, "NC"/"EWHC"/"No NC"]
 #Court must be surrounded by a space on each side
 def CheckNC(Citation_Input): #pull the neutral citation from the list if there is one
-	string = Citation_Input
 	print "**** Starting CheckNC"
-	print "Checking for NC in string: ", string
-	print "******** Starting BestReporter **********"
-	print "Citation Input: ", Citation_Input
+	print "Checking for NC in string: ", Citation_Input
 	PC = CleanUp(Citation_Input)
-	#need to put the electronic sources in the correct format in case someone puts in (available on CanLII) without the ; or ,
 	if re.search(r"(;|,)$", PC):
 		PC = CleanUp(PC[:-1])
 	if re.search(r"^(;|,)", PC):
 		PC = CleanUp(PC[1:])
 	m = re.split('[,;]', PC) # 	#Split the citations based on positioning of commas and semicolons
 	print "List of reporters: ", m
-	Year = PullDate(string)
-	if Year:
-		string = CleanUp("["+Year+"] " + re.sub(re.search(regstr(Year), string).group(), "", string))
-	else: 
-		string = CleanUp("[input year] " + string)
-	Courts = ['UKHL', 'UKPC', 'EWCA Civ', 'EWCA Crim', 'EWHC Admin']
-	for x in Courts:
-		if re.search(regstrElec(x), string, re.I): 
-			print "Found neutral citation: ", x
-			return [string, "NC"]
-	if re.search(regstrElec("EWHC"), string, re.I):
-		EWHCDivs = [['(Ch)', re.compile(r'\(?Ch(ancery)?( Div)?(ision)?\)?', flags = re.I)], ['(Pat)', re.compile(r'\(?Pat(ents)?\s?(Ct|Court)?\)?', flags = re.I)], ['(QB)', re.compile(r"\(?(QB|Queen's Bench|Queens Bench)( Div)?(ision)?\)?", flags = re.I)], ['(Admin)', re.compile(r'\(?Admin(istrative)?\s?(Ct|Court)?\)?', flags = re.I)], ['(Comm)', re.compile(r'\(?Comm(ercial)?\s?(Ct|Court)?\)?', flags = re.I)], ['(Admlty)', re.compile(r'\(?(Admir|Admirality|Admlty)\s?(Ct|Court)?\)?', flags = re.I)], ['(TCC)', re.compile(r'\(?(TCC|Tech and Constr|Tech & Constr|Technology and Construction|Technology & Construction)\s?(Ct|Court)?\)?', flags = re.I)], ['(Fam)', re.compile(r'\(?Fam(ily)?( Div)?(ision)?\)?', flags = re.I)]]
-		for x in EWHCDivs:
-			match = x[1].search(string)
-			if match:
-				string = CleanUp(re.sub(match.group(), "", string) + " " +x[0])
+	for string in m: 
+		Year = PullDate(string)
+		if Year:
+			string = CleanUp("["+Year+"] " + re.sub(re.search(regstr(Year), string).group(), "", string))
+		else: 
+			string = CleanUp("[input year] " + string)
+		Courts = ['UKHL', 'UKPC', 'EWCA Civ', 'EWCA Crim', 'EWHC Admin']
+		for x in Courts:
+			if re.search(regstrElec(x), string, re.I): 
+				print "Found neutral citation: ", x, "returning: ", string
 				return [string, "NC"]
-		return [string, "EWHC"]			
-	Scot = ['HCJT', 'HCJAC', 'CSOH', 'CSIH']
-	for x in Scot:
-		if re.search(regstrElec(x), string, re.I): 
-			print "Found neutral citation: ", x
-			return [string, "NC"]
+		if re.search(regstrElec("EWHC"), string, re.I):
+			EWHCDivs = [['(Ch)', re.compile(r'\(?Ch(ancery)?( Div)?(ision)?\)?', flags = re.I)], ['(Pat)', re.compile(r'\(?Pat(ents)?\s?(Ct|Court)?\)?', flags = re.I)], ['(QB)', re.compile(r"\(?(QB|Queen's Bench|Queens Bench)( Div)?(ision)?\)?", flags = re.I)], ['(Admin)', re.compile(r'\(?Admin(istrative)?\s?(Ct|Court)?\)?', flags = re.I)], ['(Comm)', re.compile(r'\(?Comm(ercial)?\s?(Ct|Court)?\)?', flags = re.I)], ['(Admlty)', re.compile(r'\(?(Admir|Admirality|Admlty)\s?(Ct|Court)?\)?', flags = re.I)], ['(TCC)', re.compile(r'\(?(TCC|Tech and Constr|Tech & Constr|Technology and Construction|Technology & Construction)\s?(Ct|Court)?\)?', flags = re.I)], ['(Fam)', re.compile(r'\(?Fam(ily)?( Div)?(ision)?\)?', flags = re.I)]]
+			for x in EWHCDivs:
+				match = x[1].search(string)
+				if match:
+					string = CleanUp(re.sub(match.group(), "", string) + " " +x[0])
+					print "Found neutral citation: ", x, "returning: ", string
+					return [string, "NC"]
+			return [string, "EWHC"]			
+		Scot = ['HCJT', 'HCJAC', 'CSOH', 'CSIH']
+		for x in Scot:
+			if re.search(regstrElec(x), string, re.I): 
+				print "Found neutral citation: ", x, "returning: ", string
+				return [string, "NC"]
 	return [string, "No NC"]
 	
 
@@ -429,7 +353,7 @@ def LawReports(Citation_Input):
 	print "List of reporters: ", m
 	Abbs = ['A & E', 'AC', 'Ch', 'Ch App', 'CP', 'CCR', 'Eq', 'Ex', 'HL', 'Fam', 'ICR', 'Ir', 'KB', 'PC', 'P', 'QB', 'RP', 'Sc & Div']
 	for s in m:
-		string = CleanUp(re.sub("$LR\s?", "", s))
+		string = CleanUp(re.sub("\sLR\s?", "", s))
 		for x in Abbs:
 			if re.search(regstr(x), string, re.I):
 				string = re.sub(re.search(regstr(x), string, re.I), "", string)
@@ -450,7 +374,7 @@ def LawReports(Citation_Input):
 
 #returns [string, "court"/"no court"]
 def InterpretLRInput(string):#how to do it when Law Reports (LR) are used
-	 "******** Starting InterpretLRInput **********"
+	print "******** Starting InterpretLRInput **********"
 	print "Input: ", string
 	KeepAsIs = [["Appeal Cases (AC)", 'AC'], ["Chancery (Ch)", "Ch"],["Common Pleas (CP)", "CP"], ["Exchequer (Ex)", "Ex"], ["Family (Fam)", "Fam"], ["Industrial Courts Reports (ICR)", "ICR"], ["King's Bench (KB)", ""], ["Probate (P)", "P"], ["Queen's Bench (QB)", "QB"], ["Law Reports Restrictive Practices (LR RP)", ""]]
 	Change = [["Admirality and Ecclesiastical Cases (A & E)", 'A & E'], ["Chancery Appeals (Ch App)", 'Ch App'], ['Crown Cases Reserved (CCR)', 'CCR'], ['Equity Cases (Eq)', 'Eq'], ['English and Irish Appeal Cases (HL)', 'HL'], ['Ireland (Ir)', 'Ir'], ['Privy Council (PC)', 'PC'], ['Scotch and Divorce Appeal Cases (Sc & Div)', 'Sc & Div']]
@@ -468,7 +392,7 @@ def InterpretLRInput(string):#how to do it when Law Reports (LR) are used
 def CheckReporter(m, list):
 	print "\n****** StartingCheckReporter within BestReporter"
 	print "Input reporter list: ", m
-	print "Checking to see if in, ", list
+	#print "Checking to see if in, ", list
 	for r in m: #look at each reporter inputed in the input list
 		for x in list:#will run through the Federa; reporters in order.
 			match = re.search(regstr(x), r, re.I)
@@ -547,7 +471,7 @@ def DefaultCt(string):
 	return string
 
 
-def CheckNC(string)
+'''def CheckNC(string):
 	Courts = ['UKHL', 'UKPC', 'EWCA Civ', 'EWCA Crim', 'EWHC Admin']
 	for x in Courts:
 		if re.search(regstrElec(x), string, re.I): 
@@ -566,7 +490,7 @@ def CheckNC(string)
 		if re.search(regstrElec(x), string, re.I): 
 			print "Found neutral citation: ", x
 			return [string, "NC"]
-	return [string, "No NC"]
+	return [string, "No NC"]'''
 
 
 def AutoPCPinpoint(Citation_Input):
@@ -594,7 +518,7 @@ def AutoPCPinpoint(Citation_Input):
 			#["Chancery Division", '(Ch)'], ["Patents Court", '(Pat)'], ["Queen's Bench", '(QB)'], ["Administrative Court", '(Admin)'], ["Commercial Court", '(Comm)'], ["Admirality Court", '(Admlty)'], ["Technology and Construction",'(TCC)'], ["Family Division", '(Fam)']
 			#need to take the input from the drop down menu and do something with it...
 			pass
-		elif NC[1] = "No NC"
+		elif NC[1] == "No NC":
 			pass
 		R = BestReporter(x)
 		return ["cite to paragraph or page in reporter", R]
@@ -619,6 +543,7 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 	Best = BR[0]
 	NC = CheckNC(Citation_Input) #returns: [string, "NC"/"EWHC"/"No NC"] #pull the neutral citation from the list if there is one
 	if NC[1] == ("NC" or "EWHC"):
+		print "In GetCitations, found NC:", NC[0]
 		NeutralCitation = NC[0]
 	else: NeutralCitation = False
 	#find if there is a citationyear present. if it is in the neutral citation, format it correctly
@@ -628,9 +553,7 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 	if NeutralCitation: 
 		Court = True
 		CitationYear = PullDate(NeutralCitation)
-		if CitationYear:
-			NeutralCitation = CleanUp("["+CitationYear+"] " + re.sub(re.search(regstr(CitationYear), string).group(), "", string))
-		else: 
+		if not CitationYear:
 			NeutralCitation = CleanUp("[input year] " + NeutralCitation)
 			CitationYear = True
 		JudgementYear = CitationYear
@@ -641,7 +564,7 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 	if PullDate(Best): 
 		CitationYear = PullDate(Best) #set the citation date to be the date in the string, if present
 	print "Court = ", Court #True or False
-	print "Citation Date = ", CitationDate #year or False or True
+	print "Citation Date = ", CitationYear #year or False or True
 	if not Court and not CitationYear:
 		print "NOT COURT AND NOT CITATIONDATE DETECTED ****"
 		#Court_input = raw_input("Enter Court with Canadian Jurisdiction: \n")
@@ -662,11 +585,11 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 		if (JudgementYear==CitationYear): 
 			OUTPUT = ', ' + Best + '(' + Ct + ')'
 		else:
-			OUTPUT = ' ('+ JudgementDate + '), ' + Best + ' (' + Ct+ ')'
+			OUTPUT = ' ('+ JudgementYear + '), ' + Best + ' (' + Ct+ ')'
 	if NeutralCitation:
 		print "CITATIONDATE AND COURT DETECTED"
-		OUTPUT = Neutralcitation + ', ' + Best
+		OUTPUT = NeutralCitation + ', ' + Best
 	print "Result:", OUTPUT
 	return OUTPUT
 
-GetCitations("R v Woollin", "2004 UKHL 22, 2004 2 LR AC 457", "2004", False)
+GetCitations("2004 UKHL 22, 2004 2 LR AC 457", "ukhl", "2004", False)
