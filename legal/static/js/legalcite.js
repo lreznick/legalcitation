@@ -90,7 +90,8 @@ Form Submissions
                 success: function(data) {
 					$('#pincite-selection').removeAttr('disabled');
 					jQuery('#pinciteWrapper').tooltip('disable');	
-					$('#pinciteWrapper').remove();
+					//$('#pinciteWrapper').remove();
+					$('#pinciteWrapper').hide();
 					
 					if (data[0].date != false){
 						jQuery('#CanadaCaseDate').val(data[0].date);
@@ -693,6 +694,7 @@ jQuery('#CanadaCaseReset').click(function(){
 	jQuery("#history2").hide();
 	jQuery('#pinciteWrapper').tooltip('enable');
 	$('#pincite-selection').prop('disabled',true);
+	$('#pinciteWrapper').show();
 	//$('#pinciteWrapper').remove();
 	
 	//$("#canadacase-Form .error").html("RAAAAAAAAAAAAAAAWR2")
