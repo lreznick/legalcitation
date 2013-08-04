@@ -31,7 +31,6 @@ Set Up
 	//jQuery(".textarea").wysihtml5();
 	jQuery("#result-container").hide();
 	jQuery("#pincite-form").hide();
-	jQuery("#stackednavs").hide();
 	jQuery("#reporter-container").hide();
 	jQuery("#history3").hide();
 	jQuery("#history2").hide();
@@ -405,16 +404,16 @@ Validations
 					regex: /^[\d,-\s]*$/,
 				},
 				judge:{
-					maxlength:10,	
+					maxlength:100,	
 					regex: regex_judge
 				},
 				//Citing======
 				citing_styleofcause:{
-					maxlength:10,	
+					maxlength:250,	
 					regex: regex_style
 				},
 				citing_parallel:{
-					maxlength:10,	
+					maxlength:250,	
 					regex: regex_parallel,
 				},
 				citing_year:{
@@ -422,7 +421,7 @@ Validations
 					regex: regex_year,
 				},
 				citing_court:{
-					maxlength:10,	
+					maxlength:250,	
 					regex: regex_court, 
 				},
 				//History======
@@ -473,14 +472,17 @@ Validations
 
 			},
 			highlight: function(element) {
-				jQuery(element).closest('.control-group').removeClass('success').addClass('error');
+				console.log("in highlight");
+				jQuery(element).closest('.control-group').addClass('error');
+				//jQuery(element).closest('.control-group').html("AAAAAAAAAA");
 			},
-			unhighlight: function(element) {
-				//jQuery(element).closest('.control-group').removeClass('success').addClass('error');
-			},
-			success: function(element) {
+			success: function(element) {	
 				console.log("in success");			
-				element .text('OK!').addClass('valid').closest('.control-group').removeClass('error')//.addClass('success'); 
+				//element.text('OK!').addClass('valid').closest('.control-group').removeClass('error');//.addClass('success'); 
+				element.closest('.control-group').removeClass('error');//.addClass('success'); 
+				
+				element.text('OK!').addClass('valid');
+				
 			},
 			messages: { 
 				styleofcause: {
@@ -508,12 +510,15 @@ Validations
 					maxlength: "Maximum length: 10 characters.",
 					regex: "Digits only, please."
 				},
+				judge: {
+					maxlength: "Maximum length: 100 characters.",
+				},
 				citing_year:{
 					maxlength: "Maximum length: 20 characters.",
 					regex: "Enter a year between 1400 and 2014."
 				},
 				citing_court:{
-					maxlength: "Maximum length: 10 characters.",	
+					maxlength: "Maximum length: 250 characters.",	
 				},
 				//History======
 				history_parallel1:{
@@ -582,7 +587,6 @@ Validations
 				}
 			},
 			highlight: function(element) {
-				console.log("in highlight");
 				jQuery(element).closest('.control-group').removeClass('success').addClass('error');
 			},
 			success: function(element) { 
@@ -708,7 +712,15 @@ Reset-button
 */
 jQuery('#CanadaCaseReset').click(function(){
 	CanadianCaseValidator.resetForm();
-//$("#CanadaCase-Form .control-group").removeClass('error')
+	//jQuery("#CanadaCaseExtraOptions").collapse();
+	jQuery('#tooltips').html("");
+	$("#canadacase-form .error").removeClass('error');
+	jQuery("#pincite-form").hide();
+	jQuery("#reporter-container").hide();
+	jQuery("#history3").hide();
+	jQuery("#history2").hide();
+	
+	//$("#canadacase-Form .error").html("RAAAAAAAAAAAAAAAWR2")
 //remove();
 //element .text('OK!').addClass('valid').closest('.control-group').removeClass('error')//.addClass('success'); 
 //$("#CanadaCase-Form .error").remove();

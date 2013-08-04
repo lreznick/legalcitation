@@ -92,20 +92,20 @@ color: #333333;
 	padding-left:0px;
 }
 
-
-label.valid {
-  width: 24px;
-  margin:0 auto;
-  background: url(../img/valid.png) center center no-repeat;
-  display: inline-block;
-  text-indent: -9999px;
-}
 label.error {
-  font-weight: bold;
-  color: red;
-  padding: 0px 0px;
-
+	font-weight: bold;
+	color: red;
+	padding: 0px 0px;
+	display: block; 
 }
+label.valid {
+	width: 24px;
+	margin:0 auto;
+	background: url(../img/valid.png) center center no-repeat;
+	display: inline-block; 
+	text-indent: -9999px;
+}
+
 
 button.browsebutton { 
 	background:none;
