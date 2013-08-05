@@ -1,6 +1,7 @@
 import web
 import json
 from formcode.CanadianCase import *
+from formcode.Journal import *
 from formcode.webGrabber import *
 from validator import *
 
@@ -9,6 +10,7 @@ urls = (
 	'/court', 'FormCourt',
 	'/CanadianCase', 'Canada',
 	'/canlii', 'Canlii'
+	'/JournalArticle', 'JournalArticle'
 )
 
 class FormContainer:
@@ -24,13 +26,17 @@ def CreateFormClass(type,form):
 	f = FormContainer(type,form)
 	return f		
 	
+class JournalArticle(object):
+	def POST(self):
+		form = web.input()
+			
 class Canlii(object):
 	def POST(self):
 		form = web.input()
 		url = "%s" % (form.url)
 		out =Connect2Web(url)
 		reporters = out[2]
-		data = [ {'output':out[0], 'styleofcause':out[1][0], 'parallel':out[1][1],, 'year':out[1][2] 'court':out[1][3], 'reporters':reporters}]
+		data = [ {'output':out[0], 'styleofcause':out[1][0], 'parallel':out[1][1], 'year':out[1][2], 'court':out[1][3], 'reporters':reporters}]
 		data_string =json.dumps(data)
 		return data_string
 
@@ -74,7 +80,49 @@ class FormParallel(object):
 			return data_string
 
 
-
+def JournalArticleFormatter(form):	
+	f= CreateFormClass("JournalArticle", form)
+	authors				= "%s" % (f.form.authors)
+	title					= "%s" % (f.form.title)
+	citation				= "%s" % (f.form.citation)
+	year					= "%s" % (f.form.year)
+	pinpointSelection = "%s" % (f.form.pinpoint-selection)
+	pinpointPara		= "%s" % (f.form.pinpoint_form1)
+	pinpointParaCheck= "%s" % (f.form.pinpoint_para_check)
+	pinpointPage		= "%s" % (f.form.pinpoint_form2)
+	pinpointPageCheck= "%s" % (f.form.pinpoint_page_check)
+	pinpointFoot1		= "%s" % (f.form.pinpoint_form3)
+	pinpointFoot2		= "%s" % (f.form.pinpoint_form4)
+	pinpointList =[] #list of three
+	
+	ValidateJournalArticle(f)
+	returnString = ""
+	if f.valid:
+		if (pinpointSelection =="None"):
+			input2 =False
+			input3 = False
+		elif(pinpointSelection =="pinpoint_para"):
+			print pinpointParaCheck
+			input2 = pinpointPara
+			input3 = pinpointParaCheck
+		elif(pinpointSelection =="pinpoint_page"):
+			input2 = pinpointPage
+			input3 = pinpointPageCheck
+		elif(pinpointSelection =="pinpoint_foot"):
+			input2 = pinpointFoot1
+			input3 = pinpointFoot2
+		pinpointList=[pinpointSelection,input2,input3]
+		
+		newAuthors = FormatAuthors(authors)
+		newTitle =FormatTitle(title)
+		newCitation = FormatVolumeEtc(citation,year,pinpointList)
+		returnString= newAuthors + newTitle + newCitation
+		
+	data = [ {'message':returnString, 'valid':f.valid, 'errors':f.errors}]
+	data_string =json.dumps(data)
+	print 'JSON:', data_string
+	return data_string
+	
 def CanadianCase(form):	
 	print "\n\n======in Canadian"
 	f = CreateFormClass("canadian case", form)	

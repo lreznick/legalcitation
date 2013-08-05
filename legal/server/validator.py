@@ -43,6 +43,21 @@ regexCourt = re.compile(ur'^[a-zA-Z\.,\'\^&\(\)\]\[\s\u00E9\u00E8\u00C9\u00C8\u0
 regexJudge = re.compile(ur'^[\wa-zA-Z\.,&\s]+$', flags = re.UNICODE)
 regexPinpoint = re.compile(r'^[0-9-,\s]*$')
 
+
+def ValidateJournalArticle(f):
+	authors				= "%s" % (f.form.authors)
+	title					= "%s" % (f.form.title)
+	citation				= "%s" % (f.form.citation)
+	year					= "%s" % (f.form.year)
+	pinpointSelection = "%s" % (f.form.pinpoint-selection)
+	pinpointPara		= "%s" % (f.form.pinpoint_form1)
+	pinpointParaCheck= "%s" % (f.form.pinpoint_para_check)
+	pinpointPage		= "%s" % (f.form.pinpoint_form2)
+	pinpointPageCheck= "%s" % (f.form.pinpoint_page_check)
+	pinPointFoot1		= "%s" % (f.form.pinpoint_form3)
+	pinPointFoot2		= "%s" % (f.form.pinpoint_form4)
+	return
+	
 def ValidateCanadianParallel(f):
 	parallel				= "%s" % (f.form.parallel)
 	if not parallel:

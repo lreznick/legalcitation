@@ -1,0 +1,140 @@
+                
+					<section>
+					<!-- <div class="header3">Canadian case</div> <br> -->
+					
+				 
+						 
+						 <!-- MANUAL FORM -->
+						<div id = "manual-header" class="header2">Enter Your Information Manually</div>
+						<br>
+						<br>
+						<!-- The forms --> 
+						<div class="leftHalf" id="JournalArticle-Container"> 
+
+                            
+
+                            <!--<form class="form-horizontal" action="/form/CanadianCase" method="POST"  id ="canadacase-form"> -->
+							<form class="form-horizontal" id ="JournalArticle-Form"> 
+                            <fieldset>
+							
+							<!-- Authors -->
+                             <div class="control-group"  id ="JournalTitle-controlgroup">
+                                <label class="control-label" for="JournalTitle"> <b>Author(s)<font color ="red"> *</font></b> </label>
+                                <div class="controls">
+								    <textarea id ="JournalAuthors" class = "span5" rows ="3" placeholder="Type each author on a new line."></textarea>
+                                </div>
+                            </div>
+							
+                            <!--Title-->
+                            <div class="control-group"  id ="JournalTitle-controlgroup">
+                                <label class="control-label" for="JournalTitle"> <b>Title<font color ="red"> *</font></b> </label>
+                                <div class="controls">
+                                    <input type="text" class="input-xxlarge" id="JournalTitle"
+                                                placeholder="" name = "title">
+                                </div>
+                            </div>
+							
+							<!--Citation-->
+                            <div class="control-group" id ="JournalCitation-controlgroup">
+                                <label class="control-label" for="JournalCitation"><b>Citation<font color ="red"> *</font> </b></label>
+                                <div class="controls">
+                                    <input type="text" class="input-xxlarge" id="JournalCitation"
+                                                placeholder="" name = "citation">
+                                </div>
+                            </div>
+														
+						<div class="controls form-inline" id ="CanadaCaseParallel-reporter">
+							<span class="help-block">
+												
+												<!-- REPORTER LIST <i class="icon-play"></i> -->
+													<button class ="browsebutton" type ="button" style ="color: #0088cc; margin-bottom: 5px;"> &#187  <i> Browse Journals</i> </span> </button>
+													<div id ="reporter-container" >
+														<form class="form-search">
+														  <input type="text" class="input-medium search-query" placeholder ="Search..." id = "reporter-input" name="reporter">
+														</form>
+														<button class ="browsebutton" type ="button" style ="color: #0088cc;  float: right; margin-right: 40px;">   <i> close</i> </span> </button> 
+														<div id ="reporter-list">
+														<table class="table table-condensed table-hover" id = "reporter-table" style = "max-height:400px">
+
+														</table>
+														</div> <!-- testy -->
+												</div> <!-- container-->   
+							</div>												
+
+                            <!--Year of Publication -->
+                            <div class="control-group"  id ="JournalYear-controlgroup">
+                                <label class="control-label" for="JournalYear"> <b>Year of Publication<font color ="red"> *</font></b> </label>
+                                <div class="controls">
+                                    <input type="text" class="input-xxlarge" id="JournalYear"
+                                                placeholder="" name = "year">
+                                </div>
+                            </div>
+										
+							<!--Pinpoin-->
+							<div class="control-group" >			
+								<label class="control-label" for="JournalPinpoint">Pinpoint</label>
+									<div class="controls" >
+											<select class = "input-medium" name = "pinpoint-selection" id="pinpoint-selection" style ="float:left">
+												<option value ="None"  >None	</option>
+												<option value ="pinpoint_para" >To paragraph(s)</option>
+												<option value ="pinpoint_page" >To page(s)</option>											
+												<option value ="pinpoint_foot" >To footnote(s)</option>											
+											</select>	
+
+										<div id ="pinpoint-forms" class = "inline">
+											<input class="span2 " id="pinpoint-form1" placeholder = "para(s)" name = "pinpoint_form1" type="text">
+
+											<input class="span2 " id="pinpoint-form2" placeholder = "page(s)" name = "pinpoint_form2" type="text">
+											<input class="span2 " id="pinpoint-form3" placeholder = "footnote(s)" name = "pinpoint_form2" type="text">
+											<input class="span2 " id="pinpoint-form4" placeholder = "page(s) (optional)" name = "pinpoint_form2" type="text">											
+										</div>	
+											<label class="checkbox"><input type="checkbox" value="checked" name="pinpoint_para_check">
+											To general range
+											</label>
+											<label class="checkbox"><input type="checkbox" value="checked" name="pinpoint_page_check">
+											To general range
+											</label>
+									</div>
+							</div>							
+							
+							
+								
+								
+							<br>
+								<div id = "warning-container">
+								</div>
+							
+								<div id ="error-container">
+								</div>
+								
+								<div id ="result-container">
+								<h3> Result</h3>
+								<div id="result-editField" contenteditable="true">
+								<style scoped>
+								  #result-editField { margin-bottom: 10px; margin-left: 2px; }
+								  [contenteditable="true"] { padding: 10px; outline: 1px dashed #CCC; }
+								  [contenteditable="true"]:hover { outline: 1px dashed #0090D2; }
+								</style>
+								<font id="canadacase-results"> </font>
+								</div>	            
+							</div>
+								
+							
+							<!-- Submit Button -->
+							<button  class="btn btn-danger" id ="JournalArticleSubmitButton"> Generate!</button>
+							<button type="reset" class="btn"  id="JournalArticleReset" >reset</button>
+							<button   type = "button" id="thetestbutton" >test</button>
+							
+							<!--<button type = "button"	class="btn" id ="" style ="float:right" >sign up</button> -->
+
+
+
+								
+						</fieldset>
+					</form>
+						</div> <!-- span7-->
+						<div class "rightHalf" id = "tooltips">
+						</div> <!-- span5 / tooltips -->
+
+					</section>
+				

@@ -16,7 +16,7 @@ $def with (greeting= None)
         <div class="tabbable"> <!-- Only required for left/right tabs -->
           <ul class="nav nav-pills">
             <li class="active"><a href="#tab1" data-toggle="tab">Case (Canada)</a></li>
-            <li><a href="#tab2" data-toggle="tab">Case (USA)</a></li>
+            <li><a href="#tab2" data-toggle="tab">Journal Article</a></li>
             <li><a href="#tab3" data-toggle="tab">Case (UK)</a></li>
           </ul>
       <hr>
@@ -43,7 +43,19 @@ $def with (greeting= None)
 							<br>				
 								
 							</fieldset>
-							<div id="canlii-result"> </div>
+							 
+							<div id="canlii-result-container" class= "leftHalf">
+								<h3> Result</h3>
+								<div id="canlii-result-editField" contenteditable="true">
+								<style scoped>
+								  #canlii-result-editField { margin-bottom: 10px; margin-left: 2px; }
+								  [contenteditable="true"] { padding: 5px; outline: 1px dashed #CCC; }
+								  [contenteditable="true"]:hover { outline: 1px dashed #0090D2; }
+								</style>
+								<font id="results"> </font>
+								</div>	           
+								<div  class="header2" style = "margin-bottom:40px; margin-top:40px;">Add Some Additional Options</div>								
+							</div>
 						</form>
 						 
 						 
@@ -373,11 +385,11 @@ $def with (greeting= None)
 								<h3> Result</h3>
 								<div id="result-editField" contenteditable="true">
 								<style scoped>
-								  #result-editField { margin-bottom: 10px; margin-left: 10px; }
+								  #result-editField { margin-bottom: 10px; margin-left: 2px; }
 								  [contenteditable="true"] { padding: 10px; outline: 1px dashed #CCC; }
 								  [contenteditable="true"]:hover { outline: 1px dashed #0090D2; }
 								</style>
-								<font id="results"> </font>
+								<font id="canadacase-results"> </font>
 								</div>	            
 							</div>
 								

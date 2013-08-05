@@ -11,6 +11,9 @@
 .form-horizontal .control-label{
 	padding-top: 0px;
 }
+.radio{
+	display:inline-table;
+}
 #CanadaCaseParallel-controlgroup{
 	margin-bottom:0px;
 

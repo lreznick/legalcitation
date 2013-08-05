@@ -52,7 +52,7 @@ class About(object):
 
 class Index(object):
 	def GET(self):
-		return render.index() #index is the name of the html in /templates
+		return render.journalarticle() #index is the name of the html in /templates
 
 	def POST(self):
 		form = web.input()

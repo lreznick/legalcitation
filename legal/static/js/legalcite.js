@@ -1,14 +1,121 @@
     // <!-- input#input01 accesses the input of id input01 -->
 jQuery(document).ready(function() {
+/*
+=============================================
+Journal Articles
+=============================================
+*/		
 
+function hidePinPoint(){
+
+	jQuery('#JournalArticle-Form #pinpoint-form1').hide();
+	jQuery('#JournalArticle-Form #pinpoint-form2').hide();
+	jQuery('#JournalArticle-Form #pinpoint-form3').hide();
+	jQuery('#JournalArticle-Form #pinpoint-form4').hide();
+}
+hidePinPoint();
+jQuery('#JournalArticle-Form #pinpoint-selection').change(function(){
+	var txt = jQuery(this).val();
+	hidePinPoint();
+	console.log(txt)
+	console.log("1")
+	if (txt == "None"){
+	
+	}
+	else if (txt =="pinpoint_para"){
+	console.log("2")	
+		jQuery('#JournalArticle-Form #pinpoint-form1').show();
+	}
+	else if (txt =="pinpoint_page"){
+		console.log("3")	
+		jQuery('#JournalArticle-Form #pinpoint-form2').show();
+	}
+	else if (txt =="pinpoint_foot"){
+		jQuery('#JournalArticle-Form #pinpoint-form3').show();
+		jQuery('#JournalArticle-Form #pinpoint-form4').show();
+	}
+});
+
+	jQuery('#JournalArticleSubmitButton').click(function() {
+            //generateErrorMessage("#canadacase-form","oh noes")
+		if (JournalArticleValidator.form() == true){
+            jQuery.ajax({ 
+                type: "POST", 
+                data: jQuery('#JournalArticle-Form').serialize(),
+				url:'/form/JournalArticle',
+				dataType: 'json',
+                success: function(data) {
+					clearErrors("#JournalArticle-Form")
+					console.log("the return data", data);
+					//console.log("the return data", data[0].errors);
+					//console.log("the return data", data[0].message);
+					 if( data[0].valid ==true) {
+						
+						var results = data[0].message; 
+						jQuery('#result-container').hide().fadeIn(200);
+						jQuery('#canadacase-results').html(results).hide().fadeIn(400);
+						
+					 }
+					 else{
+
+						var errorlist=data[0].errors;
+						console.log("errorlist" + errorlist);
+					 	for (var i =0; i<errorlist.length; i++){
+							//error = [inputName, input, message]
+							var input = errorlist[i][1];
+							var message = errorlist[i][2];
+							generateErrorMessage("#canadacase-form",message);
+						}	
+						
+					 }
+					 
+
+                },
+			});
+			return false; 
+		}
+	});
+	
+	// Validates the form to check if a form works or not
+	// Note: rules are based on name of form
+	var JournalArticleValidator = jQuery('#JournalArticle-Form').validate({
+			//ignore: ".search-query",
+			rules: { 
+				title: {
+					maxlength:250,	
+					required: true 
+				},
+				
+			},
+			highlight: function(element) {
+				console.log("in highlight");
+				jQuery(element).closest('.control-group').addClass('error');
+				//jQuery(element).closest('.control-group').html("AAAAAAAAAA");
+			},
+			success: function(element) {	
+				console.log("in success");			
+				//element.text('OK!').addClass('valid').closest('.control-group').removeClass('error');//.addClass('success'); 
+				element.closest('.control-group').removeClass('error');//.addClass('success'); 
+				
+				element.text('OK!').addClass('valid');
+				
+			},
+			messages: { 
+				styleofcause: {
+					maxlength: "Maximum length: 250 characters.",
+					required: " "
+				},
+	
+			}
+		}); 	
 /*
 =============================================
 THE TESTING BUTOON!!!!!!=================================================
 =============================================
 */		
 jQuery("#thetestbutton").click(function(){
-
-	generateErrorMessage("#canadacase-form","oh noes")
+	console.log(jQuery('#JournalArticle-Form').serialize());
+	console.log(jQuery('#JournalAuthors').val())
 
 })
 /*
@@ -47,6 +154,7 @@ Set Up
 	//jQuery("#hidden-forms").hide();
 	//jQuery(".textarea").wysihtml5();
 	jQuery("#result-container").hide();
+	jQuery("#canlii-result-container").hide();
 	jQuery("#pincite-form").hide();
 	jQuery("#reporter-container").hide();
 	jQuery("#history3").hide();
@@ -79,21 +187,32 @@ Form Submissions
                 success: function(data) {
 					console.log(data[0]);
 					var styleofcause = data[0].styleofcause;
-					var paralllel = data[0].parallel;
+					var parallel = data[0].parallel;
 					var court = data[0].court;
 					var year = data[0].year;					
-					var reporters = data[0].reporter[0];	
+					var reporters = data[0].reporters[0];	
 					var reporterType = data[0].reporters[1];
-					jQuery('#canlii-result').html('<b style ="font-size: 18px"> Result:   </b> '+data[0].output).hide().fadeIn(400);
-					var fadeoutTime = 300;
-					jQuery('#manual-header').fadeOut(fadeoutTime);
+					jQuery('#manual-header').hide();					
+					jQuery('#canlii-result-container').hide().fadeIn(300);					
+					jQuery('#canlii-result-container #results').html(data[0].output).hide().fadeIn(300);
+					//jQuery().html('<b style ="font-size: 18px"> Result:   </b> '+).hide().fadeIn(400);
+					var fadeoutTime = 800;
+					
+			// COMMENT OUT THIS BITCH MOTHER~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
 					jQuery('#CanadaCaseCourt-controlgroup').fadeOut(fadeoutTime);
 					jQuery('#CanadaCaseParallel-controlgroup').fadeOut(fadeoutTime);
 					jQuery('#CanadaCaseParallel-reporter').fadeOut(fadeoutTime);
 					jQuery('#CanadaCaseDate-controlgroup').fadeOut(fadeoutTime);
 					jQuery('#CanadaCaseStyle-controlgroup').fadeOut(fadeoutTime);
+			// COMMENT OUT THIS BITCH MOTHER~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~							
+					
 					$('#pincite-selection').removeAttr('disabled');
 					jQuery('#pinciteWrapper').tooltip('disable');
+					$('#pinciteWrapper').hide();
+					jQuery('#CanadaCaseStyle').val(styleofcause);
+					jQuery('#CanadaCaseParallel').val(parallel);
+					jQuery('#CanadaCaseDate').val(year);
+					jQuery('#CanadaCaseCourt').val(court);
 					
 					autoFillPinCite(reporterType,reporters);
 					
@@ -122,7 +241,7 @@ Form Submissions
 						
 						var results = data[0].message; 
 						jQuery('#result-container').hide().fadeIn(200);
-						jQuery('#results').html(results).hide().fadeIn(400);
+						jQuery('#canadacase-results').html(results).hide().fadeIn(400);
 						
 					 }
 					 else{
@@ -148,7 +267,7 @@ Form Submissions
 	function autoFillPinCite(reporterType, reporters){
 		console.log("reporterType ::" +reporterType );
 		console.log("reporter 1::"+ reporters[0]);
-		console.log("reporter 2 ::" + .reporters[0]);
+		console.log("reporter 2 ::" + reporters[1]);
 		// two reporters
 		if (reporterType == "two") { 
 			//everything
@@ -200,7 +319,7 @@ Form Submissions
 					}
 					
 					var reporterType = data[0].reporters[1];
-					var reporters = data[0].reporter[0];	
+					var reporters = data[0].reporters[0];	
 					autoFillPinCite(reporterType,reporters);
 					
                 },
@@ -760,6 +879,14 @@ jQuery('#CanadaCaseReset').click(function(){
 	jQuery('#pinciteWrapper').tooltip('enable');
 	$('#pincite-selection').prop('disabled',true);
 	$('#pinciteWrapper').show();
+	
+	jQuery('#manual-header').show();					
+	jQuery('#canlii-result').hide();
+	jQuery('#CanadaCaseCourt-controlgroup').show();	
+	jQuery('#CanadaCaseParallel-controlgroup').show();	
+	jQuery('#CanadaCaseParallel-reporter').show();	
+	jQuery('#CanadaCaseDate-controlgroup').show();	
+	jQuery('#CanadaCaseStyle-controlgroup').show();	
 	//$('#pinciteWrapper').remove();
 	
 	//$("#canadacase-Form .error").html("RAAAAAAAAAAAAAAAWR2")
