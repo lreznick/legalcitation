@@ -119,7 +119,7 @@ def Capitalize(string):
 #Tooltip: Only list primary authors.
 #tested: works
 def FormatAuthors(authorinput):
-	list = authorinput
+	list = re.split("\n", authorinput)
 	formattedlist = []
 	Remove = ["MBA", "MSC", "BA", "PhD", "JD", "LLB", "LLM", "BSc", "BAH", "BScH", "BSc H"] 
 	for author in list:
@@ -214,19 +214,19 @@ def FormatVolumeEtc(citationinput, yearinput, pinpoint):
 		cite = CleanUp("["+str(year)+"] "+cite)
 	if not pinpoint[0]:
 		return [cite, hit]
-	elif pinpoint[0]=="para":
+	elif pinpoint[0]=="pinpoint_para":
 		numbers = CleanUp(pinpoint[1])
 		nummatch = re.search(r'(,|-)', numbers)
 		if nummatch: pin = " at paras "+str(numbers)
 		else: pin = " at para "+str(numbers)
 		if pinpoint[2]: pin = pin + ' ff'
 		cite = cite+pin
-	elif pinpoint[0]=="page":
+	elif pinpoint[0]=="pinpoint_page":
 		numbers = CleanUp(pinpoint[1])
 		pin = " at "+str(numbers)
 		if pinpoint[2]: pin = pin + ' ff'
 		cite = cite+pin
-	elif pinpoint[0]=="footnote":
+	elif pinpoint[0]=="pinpoint_foot":
 		noteno = CleanUp(pinpoint[2])
 		nummatch = re.search(r'(,|-)', noteno)
 		if nummatch: pin = " nn "+str(noteno)
@@ -235,10 +235,11 @@ def FormatVolumeEtc(citationinput, yearinput, pinpoint):
 			pgno = CleanUp(pinpoint[1])
 			pin = " at "+str(pgno) + pin
 		cite = cite+pin
+	cite = cite+'.'
 	return [cite, hit]
 
 
-#print FormatVolumeEtc("2003 41 ONE WORLD JOURNAL 505", "2000", ["footnote", "550", "27-29"])
+#print FormatAuthors(["Huang, Stephen", "David Pardy"]) + FormatTitle("BEING A BAUCE")+FormatVolumeEtc("2003 41 ONE WORLD JOURNAL 505", "2000", ["footnote", "550", "27-29"])[0]
 
 #make sure ther are numbers on the end.
 #tested: works
@@ -266,11 +267,11 @@ CheckCitation()
 PINPOINT
 note: validation regex can also include lowercase letters
 
-TYPES OF OUTPUTS
+TYPES OF INPUTS
 none [False, False, False]
-to paragraph(s) ["para", number(s), general range (True or False)]
-to page(s) ["page", number(s), general range (True or False)]
-to footnote on page ["footnote", page number (or False), footnote number]#note: do not need page number
+to paragraph(s) ["pinpoint_para", number(s), general range (True or False)]
+to page(s) ["pinpoint_page", number(s), general range (True or False)]
+to footnote on page ["pinpoint_foot", page number (or False), footnote number]#note: do not need page number
 
 '''
 
