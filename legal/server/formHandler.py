@@ -29,8 +29,8 @@ class Canlii(object):
 		form = web.input()
 		url = "%s" % (form.url)
 		out =Connect2Web(url)
-	
-		data = [ {'output':out[0], 'styleofcause':out[1][0], 'parallel':out[1][1], 'court':out[1][2]}]
+		reporters = out[2]
+		data = [ {'output':out[0], 'styleofcause':out[1][0], 'parallel':out[1][1],, 'year':out[1][2] 'court':out[1][3], 'reporters':reporters}]
 		data_string =json.dumps(data)
 		return data_string
 

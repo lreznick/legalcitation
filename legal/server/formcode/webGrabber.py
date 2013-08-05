@@ -97,7 +97,7 @@ def Connect2Web(webURL):
 				print "Date found in Parallel:", date
 	Output = GetStyleOfCause(styleofcause)+GetCitations(parallel, court, date, False)+'.'
 	print "End of Connect2Web! Returning: ", Output, "*********"
-	return [Output, [styleofcause, parallel, date, court]]
+	return [Output, [styleofcause, parallel, date, court], AutoPCPinpoint(parallel)]
 
 
 def run():

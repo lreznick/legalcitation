@@ -154,7 +154,7 @@ def ValidateCanadianCase(f):
 			GenerateErrorMsg(f,"citing_parallel","", ErrorMsgInvalid("parallel citations in the citing option") )	
 		if not Validate(regexYear, citingYear):
 			GenerateErrorMsg(f,"citing_year","", ErrorMsgInvalid("year in the citing option") )
-		c = CleanUpCourt(citingCourt) #returns [court, False/True]
+		c = CleanUpCourt(citingCourt, citingParallel) #returns [court, False/True]
 		#the regexCourt is found in CleanUpCourt in CanadianCase automatically
 		if not c[1]:
 			GenerateErrorMsg(f,"citing_court","", ErrorMsgCourt("court in the citing option"))	
