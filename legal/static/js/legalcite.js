@@ -78,6 +78,12 @@ Form Submissions
 				dataType: 'json',
                 success: function(data) {
 					console.log(data[0]);
+					var styleofcause = data[0].styleofcause;
+					var paralllel = data[0].parallel;
+					var court = data[0].court;
+					var year = data[0].year;					
+					var reporters = data[0].reporter[0];	
+					var reporterType = data[0].reporters[1];
 					jQuery('#canlii-result').html('<b style ="font-size: 18px"> Result:   </b> '+data[0].output).hide().fadeIn(400);
 					var fadeoutTime = 300;
 					jQuery('#manual-header').fadeOut(fadeoutTime);
@@ -86,6 +92,11 @@ Form Submissions
 					jQuery('#CanadaCaseParallel-reporter').fadeOut(fadeoutTime);
 					jQuery('#CanadaCaseDate-controlgroup').fadeOut(fadeoutTime);
 					jQuery('#CanadaCaseStyle-controlgroup').fadeOut(fadeoutTime);
+					$('#pincite-selection').removeAttr('disabled');
+					jQuery('#pinciteWrapper').tooltip('disable');
+					
+					autoFillPinCite(reporterType,reporters);
+					
 					
 				//	jQuery('#').hide();
 				//	jQuery('#manual-header').hide();
@@ -134,6 +145,37 @@ Form Submissions
 		}
 	});
 	
+	function autoFillPinCite(reporterType, reporters){
+		console.log("reporterType ::" +reporterType );
+		console.log("reporter 1::"+ reporters[0]);
+		console.log("reporter 2 ::" + .reporters[0]);
+		// two reporters
+		if (reporterType == "two") { 
+			//everything
+			jQuery('#pincite-selection>option[value="citeTo"]').show();
+			jQuery('#pincite-selection>option[value="pinPoint_page"]').show();//attr({ disabled: 'disabled' });
+			jQuery('#pinciteRadio_Reporter1').html(reporters[0]);
+			jQuery('#pinciteRadio_Reporter2').html(reporters[1]);
+			jQuery('#pinciteRadio2').show();
+						
+		}
+		else{
+			jQuery('#pincite-selection>option[value="citeTo"]').hide();
+			if ( reporterType == "one"){
+			// pinpoint page , pinpoint para or nothing
+				jQuery('#pincite-selection>option[value="pinPoint_page"]').show();//attr({ disabled: 'disabled' });													
+				jQuery('#pinciteRadio_Reporter1').html(reporters[0]);
+				jQuery('#pinciteRadio2').hide();
+			}
+			if ( reporterType == "neutral"){
+			//pinpoint para or nothing
+				jQuery('#pincite-selection>option[value="pinPoint_page"]').hide();//attr({ disabled: 'disabled' });
+				jQuery('#pinciteRadio_Reporter1').html(reporters[0]);
+				jQuery('#pinciteRadio2').hide();
+			}
+		}
+	}
+	
 	jQuery('#CanadaCaseParallel').blur(function(){
 			var parallelValue = jQuery(this).val();
 				
@@ -156,36 +198,10 @@ Form Submissions
 					if (data[0].court != false){
 						jQuery('#CanadaCaseCourt').val(data[0].court);
 					}
-					console.log("reporter 1::"+ data[0].reporters[0][0]);
-					console.log("reporter 2 ::" + data[0].reporters[0][1]);
+					
 					var reporterType = data[0].reporters[1];
-						console.log("reporterType ::" +reporterType );
-					// two reporters
-					if (reporterType == "two") { 
-						//everything
-						jQuery('#pincite-selection>option[value="citeTo"]').show();
-						jQuery('#pincite-selection>option[value="pinPoint_page"]').show();//attr({ disabled: 'disabled' });
-						jQuery('#pinciteRadio_Reporter1').html(data[0].reporters[0][0]);
-						jQuery('#pinciteRadio_Reporter2').html(data[0].reporters[0][1]);
-						jQuery('#pinciteRadio2').show();
-						
-					}
-					else{
-						jQuery('#pincite-selection>option[value="citeTo"]').hide();
-						if ( reporterType == "one"){
-						// pinpoint page , pinpoint para or nothing
-							jQuery('#pincite-selection>option[value="pinPoint_page"]').show();//attr({ disabled: 'disabled' });													
-							jQuery('#pinciteRadio_Reporter1').html(data[0].reporters[0][0]);
-							jQuery('#pinciteRadio2').hide();
-							
-						}
-						if ( reporterType == "neutral"){
-						//pinpoint para or nothing
-							jQuery('#pincite-selection>option[value="pinPoint_page"]').hide();//attr({ disabled: 'disabled' });
-							jQuery('#pinciteRadio_Reporter1').html(data[0].reporters[0][0]);
-							jQuery('#pinciteRadio2').hide();
-						}
-					}
+					var reporters = data[0].reporter[0];	
+					autoFillPinCite(reporterType,reporters);
 					
                 },
 			
