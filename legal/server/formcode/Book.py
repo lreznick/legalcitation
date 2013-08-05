@@ -59,6 +59,72 @@ def PullDate(string):
 	Sorted = sorted(Dates, key=lambda tup: tup)
 	return str(Sorted[0])
 
+def CheckFullDate(string):
+	print "\n****** Starting CheckFullDate"
+	string = re.sub(',','', string)              #Remove all periods
+	months = [["January", "Jan", "01"], ["February", "Feb", "02"], ["March", "Mar", "03"],  ["April", "Apr", "04"],  ["May", "May", "05"],  ["June", "Jun", "06"], ["July", "Jul", "07"], ["August", "Aug", "08"], ["September", "Sept", "09"], ["October", "Oct", "10"], ["November", "Nov", "11"], ["December", "Dec", "12"]]
+	formatOne = re.compile(r'^((14|15|16|17|18|19|20)\d\d)[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$')#yyyy/mm/dd
+	m = formatOne.search(string)
+	if m:
+		yearFormatOne = m.group(1)
+		monthFormatOne = m.group(3)
+		for x in months:
+			if x[2]==monthFormatOne:
+				month = x[0]
+			else:
+				print "Error! no Month match on", monthFormatOne
+				month = monthFormatOne
+		dayFormatOne  = m.group(4)
+		if dayFormatOne[0]==0:
+			dayFormatOne = dayFormatOne[1]
+		string = dayFormatOne + ' ' + month + ' '+yearFormatOne
+		return [string, "ok"]
+	print "No yyyy/mm/dd found. Now looking for it written out. Running PullDate:"
+	yearFormatTwo = PullDate(string)
+	if not yearFormatTwo:
+		return [string, "bad format!"]
+	else:
+		string = CleanUp(re.sub(yearFormatTwo, ' ', string))
+		year = yearFormatTwo
+		print "year found: ", year
+		print "string modified to: ", string
+	Hit = False
+	for x in months:
+		print x[0]
+		monthFormatTwo = re.compile(regstrElec(x[0]), flags = re.I)
+		monthFormatThree = re.compile(regstrElec(x[1]), flags = re.I)
+		if monthFormatTwo.search(string):
+			print "Found month: ", x[0]
+			month = x[0]
+			Hit = True
+			string = CleanUp(re.sub(monthFormatTwo.search(string).group(), ' ', string))
+			break
+		elif monthFormatThree.search(string):
+			print "Found month: ", x[0]
+			month = x[0]
+			Hit = True
+			string = CleanUp(re.sub(monthFormatThree.search(string).group(), ' ', string))
+			break
+	if not Hit:
+		return [string, "bad format!"]
+	dayFormatTwo = re.compile(r'(0[1-9]|[12][0-9]|3[01])')
+	if dayFormatTwo.search(string):
+		dayNum = dayFormatTwo.search(string).group()
+		print "Day: ", dayNum
+		if dayNum[0]==0:
+			dayNum = dayNum[1]
+		string = dayNum + ' ' + month + ' ' + year
+		return [string, "ok"]
+	dayFormatThree = re.compile(r'[1-9]')
+	if dayFormatThree.search(string):
+		dayNum = dayFormatThree.search(string).group()
+		print "Day: ", dayNum
+		if dayNum[0]==0:
+			dayNum = dayNum[1]
+		string = dayNum + ' ' + month + ' ' + year
+		return [string, "ok"]
+	else: return [string, "bad format!"]
+
 #CleanUp gets rid of all periods, excess spaces, and leading or trailing spaces in a string, and fixes spaces after commas	
 #tested: works
 def CleanUpTitle(string):
@@ -115,11 +181,13 @@ def Capitalize(string):
 	return string
 
 
-#input is a LIST of authors
-#Tooltip: Only list primary authors.
+#Tooltip: The "use verbatim" option exactly outputs your input. Ex. "Alice Jones with the collaboration of Bob Smith"
+#Use the editors option of they are editors of a collection
 #tested: works
-def FormatAuthors(authorinput):
+def FormatAuthors(authorinput, verbatim, editors):
 	list = re.split("\n", authorinput)
+	if verbatim:
+		return CleanUpTitle(' '.join(list))+', '
 	formattedlist = []
 	Remove = ["MBA", "MSC", "BA", "PhD", "JD", "LLB", "LLM", "BSc", "BAH", "BScH", "BSc H", ", MA", "SJD", "QC", "FRSC"] 
 	for author in list:
@@ -131,22 +199,32 @@ def FormatAuthors(authorinput):
 			author = CleanUp(comma.search(author).group()+" "+ re.sub(comma.search(author).group(), "", author))
 		#put the names in order First Last
 		formattedlist.append(author)
+	Output = ''
 	if len(formattedlist)==1:
-		return formattedlist[0]+', '
+		Output = formattedlist[0]+', '
+		if editors:
+			Output = Output + 'ed, '
 	if len(formattedlist)==2:
-		return formattedlist[0]+' & '+formattedlist[1]+', '
+		Output = formattedlist[0]+' & '+formattedlist[1]+', '
+		if editors:
+			Output = Output + 'eds, '
 	if len(formattedlist)==3:
-		return formattedlist[0]+', '+formattedlist[1]+' & '+formattedlist[2]+', '
+		Output = formattedlist[0]+', '+formattedlist[1]+' & '+formattedlist[2]+', '
+		if editors:
+			Output = Output + 'eds, '
 	if len(formattedlist)>3:
-		return formattedlist[0] + " et al"+', '
+		Output = formattedlist[0] + " et al"+', '
+		if editors:
+			Output = Output + 'eds, '
+	return Output
 
-#print FormatAuthors(["David Pardy, MBA, BScH", "Huang, Stephen", "Jared Jackson", "Rahim R"])#print FormatAuthors(["Smith, Don, Cherry"])#print FormatAuthors(["Smith, Smith"])#print FormatAuthors(["PARDY, DAVID"])
+#print FormatAuthors("David Pardy, \n Huang, Stephen \n Jared Jackson \n Rahim R", True)#print FormatAuthors(["Smith, Don, Cherry"])#print FormatAuthors(["Smith, Smith"])#print FormatAuthors(["PARDY, DAVID"])
 
 
 #input is string
 #tested: works
 def FormatTitle(titleinput):
-	return '"'+Capitalize(CleanUp(titleinput))+'" '
+	return '<i>'+Capitalize(CleanUp(titleinput))+'</i> '
 
 
 def DefaultCite(string):
@@ -250,10 +328,31 @@ def CheckCitation(citationinput):
 
 #print CheckCitation("2003 41 Osgoode Hall LJ 505")
 
-'''
-AUTOFILL:
 
-PullDate(citationinput) >> Year of Publication
+
+'''
+Form
+
+Author(s) * 
+	- checkbox "Use verbatim"
+	- checkbox "Editors"
+
+Title * 
+Volume (input digits only)
+Edition (input number or "revised")
+Date consulted (if loose-leaf): (input date)
+
+
+
+
+
+
+
+'''
+
+
+'''
+
 
 '''
 
