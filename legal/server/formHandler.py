@@ -9,7 +9,7 @@ urls = (
 	'/parallel', 'FormParallel',
 	'/court', 'FormCourt',
 	'/CanadianCase', 'Canada',
-	'/canlii', 'Canlii'
+	'/canlii', 'Canlii',
 	'/JournalArticle', 'JournalArticle'
 )
 
@@ -29,6 +29,7 @@ def CreateFormClass(type,form):
 class JournalArticle(object):
 	def POST(self):
 		form = web.input()
+		JournalArticleFormatter(form)
 			
 class Canlii(object):
 	def POST(self):
@@ -82,20 +83,26 @@ class FormParallel(object):
 
 def JournalArticleFormatter(form):	
 	f= CreateFormClass("JournalArticle", form)
+	print form
 	authors				= "%s" % (f.form.authors)
 	title					= "%s" % (f.form.title)
 	citation				= "%s" % (f.form.citation)
 	year					= "%s" % (f.form.year)
-	pinpointSelection = "%s" % (f.form.pinpoint-selection)
+	pinpointSelection = "%s" % (f.form.pinpoint_selection)
 	pinpointPara		= "%s" % (f.form.pinpoint_form1)
-	pinpointParaCheck= "%s" % (f.form.pinpoint_para_check)
+	pinpointParaCheck= False
+	if form.has_key('pinpoint_para_check'):
+		pinpointParaCheck= True
 	pinpointPage		= "%s" % (f.form.pinpoint_form2)
-	pinpointPageCheck= "%s" % (f.form.pinpoint_page_check)
+	
+	pinpointPageCheck= False
+	if form.has_key('pinpoint_para_check'):
+		pinpointPageCheck= True
 	pinpointFoot1		= "%s" % (f.form.pinpoint_form3)
 	pinpointFoot2		= "%s" % (f.form.pinpoint_form4)
 	pinpointList =[] #list of three
 	
-	ValidateJournalArticle(f)
+	#ValidateJournalArticle(f)
 	returnString = ""
 	if f.valid:
 		if (pinpointSelection =="None"):
@@ -134,7 +141,9 @@ def CanadianCase(form):
 	court					= "%s" % (f.form.court)
 	shortform 			= "%s" % (f.form.shortform)
 	judge 				= "%s" % (f.form.judge)
-	#dissenting			= "%s" % (f.form.judge_dissenting)
+	dissenting = False
+	if f.form.has_key('judge_dissenting'):
+		dissenting = True
 	
 	citingStyle 			= "%s" % (f.form.citing_styleofcause)
 	citingParallel		= "%s" % (f.form.citing_parallel)
