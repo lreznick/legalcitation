@@ -96,7 +96,7 @@ Form Submissions
 		//Submitting the information to the server to be processed
 	jQuery('#GoButton').click(function() {
             //generateErrorMessage("#canadacase-form","oh noes")
-
+		if (CanadianCaseValidator.form() == true){
             jQuery.ajax({ 
                 type: "POST", 
                 data: jQuery('#canadacase-form').serialize(),
@@ -131,6 +131,7 @@ Form Submissions
                 },
 			});
 			return false; 
+		}
 	});
 	
 	jQuery('#CanadaCaseParallel').blur(function(){
