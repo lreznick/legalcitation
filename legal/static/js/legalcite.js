@@ -96,9 +96,7 @@ jQuery('#JournalArticle-Form #pinpoint-selection').change(function(){
 				console.log("in success");			
 				//element.text('OK!').addClass('valid').closest('.control-group').removeClass('error');//.addClass('success'); 
 				element.closest('.control-group').removeClass('error');//.addClass('success'); 
-				
 				element.text('OK!').addClass('valid');
-				
 			},
 			messages: { 
 				styleofcause: {
@@ -422,8 +420,8 @@ Tool Tips
 */	
 var tooltip_header              = "<div class=\"tooltip-title\">"
 var tooltip_styleofcause	    = tooltip_header + "Style of Cause     </div><font class = \"red\"> ex. Tilden Rent-A-Car Co. v Clendenning</font><br> Input the style of cause as written on the case. <br>"
-//var tooltip_parallel				= tooltip_header + "Parallel Citations </div><font class = \"red\"> ex. 2008 SCC 9 (CanLII); [2008] 1 SCR 190; 229 NBR (2d) 1; 291 DLR (4th) 577 </font><br> Separate abbreviated reporters by commas or semicolons. Browse through the catalog to find abbreviations. <br>Input at least two reporters, unless only one is available. <br>Don't worry about formatting. <br>"
-var tooltip_parallel				= tooltip_header + "Parallel Citations </div><font class = \"red\"> ex. 2008 9 (CanLII); [2008] 1 SCR 190; 229 NBR (2d) 1; 291 DLR (4th) 577 </font><br> Separate abbreviated reporters by commas or semicolons. Browse through the catalog to find abbreviations. <br>Input at least two reporters, unless only one is available. <br>Don't worry about formatting. <br>"
+var tooltip_parallel				= tooltip_header + "Parallel Citations </div><font class = \"red\"> ex. 2008 SCC 9 (CanLII); [2008] 1 SCR 190; 229 NBR (2d) 1; 291 DLR (4th) 577 </font><br> Separate abbreviated reporters by commas or semicolons. Browse through the catalog to find abbreviations. <br>Input at least two reporters, unless only one is available. <br>Don't worry about formatting. <br>"
+//var tooltip_parallel				= tooltip_header + "Parallel Citations </div><font class = \"red\"> ex. 2008 9 (CanLII); [2008] 1 SCR 190; 229 NBR (2d) 1; 291 DLR (4th) 577 </font><br> Separate abbreviated reporters by commas or semicolons. Browse through the catalog to find abbreviations. <br>Input at least two reporters, unless only one is available. <br>Don't worry about formatting. <br>"
 var tooltip_year	                = tooltip_header + "Year of Decision    </div><font class = \"red\"> ex. 1985 </font><br>"
 var tooltip_court                 = tooltip_header + "Court                 </div><font class = \"red\"> ex. Alberta qb </font><br>Our recognition algorithm will format your input correctly. <br>"
 var tooltip_shortform     		= tooltip_header  + "Short Form      	</div><font class = \"red\"> ex. Van der Peet</font> <br>Use a short form to refer to the judgment later in your paper. <br>It is normally the first party name. <br>"

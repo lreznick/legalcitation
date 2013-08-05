@@ -91,18 +91,17 @@ def JournalArticleFormatter(form):
 	pinpointSelection = "%s" % (f.form.pinpoint_selection)
 	pinpointPara		= "%s" % (f.form.pinpoint_form1)
 	pinpointParaCheck= False
-	if form.has_key('pinpoint_para_check'):
-		pinpointParaCheck= True
 	pinpointPage		= "%s" % (f.form.pinpoint_form2)
-	
 	pinpointPageCheck= False
-	if form.has_key('pinpoint_para_check'):
-		pinpointPageCheck= True
 	pinpointFoot1		= "%s" % (f.form.pinpoint_form3)
 	pinpointFoot2		= "%s" % (f.form.pinpoint_form4)
 	pinpointList =[] #list of three
+	if f.form.has_key('pinpoint_para_check'):
+		pinpointPageCheck= True
+	if f.form.has_key('pinpoint_para_check'):
+		pinpointParaCheck= True
 	
-	#ValidateJournalArticle(f)
+	ValidateJournalArticle(f)
 	returnString = ""
 	if f.valid:
 		if (pinpointSelection =="None"):

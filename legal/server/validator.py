@@ -49,13 +49,18 @@ def ValidateJournalArticle(f):
 	title					= "%s" % (f.form.title)
 	citation				= "%s" % (f.form.citation)
 	year					= "%s" % (f.form.year)
-	pinpointSelection = "%s" % (f.form.pinpoint-selection)
+	pinpointSelection = "%s" % (f.form.pinpoint_selection)
 	pinpointPara		= "%s" % (f.form.pinpoint_form1)
-	pinpointParaCheck= "%s" % (f.form.pinpoint_para_check)
+	pinpointParaCheck= False
 	pinpointPage		= "%s" % (f.form.pinpoint_form2)
-	pinpointPageCheck= "%s" % (f.form.pinpoint_page_check)
-	pinPointFoot1		= "%s" % (f.form.pinpoint_form3)
-	pinPointFoot2		= "%s" % (f.form.pinpoint_form4)
+	pinpointPageCheck= False
+	pinpointFoot1		= "%s" % (f.form.pinpoint_form3)
+	pinpointFoot2		= "%s" % (f.form.pinpoint_form4)
+	pinpointList =[] #list of three
+	if f.form.has_key('pinpoint_para_check'):
+		pinpointPageCheck= True
+	if f.form.has_key('pinpoint_para_check'):
+		pinpointParaCheck= True
 	return
 	
 def ValidateCanadianParallel(f):
