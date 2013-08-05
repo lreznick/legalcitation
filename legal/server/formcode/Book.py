@@ -321,11 +321,17 @@ def DefaultPlace(string):
 	return string
 
 def FormatPublication(place, publisher, year):#can be "no place", "no publisher", "no year"
-	place = Capitalize(CleanUp(DefaultPlace(CleanUp(place))))
-	pub = re.sub(regstr("the"), ' ', publisher, flags = re.I|re.UNICODE)
-	pub = Capitalize(CleanUp(pub))
+	if place == "no place":
+		place = "np"
+	else: place = Capitalize(CleanUp(DefaultPlace(CleanUp(place))))
+	if place == "no publisher": pass
+	else: 
+		pub = re.sub(regstr("the"), ' ', publisher, flags = re.I|re.UNICODE)
+		pub = Capitalize(CleanUp(pub))
 	if PullDate(year):
 		year = PullDate(year)
+	else:
+		year = "[nd]"
 	return '('+place+'; '+pub+', '+year+')'
 	
 
@@ -386,18 +392,24 @@ PINPOINT INPUTS
 
 
 
-
+'''
 
 newauthor = FormatAuthors("Pardy, David", False, True)#authors, verbatim, editors
 newtitle = FormatTitle("The king and me", False, '2', "june 15, 2013", False)[0]#title, volume, edition, looseleaf(date), extra
-newpublish = FormatPublication("london, UK", "Oxford university press", "1770")#can be "no place", "no publisher", "no year"
+newpublish = FormatPublication("london, UK", "Oxford university press", "no year")#can be "no place", "no publisher", "no year"
 newpinpoint = FormatPinpoint(["pinpoint_para", "24-26", "1", True])
+
+
+newauthor = FormatAuthors(authors, verbatim, editors)
+newtitle = FormatTitle(title, volume, edition, looseleaf, extra)
+newpublish = FormatPublication(place, publisher, year)#can be "no place", "no publisher", "no year"
+newpinpoint = FormatPinpoint(pinpoint)
 
 Output = newauthor + newtitle + newpublish + newpinpoint
 
 print Output
 
-
+'''
 
 
 '''
