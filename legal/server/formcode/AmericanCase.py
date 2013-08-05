@@ -291,37 +291,43 @@ def PullDate(string):
 #input is the date input. this function is called from BestReporter
 #returns [correctly date-formatted string, "ok"] OR [some string, "bad format!"]
 def CheckUSLWDate(string):
-	print "\n****** Starting CheckUSLWDate"
+	print "\n****** Starting CheckFullDate"
+	errormsg = "bad format!"
 	string = re.sub(',','', string)              #Remove all periods
 	months = [["January", "Jan", "01"], ["February", "Feb", "02"], ["March", "Mar", "03"],  ["April", "Apr", "04"],  ["May", "May", "05"],  ["June", "Jun", "06"], ["July", "Jul", "07"], ["August", "Aug", "08"], ["September", "Sept", "09"], ["October", "Oct", "10"], ["November", "Nov", "11"], ["December", "Dec", "12"]]
-	formatOne = re.compile(r'^((14|15|16|17|18|19|20)\d\d)[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$')#yyyy/mm/dd
+	formatOne = re.compile(r'^((14|15|16|17|18|19|20)\d\d)[- /\.](0[1-9]|1[012])[- /\.](0[1-9]|[12][0-9]|3[01])$')#yyyy/mm/dd
 	m = formatOne.search(string)
 	if m:
-		yearFormatOne = m.group(1)
-		monthFormatOne = m.group(3)
+		yearFormatOne = CleanUp(m.group(1))
+		monthFormatOne = CleanUp(m.group(3))
+		print "detected yyyy/mm/dd format...."
+		print "year " + yearFormatOne
+		print "month " + monthFormatOne
+		CH = False
 		for x in months:
 			if x[2]==monthFormatOne:
 				month = x[0]
-			else:
-				print "Error! no Month match on", monthFormatOne
-				month = monthFormatOne
+				CH = True
+		if not CH:
+			print "Error! no Month match on", monthFormatOne
+			month = monthFormatOne
 		dayFormatOne  = m.group(4)
-		if dayFormatOne[0]==0:
+		print "day[0] " + dayFormatOne[0]
+		if dayFormatOne[0]=="0":
+			print "yeh"
 			dayFormatOne = dayFormatOne[1]
 		string = dayFormatOne + ' ' + month + ' '+yearFormatOne
 		return [string, "ok"]
 	print "No yyyy/mm/dd found. Now looking for it written out. Running PullDate:"
 	yearFormatTwo = PullDate(string)
 	if not yearFormatTwo:
-		return [string, "bad format!"]
+		return [string, errormsg]
 	else:
 		string = CleanUp(re.sub(yearFormatTwo, ' ', string))
 		year = yearFormatTwo
 		print "year found: ", year
-		print "string modified to: ", string
 	Hit = False
 	for x in months:
-		print x[0]
 		monthFormatTwo = re.compile(regstrElec(x[0]), flags = re.I)
 		monthFormatThree = re.compile(regstrElec(x[1]), flags = re.I)
 		if monthFormatTwo.search(string):
@@ -336,13 +342,39 @@ def CheckUSLWDate(string):
 			Hit = True
 			string = CleanUp(re.sub(monthFormatThree.search(string).group(), ' ', string))
 			break
+	print "Hit?: ", Hit
 	if not Hit:
-		return [string, "bad format!"]
+		highnum = re.compile(r'(1(3|4|5|6|7|8|9|)|2\d|3\d)')
+		h = highnum.search(string)
+		if h:
+			day = h.group()
+			string = CleanUp(re.sub(day, '', string))
+		monthmatch = re.search(r'(0[1-9]|1[012])\.?$', string)
+		if monthmatch:
+			monthnum = monthmatch.group()
+			string = CleanUp(re.sub(monthnum, '', string))
+			for m in months:
+				print monthnum, m[2]
+				if monthnum==m[2]: 
+					month = m[0]
+					break
+				else: month = monthnum
+		else:
+			month = False
+		if not h:
+			daymatch = re.search(r'(0[1-9]|[12][0-9]|3[01])', string)
+			if daymatch:
+				day = daymatch.group()
+		if (day and month):
+			string = day + ' ' + month + ' '+year
+			return [string, "ok"]
+	if not month:
+		return [string, errormsg]
 	dayFormatTwo = re.compile(r'(0[1-9]|[12][0-9]|3[01])')
 	if dayFormatTwo.search(string):
 		dayNum = dayFormatTwo.search(string).group()
 		print "Day: ", dayNum
-		if dayNum[0]==0:
+		if dayNum[0]=="0":
 			dayNum = dayNum[1]
 		string = dayNum + ' ' + month + ' ' + year
 		return [string, "ok"]
@@ -354,21 +386,8 @@ def CheckUSLWDate(string):
 			dayNum = dayNum[1]
 		string = dayNum + ' ' + month + ' ' + year
 		return [string, "ok"]
-	else: return [string, "bad format!"]
-	
-#auxillary function for use in BestReporter
-def CheckReporter(m, list):
-	print "\n****** StartingCheckReporter within BestReporter"
-	print "Input reporter list: ", m
-	print "Checking to see if in, ", list
-	for r in m: #look at each reporter inputed in the input list
-		for x in list:#will run through the Federa; reporters in order.
-			match = re.search(regstr(x), r, re.I)
-			if match:
-				r = CleanUp(re.sub(match.group(), " "+x+" ", r, flags = re.I))
-				print "*Found a reporter* ::: ", x
-				return [r, "NA"]
-	return False
+	#[- /\.]
+	else: return [string, errormsg]
 
 #returns 3-part list [Reporter, "USSC"/"Fed"/"State", Date]
 def BestReporter(Citation_Input, Date):

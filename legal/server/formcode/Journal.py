@@ -93,9 +93,9 @@ def CleanUp(string):
 #tested: works
 def Capitalize(string):
 	McD = re.findall(r"[A-Z]{1}['a-z]+[A-Z]{1}[a-z]*", string, flags = re.UNICODE)          #regex for a capital followed by some lowercase, and then another capital and more lowercase
-	CapAfter_one = re.findall(r"(?<=[\(\)a-z] )[A-Z]{2,}", string, flags = re.UNICODE)   #matches all caps that have some preceeding number or bracket or lowercase letter, or some following capital followed by lowercase or numbers
-	CapAfter_two = re.findall(r"(?<=[\(\)a-z]) [A-Z]{2,}", string, flags = re.UNICODE)   #an alternative match algorithm to for where caps follow non-caps
-	CapAfter_three = re.findall(r"(?<= [\(\)a-z])[A-Z]{2,}", string, flags = re.UNICODE) #an alternative matching algorithm for when caps immediately follow a bracket or non-caps instead of having a space in between
+	CapAfter_one = re.findall(r"(?<=[\(\)a-z,] )[A-Z]{2,}", string, flags = re.UNICODE)   #matches all caps that have some preceeding number or bracket or lowercase letter, or some following capital followed by lowercase or numbers
+	CapAfter_two = re.findall(r"(?<=[\(\)a-z,]) [A-Z]{2,}", string, flags = re.UNICODE)   #an alternative match algorithm to for where caps follow non-caps
+	CapAfter_three = re.findall(r"(?<= [\(\)a-z,])[A-Z]{2,}", string, flags = re.UNICODE) #an alternative matching algorithm for when caps immediately follow a bracket or non-caps instead of having a space in between
 	CapBefore = re.findall(r"[A-Z]{2,} (?=[a-z])", string, flags = re.UNICODE)           #a matching algorithm for where caps form the first part of the string, and are followed by non-caps
 	#if any of the words match the regexes, add them to KeepAsIs array to keep them unchanged in the final product
 	KeepAsIs = McD+CapAfter_one+CapAfter_two+CapAfter_three + CapBefore #add all of the arrays together to create the list of words we will keep the same
@@ -165,7 +165,7 @@ def DefaultCite(string):
 			match = re.search(regstrElec(abbr), string, re.I)#regstrElec has the ^ + $ object
 			if match:
 					string = CleanUp(re.sub(match.group(), ' '+jur[0]+' ', string))
-	Canada = [["can", "canada", "canadian"], ["Alta", "ab", "alberta", "alta", "albertan"],["BC", "british columbia", "brit col", "british columbian"], ["Man", "mb", "manitoba", "manitoban"], ["NB", "new brunswick","new brunswicker"], ["Nfld", "nf", "nfld", "newfoundland", "newfoundlander"], ["NL", "labrador"], ["NWT", "north west territories", "north west terr", "northwest terr", "nortwest territories"], ["NS", "nova scotia", "nova scotian"], ["Nu", "nun", "nunavut", "nvt"], ["Ont", "on", "ontario", "ontarian"], ["PEI", "prince edward island"], ["Qc", "quebec", u"qu\xe9bec"], ["Sask", "sk", "saskatchewan"], ["Yu", "yukon", "yk"]]
+	Canada = [["CA", "canada", "canadian"], ["Alta", "ab", "alberta", "alta", "albertan"],["BC", "british columbia", "brit col", "british columbian"], ["Man", "mb", "manitoba", "manitoban"], ["NB", "new brunswick","new brunswicker"], ["Nfld", "nf", "nfld", "newfoundland", "newfoundlander"], ["NL", "labrador"], ["NWT", "north west territories", "north west terr", "northwest terr", "nortwest territories"], ["NS", "nova scotia", "nova scotian"], ["Nu", "nun", "nunavut", "nvt"], ["Ont", "on", "ontario", "ontarian"], ["PEI", "prince edward island"], ["Qc", "quebec", u"qu\xe9bec"], ["Sask", "sk", "saskatchewan"], ["Yu", "yukon", "yk"]]
 	for p in Canada:
 		for abbr in p:
 			match =  re.search(regstr(abbr), string, re.I|re.UNICODE)
@@ -219,12 +219,12 @@ def FormatVolumeEtc(citationinput, yearinput, pinpoint):
 		nummatch = re.search(r'(,|-)', numbers)
 		if nummatch: pin = " at paras "+str(numbers)
 		else: pin = " at para "+str(numbers)
-		if pinpoint[2]: pin = pin + ' ff'
+		if pinpoint[2]: pin = pin + 'ff'
 		cite = cite+pin
 	elif pinpoint[0]=="pinpoint_page":
 		numbers = CleanUp(pinpoint[1])
 		pin = " at "+str(numbers)
-		if pinpoint[2]: pin = pin + ' ff'
+		if pinpoint[2]: pin = pin + 'ff'
 		cite = cite+pin
 	elif pinpoint[0]=="pinpoint_foot":
 		noteno = CleanUp(pinpoint[2])
@@ -233,7 +233,7 @@ def FormatVolumeEtc(citationinput, yearinput, pinpoint):
 		else: pin = " n "+str(noteno)
 		if pinpoint[1]:
 			pgno = CleanUp(pinpoint[1])
-			pin = " at "+str(pgno) + pin
+			pin = " at "+str(pgno) +", "+ pin
 		cite = cite+pin
 	cite = cite+'.'
 	return [cite, hit]
