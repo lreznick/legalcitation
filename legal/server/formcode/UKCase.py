@@ -280,10 +280,10 @@ def regstrCt(i):#i is a string input
 	return string
 
 def PullDate(string):
-	print "**** Starting PullDate on:" , string
+	#print "**** Starting PullDate on:" , string
 	FirstSearch = re.search(r'(\(?\[?)(1[4-9][0-9]{2}|200[0-9]{1}|201[01234]{1})(\)?\]?,?\s([A-Z]|\d{1,3}\s)[A-Za-z\s]{2})', string) #ex 2008 NBCA or (1843) Ex Ctf
 	if FirstSearch:
-		print "***** Detected on search 1: ", FirstSearch.group(2)
+		#print "***** Detected on search 1: ", FirstSearch.group(2)
 		return FirstSearch.group(2)
 	All = re.findall(r'([^\d]{1}|^|\s)(1[4-9][0-9]{2}|200[0-9]{1}|201[01234]{1})([^\d]{1}|$|\s)', string)
 	if not All:
@@ -292,7 +292,7 @@ def PullDate(string):
 	for x in range(len(All)):
 		Dates.append(int(All[x][1]))
 	Sorted = sorted(Dates, key=lambda tup: tup)
-	print "***** Detected on search 2: ", str(Sorted)
+	#print "***** Detected on search 2: ", str(Sorted)
 	return str(Sorted[0])
 
 
@@ -308,31 +308,37 @@ def CheckNC(Citation_Input): #pull the neutral citation from the list if there i
 	if re.search(r"^(;|,)", PC):
 		PC = CleanUp(PC[1:])
 	m = re.split('[,;]', PC) # 	#Split the citations based on positioning of commas and semicolons
+	if type(m)!=list:
+		m = [m]
 	print "List of reporters: ", m
 	for string in m: 
 		Year = PullDate(string)
 		if Year:
-			string = CleanUp("["+Year+"] " + re.sub(re.search(regstr(Year), string).group(), "", string))
+			string = CleanUp("["+Year+"] " + re.sub(re.search(regstr(Year), string).group(), " ", string))
 		else: 
 			string = CleanUp("[input year] " + string)
+		print "string modified to: ", string
 		Courts = ['UKHL', 'UKPC', 'EWCA Civ', 'EWCA Crim', 'EWHC Admin']
 		for x in Courts:
 			if re.search(regstrElec(x), string, re.I): 
-				print "Found neutral citation: ", x, "returning: ", string
+				print "Found neutral citation: ", x, "returning: ", string, '\n'
 				return [string, "NC"]
 		if re.search(regstrElec("EWHC"), string, re.I):
-			EWHCDivs = [['(Ch)', re.compile(r'\(?Ch(ancery)?( Div)?(ision)?\)?', flags = re.I)], ['(Pat)', re.compile(r'\(?Pat(ents)?\s?(Ct|Court)?\)?', flags = re.I)], ['(QB)', re.compile(r"\(?(QB|Queen's Bench|Queens Bench)( Div)?(ision)?\)?", flags = re.I)], ['(Admin)', re.compile(r'\(?Admin(istrative)?\s?(Ct|Court)?\)?', flags = re.I)], ['(Comm)', re.compile(r'\(?Comm(ercial)?\s?(Ct|Court)?\)?', flags = re.I)], ['(Admlty)', re.compile(r'\(?(Admir|Admirality|Admlty)\s?(Ct|Court)?\)?', flags = re.I)], ['(TCC)', re.compile(r'\(?(TCC|Tech and Constr|Tech & Constr|Technology and Construction|Technology & Construction)\s?(Ct|Court)?\)?', flags = re.I)], ['(Fam)', re.compile(r'\(?Fam(ily)?( Div)?(ision)?\)?', flags = re.I)]]
+			EWHCDivs = [['(Ch)', re.compile(r'\(?Ch(ancery)?( Div)?(ision)?\)?', flags = re.I)], ['(Pat)', re.compile(r'\(?Pat(ents)?\s?(Ct|Court)?\)?', flags = re.I)], ['(QB)', re.compile(r"\(?(QB|Queen's Bench|Queens Bench)( Div)?(ision)?\)?", flags = re.I)], ['(Admin)', re.compile(r'\(?Admin(istrative)?\s?(Ct|Court)?\)?', flags = re.I)], ['(Comm)', re.compile(r'\(?Comm(ercial)?\s?(Ct|Court)?\)?', flags = re.I)], ['(Admlty)', re.compile(r'\(?(Admirality|Admir|Admlty)\s?(Ct|Court)?\)?', flags = re.I)], ['(TCC)', re.compile(r'\(?(TCC|Technology and Construction|Technology & Construction|Tech and Constr|Tech & Constr)\s?(Ct|Court)?\)?', flags = re.I)], ['(Fam)', re.compile(r'\(?Fam(ily)?( Div)?(ision)?\)?', flags = re.I)]]
 			for x in EWHCDivs:
 				match = x[1].search(string)
 				if match:
-					string = CleanUp(re.sub(match.group(), "", string) + " " +x[0])
-					print "Found neutral citation: ", x, "returning: ", string
+					print match.group()
+					string = CleanUp(re.sub(match.group(), " ", string) + " " +x[0])
+					string = CleanUp(re.sub(r'\(\s\)', ' ', string))
+					print "Found neutral citation: ", x, "\nreturning: ", string, '\n'
 					return [string, "NC"]
-			return [string, "EWHC"]			
+			print "returning: ", [string, "EWHC"], '\n'
+			return [string, "EWHC"]	
 		Scot = ['HCJT', 'HCJAC', 'CSOH', 'CSIH']
 		for x in Scot:
 			if re.search(regstrElec(x), string, re.I): 
-				print "Found neutral citation: ", x, "returning: ", string
+				print "Found neutral citation: ", x, "returning: ", string, '\n'
 				return [string, "NC"]
 	return [string, "No NC"]
 	
@@ -341,7 +347,7 @@ def CheckNC(Citation_Input): #pull the neutral citation from the list if there i
 #true if there is an instance of LR or Law Reports --- have a drop down menu
 #drop down menu should have ["Admirality and Ecclesiastical Cases (A & E)", "Appeal Cases (AC)", "Chancery (Ch)", "Chancery Appeals (Ch App)", "Common Pleas (CP)", "Crown Cases Reserved (CCR)", "Equity Cases (Eq)", "Exchequer (Ex)", "English and Irish Appeal Cases (HL)", "Family (Fam)", "Industrial Courts Reports (ICR)", "Ireland (Ir)", "King's Bench (KB)", "Privy Council (PC)", "Probate (P)", "Queen's Bench (QB)", "Law Reports Restrictive Practices (LR RP)", "Scotch and Divorce Appeal Cases (Sc & Div)"]
 def LawReports(Citation_Input):
-	print "******** Starting LawReports **********"
+	print "\n******** Starting LawReports **********"
 	print "Citation Input: ", Citation_Input
 	PC = CleanUp(Citation_Input)
 	#need to put the electronic sources in the correct format in case someone puts in (available on CanLII) without the ; or ,
@@ -350,42 +356,53 @@ def LawReports(Citation_Input):
 	if re.search(r"^(;|,)", PC):
 		PC = CleanUp(PC[1:])
 	m = re.split('[,;]', PC) # 	#Split the citations based on positioning of commas and semicolons
+	if type(m)!=list:
+		m = [m]
 	print "List of reporters: ", m
 	Abbs = ['A & E', 'AC', 'Ch', 'Ch App', 'CP', 'CCR', 'Eq', 'Ex', 'HL', 'Fam', 'ICR', 'Ir', 'KB', 'PC', 'P', 'QB', 'RP', 'Sc & Div']
 	for s in m:
-		string = CleanUp(re.sub("\sLR\s?", "", s))
+		print "s = ", s
+		string = CleanUp(re.sub("\sLR\s?", " ", s, flags = re.I))
+		string = CleanUp(re.sub("\slaw reports?\s?", " ", string, flags = re.I))
+		print "string = ", string
 		for x in Abbs:
 			if re.search(regstr(x), string, re.I):
-				string = re.sub(re.search(regstr(x), string, re.I), "", string)
+				string = re.sub(re.search(regstr(x), string, re.I).group(), " "+x+' ', string)
 				Year = PullDate(string)
+				print "got a hit: ", string
 				if Year:
-					string = CleanUp("["+Year+"] " + x + " " + re.sub(re.search(regstr(Year), string).group(), "", string))
+					string = CleanUp("["+Year+"] " + re.sub(re.search(regstr(Year), string).group(), "", string))
 				else: 
-					string = CleanUp("[input year] " + x + " " + string)
-				if x == ("HL" or "PC"):
+					string = CleanUp("[input year] " + string)
+				if (x =="HL") or (x=="PC"):
+					print "returning: ", [string, "court"]
 					return [string, "court"]
-				else: return [string, "no court"]
+				else: 
+					print "returning: ", [string, "no court"]
+					return [string, "no court"]
 		#if there is no proper instance of the law reports, see if the words LR or Law Reports are mentioned, and if so have a drop down menu
 		matchone = re.search(regstr("LR"), s, re.I)
-		matchtwo = re.search(regstr("Law Reports"), string, re.I)
+		matchtwo = re.search(regstr("Law Reports"), s, re.I)
 		if matchone or matchtwo:
-			return [string, "dropdown"]
-	return [string, "none"]
+			print "returning", [s, "LRdropdown"]
+			return [s, "LRdropdown"]
+	print "returning", [m, "none"]
+	return [m, "none"]
 
-#returns [string, "court"/"no court"]
+'''#returns [string, "court"/"no court"]
 def InterpretLRInput(string):#how to do it when Law Reports (LR) are used
 	print "******** Starting InterpretLRInput **********"
 	print "Input: ", string
-	KeepAsIs = [["Appeal Cases (AC)", 'AC'], ["Chancery (Ch)", "Ch"],["Common Pleas (CP)", "CP"], ["Exchequer (Ex)", "Ex"], ["Family (Fam)", "Fam"], ["Industrial Courts Reports (ICR)", "ICR"], ["King's Bench (KB)", ""], ["Probate (P)", "P"], ["Queen's Bench (QB)", "QB"], ["Law Reports Restrictive Practices (LR RP)", ""]]
+	KeepAsIs = [["Appeal Cases (AC)", 'AC'], ["Chancery (Ch)", "Ch"],["Common Pleas (CP)", "CP"], ["Exchequer (Ex)", "Ex"], ["Family (Fam)", "Fam"], ["Industrial Courts Reports (ICR)", "ICR"], ["King's Bench (KB)", "KB"], ["Probate (P)", "P"], ["Queen's Bench (QB)", "QB"], ["Law Reports Restrictive Practices (LR RP)", "RP"]]
 	Change = [["Admirality and Ecclesiastical Cases (A & E)", 'A & E'], ["Chancery Appeals (Ch App)", 'Ch App'], ['Crown Cases Reserved (CCR)', 'CCR'], ['Equity Cases (Eq)', 'Eq'], ['English and Irish Appeal Cases (HL)', 'HL'], ['Ireland (Ir)', 'Ir'], ['Privy Council (PC)', 'PC'], ['Scotch and Divorce Appeal Cases (Sc & Div)', 'Sc & Div']]
 	for x in KeepAsIs:
 		if x[0]==string:
 			return [x[1], "no court"]
 	for x in Change:
 		if x[0]==string:
-			if x[1] == ("LRHL" or "LRPC"):
+			if (x[1] == "LRHL") or (x[1] == "LRPC"):
 				return [string, "court"]
-			return [x[1], "no court"]
+			return [x[1], "no court"]'''
 
 
 #auxillary function for use in BestReporter
@@ -414,6 +431,8 @@ def BestReporter(Citation_Input):
 	if re.search(r"^(;|,)", PC):
 		PC = CleanUp(PC[1:])
 	m = re.split('[,;]', PC) # 	#Split the citations based on positioning of commas and semicolons
+	if type(m)!=list:
+		m = [m]
 	print "List of reporters: ", m				
 	series = ["2d", "3d", "4th", "5th", "6th", "7th", "8th"]
 	for x in range(len(m)): #replace "2d" with "(2d)", etc (i.e. put them in brackets
@@ -428,8 +447,10 @@ def BestReporter(Citation_Input):
 	print "Checking LawReports..."
 	for x in m:
 		LR = LawReports(x)
-		if LR[1] == ("court" or "no court"):
-			return [LR[0], LR[1]]
+		print "\nBack in BestReporter. LawReports returned: ", LR
+		if (LR[1]=="court") or (LR[1]=="no court"):
+			print "Affirmative there is a law report. returning: ", LR, "\n"
+			return LR
 	print "Nothing Found in Law Reports, checking now in ER and other Reporters...."
 	ER = ["ER"]
 	Reporters = ['A & N', 'AC', 'Adam', 'Add', 'ADIL', 'Al', 'All ER', 'All ER (Comm)', 'All ER (EC)', 'All ER Rep', 'All ER Rep Ext', 'ALR', 'Amb', 'And', 'Andr', 'Anst', 'App Cas', 'App Div', 'Arn', 'Arn & H', 'Asp MLC', 'Atk', 'B & Ad', 'B & Ald', 'B & CR', 'B & Cress', 'B & S', 'Ball & B', 'Barn C', 'Barn KB', 'Barnes', 'Batt', 'Beat', 'Beav', 'Bel', 'Bell', 'Ben & D', 'Benl', 'BILC', 'Bing', 'Bing NC', 'BISD', 'Bla H', 'Bla W', 'Bli', 'Bli NS', 'Bos & Pul', 'Bos & Pul NR', 'Bridg', 'Bridg Conv', 'Bridg J', 'Bridg O', 'Bro CC', 'Bro PC', 'Brod & Bing', 'Brooke NC', 'Brown & Lush', 'Brownl', 'Bulst', 'Bunb', 'Burr', 'Burrell', 'C & J', 'C & M', 'Calth', 'Camp', 'Car & K', 'Car & M', 'Car & P', 'Carter', 'Carth', 'Cary', 'Cas t Hard', 'Cas t Talb', 'CB', 'CB (NS)', 'Ch', 'ChApp', 'Ch Ca', 'Ch D', 'Ch R', 'Chan Cas', 'Chit', 'Choyce Ca', 'CIJ M\\xe9moires', 'CIJ Rec', 'Cl & F', 'CM & R', 'Coll', 'Colles', 'Corn', 'Comb', 'Cooke CP', 'Coop Pr Ca', 'Coop t Br', 'Coop t Cott', 'Coop G', 'Co Rep', 'Cowp', 'Cox', 'CPD', 'CPJI (Ser A)', 'CPJI (S\\xe9r B)', 'CPJI (S\\xe9r A/B)', 'CPJI (S\\xe9r C)', 'Cun', 'Curt', 'Dan', 'Davis', 'Dee & Sw', 'Dears', 'Dears & B', 'De G & J', 'De G & Sm', 'De G F & J', 'De G J & S', 'De G M & G', 'Den', 'Dick', 'Dods', 'Donn', 'Doug', 'Dow', 'Dow & Cl', 'Dowl & Ry', 'Drew', 'Drew &', 'Dy', 'East', 'Eden', 'Edw', 'El & Bl', 'El & El', 'El Bl & El', 'EMLR', 'Eq Ca Abr', 'ER', 'Esp', 'Ex D', 'Exch Rep', 'F', 'F & F', 'Fam', 'Fitz-G', 'Forrest', 'Fort', 'Fost', 'FTLR', 'Giff', 'Gilb Cas', 'Gilb Rep', 'Godbolt', 'Gould', 'Gow', 'H&C', 'H&M', 'H&N', 'H & Tw', 'Hag Adm', 'Hag Con', 'Hag Ecc', 'Hague Ct Rep', 'Hague Ct Rep (2d)', 'Hardr', 'Hare', 'Hay & M', 'Her Tr Nor', 'Het', 'HL Cas', 'HL Cas', 'Hob', 'Hodges', 'Holt', 'Holt, Eq', 'HoIt, KB', 'Hut', 'IBDD', 'I Ch R', 'ICJ Pleadings', 'ICJ Rep', 'ICLR', 'ICR', 'ICR', 'ICSID', 'I LR', 'I LR', 'ILRM', 'ILTR', 'Inter-Am Ct HR (Ser A)', 'Inter-Am Ct HR (Ser B)', 'Inter-Am Ct HR (Ser C)', 'IR', 'IR Eq', 'I RCL', 'J&H', 'Jac', 'Jac & W', 'Jenk', 'Johns', 'Jones, T', 'Jones, W', 'K & J', 'Kay', 'KB', 'Keble', 'Keen', 'Keilway', 'Kel J', 'Kel W', 'Keny', 'Kn', 'Lane', 'Latch', 'Leach', 'Lee', 'Leo', 'Lev', 'Lewin', 'Le & Ca', 'Ley', 'Lilly', 'Lit', 'LI LR', "Lloyd's LR", "Lloyd's Rep", "Lloyd's Rep Med", 'Lush', 'Lut', 'M&M', 'M & Rob', 'M&S', 'M &W', 'Mac & G', 'MacI & R', 'Madd', 'Man & G', 'March, NR', "M'Cle", "M'Cle & Yo", 'Mer', 'Mod', 'Moo Ind App', 'Moo KB', 'Moo PC', 'Moo PCNS', 'Mood', 'Mos', 'My & Cr', 'My & K', 'Nels', 'Noy', 'Ow', 'P', 'P Wms', 'Palm', 'Park', 'PD', 'Peake', 'Peake Add Cas', 'Ph', 'Phill Ecc', 'PI Com', 'Pollex', 'Pop', 'Prec Ch', 'Price', 'QB', 'QBD', 'Raym Ld', 'Raym T', 'Rep Ch', 'Rep t Finch', 'Ridg t Hard', 'RIAA', 'Rob / Rob Chr', 'Rob Ecc', 'Rolle', 'RPC', 'RPC', 'RR', 'Russ', 'Russ & M', 'Russ & Ry', 'Salk', 'Sav', 'Say', 'Scot LR', 'Sel Cat King', 'Sess Cas', 'Sess Cas', 'Sess Cas S', 'Sess Cas D', 'Sess Cas F', 'Sess Cas M', 'Sess Cas R', 'Show KB', 'Show PC', 'Sid', 'Sim', 'Sim (NS)', 'Sim & St', 'SLT', 'Skin', 'Sm & G', 'Sp Ecc & Ad', 'Sp PC', 'Stark', 'Str', 'Sty', 'Sw & Tr', 'Swab', 'Swans', 'Talb', 'Taml', 'Taun', 'TLR', 'Toth', 'TR', 'TTC', 'TTR (2d)', 'Vaugh', 'Vent', 'Vern', 'Ves & Bea', 'Ves Jr', 'Ves Sr', 'Welsb H & G', 'West, t Hard', 'West', 'Wight', 'Will Woll & H', 'Willes', 'Wilm', 'Wils Ch', 'Wils Ex', 'Wils KB', 'Winch', 'WLR', 'Wms Saund', 'W Rob', 'Y & C Ex', 'Y & CCC', 'Y & J', 'Yel', 'You']
@@ -471,38 +492,18 @@ def DefaultCt(string):
 	return string
 
 
-'''def CheckNC(string):
-	Courts = ['UKHL', 'UKPC', 'EWCA Civ', 'EWCA Crim', 'EWHC Admin']
-	for x in Courts:
-		if re.search(regstrElec(x), string, re.I): 
-			print "Found neutral citation: ", x
-			return [string, "NC"]
-	if re.search(regstrElec("EWHC"), string, re.I):
-		EWHCDivs = [['(Ch)', re.compile(r'\(?Ch(ancery)?( Div)?(ision)?\)?', flags = re.I)], ['(Pat)', re.compile(r'\(?Pat(ents)?\s?(Ct|Court)?\)?', flags = re.I)], ['(QB)', re.compile(r"\(?(QB|Queen's Bench|Queens Bench)( Div)?(ision)?\)?", flags = re.I)], ['(Admin)', re.compile(r'\(?Admin(istrative)?\s?(Ct|Court)?\)?', flags = re.I)], ['(Comm)', re.compile(r'\(?Comm(ercial)?\s?(Ct|Court)?\)?', flags = re.I)], ['(Admlty)', re.compile(r'\(?(Admir|Admirality|Admlty)\s?(Ct|Court)?\)?', flags = re.I)], ['(TCC)', re.compile(r'\(?(TCC|Tech and Constr|Tech & Constr|Technology and Construction|Technology & Construction)\s?(Ct|Court)?\)?', flags = re.I)], ['(Fam)', re.compile(r'\(?Fam(ily)?( Div)?(ision)?\)?', flags = re.I)]]
-		for x in EWHCDivs:
-			match = x[1].search(string)
-			if match:
-				string = CleanUp(re.sub(match.group(), "", string) + " " +x[0])
-				return [string, "NC"]
-		return [string, "EWHC"]			
-	Scot = ['HCJT', 'HCJAC', 'CSOH', 'CSIH']
-	for x in Scot:
-		if re.search(regstrElec(x), string, re.I): 
-			print "Found neutral citation: ", x
-			return [string, "NC"]
-	return [string, "No NC"]'''
-
 
 def AutoPCPinpoint(Citation_Input):
-	print "\n****** Starting GetCitations"
+	print "\n****** AutoPCPinpoint"
 	print "input is:\n", "citation string: ", Citation_Input
 	PC = CleanUp(Citation_Input)
-	#need to put the electronic sources in the correct format in case someone puts in (available on CanLII) without the ; or ,
 	if re.search(r"(;|,)$", PC):
 		PC = CleanUp(PC[:-1])
 	if re.search(r"^(;|,)", PC):
 		PC = CleanUp(PC[1:])
 	m = re.split('[,;]', PC) # 	#Split the citations based on positioning of commas and semicolons
+	if type(m)!=list:
+		m = [m]
 	print "List of reporters: ", m
 	for x in m:
 		NC = CheckNC(string)
@@ -514,15 +515,13 @@ def AutoPCPinpoint(Citation_Input):
 			pass
 		elif NC[1] == "EWHC":
 			#drop down menu for division (below the PC input box)
-			return ["dropdown", "NA"]
+			return ["dropdownEWHC", "NA"]
 			#["Chancery Division", '(Ch)'], ["Patents Court", '(Pat)'], ["Queen's Bench", '(QB)'], ["Administrative Court", '(Admin)'], ["Commercial Court", '(Comm)'], ["Admirality Court", '(Admlty)'], ["Technology and Construction",'(TCC)'], ["Family Division", '(Fam)']
 			#need to take the input from the drop down menu and do something with it...
 			pass
-		elif NC[1] == "No NC":
-			pass
-		R = BestReporter(x)
-		return ["cite to paragraph or page in reporter", R]
-		#cite to page or para in R
+	R = BestReporter(m)
+	return ["cite to paragraph or page in reporter", R]
+	#cite to page or para in R
 
 	
 #If CheckNC: need to cite to para
@@ -530,19 +529,17 @@ def AutoPCPinpoint(Citation_Input):
 #pincite = ["NC"/"reporter para"/"reporter page"/"none", number]
 def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 	print "\n****** Starting GetCitations"
-	print "input is:\n", "citation string: ", Citation_Input, "\n", "court: ", Court_Input, "\n", "date: ", Date_Input, "\n", "pincite: ", pincite, "\n"
+	print "citation string: ", Citation_Input, "\n", "court: ", Court_Input, "\n", "date: ", Date_Input, "\n", "pincite: ", pincite, "\n"
 	if not Citation_Input:
 		return "ERROR: missing citation input"
-	if not Citation_Input:
-		", ERROR: missing citation input"
 	if not Court_Input:
 		return ", ERROR: missing court input"
 	if not Date_Input:
 		return ", ERROR: missing date input"
+	NC = CheckNC(Citation_Input) #returns: [string, "NC"/"EWHC"/"No NC"] #pull the neutral citation from the list if there is one
 	BR = BestReporter(Citation_Input) #returns the best reporter, no funny business
 	Best = BR[0]
-	NC = CheckNC(Citation_Input) #returns: [string, "NC"/"EWHC"/"No NC"] #pull the neutral citation from the list if there is one
-	if NC[1] == ("NC" or "EWHC"):
+	if (NC[1]=="NC") or (NC[1]=="EWHC"):
 		print "In GetCitations, found NC:", NC[0]
 		NeutralCitation = NC[0]
 	else: NeutralCitation = False
@@ -592,4 +589,4 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 	print "Result:", OUTPUT
 	return OUTPUT
 
-GetCitations("2004 UKHL 22, 2004 2 LR AC 457", "ukhl", "2004", False)
+GetCitations("2004 EWHC 1974 (Commercial), 2004 2 LRAC 457", "ukhl", "2004", False)

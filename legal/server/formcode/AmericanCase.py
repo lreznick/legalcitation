@@ -404,6 +404,8 @@ def BestReporter(Citation_Input, Date):
 	if re.search(r"^(;|,)", PC):
 		PC = CleanUp(PC[1:])
 	m = re.split('[,;]', PC) # 	#Split the citations based on positioning of commas and semicolons
+	if type(m)!=list:
+		m = [m]
 	print "List of reporters: ", m
 	series = ["2d", "3d", "4th", "5th", "6th", "7th", "8th"]
 	for x in range(len(m)): #replace "2d" with "(2d)", etc (i.e. put them in brackets

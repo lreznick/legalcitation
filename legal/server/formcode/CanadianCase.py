@@ -376,6 +376,8 @@ def AutoPCPinpoint(Citation_Input): # choose the best reporter out of all of the
 		PC = CleanUp(PC[1:])	
 	#print "PC after manipulation: ", PC
 	m = re.split('[,;]', PC) # 	#Split the citations based on positioning of commas and semicolons
+	if type(m)!=list:
+		m = [m]
 	for x in range(len(m)): m[x] = CleanUp(m[x]) #remove excess white spaces on either side
 	Present = 2013
 	NC = [['SCC', 2000, Present], ['FC', 2001, Present], ['FCA', 2001, Present], ['TCC', 2003, Present], ['CMAC', 2001, Present], ['Comp Trib', 2001, Present], ['CHRT', 2003, Present], ['PSSRB', 2000, Present], ['ABCA', 1998, Present], ['ABQB', 1998, Present], ['ABPC', 1998, Present], ['ABASC', 2004, Present], ['BCCA', '1999', Present], ['BCSC', 2000, Present], ['BCPC', 1999, Present], ['BCHRT', 2000, Present], ['BCSECCOM', 2000, Present], ['MBCA', 2000, Present], ['MBQB', 2000, Present], ['MBPC', 2007, Present], ['NBCA', 2001, Present], ['NBQB', 2002, Present], ['NBPC', 2002, Present], ['NWTCA', 1999, Present], ['NWTSC', 1999, Present], ['NWTTC', 1999, Present], ['NSCA', 1999, Present], ['NSSC', 2000, Present], ['NSSF', 2001, Present], ['NSPC', 2001, Present], ['NUCJ', 2001, Present], ['NUCA', 2006, Present], ['ONCA', 2007, Present], ['ONSC', 2010, Present], ['ONCJ', 2004, Present], ['ONWSIAT', 2000, Present], ['ONLSAP', 2004, Present], ['ONLSHP', 2004, Present], ['PESCAD', 2000, Present], ['PESCTD', 2000, Present], ['QCCA', 2005, Present], ['QCCS', 2006, Present], ['QCCP', 2006, Present], ['QCTP', 1999, Present], ['CMQC', 2000, Present], ['QCCRT', 2002, Present], ['SKCA', 2000, Present], ['SKQB', 1999, Present], ['SKPC', 2002, Present], ['SKAIA', 2003, Present], ['YKCA', 2000, Present], ['YKSC', 2000, Present], ['YKTC', 1999, Present], ['YKSM', 2004, Present], ['YKYC', 2001, Present]]
@@ -490,6 +492,8 @@ def SplitUpParallel(Citation_Input):
 		PC = CleanUp(PC[1:])
 	#print "PC after manipulation: ", PC
 	m = re.split('[,;]', PC) # 	#Split the citations based on positioning of commas and semicolons
+	if type(m)!=list:
+		m = [m]
 	#print "m: ", m
 	return m
 
@@ -514,6 +518,8 @@ def ChooseBestReporters(Citation_Input, pincite): # choose the best reporter out
 		PC = CleanUp(PC[1:])
 	#print "PC after manipulation: ", PC
 	m = re.split('[,;]', PC) # 	#Split the citations based on positioning of commas and semicolons
+	if type(m)!=list:
+		m = [m]
 	#print "m: ", m
 	for x in range(len(m)): m[x] = CleanUp(m[x]) #remove excess white spaces on either side
 	Present = 2013
@@ -1070,6 +1076,8 @@ def BestReporter(Citation_Input): # choose the best reporter out of all of the o
 		PC = CleanUp(PC[1:])
 	#print "PC after manipulation: ", PC
 	m = re.split('[,;]', PC) # 	#Split the citations based on positioning of commas and semicolons
+	if type(m)!=list:
+		m = [m]
 	#print "m: ", m
 	for x in range(len(m)): m[x] = CleanUp(m[x]) #remove excess white spaces on either side
 	series = ["2d", "3d", "4th", "5th", "6th", "7th", "8th"]

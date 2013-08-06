@@ -365,6 +365,15 @@ def FormatPinpoint(pinpoint):
 	return pin + '.'
 
 
+def CiteDictionary(title, edition, keyword):
+	ed = GetEdition(edition)+', '
+	title = "<i>"+Capitalize(title)+"</i>, "
+	keyword = '"'+keyword.lower()+'"'
+	output = CleanUp( title + ed + "<i>sub verbo</i> "+keyword)
+	return output+'.'
+
+#print CiteDictionary("The Oxford English Dictionary", "2", "pussy")
+
 
 '''
 PINPOINT INPUTS
