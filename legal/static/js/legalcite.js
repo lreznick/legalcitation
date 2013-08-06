@@ -163,7 +163,8 @@ Set Up
 		placement: 'right',
 		title: "Fill out Parallel Citations before pinpointing."
 	});
-	
+
+
 	//jQuery("#CanadaCaseHistory-Group").hide();
 	
 /*
@@ -326,7 +327,7 @@ Form Submissions
 			}
 	})
 	
-	
+	/*
 	jQuery('#CanadaCaseCourt').blur(function(){
 			var courtVal = jQuery(this).val();
 			if (courtVal != ""){			
@@ -343,7 +344,7 @@ Form Submissions
 			});
 			}
 	});
-	
+	*/
 	function clearErrors(form){
 		jQuery(form+' #error-container').html("");
 	}
@@ -525,6 +526,60 @@ Validations
 	var regex_digits 	=/^\d+$/
 	var regex_court 		=/^[a-zA-Z\s.()-éÉÈèîÎôÔÁáÀàÂâ]*$/
 	var regex_judge		=/^[a-zA-Z\s.éÉÈèîÎôÔÁáÀàÂâ]*$/
+	
+	jQuery.validator.addMethod("", function(value, element)
+{
+					remote: {
+						type: "POST", 
+						url: '/form/court',
+						data:{
+							court : function()
+							{
+								console.log("here");
+								console.log("
+								return jQuery('#CanadaCaseCourt').val();
+							}
+						},
+						dataType: 'json',
+						success: function(data) {
+							console.log('data: ' + data);
+							//jQuery('#CanadaCaseDate').val(data[0].date)
+							//jQuery('#CanadaCaseCourt').val(data[0].court)
+							console.log("hooray!")
+						},
+    var inputElem = jQuery('#CanadaCaseCourt'),
+        data = { "court" : inputElem.val() },
+        eReport = ''; //error report
+
+    jQuery.ajax(
+    {
+        type: "POST",
+        url: '/form/court'
+        dataType: "json",
+        data: data,
+        success: function(data)
+        {
+		
+            if (data !== 'true')
+            {
+              return '<p>This email address is already registered.</p>';
+            }
+            else
+            {
+               return true;
+            }
+        },
+        error: function(xhr, textStatus, errorThrown)
+        {
+            alert('ajax loading error... ... '+url + query);
+            return false;
+        }
+    });
+
+}, '');
+
+//$(':input[name="email"]').rules("add", { "validateUserEmail" : true} );	
+	
 	// Validates the form to check if a form works or not
 	// Note: rules are based on name of form
 	var CanadianCaseValidator = jQuery('#canadacase-form').validate({
@@ -548,7 +603,17 @@ Validations
 				court: {
 					maxlength:250,	
 					regex: regex_court, 
-					required: true 
+					validateCourt: true,
+					required: true,
+					/*required: function(element){
+								//console.log("here");
+								//console.log(jQuery('#CanadaCaseParallel').val().length == 0)
+								//http://stackoverflow.com/questions/10406089/jquery-validate-plugin-require-field-if-another-field-has-a-value-and-vice-versa
+								return (jQuery('#CanadaCaseParallel').val().length ==0)
+						//}
+					},*/
+
+					}
 				},
 				shortform: {
 					maxlength:100,	
@@ -655,7 +720,8 @@ Validations
 				},
 				court: {
 					maxlength: "Maximum length: 250 characters.",
-					required: " "
+					required: " ",
+					remote: "The court you entered was invalid"
 				},
 				shortform: {
 					maxlength: "Maximum length: 100 characters.",
