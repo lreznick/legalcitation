@@ -73,21 +73,19 @@ def ValidateCanadianParallel(f):
 	return f		
 	
 def ValidateCanadianCourt(f):
-	parallel				= "%s" % (f.form.parallel)
 	court					= "%s" % (f.form.court)
 	
 	if not court:
 		GenerateErrorMsg(f,"court","", ErrorMsgRequired("court"))			
 	else:
-		if parallel:
-			c = CleanUpCourt(court,parallel) #returns [court, False/True]
-			#the regexCourt is found in CleanUpCourt in CanadianCase automatically
-			if (c[1] == False):
-				GenerateWarningMsg(f,"court","", ErrorMsgCourt("court"))
-				print "\n =========== aaaah not right court!!!!!!"
-			else:
-				f.form.court = c[0]
-				print "form court thing ", f.form.court
+		c = CleanUpCourt(court) #returns [court, False/True]
+		#the regexCourt is found in CleanUpCourt in CanadianCase automatically
+		if (c[1] == False):
+			GenerateWarningMsg(f,"court","", ErrorMsgCourt("court"))
+			print "\n =========== aaaah not right court!!!!!!"
+		else:
+			f.form.court = c[0]
+			print "form court thing ", f.form.court
 	return f
 	
 
@@ -174,7 +172,7 @@ def ValidateCanadianCase(f):
 			GenerateErrorMsg(f,"citing_parallel","", ErrorMsgInvalid("parallel citations in the citing option") )	
 		if not Validate(regexYear, citingYear):
 			GenerateErrorMsg(f,"citing_year","", ErrorMsgInvalid("year in the citing option") )
-		c = CleanUpCourt(citingCourt, citingParallel) #returns [court, False/True]
+		c = CleanUpCourt(citingCourt) #returns [court, False/True]
 		#the regexCourt is found in CleanUpCourt in CanadianCase automatically
 		if not c[1]:
 			GenerateErrorMsg(f,"citing_court","", ErrorMsgCourt("court in the citing option"))	
@@ -200,7 +198,7 @@ def ValidateCanadianCase(f):
 			if not Validate(regexYear, history[1]):
 				GenerateErrorMsg(f,"history_year"+str(i),"", ErrorMsgInvalid("year in history option "+str(i)))
 						
-			c = CleanUpCourt(history[2],history[0]) #returns [court, False/True]
+			c = CleanUpCourt(history[2]) #returns [court, False/True]
 			#the regexCourt is found in CleanUpCourt in CanadianCase automatically
 			if not c[1]:
 				GenerateErrorMsg(f,"historyParallel"+str(i),"", ErrorMsgCourt("court in history option "+str(i)) )	

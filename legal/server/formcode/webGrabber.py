@@ -95,6 +95,10 @@ def Connect2Web(webURL):
 			date = PullDate(parallel)
 			if date:
 				print "Date found in Parallel:", date
+	print "Court: ", court
+	print "Styleofcause: ", styleofcause
+	print "Parallel: ", parallel
+	print "Date: ", date
 	Output = GetStyleOfCause(styleofcause)+GetCitations(parallel, court, date, False)+'.'
 	print "End of Connect2Web! Returning: ", Output, "*********"
 	return [Output, [styleofcause, parallel, date, court], AutoPCPinpoint(parallel)]
@@ -102,11 +106,12 @@ def Connect2Web(webURL):
 
 def run():
 	print "hello"
-  #Connect2Web("http://www.canlii.org/en/ca/scc/doc/1997/1997canlii400/1997canlii400.html")
-  #Connect2Web("http://canlii.ca/en/ab/abqb/doc/1986/1986canlii1825/1986canlii1825.html")
-  #Connect2Web("http://canlii.ca/en/ca/scc/doc/1986/1986canlii73/1986canlii73.html")
-  #Connect2Web("http://beta.canlii.org/en/bc/bcca/doc/1987/1987canlii2590/1987canlii2590.html")
-  #Connect2Web("http://canlii.ca/en/ab/abpc/doc/2010/2010abpc27/2010abpc27.html")
+	Connect2Web("http://canlii.ca/en/ns/nssc/doc/1998/1998canlii1757/1998canlii1757.html")
+	#Connect2Web("http://www.canlii.org/en/ca/scc/doc/1997/1997canlii400/1997canlii400.html")
+	#Connect2Web("http://canlii.ca/en/ab/abqb/doc/1986/1986canlii1825/1986canlii1825.html")
+	#Connect2Web("http://canlii.ca/en/ca/scc/doc/1986/1986canlii73/1986canlii73.html")
+	#Connect2Web("http://beta.canlii.org/en/bc/bcca/doc/1987/1987canlii2590/1987canlii2590.html")
+	#Connect2Web("http://canlii.ca/en/ab/abpc/doc/2010/2010abpc27/2010abpc27.html")
 
 
 if __name__ == "__main__":

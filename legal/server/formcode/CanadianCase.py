@@ -29,6 +29,39 @@ def regstr(i):#i is a string input
 	string =  r'('+ one + r'|' + two + r'|' + thr + r'|' + fou + r'|' + fiv + r'|' + six + r')'
 	return string
 
+def regstrElec(i):#i is a string input
+	i = re.sub("\[", "\[", i)
+	i = re.sub("\]", "\]", i)
+	i = re.sub("\^", "\^", i)
+	i = re.sub("\$", "\$", i)
+	i = re.sub("\.", "\.", i)
+	i = re.sub("\|", "\|", i)
+	i = re.sub("\?", "\?", i)
+	i = re.sub("\*", "\*", i)
+	i = re.sub("\+", "\+", i)
+	i = re.sub("\(", "\(", i)
+	i = re.sub("\)", "\)", i)
+	one = r'\s'+i+ r'(?=,)'
+	two = r'\s'+i+ r'$'
+	thr = r'\s'+i+ r'\s'
+	fou = r'^' +i+ r'\s'
+	fiv = r'\('+i+ r'\)'
+	six = r'\['+i+ r'\]'
+	sev = r'^'+i+ r'$'
+	string =  r'('+ one + r'|' + two + r'|' + thr + r'|' + fou + r'|' + fiv + r'|' + six + r'|' + sev + r')'
+	return string
+
+def regstrElecSpec(i):#i is a string input
+	one = r'\s'+i+ r'(?=,)'
+	two = r'\s'+i+ r'$'
+	thr = r'\s'+i+ r'\s'
+	fou = r'^' +i+ r'\s'
+	fiv = r'\('+i+ r'\)'
+	six = r'\['+i+ r'\]'
+	sev = r'^'+i+ r'$'
+	string =  r'('+ one + r'|' + two + r'|' + thr + r'|' + fou + r'|' + fiv + r'|' + six + r'|' + sev + r')'
+	return string
+
 #This function takes in a string (meant to be the style of cause) and filters out words that are not allowed to be in it (instances of "the")
 #Assume no weird ascii characters
 def NotAllowed(string):
@@ -94,21 +127,21 @@ def StyleAttributes(string):
 	##print("\nStart:: " + string)
 	string = CleanUp(string) # clean up the string before it enters the machine
 	# (1) GUARDIAN AD LITEM
-	adlit = re.compile(r'\(?(g|G)uardian\s(a|A)d\s(l|L)item\s?((O|o)f)?\)?')
+	adlit = re.compile(r'\(?(g|G)uardian\s(a|A)d\s(l|L)item\s?((O|o)f)?\)?', flags = re.I|re.UNICODE)
 	if adlit.search(string):
 		match = adlit.search(string)#detect the match object
 		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
 		string = re.sub(sub, '', string) + " (Guardian ad litem of)"
 	##print("gaurdian:: " + string +"\n")
 	# (2) LITIGATION GUARDIAN
-	lit = re.compile(r'\(?(l|L)itigation\s(g|G)uardian\s?((o|O)f)?\)?')
+	lit = re.compile(r'\(?(l|L)itigation\s(g|G)uardian\s?((o|O)f)?\)?', flags = re.I|re.UNICODE)
 	if lit.search(string):
 		match = lit.search(string)#detect the match object
 		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
 		string = re.sub(sub, '', string) + " (Litigation guardian of)"
 	##print("lit gaurdian:: " + string+"\n")
 	# (3) CORPORATIONS
-	corp = re.compile(r'(\s(c|C)orp(oration)?$|^(c|C)orp(oration)?\s|\s(c|C)orp(oration)?\s)')
+	corp = re.compile(r'(\s(c|C)orp(oration)?$|^(c|C)orp(oration)?\s|\s(c|C)orp(oration)?\s)', flags = re.I|re.UNICODE)
 	if corp.search(string):
 		match = corp.search(string)#detect the match object
 		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
@@ -135,21 +168,21 @@ def StyleAttributes(string):
 				string = re.sub(sub, x[0], string)
 	##print("Corporation:: " + string+"\n")
 	# (5) TRUSTEE
-	trustee = re.compile(r'(\(?(t|T)rustee\s?((o|O)f)\)?|\(?(t|T)rustee\s?((o|O)f)?\)?$)')
+	trustee = re.compile(r'(\(?(t|T)rustee\s?((o|O)f)\)?|\(?(t|T)rustee\s?((o|O)f)?\)?$)', flags = re.I|re.UNICODE)
 	if trustee.search(string):
 		match = trustee.search(string)#detect the match object
 		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
 		string = re.sub(sub, '', string) + " (Trustee of)"
 	##print("trustee:: " + string+"\n")
 	# (6) RECEIVERSHIPS
-	rec = re.compile(r'(\(?(r|R)eceiver(ship)?\s?((o|O)f)\)?|\(?(r|R)eceiver(ship)?\s?((o|O)f)?\)?$)')
+	rec = re.compile(r'(\(?(r|R)eceiver(ship)?\s?((o|O)f)\)?|\(?(r|R)eceiver(ship)?\s?((o|O)f)?\)?$)', flags = re.I|re.UNICODE)
 	if rec.search(string):
 		match = rec.search(string)#detect the match object
 		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
 		string = re.sub(sub, '', string) + " (Receiver of)"
 	##print("receiv:: " + string+"\n")
 	# (7) LIQUIDATOR
-	liq = re.compile(r'(\(?(l|L)iquidat(e|or)s?\s?((o|O)f)\)?|\(?(l|L)iquidat(e|or)s?\s?((o|O)f)?\)?$)')
+	liq = re.compile(r'(\(?(l|L)iquidat(e|or)s?\s?((o|O)f)\)?|\(?(l|L)iquidat(e|or)s?\s?((o|O)f)?\)?$)', flags = re.I|re.UNICODE)
 	if liq.search(string):
 		match = liq.search(string)#detect the match object
 		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
@@ -195,13 +228,13 @@ def StyleAttributes(string):
 				string = re.sub(sub, x[0], string)
 	##print("Provinces:: " + string+"\n")
 	# (11) CROWN CIVIL (AG and MNR)
-	AG = re.compile(regstr('(\(?(a|A)tt(orney)?\s?(g|G)en(eral)?\s?((o|O)f)?\)?|\(?(A|a)(G|g)\)?)'))
+	AG = re.compile(regstrElecSpec('(att(orney)?\sgen(eral)?(\sof)?|AG)'), flags = re.I|re.UNICODE)
 	if AG.search(string):
 		match = AG.search(string)#detect the match object
 		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
 		##print "sub = "+sub+"\n"	##print "string = "+string+"\n"		##print "subbed in = "+re.sub(sub, '', string)+"\n"
 		string = re.sub(sub, '', string) + " (AG)"
-	MNR = re.compile(regstr('(\(?(m|M)inister\s?((o|O)f)?\s(n|N)at(ional)?\s(r|R)ev(enue)?\)?|\(?(M|m)(N|n)(R|r)\)?)'))
+	MNR = re.compile(regstrElecSpec('(\(?minister(\sof)?\snat(ional)?\srev(enue)?\)?|\(?mnr\)?)'), flags = re.I|re.UNICODE)
 	if MNR.search(string):
 		match = MNR.search(string)#detect the match object
 		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
@@ -328,28 +361,6 @@ def NeutralCourts():
 	Saskatchewan = [["SKCA", 2000, ["Appeal Court", "Court of Appeal", "CA"]], ["SKQB", 1999, ["Court of Queen's Bench", "Queen's Bench", "QB"]], ["SKPC", 2002, ["Provincial Court", "Prov Court", "PC"]], ["SKAIA", 2003, ["Automobile Injury Appeal Commission"]]]
 	Yukon = [["YKCA", 2000, ["Appeal Court", "Court of Appeal", "CA"]], ["YKSC", 2000, ["Supreme Court", "SC", "Supreme Court of the Yukon Territory"]], ["YKTC", 1999, ["Territorial Court", "TC"]], ["YKSM", 2004, ["Small Claims Court", "SM", "Small Claims"]], ["YKYC", 2001, ["Youth Court", "YC"]]]
 
-
-def regstrElec(i):#i is a string input
-	i = re.sub("\[", "\[", i)
-	i = re.sub("\]", "\]", i)
-	i = re.sub("\^", "\^", i)
-	i = re.sub("\$", "\$", i)
-	i = re.sub("\.", "\.", i)
-	i = re.sub("\|", "\|", i)
-	i = re.sub("\?", "\?", i)
-	i = re.sub("\*", "\*", i)
-	i = re.sub("\+", "\+", i)
-	i = re.sub("\(", "\(", i)
-	i = re.sub("\)", "\)", i)
-	one = r'\s'+i+ r'(?=,)'
-	two = r'\s'+i+ r'$'
-	thr = r'\s'+i+ r'\s'
-	fou = r'^' +i+ r'\s'
-	fiv = r'\('+i+ r'\)'
-	six = r'\['+i+ r'\]'
-	sev = r'^'+i+ r'$'
-	string =  r'('+ one + r'|' + two + r'|' + thr + r'|' + fou + r'|' + fiv + r'|' + six + r'|' + sev + r')'
-	return string
 
 
 
@@ -817,9 +828,17 @@ def FindCourt(string):
 		#print "There were", len(Results), "results:", Results, "RETURN: ", Results[0]
 		return [Results[0], True]
 	else: pass#print "********* NO RESULTS for", string,"*********"
-	return [Capitalize(string), False]
+	return [string, False]
 
-
+def DefaultCt(string):
+	print "**** Running DefaultCt within the CheckCt function. Input: ", string
+	Change = [[r'Criminal', 'Crim'], [r'United States', 'US'], [r'Superior', 'Supr'], 	[r'Juvenile', 'Juv'], [r'Magistrate', 'Magis'], [r'General', 'Gen'], [r'Sessions?', 'Sess'], [r'App(ellate|eal)s?', 'App'],
+	[r'Family', 'Fam'], [r'Review', 'Rev'],	[r'Circuit', 'Cir'], [r'Criminal', 'Crim'], [r'Supreme', 'Sup'], [r"Record(er)?'?s?", 'Rec'], [r'District', 'Dist'], [r'Civil', 'Civ'], [r'Federal', 'Fed'], [r'Criminal', 'Crim'], [r"Child(ren)?'?s?", 'Child'], [r'Judicial', 'Jud'], [r'Internaional', "Int'l"], [r'Intermediate', 'Intermed']]
+	for C in Change:
+		foo = re.compile(C[0], flags = re.I)
+		if foo.search(string):
+			string = re.sub(foo.search(string).group(), C[1], string, flags = re.I)
+	return string
 
 #first detects whether there is a neutral citation present: if so, returns true
 #Detects in the input the jurisdiction and the court and adds them together
@@ -894,12 +913,12 @@ def CleanUpCourt(string):
 	Jurisdiction = FindJurisdiction(string)
 	if not Jurisdiction: #i.e. there was no jurisdiction
 		#print "Found no jurisdiction: returning:: ", Capitalize(string)
-		return [Capitalize(string), False] #FindCourt(string) #return False
-	#print "Found jurisdiction: ", Jurisdiction[0]
+		return [string, False] #FindCourt(string) #return False
+	print "Found jurisdiction: ", Jurisdiction[0]
 	'''************ FOUND JURISDICTION ************'''
 	'''************ LOOKING FOR JURISDICTION - IN - COURT NAMES ************'''
 	#there are some courts that have the name of the jurisdiction built in. in those cases, don't remove the jurisdiction before matching the court name
-	#print "Searching for regex match with court-with-jurisdiction: ", string
+	print "Searching for regex match with court-with-jurisdiction: ", string
 	Ct = re.compile(r'(C(our)?t|Cour)', flags = re.I)
 	StringJ = string #create string (Jurisdiction) to look for the jurisdiction
 	if Ct.search(StringJ):
@@ -910,7 +929,7 @@ def CleanUpCourt(string):
 		if Rem.search(StringJ):
 			StringJ = re.sub(Rem.search(StringJ).group(), " ", StringJ, flags = re.I)
 	StringJ = CleanUp(StringJ)
-	#print "Search modified to: ", StringJ
+	print "Search modified to: ", StringJ
 	DontRemove = [["CQ", re.compile(u"^Ct (of )?(Qu(e|\\xe9)bec|QC)( of)?$", flags = re.I)],
 	["CAF", re.compile(u"Ct d?'?appel f(e|\\xe9)d((e|\\xe9)rale)?", flags = re.I)],
 	["FCA", re.compile(r"(Fed(eral)?\s?(Ct)?|FC)\s?Appeal", flags = re.I)],
@@ -936,18 +955,18 @@ def CleanUpCourt(string):
 		if Court[1].search(StringJ):
 			#print StringJ, "gave a regex match, RETURN: ", Court[0]
 			return [Court[0], True]
-	#print "Did not find a court with jurisdiction built into the name."
+	print "Did not find a court with jurisdiction built into the name."
 	'''************ LOOKING FOR COURT  ************'''
-	#print "Searching string: ", string
+	print "Searching string: ", string
 	string = re.sub(Jurisdiction[1].group(), "", string)#take the name of the jurisdiction out
-	#print "String with jurisdiction removed is: ", CleanUp(string)
+	print "String with jurisdiction removed is: ", CleanUp(string)
 	FCourt = FindCourt(CleanUp(string))#search the cleaned string for the court (w/ the jurisdiction OUT)
 	if FCourt[1]:
-		#print "Court found is: ", FCourt[0]
-		#print "Returning: ", CleanUp(Jurisdiction[0] +" "+ FCourt[0]), "\t\t**"
+		print "Court found is: ", FCourt[0]
+		print "Returning: ", CleanUp(Jurisdiction[0] +" "+ FCourt[0]), "\t\t**"
 		return [CleanUp(Jurisdiction[0] +" "+ FCourt[0]), True]
 	else:
-		#print "Did not recongize court, returning this anyways: ", CleanUp(Jurisdiction[0] +" "+ FCourt[0])
+		print "Did not recongize court, returning this anyways: ", CleanUp(Jurisdiction[0] +" "+ DefaultCt(FCourt[0]))
 		return [CleanUp(Jurisdiction[0] +" "+ FCourt[0]), False]
 
 
