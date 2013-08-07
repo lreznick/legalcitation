@@ -106,7 +106,7 @@ def Connect2Web(webURL):
 
 def run():
 	print "hello"
-	Connect2Web("http://canlii.ca/en/ns/nssc/doc/1998/1998canlii1757/1998canlii1757.html")
+	#Connect2Web("http://canlii.ca/en/ns/nssc/doc/1998/1998canlii1757/1998canlii1757.html")
 	#Connect2Web("http://www.canlii.org/en/ca/scc/doc/1997/1997canlii400/1997canlii400.html")
 	#Connect2Web("http://canlii.ca/en/ab/abqb/doc/1986/1986canlii1825/1986canlii1825.html")
 	#Connect2Web("http://canlii.ca/en/ca/scc/doc/1986/1986canlii73/1986canlii73.html")
