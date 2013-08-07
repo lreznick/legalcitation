@@ -7,8 +7,13 @@ Validations
 	var regex_parallel 	= /^[a-zA-Z0-9-.,;'&()…È»Ë¡·Ù\[\]\s]*$/
 	var regex_year 		= /(1[4-9][0-9]{2}|200[0-9]{1}|201[01234]{1})/
 	var regex_digits 	=/^\d+$/
+<<<<<<< HEAD
 	var regex_court 		=/^[a-zA-Z\s.()-È…»ËÓŒÙ‘¡·¿‡¬‚&]*$/
 	var regex_judge		=/^[a-zA-Z\s.È…»ËÓŒÙ‘¡·¿‡¬‚]*$/
+=======
+	var regex_court 		=/^[a-zA-Z\s.()-È…»ËÓŒÙ‘¡·¿‡¬‚]*$/
+	var regex_judge		=/^[a-zA-Z-\s.È…»ËÓŒÙ‘¡·¿‡¬‚]*$/
+>>>>>>> d693cef55271b22b46189f7bfe1e9639664757cf
 	
 	 jQuery.validator.addMethod(
 		"regex3",
