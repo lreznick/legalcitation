@@ -50,14 +50,12 @@ class FormCourt(object):
 		form = web.input()
 		f = CreateFormClass("canadian case", form)	
 		print ("in court")
-		if f.form.has_key('parallel'):
-			f = ValidateCanadianCourt(f)
-			data = [ {'court':f.form.court, 'valid':f.valid, 'errors':f.errors}]
-			data_string =json.dumps(data)
-			print 'JSON:', data_string
-			return data_string
-		else:
-			return
+		f = ValidateCanadianCourt(f)
+		data = [ {'court':f.form.court, 'valid':f.valid, 'errors':f.errors}]
+		data_string =json.dumps(data)
+		print 'JSON:', data_string
+		return data_string
+		
 
 class FormParallel(object):
 	def POST(self):

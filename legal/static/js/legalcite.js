@@ -527,39 +527,49 @@ Validations
 	var regex_court 		=/^[a-zA-Z\s.()-éÉÈèîÎôÔÁáÀàÂâ]*$/
 	var regex_judge		=/^[a-zA-Z\s.éÉÈèîÎôÔÁáÀàÂâ]*$/
 	
-	jQuery.validator.addMethod("", function(value, element)
-{
-					remote: {
-						type: "POST", 
-						url: '/form/court',
-						data:{
-							court : function()
-							{
-								console.log("here");
-								console.log("
-								return jQuery('#CanadaCaseCourt').val();
-							}
-						},
-						dataType: 'json',
-						success: function(data) {
-							console.log('data: ' + data);
-							//jQuery('#CanadaCaseDate').val(data[0].date)
-							//jQuery('#CanadaCaseCourt').val(data[0].court)
-							console.log("hooray!")
-						},
+	 jQuery.validator.addMethod(
+		"regex3",
+        function(value, element, regexp) {
+            var re = new RegExp(regexp);
+            return this.optional(element) || re.test(value);
+        },
+        "Please check your input."
+	);
+	
+	
+		jQuery('#CanadaCaseCourt').blur(function(){
+			var courtVal = jQuery(this).val();
+			if (courtVal != ""){			
+            jQuery.ajax({ 
+                type: "POST", 
+				url: '/form/court',
+                data:{court : courtVal},
+				dataType: 'json',
+                success: function(data) {
+					//jQuery('#CanadaCaseDate').val(data[0].date)
+					//jQuery('#CanadaCaseCourt').val(data[0].court)
+					console.log("hooray!")
+				}
+			});
+			}
+		});
+	/*
+	jQuery.validator.addMethod("validateCourt", function(value, element)
+	{
+
     var inputElem = jQuery('#CanadaCaseCourt'),
-        data = { "court" : inputElem.val() },
+        data = { court : inputElem.val() },
         eReport = ''; //error report
 
     jQuery.ajax(
     {
         type: "POST",
-        url: '/form/court'
+        url: '/form/court',
         dataType: "json",
         data: data,
         success: function(data)
         {
-		
+			console.log("in validate court")
             if (data !== 'true')
             {
               return '<p>This email address is already registered.</p>';
@@ -571,14 +581,15 @@ Validations
         },
         error: function(xhr, textStatus, errorThrown)
         {
-            alert('ajax loading error... ... '+url + query);
+            //alert('ajax loading error... ... '+url + query);
+			console.log('error in court');
             return false;
         }
     });
 
-}, '');
+}, ''); */
 
-//$(':input[name="email"]').rules("add", { "validateUserEmail" : true} );	
+//$(':input[name="email"]').rules("add", { "validateCourt" : true} );	
 	
 	// Validates the form to check if a form works or not
 	// Note: rules are based on name of form
@@ -603,17 +614,27 @@ Validations
 				court: {
 					maxlength:250,	
 					regex: regex_court, 
-					validateCourt: true,
-					required: true,
-					/*required: function(element){
-								//console.log("here");
-								//console.log(jQuery('#CanadaCaseParallel').val().length == 0)
-								//http://stackoverflow.com/questions/10406089/jquery-validate-plugin-require-field-if-another-field-has-a-value-and-vice-versa
-								return (jQuery('#CanadaCaseParallel').val().length ==0)
-						//}
+					//validateCourt: true,
+					/*remote: {
+						type: "POST", 
+						url: '/form/court',
+						data:{
+							court : function()
+							{
+								console.log("here");
+								console.log("");
+								return jQuery('#CanadaCaseCourt').val();
+							}
+						},
+						dataType: 'json',
+						success: function(data) {
+							console.log('data: ' + data);
+							//jQuery('#CanadaCaseDate').val(data[0].date)
+							//jQuery('#CanadaCaseCourt').val(data[0].court)
+							console.log("hooray!")
+						},
 					},*/
-
-					}
+					required: true,
 				},
 				shortform: {
 					maxlength:100,	

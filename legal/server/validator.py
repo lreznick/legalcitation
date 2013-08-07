@@ -73,14 +73,13 @@ def ValidateCanadianParallel(f):
 	return f		
 	
 def ValidateCanadianCourt(f):
-	parallel				= "%s" % (f.form.parallel)
+	#parallel				= "%s" % (f.form.parallel)
 	court					= "%s" % (f.form.court)
 	
 	if not court:
 		GenerateErrorMsg(f,"court","", ErrorMsgRequired("court"))			
 	else:
-		if parallel:
-			c = CleanUpCourt(court,parallel) #returns [court, False/True]
+		c = CleanUpCourt(court,parallel) #returns [court, False/True]
 			#the regexCourt is found in CleanUpCourt in CanadianCase automatically
 			if (c[1] == False):
 				GenerateWarningMsg(f,"court","", ErrorMsgCourt("court"))
