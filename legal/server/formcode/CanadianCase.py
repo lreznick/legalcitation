@@ -827,7 +827,7 @@ def FindCourt(string):
 #input will not be a neutral citation
 #returns False if there is no jurisdiction at all
 #returns list [Court, whether jurisdiction in the court name, in which case we do not run TakeOutJurisdiction******************* (True or False)]
-def CleanUpCourt(string, parallelInput):
+def CleanUpCourt(string):
 	#print "***** Checking: ", string
 	#print "Checking validation ..."
 	regexCourt = re.compile(ur'^[a-zA-Z\.,\'\^&\(\)\]\[\s\u00E9\u00E8\u00C9\u00C8\u00C1\u00E1\u00F4\u00EE\u00F4\u00D4\u00E0\u00C2\u00E2]+$', flags = re.UNICODE)
@@ -885,17 +885,9 @@ def CleanUpCourt(string, parallelInput):
 	'''************ LOOKING FOR NEUTRAL CITATION ************'''
 	NC = CheckForCourt(string)
 	if NC:
-		#print "Found neutral citation: " + NC +"\t\t**"
-		m = SplitUpParallel(parallelInput)
-		Neut = False
-		for x in m:
-			if CheckForCourt(x):
-				Neut = True
-				break
-		if not Neut: #if there is not a neutral citation present, then we need to change the input to a recognized form
-			for x in NCConversion:
-				if NC==x[0]:
-					NC = x[1]
+		for x in NCConversion:
+			if NC==x[0]:
+				NC = x[1]
 		#print "Returning in CleanUpCt:: ", NC
 		return [NC, True]
 	'''************ LOOKING FOR JURISDICTION ************'''
@@ -1032,14 +1024,14 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 	if not Court and not CitationDate:
 		#print "NOT COURT AND NOT CITATIONDATE DETECTED ****"
 		#Court_input = raw_input("Enter Court with Canadian Jurisdiction: \n")
-		Ct = CleanUpCourt(CleanUp(Court_Input), Citation_Input) 
+		Ct = CleanUpCourt(CleanUp(Court_Input)) 
 		Ct = TakeOutJurisdiction(Ct[0], TwoBest)
 		JudgementDate = CleanUp(Date_Input)
 		OUTPUT = ' ('+ JudgementDate + '), ' + TwoBest +' (' + Ct + ')'#combine all of this in the right way
 	if CitationDate and not Court: 
 		#print "CITATIONDATE AND NOT COURT DETECTED ****"
 		#Court_input = raw_input("Enter Court with Canadian Jurisdiction: \n")
-		Ct = CleanUpCourt(CleanUp(Court_Input), Citation_Input) 
+		Ct = CleanUpCourt(CleanUp(Court_Input)) 
 		Ct = TakeOutJurisdiction(Ct[0], TwoBest)
 		JudgementDate = CleanUp(Date_Input)
 		if (JudgementDate==CitationDate): 
@@ -1205,14 +1197,14 @@ def GetHistoryCitations(Citation_Input, Court_Input, Date_Input):
 	if not Court and not CitationDate:
 		#print "NOT COURT AND NOT CITATIONDATE DETECTED ****"
 		#Court_input = raw_input("Enter Court with Canadian Jurisdiction: \n")
-		Ct = CleanUpCourt(CleanUp(Court_Input), Citation_Input) 
+		Ct = CleanUpCourt(CleanUp(Court_Input)) 
 		Ct = TakeOutJurisdiction(Ct, OneBest)
 		JudgementDate = CleanUp(Date_input)
 		OUTPUT = ' ('+ JudgementDate + '), ' + OneBest +' (' + Ct + ')'#combine all of this in the right way
 	if CitationDate and not Court: 
 		#print "CITATIONDATE AND NOT COURT DETECTED ****"
 		#Court_input = raw_input("Enter Court with Canadian Jurisdiction: \n")
-		Ct = CleanUpCourt(CleanUp(Court_Input), Citation_Input) 
+		Ct = CleanUpCourt(CleanUp(Court_Input)) 
 		Ct = TakeOutJurisdiction(Ct, OneBest)
 		Date_input = raw_input("Enter Date: \n")
 		JudgementDate = CleanUp(Date_input)
@@ -1257,7 +1249,7 @@ def GetCiting(SoC, Parallel, Year, Court):
 
 def GetLeaveToAppeal(array):
 	#[granted, courtappeal, citation/or docketnumber, input of docket]
-	Court = CleanUpCourt(array[1], "no way; not a chance")
+	Court = CleanUpCourt(array[1])
 	if re.search("Requested", CleanUp(array[0]), re.I):
 		return "leave to appeal to " + Court + " requested"
 	if re.search("Granted", CleanUp(array[0]), re.I):
