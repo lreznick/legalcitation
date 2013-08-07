@@ -568,7 +568,7 @@ def ShortenCtName(string):
 
 def DefaultCt(string):
 	print "**** Running DefaultCt within the CheckCt function. Input: ", string
-	Change = [[r'Criminal', 'Crim'], [r'United States', 'US'], [r'Superior', 'Super'], 	[r'Juvenile', 'Juv'], [r'Magistrate', 'Magis'], [r'General', 'Gen'], [r'Sessions?', 'Sess'], [r'App(ellate|eal)s?', 'App'],
+	Change = [[r'Criminal', 'Crim'], [r'United States', 'US'], [r'Superior', 'Supr'], 	[r'Juvenile', 'Juv'], [r'Magistrate', 'Magis'], [r'General', 'Gen'], [r'Sessions?', 'Sess'], [r'App(ellate|eal)s?', 'App'],
 	[r'Family', 'Fam'], [r'Review', 'Rev'],	[r'Circuit', 'Cir'], [r'Criminal', 'Crim'], [r'Supreme', 'Sup'], [r"Record(er)?'?s?", 'Rec'], [r'District', 'Dist'], [r'Civil', 'Civ'], [r'Federal', 'Fed'], [r'Criminal', 'Crim'], [r"Child(ren)?'?s?", 'Child'], [r'Judicial', 'Jud'], [r'Internaional', "Int'l"], [r'Intermediate', 'Intermed']]
 	for C in Change:
 		foo = re.compile(C[0], flags = re.I)
