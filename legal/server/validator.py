@@ -35,12 +35,12 @@ def Validate(regex, string):
 	if regex.search(string): return True
 	return False
 	
-regexStyle = re.compile(ur'^[\wa-zA-Z0-9\.,;:\'!\$\^&\(\)<>\s]+$', flags = re.UNICODE)
-regexParallel = re.compile(ur'^[a-zA-Z0-9\.,;\'!\^&\(\)\]\[\s\u00E9\u00E8\u00C9\u00C8\u00C1\u00E1\u00F4]+$', flags = re.UNICODE)
+regexStyle = re.compile(ur'^[\wa-zA-Z0-9-\.,;:\'!\$\^&\(\)<>\s]+$', flags = re.UNICODE)
+regexParallel = re.compile(ur'^[a-zA-Z0-9-\.,;\'!\^&\(\)\]\[\s\u00E9\u00E8\u00C9\u00C8\u00C1\u00E1\u00F4]+$', flags = re.UNICODE)
 regexYear = re.compile(r'^(1[4-9][0-9]{2}|200[0-9]{1}|201[01234]{1})$')
 regexDigits = re.compile(r'^\d+$')
 regexCourt = re.compile(ur'^[a-zA-Z\.,\'\^&\(\)\]\[\s\u00E9\u00E8\u00C9\u00C8\u00C1\u00E1\u00F4\u00EE\u00F4\u00D4\u00E0\u00C2\u00E2]+$', flags = re.UNICODE)
-regexJudge = re.compile(ur'^[\wa-zA-Z\.,&\s]+$', flags = re.UNICODE)
+regexJudge = re.compile(ur'^[\wa-zA-Z-\.,&\s]+$', flags = re.UNICODE)
 regexPinpoint = re.compile(r'^[0-9-,\s]*$')
 
 
