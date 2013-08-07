@@ -7,7 +7,7 @@ Validations
 	var regex_parallel 	= /^[a-zA-Z0-9.,;'&()…È»Ë¡·Ù\[\]\s]*$/
 	var regex_year 		= /(1[4-9][0-9]{2}|200[0-9]{1}|201[01234]{1})/
 	var regex_digits 	=/^\d+$/
-	var regex_court 		=/^[a-zA-Z\s.()-È…»ËÓŒÙ‘¡·¿‡¬‚]*$/
+	var regex_court 		=/^[a-zA-Z\s.()-È…»ËÓŒÙ‘¡·¿‡¬‚&]*$/
 	var regex_judge		=/^[a-zA-Z\s.È…»ËÓŒÙ‘¡·¿‡¬‚]*$/
 	
 	 jQuery.validator.addMethod(
@@ -47,7 +47,7 @@ Validations
 	jQuery.validator.addMethod("validateCourt", function(value, element)
 	{
 
-    var inputElem = jQuery('#CanadaCaseCourt'),
+    var inputElem = jQuery("#"+element.id),
         data = { court : inputElem.val() },
         eReport = ''; //error report
 
@@ -61,9 +61,9 @@ Validations
         {
 		
 		if (data[0].valid == true){
-				jQuery('#CanadaCaseCourt').val(data[0].court)
+				inputElem.val(data[0].court)
 				console.log("in validate court")
-				return false
+				return true
 		}
 		else{
 				console.log("else");
@@ -88,7 +88,7 @@ Validations
         }
     });
 
-}, ''); 
+}, '');//'The court entered was not detected as a valid court'); 
 
 //$(':input[name="email"]').rules("add", { "validateCourt" : true} );	
 	
@@ -116,25 +116,6 @@ Validations
 					maxlength:250,	
 					regex: regex_court, 
 					validateCourt: true,
-					/*remote: {
-						type: "POST", 
-						url: '/form/court',
-						data:{
-							court : function()
-							{
-								console.log("here");
-								console.log("");
-								return jQuery('#CanadaCaseCourt').val();
-							}
-						},
-						dataType: 'json',
-						success: function(data) {
-							console.log('data: ' + data);
-							//jQuery('#CanadaCaseDate').val(data[0].date)
-							//jQuery('#CanadaCaseCourt').val(data[0].court)
-							console.log("hooray!")
-						},
-					},*/
 					required: true,
 				},
 				shortform: {
@@ -164,7 +145,8 @@ Validations
 				},
 				citing_court:{
 					maxlength:250,	
-					regex: regex_court, 
+					regex: regex_court,
+					validateCourt: true,					
 				},
 				//History======
 				history_parallel1:{
@@ -178,6 +160,7 @@ Validations
 				history_court1: {
 					maxlength:250,	
 					regex: regex_court,
+					validateCourt: true,
 				},	
 				history_parallel2:{
 					maxlength:250,	
@@ -190,6 +173,7 @@ Validations
 				history_court2: {
 					maxlength:250,	
 					regex: regex_court,
+					validateCourt: true,
 				},		
 				history_parallel3:{
 					maxlength:250,	
@@ -202,6 +186,7 @@ Validations
 				history_court3: {
 					maxlength:250,	
 					regex: regex_court,
+					validateCourt: true,
 				},					
 				leaveToAppeal_docket: {
 					maxlength:50,	
@@ -210,6 +195,7 @@ Validations
 				leaveToAppeal_court:{
 					maxlength:250,	
 					regex: regex_court,
+					validateCourt: true,
 				},					
 
 			},
