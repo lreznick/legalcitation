@@ -3,12 +3,12 @@
 Validations 
 =============================================
 */		
-	var regex_style 		= /^[\wa-zA-Z0-9.,;:'!@#$%^&()<>-ßÄÖÜäöüÑñÉéÈèÁáÀàÂâYCcGgyÊêÔôÛûWw\s]*$/
-	var regex_parallel 	= /^[a-zA-Z0-9.,;'&()ÉéÈèÁáô\[\]\s]*$/
+	var regex_style 		= /^[\wa-zA-Z0-9-.,;:'!@#$%^&()<>-ßÄÖÜäöüÑñÉéÈèÁáÀàÂâYCcGgyÊêÔôÛûWw\s]*$/
+	var regex_parallel 	= /^[a-zA-Z0-9-.,;'&()ÉéÈèÁáô\[\]\s]*$/
 	var regex_year 		= /(1[4-9][0-9]{2}|200[0-9]{1}|201[01234]{1})/
 	var regex_digits 	=/^\d+$/
 	var regex_court 		=/^[a-zA-Z\s.()-éÉÈèîÎôÔÁáÀàÂâ]*$/
-	var regex_judge		=/^[a-zA-Z\s.éÉÈèîÎôÔÁáÀàÂâ]*$/
+	var regex_judge		=/^[a-zA-Z-\s.éÉÈèîÎôÔÁáÀàÂâ]*$/
 	
 	 jQuery.validator.addMethod(
 		"regex3",
