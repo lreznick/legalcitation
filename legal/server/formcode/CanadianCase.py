@@ -711,7 +711,7 @@ def regstrCt(i):#i is a string input
 
 
 def DefaultCt(string):
-	print "**** Running DefaultCt within the CheckCt function. Input: ", string
+	#print "**** Running DefaultCt within the CheckCt function. Input: ", string
 	Change = [[r'Division', 'Div'], [r'Criminal', 'Crim'], [r'Superior', 'Supr'], [r'Juvenile', 'Juv'], [r'Magistrate', 'Magis'], [r'General', 'Gen'], [r'Sessions?', 'Sess'], [r'App(ellate|eal)s?', 'App'],
 	[r'Family', 'Fam'], [r'Review', 'Rev'],	[r'Circuit', 'Cir'], [r'Criminal', 'Crim'], [r'Supreme', 'Sup'], [r"Record(er)?'?s?", 'Rec'], [r'District', 'Dist'], [r'Civil', 'Civ'], [r'Federal', 'Fed'], [r'Criminal', 'Crim'], [r"Child(ren)?'?s?", 'Child'], [r'Judicial', 'Jud'], [r'Internaional', "Int'l"], [r'Intermediate', 'Intermed']]
 	for C in Change:
@@ -725,9 +725,9 @@ def DefaultCt(string):
 #Returns a match. The comments will say what courts matched the input
 #NOTE: allow fo caps \xe9
 def FindCourt(string):
-	print "**** Starting FindCourt"
+	#print "**** Starting FindCourt"
 	#sub all instances of "court" court ct etc with Ct for simpler searching
-	print "Searching: ", string
+	#print "Searching: ", string
 	Ct = re.compile(regstrCt('(C(our)?t|Cour)'), flags = re.I)
 	if Ct.search(string):
 		string = re.sub(Ct.search(string).group(), " Ct ", string, flags = re.I)
@@ -749,7 +749,7 @@ def FindCourt(string):
 		if foo.search(string):
 			string = re.sub(foo.search(string).group(), C[1], string, flags = re.I)
 	string = CleanUp(string)
-	print "Search modified to: ", string
+	#print "Search modified to: ", string
 	AllCourts = [["CA", re.compile(r"(^(Ct )?appeal(s)?$|^d?appel$|^appellate|^appeal ct)", flags = re.I)],
 	["Ct J", re.compile(r"^Ct just$", flags = re.I)],
 	["H Ct J", re.compile(r"H(igh)? Ct just", flags = re.I)],
@@ -929,11 +929,11 @@ def CleanUpCourt(string):
 	if not Jurisdiction: #i.e. there was no jurisdiction
 		#print "Found no jurisdiction: returning:: ", Capitalize(string)
 		return [DefaultCt(string), False] #FindCourt(string) #return False
-	print "Found jurisdiction: ", Jurisdiction[0]
+	#print "Found jurisdiction: ", Jurisdiction[0]
 	'''************ FOUND JURISDICTION ************'''
 	'''************ LOOKING FOR JURISDICTION - IN - COURT NAMES ************'''
 	#there are some courts that have the name of the jurisdiction built in. in those cases, don't remove the jurisdiction before matching the court name
-	print "Searching for regex match with court-with-jurisdiction: ", string
+	#print "Searching for regex match with court-with-jurisdiction: ", string
 	Ct = re.compile(r'(C(our)?t|Cour)', flags = re.I)
 	string = string #create string (Jurisdiction) to look for the jurisdiction
 	if Ct.search(string):
@@ -944,7 +944,7 @@ def CleanUpCourt(string):
 		if Rem.search(string):
 			string = re.sub(Rem.search(string).group(), " ", string, flags = re.I)
 	string = CleanUp(string)
-	print "Search modified to: ", string
+	#print "Search modified to: ", string
 	DontRemove = [["CQ", re.compile(u"^Ct (of )?(Qu(e|\\xe9)bec|QC)( of)?$", flags = re.I)],
 	["CAF", re.compile(u"Ct d?'?appel f(e|\\xe9)d((e|\\xe9)rale)?", flags = re.I)],
 	["FCA", re.compile(r"(Fed(eral)?\s?(Ct)?|FC)\s?Appeal", flags = re.I)],
@@ -970,18 +970,18 @@ def CleanUpCourt(string):
 		if Court[1].search(string):
 			#print string, "gave a regex match, RETURN: ", Court[0]
 			return [Court[0], True]
-	print "Did not find a court with jurisdiction built into the name."
+	#print "Did not find a court with jurisdiction built into the name."
 	'''************ LOOKING FOR COURT  ************'''
-	print "Searching string: ", string
+	#print "Searching string: ", string
 	string = re.sub(Jurisdiction[1].group(), "", string)#take the name of the jurisdiction out
-	print "String with jurisdiction removed is: ", CleanUp(string)
+	#print "String with jurisdiction removed is: ", CleanUp(string)
 	FCourt = FindCourt(CleanUp(string))#search the cleaned string for the court (w/ the jurisdiction OUT)
 	if FCourt[1]:
-		print "Court found is: ", FCourt[0]
-		print "Returning: ", CleanUp(Jurisdiction[0] +" "+ FCourt[0]), "\t\t**"
+		#print "Court found is: ", FCourt[0]
+		#print "Returning: ", CleanUp(Jurisdiction[0] +" "+ FCourt[0]), "\t\t**"
 		return [CleanUp(Jurisdiction[0] +" "+ FCourt[0]), True]
 	else:
-		print "Did not recongize court, returning this anyways: ", CleanUp(Jurisdiction[0] +" "+ DefaultCt(FCourt[0]))
+		#print "Did not recongize court, returning this anyways: ", CleanUp(Jurisdiction[0] +" "+ DefaultCt(FCourt[0]))
 		return [CleanUp(Jurisdiction[0] +" "+ FCourt[0]), False]
 
 
