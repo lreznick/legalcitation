@@ -6,7 +6,7 @@
 	width: 410px;
 }
 .form-horizontal .control-group{
-	margin-bottom: 8px;
+	margin-bottom: 6px;
 }
 .form-horizontal .control-label{
 	padding-top: 0px;
@@ -102,10 +102,10 @@ label.error {
 	display: block; 
 }
 label.valid {
-	width: 24px;
+	/*width: 24px;
 	margin:0 auto;
 	/*background: url(../img/valid.png) center center no-repeat;*/
-	display: inline-block; 
+	/*display: inline-block; */
 	text-indent: -9999px;
 }
 

@@ -240,12 +240,16 @@ input[type="color"],
   color: #424242;
 }
 
+label{
+  margin-bottom: 0px;
+}
 .label,
 .badge {
   padding: 1px 3px 2px;
   font-size: 9.75px;
   color: #ffffff;
   background-color: #999999;
+
 }
 
 .label-important,

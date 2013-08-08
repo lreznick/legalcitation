@@ -10,125 +10,13 @@ Validations
 	var regex_court 		=/^[a-zA-Z\s.()-È…»ËÓŒÙ‘¡·¿‡¬‚&]*$/
 	var regex_judge		=/^[a-zA-Z\s.È…»ËÓŒÙ‘¡·¿‡¬‚]*$/
 
-	
-	 jQuery.validator.addMethod(
-		"regex3",
-        function(value, element, regexp) {
-            var re = new RegExp(regexp);
-            return this.optional(element) || re.test(value);
-        },
-        "Please check your input."
-	);
-	
-/*	
-		jQuery('#CanadaCaseCourt').blur(function(){
-			var courtVal = jQuery(this).val();
-			if (courtVal != ""){			
-            jQuery.ajax({ 
-                type: "POST", 
-				url: '/form/court',
-                data:{court : courtVal},
-				dataType: 'json',
-                success: function(data) {
-					if (data[0].valid == true){
-						
-						jQuery('#CanadaCaseCourt').val(data[0].court)
-					}
-					else{
-						console.log("else");
-					}
-					//jQuery('#CanadaCaseDate').val(data[0].date)
-					//jQuery('#CanadaCaseCourt').val(data[0].court)
-					console.log("hooray!")
-				}
-			});
-			}
-		});
-function a() {
-    return $.post(...).then(function(result) {
-        if(result)
-            return result;//continue on "success" path.
-        else
-            return $.Deferred().reject('a').promise();//convert success to failure.
-    }, function() {
-        return 'a';//continue on failure path.
-    });
-}
-.done(function() {
-				alert("success"); success1 = true;})
-				.fail(function() { alert("error"); })
-				.always(function() {
-					return success1 });
-	*/
 
-	jQuery.validator.addMethod("validateCourt", function(value, element,validate)
-	{
-	
-    var inputElem = jQuery("#"+element.id),
-        data = { court : inputElem.val() },
-        eReport = ''; //error report
-		
-	console.log("in court: " +"#"+element.id);
-	console.log("in court: " +inputElem.val());
-	console.log("optional: " +this.optional(element));
-	console.log("validate: "+validate);
 
-	if (inputElem.val() !== ""){
-		//return true
-		var response;
-		jQuery.ajax(
-			{
-				type: "POST",
-				url: '/form/court',
-				dataType: "json",
-				data: data,
-				success: function(data)
-				{
-					response = data
-				/*
-				
-				else{
-				
-						console.log("validate court something wrong");
-						return 'something wrong'
-				}
-				
-					/*
-					if (data !== 'true')
-					{
-					  return '<p>This email address is already registered.</p>';
-					}
-					else
-					{
-					   return true;
-					}*//*
-				},
-				error: function(xhr, textStatus, errorThrown)
-				{
-					//alert('ajax loading error... ... '+url + query);
-					console.log('error in court');
-					return false;
-				}*/	
-				},
-				async:false
-			})
-			if (response[0].valid == true){
-				inputElem.val(response[0].court)
-				//CanadianCaseValidator.form() 
-				console.log("in validate court")
-				return true
-			}
-			else{
-				return false
-			}
-			
-	}
-	else{
-		return true
-	}
-}, 'court not working!');//'The court entered was not detected as a valid court'); 
-
-//$(':input[name="email"]').rules("add", { "validateCourt" : true} );	
+/*
+=============================================
+CanadaCaseValidator
+=============================================
+*/		
 	
 	// Validates the form to check if a form works or not
 	// Note: rules are based on name of form
@@ -247,7 +135,7 @@ function a() {
 				//element.text('OK!').addClass('valid').closest('.control-group').removeClass('error');//.addClass('success'); 
 				element.closest('.control-group').removeClass('error');//.addClass('success'); 
 				
-				element.text('OK!').addClass('valid');
+//element.addClass('valid');
 				
 			},
 			messages: { 
@@ -329,7 +217,30 @@ function a() {
 		}); 
 	
 		
-		
+		// Validates the form to check if a form works or not
+		jQuery('#Canlii-Form').validate({
+			rules: { 
+				url: {
+					minlength: 6,
+					required: true,
+					url:true
+				},
+			},
+			highlight: function(element) {
+				jQuery(element).closest('.control-group').addClass('error');
+			},
+			success: function(element) { 
+				element.addClass('valid')
+					.closest('.control-group').removeClass('error'); 
+			},
+			messages: { 
+				url: {
+					minlength: "The url you entered was too short!",
+					required: ""
+				},
+				
+			}
+		}); 
 		
 		
 		// Validates the form to check if a form works or not
@@ -371,3 +282,67 @@ function a() {
 				} 
 			}
 		}); 
+/*
+=============================================
+Adding Methods
+=============================================
+*/			
+
+
+	 //adding a method that allows regular expressions to check for validation
+ jQuery.validator.addMethod(
+		"regex",
+        function(value, element, regexp) {
+            var re = new RegExp(regexp);
+            return this.optional(element) || re.test(value);
+        },
+        "Detected an invalid character."
+	);
+	 //adding a method that allows regular expressions to check for validation
+ jQuery.validator.addMethod(
+		"regex2",
+        function(value, element, regexp) {
+            var re = new RegExp(regexp);
+            return this.optional(element) || re.test(value);
+        },
+        "Please check your input."
+	);	 
+	jQuery.validator.addMethod("validateCourt", function(value, element,validate)
+	{
+	
+    var inputElem = jQuery("#"+element.id),
+        data = { court : inputElem.val() },
+        eReport = ''; //error report
+		
+	console.log("in court: " +"#"+element.id);
+	console.log("in court: " +inputElem.val());
+	console.log("optional: " +this.optional(element));
+	console.log("validate: "+validate);
+
+	if (inputElem.val() !== ""){
+		//return true
+		var response;
+		jQuery.ajax(
+			{
+				type: "POST",
+				url: '/form/court',
+				dataType: "json",
+				data: data,
+				success: function(data)
+				{
+					response = data
+				},
+				async:false
+			})
+			if (response[0].valid == true){
+				inputElem.val(response[0].court)
+				return true
+			}
+			else{
+				return false
+			}
+	}
+	else{
+		return true
+	}
+}, 'The court you entered did not work in our system.');//'The court entered was not detected as a valid court'); 

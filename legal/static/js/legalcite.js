@@ -111,9 +111,11 @@ jQuery('#JournalArticle-Form #pinpoint-selection').change(function(){
 THE TESTING BUTOON!!!!!!=================================================
 =============================================
 */		
+
 jQuery("#thetestbutton").click(function(){
-	console.log(jQuery('#JournalArticle-Form').serialize());
-	console.log(jQuery('#JournalAuthors').val())
+	generateErrorMessage("#Canlii-Form","something went wrong on our end :(")
+				
+	
 
 })
 /*
@@ -129,24 +131,7 @@ Set Up
 =============================================
 */		
 	 
-	 //adding a method that allows regular expressions to check for validation
- jQuery.validator.addMethod(
-		"regex",
-        function(value, element, regexp) {
-            var re = new RegExp(regexp);
-            return this.optional(element) || re.test(value);
-        },
-        "Detected an invalid character."
-	);
-	 //adding a method that allows regular expressions to check for validation
- jQuery.validator.addMethod(
-		"regex2",
-        function(value, element, regexp) {
-            var re = new RegExp(regexp);
-            return this.optional(element) || re.test(value);
-        },
-        "Please check your input."
-	);	 
+
 	
 	//hiding all forms 
 	//jQuery("#hidden-forms").hide();
@@ -157,7 +142,7 @@ Set Up
 	jQuery("#reporter-container").hide();
 	jQuery("#history3").hide();
 	jQuery("#history2").hide();
-	
+	jQuery(".loading-gif").hide();
 	jQuery('#pinciteWrapper').tooltip({
 		trigger: 'hover',
 		placement: 'right',
@@ -177,7 +162,7 @@ Form Submissions
 	//	Then reloads the page to display the contentss
 
 	jQuery('#canlii-go').click(function(){
-			console.log("in go");
+			jQuery("#Canlii-Form .loading-gif").show();
 			jQuery.ajax({ 
                 type: "POST", 
 				url: '/form/canlii',
@@ -215,25 +200,24 @@ Form Submissions
 					
 					autoFillPinCite(reporterType,reporters);
 					
-					
-				//	jQuery('#').hide();
-				//	jQuery('#manual-header').hide();
-                },
-			});
+                }
+			}).fail(function(){generateErrorMessage("#Canlii-Form","something went wrong on our end :(")})
+			.always(function(){
+			jQuery("#Canlii-Form .loading-gif").hide()}
+			);
 			return false; 	
 	});
 		//Submitting the information to the server to be processed
-	jQuery('#GoButton').click(function() {
-            //generateErrorMessage("#canadacase-form","oh noes")
-			console.log("here1");
+	jQuery('#CanadaCase-go').click(function() {
 		if (CanadianCaseValidator.form() == true){
-		console.log("here2");
-            jQuery.ajax({ 
+			jQuery("#CanadaCase-Form .loading-gif").show();          
+			jQuery.ajax({ 
                 type: "POST", 
                 data: jQuery('#canadacase-form').serialize(),
 				url:'/form/CanadianCase',
 				dataType: 'json',
                 success: function(data) {
+					jQuery("#CanadaCase-Form .loading-gif").hide();            
 					clearErrors("#canadacase-form")
 					console.log("the return data", data);
 					console.log("the return data", data[0].errors);
@@ -260,7 +244,9 @@ Form Submissions
 					 
 
                 },
-			});
+
+			}).fail(function(){generateErrorMessage("#canadacase-form","something went wrong on our end :(")})
+			.always(jQuery("#CanadaCase-Form .loading-gif").hide());
 			return false; 
 		}
 		else{
@@ -320,6 +306,7 @@ Form Submissions
 					
 					if (data[0].date != false){
 						jQuery('#CanadaCaseDate').val(data[0].date);
+						console.log(CanadianCaseValidator.element('#CanadaCaseDate'))
 					}
 					if (data[0].court != false){
 						jQuery('#CanadaCaseCourt').val(data[0].court);
@@ -354,12 +341,12 @@ Form Submissions
 	});
 	*/
 	function clearErrors(form){
-		jQuery(form+' #error-container').html("");
+		jQuery(form+' .error-container').html("");
 	}
 	
 	function generateErrorMessage(form,message){
 	html = "<div class=\"alert alert-error\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>"	+	message		+"</div>"
-			jQuery(form+' #error-container').append(html);
+			jQuery(form+' .error-container').append(html);
 			//jQuery('#reporter-table').html(outputstring);
 	}
 
@@ -459,23 +446,36 @@ var tooltip_leaveToAppeal_selection
 = tooltip_leaveToAppeal_citation
 = tooltip_leaveToAppeal_docket = tooltip_leavetoappeal;
 
+var formOffsets = [
+'#CanadaCase-Form',
+'#CanadaCaseJudge', //judge
+'#history1', //history
+'#leaveToAppeal-selection']; //leave to appeal
 
 jQuery('#CanadaCase-Form input').focus(function(){
 		var name = jQuery(this).attr('name') // get Forms name
 		var tool = eval('tooltip_'+name); // convert it to a variable
 		jQuery('#tooltips').html(tool); // display the tooltip
+		
 		var formTop = jQuery("#CanadaCase-Form").offset();
 		var currentForm = jQuery(this).offset();
-		
 		var positionDifference = currentForm.top - formTop.top;
-		console.log(Math.floor(positionDifference/200)*200);
-		console.log(Math.round(positionDifference));
-		
-		jQuery('#tooltips').css('margin-top', Math.floor(positionDifference/200)*200);
-					
-		
-		//console.log(jQuery(this).attr('class').split(' ')[1]); // get the second class
-		//console.log(jQuery(this).parent('.control-group'));
+
+		for (var i =0; i<formOffsets.length-1;i++){
+			var a = formOffsets[i];
+			var b = formOffsets[i+1];
+			var offset = (jQuery(a).offset().top-formTop.top);
+			var nextOffset = (jQuery(b).offset().top-formTop.top);
+			
+			if (positionDifference >= offset){
+				if (positionDifference < nextOffset){
+					jQuery('#tooltips').css('margin-top', offset);
+				}
+				if (positionDifference >= nextOffset){
+					jQuery('#tooltips').css('margin-top', nextOffset);
+				}
+			}
+		}
 });
 
 jQuery('#CanadaCase-Form select').change(function(){
@@ -519,10 +519,13 @@ jQuery('#CanadaCaseSubnom').focus(function(){
 	jQuery('#tooltips').html(tooltip_subNom);
 });
 
+jQuery('#CanadaCase-Accordion-Toggle').click(function(){
 
-
-
-
+	if (jQuery( "#CanadaCaseExtraOptions" ).hasClass('collapse') !==true){
+				jQuery('#tooltips').html(''); 
+				
+	}
+});
 
 
 	
@@ -531,7 +534,7 @@ jQuery('#CanadaCaseSubnom').focus(function(){
 Collapsing
 =============================================
 */		
-	jQuery(".demo").collapse()
+	//jQuery(".demo").collapse()
 
 /*
 =============================================

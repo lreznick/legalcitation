@@ -27,24 +27,37 @@ $def with (greeting= None)
 					
 					
 					 <!-- CANLII-->
-					   <div class= "header2" style= "margin-bottom:20px; ">Enter A <a href ="http://www.canlii.org/"  style = "color:#fe6060">CanLII </a>site </div>
-						  <!-- <div class="well"> -->
-						<form class="form-horizontal" action="/form/canlii" method="POST">
+					   <div class= "header2" style= "margin-bottom:20px; ">Enter A <a href ="http://www.canlii.org/"  target="_blank" style = "color:#fe6060">CanLII </a>site </div>
+						<form class="form-horizontal" id ="Canlii-Form" action="/form/canlii" method="POST">
 							<fieldset>
-							<!-- Name -->
-							<div class="control-group">
+							<div class="control-group" >
 								<!-- Name <label class="control-label" for="inputtest">test </label> -->
-								<div class="controls" style = "margin: 0px">
+								
+								<div class="controls"  style = "margin: 0px; padding-top: 2px">
+									<table>
+									<tr><td style = "margin: 0px; padding-top: 2px">
 									<input type="text" class="input-xxlarge" id="canlii-input" name="url" placeholder=" ex: http://www.canlii.org/en/ca/scc/doc/2013/2013scc29/2013scc29.html" >
-									<button type="submit" class="btn btn-danger" id="canlii-go" >Go</button>
+									</td>
+									<td style =" vertical-align:top"
+									<button type="submit" class="btn btn-danger" id="canlii-go"  >Go</button>
+									</td></tr>
+									</table>
 								</div>
-								<!-- <button type="submit" class="btn">Go</button> -->
+								
 							</div> 
+							<img src ="./static/img/loading.gif" class = "loading-gif" >
 							<br>				
 								
 							</fieldset>
-							 
-							<div id="canlii-result-container" class= "leftHalf">
+							
+							<div class = "warning-container">
+							 </div>
+							
+							<div class ="error-container" style= "width: 600px" >
+							</div>
+							<div id="canlii-result-container" class= "leftHalf">							
+	
+
 								<h3> Result</h3>
 								<div id="canlii-result-editField" contenteditable="true">
 								<style scoped>
@@ -169,18 +182,16 @@ $def with (greeting= None)
 							<div id = "hidden-forms">
 
 								<!-- Accordian -->
-								<div class="accordion" id="extra-options-accordian-extra">
+								<div class="accordion" id="CanadaCase-Accordion">
 								  <div class="accordion-group" style="border:none">
 									<div class="accordion-heading">
-										<a class="accordion-toggle" data-toggle="collapse" data-parent="#extra-options-accordian-extra" href="#CanadaCaseExtraOptions" style="color: #000000">
+										<a class="accordion-toggle" id='CanadaCase-Accordion-Toggle'  data-toggle="collapse" data-parent="#extra-options-accordian-extra" href="#CanadaCaseExtraOptions" style="color: #000000">
 											<i class="icon-play"></i> Options 
 										</a>
 									</div>
 									<div id="CanadaCaseExtraOptions" class="accordion-body collapse">
 									<!-- Inner forms -->
 									<div class="accordion-inner">
-										
-
 
 										<!--Judge-->
 										<div class="control-group">
@@ -372,13 +383,18 @@ $def with (greeting= None)
 								</div> <!-- Accordian (End of Other Options )-->
 
 							</div> <!-- Hidden Forms -->
-								
-								
+
+								<!-- Submit Button -->
+							<button  class="btn btn-danger" id ="CanadaCase-go"> Generate!</button>
+							
+							<button type="reset" class="btn"  id="CanadaCaseReset" style ="margin-left:540px">reset</button>
+							
 							<br>
-								<div id = "warning-container">
+							
+								<div class = "warning-container">
 								</div>
 							
-								<div id ="error-container">
+								<div class ="error-container">
 								</div>
 								
 								<div id ="result-container">
@@ -392,14 +408,12 @@ $def with (greeting= None)
 								<font id="canadacase-results"> </font>
 								</div>	            
 							</div>
-								
+								<img src ="./static/img/loading.gif" class = "loading-gif" >	
 							
-							<!-- Submit Button -->
-							<button  class="btn btn-danger" id ="GoButton"> Generate!</button>
-							<button type="reset" class="btn"  id="CanadaCaseReset" >reset</button>
-							<!--<button   type = "button" id="thetestbutton" >test</button> -->
 							
-							<!--<button type = "button"	class="btn" id ="" style ="float:right" >sign up</button> -->
+							<!--<button   type = "button" id="thetestbutton" >test</button> 
+							
+							<button type = "button"	class="btn" id ="" style ="float:right" >sign up</button> -->
 
 
 
