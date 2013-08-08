@@ -84,7 +84,7 @@ def CleanUp(string):
 	NoPeriods = re.sub('\.+','', string)              #Remove all periods
 	Comma     = re.sub('\s*?,\s*?', ', ', NoPeriods)  #put a space after a comma instead of multiple spaces or no space
 	LBracket  = re.sub('\s*?\(', ' (', Comma)        #put a space before a left bracket instead of multiple spaces or no space
-	RBracket  = re.sub('\)\s*?', ') ', LBracket)     #put a space after a right bracket instead of multiple spaces or no space
+	RBracket  = re.sub('\)^[\.,:;/\(\[]\s*?', ') ', LBracket)     #put a space after a right bracket instead of multiple spaces or no space
 	Colon     = re.sub('\s*?:\s*?', ': ', RBracket)   #put a space after a comma instead of multiple spaces or no space
 	SemiColon = re.sub('\s*?;\s*?', '; ', Colon)      #put a space after a semicolon instead of multiple spaces or no space
 	Spaces    = re.sub(' +',' ', SemiColon)           #Remove excess white spaces
@@ -537,7 +537,7 @@ def ChooseBestReporters(Citation_Input, pincite): # choose the best reporter out
 	NC = [['SCC', 2000, Present], ['FC', 2001, Present], ['FCA', 2001, Present], ['TCC', 2003, Present], ['CMAC', 2001, Present], ['Comp Trib', 2001, Present], ['CHRT', 2003, Present], ['PSSRB', 2000, Present], ['ABCA', 1998, Present], ['ABQB', 1998, Present], ['ABPC', 1998, Present], ['ABASC', 2004, Present], ['BCCA', '1999', Present], ['BCSC', 2000, Present], ['BCPC', 1999, Present], ['BCHRT', 2000, Present], ['BCSECCOM', 2000, Present], ['MBCA', 2000, Present], ['MBQB', 2000, Present], ['MBPC', 2007, Present], ['NBCA', 2001, Present], ['NBQB', 2002, Present], ['NBPC', 2002, Present], ['NWTCA', 1999, Present], ['NWTSC', 1999, Present], ['NWTTC', 1999, Present], ['NSCA', 1999, Present], ['NSSC', 2000, Present], ['NSSF', 2001, Present], ['NSPC', 2001, Present], ['NUCJ', 2001, Present], ['NUCA', 2006, Present], ['ONCA', 2007, Present], ['ONSC', 2010, Present], ['ONCJ', 2004, Present], ['ONWSIAT', 2000, Present], ['ONLSAP', 2004, Present], ['ONLSHP', 2004, Present], ['PESCAD', 2000, Present], ['PESCTD', 2000, Present], ['QCCA', 2005, Present], ['QCCS', 2006, Present], ['QCCP', 2006, Present], ['QCTP', 1999, Present], ['CMQC', 2000, Present], ['QCCRT', 2002, Present], ['SKCA', 2000, Present], ['SKQB', 1999, Present], ['SKPC', 2002, Present], ['SKAIA', 2003, Present], ['YKCA', 2000, Present], ['YKSC', 2000, Present], ['YKTC', 1999, Present], ['YKSM', 2004, Present], ['YKYC', 2001, Present]]
 	Official = [["Ex CR", 1875, 1970], ["FCR", 1971, Present], ["SCR", 1876, Present]]
 	Semi = [["AR", 1976, Present], ["Alta AR", 1908, 1932], ["BCR", 1867, 1947], ["BR", 1892, 1969], ["CA", 1970, 1985], ["CBES", 1975, 1985], ["CP", 1975, 1987], ["CS", 1967, Present], ["CSP", 1975, Present], ["Man R", 1883, 1961], ["NBR", 1969, Present], ["Nfld & PEIR", 1971, Present], ["NSR", 1965, 1969], ["NSR (2d)", 1969, Present], ["NWTR", 1983, 1998], ["OLR", 1900, 1931], ["OR (3d)", 1991, Present], ["OR (2d)", 1973, 1990], ["OR", 1931, 1973], ["OWN", 1909, 1962], ["RJQ", 1975, Present], ["Sask LR", 1907, 1931], ["Terr LR", 1885, 1907], ["TJ", 1975, Present], ["YR", 1986, 1989]]
-	Preferred = [["DLR", 1912, 1955], ["DLR (2d)", 1956, 1968], ["DLR (3d)", 1969, 1984], ["DLR (4th)", 1984, Present], ["WWR", 1911, 1950], ["WWR", 1971, Present], ["WWR (NS)", 1951, 1970], ["ACWS", 1970, 1979], ["ACWS (2d)", 1980, 1986], ["ACWS (3d)", 1986, Present]]
+	Preferred = [["DLR (2d)", 1956, 1968], ["DLR (3d)", 1969, 1984], ["DLR (4th)", 1984, Present], ["DLR", 1912, 1955], ["WWR", 1971, Present], ["WWR (NS)", 1951, 1970], ["WWR", 1911, 1950], ["ACWS (2d)", 1980, 1986], ["ACWS (3d)", 1986, Present], ["ACWS", 1970, 1979],]
 	Other = ['ANWTYTR', 'AAS', 'ABD', 'ADIL', 'Admin LR', 'Admin LR (2d)', 'Admin LR (3d)', 'Admin LR (4th)', 'AEUB', 'A imm app', 'A imm app (ns)', 'AJDQ', 'AJQ', 'Alta BAA', 'Alta BAAA', 'Alta BIR', 'Alta ERCB', 'Alta HRCR', 'Alta LR', 'Alta LR (2d)', 'Alta LR (3d)', 'Alta LR (4th)', 'Alta LR (5th)', 'Alta LRBD', 'Alta LRBR', 'Alta OGBC', 'Alta PSERB', 'Alta PSGAB', 'Alta PUB', 'APR', 'Arb Serv Rep', 'ASC Sum', 'ATB', 'AWLD', 'BC Empl', "BC En Comm'n Dec", 'BCHRC Dec', 'BCSCW Summ', "BC Util Comm'n", 'BCAC', 'BCAVC', 'BCLR', 'BCLR (2d)', 'BCLR (3d)', 'BCLR (4th)', 'BCLRB Dec', 'BCWCR', 'BDM', "Bd Rwy Comm'rs Can", "Bd Trans Comm'rs Can", 'Beaubien', 'BISD', 'BLE', 'BLR', 'BLR (2d)', 'BLR (3d)', 'BLR (4th)', 'BREF', 'Bull CVMQ', 'Bull OSC', 'C & S', 'CAC', 'CACM', 'CAEC', 'CAI', 'CALP', 'CALR', 'Cameron PC', 'Cameron SC', 'CAQ', 'Carey', 'Cart BNA', 'CAS', 'CBR', 'CBR', 'CBR (NS)', 'CBR (3d)', 'CBR (4th)', 'CBR (5th)', 'CCC', 'CCC (NS)', 'CCC (2d)', 'CCC (3d)', 'CCEL', 'CCEL (2d)', 'CCEL (3d)', 'CCL', 'CCL', 'CCL', 'CCL', 'CCL L\\xe9gislation', 'CCL Legislation', 'CCLI', 'CCLI (2d)', 'CCLI (3d)', 'CCLR', 'CCLS', 'CCLT', 'CCLT (2d)', 'CCLT (3d)', 'CCPB', 'CCRI', 'CCRTD', 'CCRTDI', 'CCTCTD', 'CCTCTEP', 'CCTCTO', 'CCTCTO', 'CDB-C', 'CEB', 'CEGSB', 'CELR', 'CELR (NS)', 'CER', 'CFLC', 'CFP', 'CCTCTEP', 'CCTCTO', 'CCTO', 'CDB-C', 'CEB', 'CEGSB', 'CELR', 'CELR (NS)', 'CER', 'CFLC', 'CFP', 'Ch CR', 'CHRR', 'CICB', 'CIJ M\\xe9moires', 'CIJ Rec', 'CIPOO (M)', 'CIPOO (P)', 'CIPOS', 'CIPR', 'CIRB', 'CLAS', 'CLD', 'CLL', 'CLLC', 'CLLR', 'CLP', 'CLR', 'CLR (2d)', 'CLR (3d)', 'CLRBD', 'CLRBR', 'CLRBR (NS)', 'CLRBR (2d)', 'CMAR', 'CNLC', 'CNLR', 'COHSC', 'Comm LR', 'Comp Trib dec', 'Conc Bd Rpts', "Conc Comm'r Rpts", 'Cons sup N-F', 'Cook Adm', 'Coop Ch Ch', 'CPC', 'CPC (2d)', 'CPC (3rd)', 'CPC (4th)', 'CPC (5th)', 'CPC (Olmstead)', 'CPC (Plaxton)', 'CPJI (Ser A)', 'CPJI (S\\xe9r B)', 'CPJI (S\\xe9r A/B)', 'CPJI (S\\xe9r C)', 'CPR', 'CPR (2d)', 'CPR(3d)', 'CPR (4th)', 'CPRB', 'CPTA', 'CR', 'CR (3rd)', 'CR (4th)', 'CR (5th)', 'CR (6th)', 'CR (NS)', 'CRAC', 'CRAT', 'CRC', 'CRD', 'CRMPC', 'CRR', 'CRR (2d)', 'CRRBDI', 'CRT', 'CRTC', 'CSD', 'CT', 'CT Cases', 'CTAB', 'CTAB (NS)', 'CTBR', 'CTC', 'CTC (NS)', 'CTC', 'CTCATC', 'CTCDO', 'CTCMVTCD', 'CTCMVTCO', 'CTCOA', 'CTCR', 'CTCRCD', 'CTCRTC', 'CTCTCD', 'CTCTCO', 'CTCWTCD', 'CTCWTCL', 'CTCWTCO', 'CTR', 'CTR', 'CTR', 'CTST', 'CTTT', 'CTTTCRAA', 'DCA', 'DCA', 'DCDRT', 'DCL', 'DCRM', 'DDCP', 'DDOP', 'Dec B-C', 'Dec trib Mont', 'DELD', 'DELEA', 'Des OAL', 'DFQE', 'DJC', 'DLQ', 'DOAL', 'Drap', 'DRL', 'DTC', 'DTE', 'E & A', 'ELLR', 'ELR', 'ETR', 'ETR (2d)', 'ETR (3d)', 'Farm Products App Trib Dec', 'FCAD', 'FLD', 'FLRAC', 'FLRR', 'Fox Pat C', 'FPR', 'FTLR', 'FTR', 'FTU', 'Gr / UC Ch', 'GSTR', 'GTC', 'H&W', 'Hague Ct Rep', 'Hague Ct Rep (2d)', 'Harr & Hodg', 'Hodg', 'IBDD', 'ICJ Pleadings', 'ICJ Rep', 'ICSID', 'ILR', 'ILR', 'I LR', 'IMA', 'Imm ABD', 'Imm AC', 'Imm AC (2d)', 'Imm LR', 'Imm LR (2d)', 'Imm LR (3d)', 'Inter-Am Ct HR (SerA)', 'Inter-Am Ct HR (Ser B)', 'Inter-Am Ct HR (Ser C)', 'InfoCRTC', 'JCA', 'JCAP', 'JE', 'JL', 'JL', 'JM', 'JSST', 'JSSTI', 'LAC', 'LAC (2d)', 'LAC (3d)', 'LAC (4th)', 'Lap Sp Dec', 'LC Jur', 'LCBD', 'LCR', 'LCR', 'LN', 'Man LR', 'Man MTBD', 'Man R (2d)', 'Man R temp Wood', 'MCC', 'MCR', 'MCR', 'MHRC Dec', 'MLB Dec', 'MLR (KB)', 'MLR (QB)', 'MLR (SC)', 'Mont Cond Rep', 'MPLR', 'MPLR (2d)', 'MPR', 'MVR', 'MVR (2d)', 'MVR (3d)', 'MVR (4th)', 'NB Eq', 'NB Eq Cas', 'NBESTD', 'NBHRC Dec', 'NBLLC', 'NBPPABD', 'NBR (2d)', 'NEBD', 'Nfld LR', 'NHRC Dec', 'NR', 'NSHRC Dec', 'NSBCPU Dec', 'NSCGA Dec', 'NSRUD', 'NTAD (Air)', 'NTAD (Rwy)', 'NTAO (Air)', 'NTAR', 'NWTSCR', 'OAC', 'OAR', 'OELD', 'OFLR', 'OHRCBI', 'OHRC Dec', 'OHRC Transcr', 'OICArb', 'Olmsted PC', 'OLRB Rep', 'OMB Dec', 'OMB Index', 'OMBEAB', 'OMBR', 'ONED', "Ont Building Code Comm'n Rulings", 'Ont CIP OM', 'Ont CIP OP', 'Ont CIP somm', 'ONTD (a\\xe9rien)', 'ONTD (chemins de fer)', 'Ont D', 'Ont D', 'Ont D', "Ont Educ Rel Comm'n Grievance Arb", 'Ont Elec', 'Ont En Bd Dec', 'Oft Envtl Assessment Bd Decisions Dec', 'Ont Health Disciplines Bd Dec', 'Ont IPC OM', 'Ont IPC OP', 'Ont IPC Sum App', "Ont Lab-Mgmt Arb Comm'n Bull", 'Ont Liquor Licence App Trib Dec', 'Ont Min Community & Soc Serv Rev Bd Dec', 'Ont Pol R', 'OPR', 'OR (3d)', 'OSC Bull', 'OSCWS', 'OWCAT Dec', 'OWR', 'Patr Elec Cas', 'PEI', 'PER', 'Per CS', 'Perr P', 'Peters', 'PNGCB Alta', 'PPR', 'PPSAC', 'PPSAC (2d)', 'PPSAC (3d)', 'PRBC', 'PRBR', 'Pyke', 'QAC', 'Qc Comm dp dec', 'QLR', 'QPR', 'RAC', 'RAT', 'RCCT', 'RCDA', 'RCDA', 'RCDA (2e)', 'RCDA(3e)', 'RCDE', 'RCDE (ns)', "RC de I'\\xc9", "RC de l'\\xc9", 'RCDF', 'RCDF (2e)', 'RCDF (3e)', 'RCDF (4e)', 'RCDSST', 'RCDT', 'RCDT(2e)', 'RCDT (3e)', 'RCDVM', 'RCF', 'RCRAS', 'RCRC', 'RCRC (2e)', 'RCRC (3e)', 'RCRP', 'RCS', 'RCS', 'RCTC', 'RDCFQ', 'RDF', 'RDFQ', 'RDI', 'RDJ', 'RDJC', 'RDJC (2e)', 'RDJC (3e)', 'RDJC (4e)', 'RDJC (5e)', 'RDP', 'RDRTQ', 'RDT', 'RECJ', 'Rev serv arb', 'RFL', 'RFL (2d)', 'RFL (3d)', 'RFL (4th)', 'RFL (5th)', 'RIAA', 'Ritch Eq Rep', 'RJ imm', 'RJ imm (2e)', 'RJ imm (2e)', 'RJC', 'RJC (ns)', 'RJC (3e)', 'RJC (4e)', 'RJC (5e)', 'RJDA', 'RJDA(2e)', 'RJDA(2e)', 'RJDA (3e)', 'RJDC', 'RJDC (2e)', 'RJDC (3e)', 'RJDI', 'RJDI (2e)', 'RJDI(3e)', 'RJDM', 'RJDM (2e)', 'RJDT', 'RJF', 'RJF (2e)', 'RJF(3e)', 'RJF (4e)', 'RJF (5e)', 'RJO (3e)', 'RL', 'RL', 'RL (ns)', 'RNB (2d)', 'RONTC', 'RPEI', 'RPQ', 'RPR', 'RPR (2d)', 'RPR (3d)', 'RPTA', 'RRA', 'RSA', 'RSE', 'RSF', 'RSF (2e)', 'RSP', 'RTC', 'Russ ER', 'SAFP', 'SAG', 'SARB Dec', 'SARB Sum', 'Sask C Comp B', "Sask Human Rights Comm'n Dec", 'Sask LRBD', 'Sask LRBDC', 'Sask LRBR', 'Sask R', 'Sask SC Bull', 'SCC Cam', 'SCC Cam (2d)', 'SCC Coutl', 'SCCB', 'SCCD', 'SCCR', 'Sm & S', 'SOLR', 'SRLA', 'St-MSD', 'STR', 'Stu Adm', 'Stu KB', 'TA', 'TAAT', 'TAQ', 'Tax ABC', 'Tax ABC (NS)', 'TBR', 'TCD', 'TCT', 'TE', 'TLLR', 'TPEI', 'Trib conc dec', 'TSPAAT', 'TTC', 'TTJ', 'TTR', 'Turn & R', 'UC Chamb Rep', 'UCCP', 'UCE & A', 'UCKB', 'UCQB', 'UCQB (OS)', 'UIC Dec Ump', 'UIC Selec Dec Ump', 'WAC', 'WCAT Dec', 'WCATR', 'WCB', 'WCB (2d)', 'WDCP', 'WDCP (2d)', 'WDCP (3d)', 'WDFL', "West's Alaska", 'WLAC', 'WLR', 'WLRBD', 'WLTR', 'WSIATR', 'YAD / Young Adm']
 	Electronic = [["CanLII", "CanLII"], ["QL", "Quicklaw"], ["WL Can", "Westlaw Canada"], ["Azimut","Azimut"], ["LEXIS", "Lexis"], ["WL", "Westlaw"]]
 	Priority = 1 #default priority for the top match is 1, and priority will be increased as matches are made
@@ -1033,9 +1033,8 @@ def PullDate(string):
 #this is the function that will ultimately call all of the other functions for the parallel citations
 #the input is what is written in the form for parallel citations
 def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
-	#print "\n****** Starting GetCitations"
-	#print "\n****** Starting GetCitations"
-	#print "input is:\n", "citation string: ", Citation_Input, "\n", "court: ", Court_Input, "\n", "date: ", Date_Input, "\n", "pincite: ", pincite, "\n"
+	print "\n****** Starting GetCitations"
+	print "input is:\n", "citation string: ", Citation_Input, "\n", "court: ", Court_Input, "\n", "date: ", Date_Input, "\n", "pincite: ", pincite, "\n"
 	if not Citation_Input:
 		return "ERROR: missing citation input"
 	if not Court_Input:
@@ -1053,29 +1052,29 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 	# Determine if there is a Citator Date or a Court evident in the Parallel citation
 	if PullDate(TwoBest): CitationDate = PullDate(TwoBest) #set the citation date to be the lowest date in the string
 	if CheckForCourt(TwoBest): Court = True
-	#print "Court = ", Court #True or False
-	#print "Citation Date = ", CitationDate #year or False
+	print "Court = ", Court #True or False
+	print "Citation Date = ", CitationDate #year or False
 	if not Court and not CitationDate:
-		#print "NOT COURT AND NOT CITATIONDATE DETECTED ****"
+		print "NOT COURT AND NOT CITATIONDATE DETECTED ****"
 		#Court_input = raw_input("Enter Court with Canadian Jurisdiction: \n")
 		Ct = CleanUpCourt(CleanUp(Court_Input)) 
 		Ct = TakeOutJurisdiction(Ct[0], TwoBest)
 		JudgementDate = CleanUp(Date_Input)
 		OUTPUT = ' ('+ JudgementDate + '), ' + TwoBest +' (' + Ct + ')'#combine all of this in the right way
 	if CitationDate and not Court: 
-		#print "CITATIONDATE AND NOT COURT DETECTED ****"
+		print "CITATIONDATE AND NOT COURT DETECTED ****"
 		#Court_input = raw_input("Enter Court with Canadian Jurisdiction: \n")
 		Ct = CleanUpCourt(CleanUp(Court_Input)) 
 		Ct = TakeOutJurisdiction(Ct[0], TwoBest)
 		JudgementDate = CleanUp(Date_Input)
 		if (JudgementDate==CitationDate): 
-			OUTPUT = ', ' + TwoBest + '(' + Ct + ')'
+			OUTPUT = ', ' + TwoBest + ' (' + Ct + ')'
 		else:
 			OUTPUT = ' ('+ JudgementDate + '), ' + TwoBest + ' (' + Ct+ ')'
 	if CitationDate and Court:
-		#print "CITATIONDATE AND COURT DETECTED"
+		print "CITATIONDATE AND COURT DETECTED"
 		OUTPUT = ", " + TwoBest
-	#print "Result:", OUTPUT
+	print "Result:", OUTPUT
 	return OUTPUT
 	
 	
