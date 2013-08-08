@@ -65,7 +65,7 @@ color: #333333;
 }
 .control-label{
 
-	font-weight: bold;
+	/*font-weight: bold;*/
 }
 #collapseTwo-extra {
  	border: 0 none; 
@@ -104,7 +104,7 @@ label.error {
 label.valid {
 	width: 24px;
 	margin:0 auto;
-	background: url(../img/valid.png) center center no-repeat;
+	/*background: url(../img/valid.png) center center no-repeat;*/
 	display: inline-block; 
 	text-indent: -9999px;
 }

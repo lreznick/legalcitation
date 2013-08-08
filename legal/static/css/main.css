@@ -15,7 +15,7 @@ src: url(../fonts/Raleway-Bold.ttf);
 }
 
 h2{
-font-family:RalewayReg;
+/*font-family:RalewayReg;*/
 }
 .header2{
 font-family: RalewayMed;
@@ -78,7 +78,7 @@ li{
 
 body{
 	background-repeat: repeat;
-	background-image:url("../img/otis_redding.png");
+	/*background-image:url("../img/otis_redding.png");*/
 	background-color:grey;
 
 }
@@ -162,10 +162,6 @@ body{
 	backgroun-image: url("/./static/img/banner.png");
 	height:500px;
 }
-.jumbowrapper{
-	background-image:url("../img/debut_light.png");
-}
-
 
 .information-blurb{
 	margin-top: 30px;

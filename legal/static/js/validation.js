@@ -7,13 +7,9 @@ Validations
 	var regex_parallel 	= /^[a-zA-Z0-9-.,;'&()…È»Ë¡·Ù\[\]\s]*$/
 	var regex_year 		= /(1[4-9][0-9]{2}|200[0-9]{1}|201[01234]{1})/
 	var regex_digits 	=/^\d+$/
-<<<<<<< HEAD
 	var regex_court 		=/^[a-zA-Z\s.()-È…»ËÓŒÙ‘¡·¿‡¬‚&]*$/
 	var regex_judge		=/^[a-zA-Z\s.È…»ËÓŒÙ‘¡·¿‡¬‚]*$/
-=======
-	var regex_court 		=/^[a-zA-Z\s.()-È…»ËÓŒÙ‘¡·¿‡¬‚]*$/
-	var regex_judge		=/^[a-zA-Z-\s.È…»ËÓŒÙ‘¡·¿‡¬‚]*$/
->>>>>>> d693cef55271b22b46189f7bfe1e9639664757cf
+
 	
 	 jQuery.validator.addMethod(
 		"regex3",
@@ -48,52 +44,89 @@ Validations
 			});
 			}
 		});
+function a() {
+    return $.post(...).then(function(result) {
+        if(result)
+            return result;//continue on "success" path.
+        else
+            return $.Deferred().reject('a').promise();//convert success to failure.
+    }, function() {
+        return 'a';//continue on failure path.
+    });
+}
+.done(function() {
+				alert("success"); success1 = true;})
+				.fail(function() { alert("error"); })
+				.always(function() {
+					return success1 });
 	*/
-	jQuery.validator.addMethod("validateCourt", function(value, element)
-	{
 
+	jQuery.validator.addMethod("validateCourt", function(value, element,validate)
+	{
+	
     var inputElem = jQuery("#"+element.id),
         data = { court : inputElem.val() },
         eReport = ''; //error report
-
-    jQuery.ajax(
-    {
-        type: "POST",
-        url: '/form/court',
-        dataType: "json",
-        data: data,
-        success: function(data)
-        {
 		
-		if (data[0].valid == true){
-				inputElem.val(data[0].court)
+	console.log("in court: " +"#"+element.id);
+	console.log("in court: " +inputElem.val());
+	console.log("optional: " +this.optional(element));
+	console.log("validate: "+validate);
+
+	if (inputElem.val() !== ""){
+		//return true
+		var response;
+		jQuery.ajax(
+			{
+				type: "POST",
+				url: '/form/court',
+				dataType: "json",
+				data: data,
+				success: function(data)
+				{
+					response = data
+				/*
+				
+				else{
+				
+						console.log("validate court something wrong");
+						return 'something wrong'
+				}
+				
+					/*
+					if (data !== 'true')
+					{
+					  return '<p>This email address is already registered.</p>';
+					}
+					else
+					{
+					   return true;
+					}*//*
+				},
+				error: function(xhr, textStatus, errorThrown)
+				{
+					//alert('ajax loading error... ... '+url + query);
+					console.log('error in court');
+					return false;
+				}*/	
+				},
+				async:false
+			})
+			if (response[0].valid == true){
+				inputElem.val(response[0].court)
+				//CanadianCaseValidator.form() 
 				console.log("in validate court")
 				return true
-		}
-		else{
-				console.log("else");
-				return 'something wrong'
-		}
-		
-			/*
-            if (data !== 'true')
-            {
-              return '<p>This email address is already registered.</p>';
-            }
-            else
-            {
-               return true;
-            }*/
-        },
-        error: function(xhr, textStatus, errorThrown)
-        {
-            //alert('ajax loading error... ... '+url + query);
-			console.log('error in court');
-            return false;
-        }
-    });
-
-}, '');//'The court entered was not detected as a valid court'); 
+			}
+			else{
+				return false
+			}
+			
+	}
+	else{
+		return true
+	}
+}, 'court not working!');//'The court entered was not detected as a valid court'); 
 
 //$(':input[name="email"]').rules("add", { "validateCourt" : true} );	
 	
@@ -205,12 +238,12 @@ Validations
 
 			},
 			highlight: function(element) {
-				console.log("in highlight");
+				//console.log("in highlight");
 				jQuery(element).closest('.control-group').addClass('error');
 				//jQuery(element).closest('.control-group').html("AAAAAAAAAA");
 			},
 			success: function(element) {	
-				console.log("in success");			
+				//console.log("in success");			
 				//element.text('OK!').addClass('valid').closest('.control-group').removeClass('error');//.addClass('success'); 
 				element.closest('.control-group').removeClass('error');//.addClass('success'); 
 				

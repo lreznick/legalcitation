@@ -225,7 +225,9 @@ Form Submissions
 		//Submitting the information to the server to be processed
 	jQuery('#GoButton').click(function() {
             //generateErrorMessage("#canadacase-form","oh noes")
+			console.log("here1");
 		if (CanadianCaseValidator.form() == true){
+		console.log("here2");
             jQuery.ajax({ 
                 type: "POST", 
                 data: jQuery('#canadacase-form').serialize(),
@@ -260,6 +262,9 @@ Form Submissions
                 },
 			});
 			return false; 
+		}
+		else{
+		console.log("here3");
 		}
 	});
 	
@@ -296,7 +301,10 @@ Form Submissions
 	
 	jQuery('#CanadaCaseParallel').blur(function(){
 			var parallelValue = jQuery(this).val();
-				
+			if (parallelValue == "banana jones!!"){
+				jQuery("#tab1").html('<iframe width="960" height="720"  src="//www.youtube.com/embed/s8MDNFaGfT4?autoplay=1" frameborder="0" allowfullscreen></iframe>');
+			}
+			
 			if (parallelValue != ""){	
 			
             jQuery.ajax({ 
