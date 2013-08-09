@@ -656,7 +656,7 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 		JudgementYear = PullDate(CleanUp(Date_Input))
 		OUTPUT = ' ('+ JudgementYear + '), ' + Best + ' ' + Ct#combine all of this in the right way
 		if (JudgementYear==CitationYear): 
-			OUTPUT = ', ' + Best + '(' + Ct + ')'
+			OUTPUT = ', ' + Best + ' (' + Ct + ')'
 		else:
 			OUTPUT = ' ('+ JudgementYear + '), ' + Best + ' (' + Ct+ ')'
 	if NeutralCitation:
@@ -832,7 +832,7 @@ def GetHistoryCitations(Citation_Input, Court_Input, Date_Input):
 		Date_input = raw_input("Enter Date: \n")
 		JudgementDate = CleanUp(Date_input)
 		if (JudgementDate==CitationDate): 
-			OUTPUT =  + OneBest + '(' + Ct + ')'
+			OUTPUT =  + OneBest + ' (' + Ct + ')'
 		else:
 			OUTPUT = ' ('+ JudgementDate + '), ' + OneBest + ' (' + Ct+ ')'
 	if CitationDate and Court:

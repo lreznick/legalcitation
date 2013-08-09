@@ -1266,7 +1266,7 @@ def GetHistoryCitations(Citation_Input, Court_Input, Date_Input):
 		Date_input = raw_input("Enter Date: \n")
 		JudgementDate = CleanUp(Date_input)
 		if (JudgementDate==CitationDate): 
-			OUTPUT =  + OneBest + '(' + Ct + ')'
+			OUTPUT =  + OneBest + ' (' + Ct + ')'
 		else:
 			OUTPUT = ' ('+ JudgementDate + '), ' + OneBest + ' (' + Ct+ ')'
 	if CitationDate and Court:
@@ -1298,8 +1298,8 @@ def GetHistory(listoflists):
 
 def GetCiting(SoC, Parallel, Year, Court):
 	SoC = GetStyleOfCause(SoC)
-	Citation = GetCitations(Citation_Input, Court_Input, Date_Input, False)
-	return "<i>"+string+"</i>" + Citation
+	Citation = GetCitations(Parallel, Court, Year, False)
+	return "<i>"+SoC+"</i>" + Citation
 	
 
 '''****************     LEAVE TO APPEAL     ****************'''
