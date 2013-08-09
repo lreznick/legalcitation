@@ -81,6 +81,14 @@ def Contains(list, string):
     
 #CleanUp gets rid of all periods, excess spaces, and leading or trailing spaces in a string, and fixes spaces after commas	
 def CleanUp(string):
+	end = re.compile(r"[;,\.:\s\(\[<\\]+$")#remove excess punctuation at the end of the string
+	beg = re.compile(r"^[;,\.:\s\)\)>\\]+")#and at the beginning
+	if end.search(string):#remove excess punctuation at the end
+		remove = len(end.search(string).group())
+		string = string[:-remove]
+	if beg.search(string):
+		remove = len(beg.search(string).group())
+		string = string[remove:]
 	NoPeriods = re.sub('\.+','', string)              #Remove all periods
 	Comma     = re.sub('\s*?,\s*?', ', ', NoPeriods)  #put a space after a comma instead of multiple spaces or no space
 	LBracket  = re.sub('\s*?\(', ' (', Comma)        #put a space before a left bracket instead of multiple spaces or no space
@@ -102,19 +110,23 @@ def Capitalize(string):
 	CapBefore = re.findall(r"[A-Z]{2,} (?=[a-z0-9])", string)           #a matching algorithm for where caps form the first part of the string, and are followed by non-caps
 	#if any of the words match the regexes, add them to KeepAsIs array to keep them unchanged in the final product
 	KeepAsIs = McD+CapAfter_one+CapAfter_two+CapAfter_three + CapBefore #add all of the arrays together to create the list of words we will keep the same
+	#print "1. ", string
 	try:
 		string = ' '.join([s[0].upper() + s[1:].lower() for s in string.split(' ')]) #capitalize every letter immediately after a space
 	except IndexError:#an IndexError can occur where some of the characters separated by spaces are only 1 character
 		sting = string
+	#print "2. ", string
 	try:
 		string = '('.join([s[0].upper() + s[1:] for s in string.split('(')]) #capitalize every letter immediately after a (
 	except IndexError:#an IndexError can occur where some of the characters separated by a bracket are only 1 character
 		string = string
-	Decaps = ["in rem", " and", "ex rel", " of", " de"]                 #these are words i want to decaps
+	#print "3. ", string
+	Decaps = ["in rem", "and", "ex rel", "of", "de"]                 #these are words i want to decaps
 	for x in Decaps:
-		if x in string.lower(): string = re.sub(x, x, string, 0, re.I)  #sub the caps words for the uncaps words
+		if re.search(regstr(x), string, re.I): string = re.sub(x, x, string, 0, re.I)  #sub the caps words for the uncaps words
 	for j in KeepAsIs:
 		string = re.sub(j[0].upper()+j[1:].lower(), j, string)          #sub in the all caps words and words like MacDonald
+	#print string
 	return string
 
 
@@ -127,25 +139,23 @@ def StyleAttributes(string):
 	##print("\nStart:: " + string)
 	string = CleanUp(string) # clean up the string before it enters the machine
 	# (1) GUARDIAN AD LITEM
-	adlit = re.compile(r'\(?(g|G)uardian\s(a|A)d\s(l|L)item\s?((O|o)f)?\)?', flags = re.I|re.UNICODE)
+	adlit = re.compile(r'\(?Guardian\sAd\sLitem( of)?\)?', flags = re.I|re.UNICODE)
 	if adlit.search(string):
 		match = adlit.search(string)#detect the match object
 		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
 		string = re.sub(sub, '', string) + " (Guardian ad litem of)"
 	##print("gaurdian:: " + string +"\n")
 	# (2) LITIGATION GUARDIAN
-	lit = re.compile(r'\(?(l|L)itigation\s(g|G)uardian\s?((o|O)f)?\)?', flags = re.I|re.UNICODE)
+	lit = re.compile(r'\(?Litigation\sGuardian( of)?\)?', flags = re.I|re.UNICODE)
 	if lit.search(string):
 		match = lit.search(string)#detect the match object
 		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
 		string = re.sub(sub, '', string) + " (Litigation guardian of)"
 	##print("lit gaurdian:: " + string+"\n")
 	# (3) CORPORATIONS
-	corp = re.compile(r'(\s(c|C)orp(oration)?$|^(c|C)orp(oration)?\s|\s(c|C)orp(oration)?\s)', flags = re.I|re.UNICODE)
-	if corp.search(string):
-		match = corp.search(string)#detect the match object
-		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
-		string = re.sub(sub, 'Corp', string)
+	corp = re.search(regstrElecSpec("corp(oration)?"), string, flags = re.I)
+	if corp:
+		string = CleanUp(re.sub(corp.group(), 'Corp', string))
 	# (4) Corporate name endings
 	Ends = [["Inc", ["Incorporated", "Inc", "Incorp"]], ["PC",["PC", "Professional Corporation", "Professional Corp"]], ["LLC",["Limited Liability Company", "Limited Liability Co", "LLC"]], ["LP",["Limited Partnership", "LP"]], ["LLP",["Limited Liability Partnership", "LLP"]], ["Ltd",["Limited", "Ltd"]]]
 	for x in Ends:
