@@ -66,14 +66,10 @@ def CleanUpTitle(string):
 	beg = re.compile(r"^[;,\.:\s\)\)>\\]+")#and at the beginning
 	if end.search(string):#remove excess punctuation at the end
 		remove = len(end.search(string).group())
-		#print "Detected last "+str(remove)+"characters are punctuation..."
 		string = string[:-remove]
-		#print "... removing. Now is: ", string
 	if beg.search(string):
 		remove = len(beg.search(string).group())
-		#print "Detected first "+str(remove)+"characters are punctuation..."
 		string = string[remove:]
-		#print "... removing. Now is: ", string
 	string	= re.sub('\s*?,\s*?', ', ', string)	#put a space after a comma instead of multiple spaces or no space
 	string 	= re.sub('\s*?\(', ' (', string)    #put a space before a left bracket instead of multiple spaces or no space
 	string 	= re.sub('\)\s*?', ') ', string)    #put a space after a right bracket instead of multiple spaces or no space
@@ -239,7 +235,7 @@ def FormatVolumeEtc(citationinput, yearinput, pinpoint):
 	return [cite, hit]
 
 
-#print FormatAuthors(["Huang, Stephen", "David Pardy"]) + FormatTitle("BEING A BAUCE")+FormatVolumeEtc("2003 41 ONE WORLD JOURNAL 505", "2000", ["footnote", "550", "27-29"])[0]
+#print FormatAuthors("Huang, Stephen, \nDavid Pardy") + FormatTitle("BEING A BAUCE")+FormatVolumeEtc("2003 41 ONE WORLD JOURNAL 505", "2000", ["footnote", "550", "27-29"])[0]
 
 #make sure ther are numbers on the end.
 #tested: works

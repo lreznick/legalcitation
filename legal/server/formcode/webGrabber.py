@@ -200,6 +200,7 @@ def run():
 	print Connect2Web("http://canlii.ca/en/nt/ntca/doc/1999/1999nwtca1/1999nwtca1.html")[0]+ "\n\n"
 	print Connect2Web("http://canlii.ca/en/ca/scc/doc/1961/1961canlii42/1961canlii42.html")[0]+ "\n\n"
 	print Connect2Web("http://canlii.ca/en/ca/scc/doc/1922/1922canlii3/1922canlii3.html")[0]+ "\n\n"'''
+	print "\n"+Connect2Web("http://canlii.ca/en/nt/ntca/doc/2008/2008nwtca1/2008nwtca1.html")[0]
 	
 	
 	
