@@ -157,18 +157,26 @@ def CanadianCase(form):
 	pinciteInput		= "%s" % (f.form.pincite_input)	
 	pincite 				= [pinciteSelection, pinciteRadio, "page", pinciteInput]	 #deal with	
 	
+	#Stephen: my commented out histories are what it should be like.
+	#historyaff1 = 		= "%s" % (f.form.history_aff1)
+	historyParallel1	= "%s" % (f.form.history_parallel1) 
 	historyParallel1	= "%s" % (f.form.history_parallel1) 
 	historyYear1		= "%s" % (f.form.history_year1) 
 	historyCourt1		= "%s" % (f.form.history_court1)
+	#historyaff2 = 		= "%s" % (f.form.history_aff2)
 	historyParallel2	= "%s" % (f.form.history_parallel2) 
 	historyYear2		= "%s" % (f.form.history_year2) 
 	historyCourt2		= "%s" % (f.form.history_court2)
+	#historyaff3 = 		= "%s" % (f.form.history_aff3)
 	historyParallel3	= "%s" % (f.form.history_parallel3) 
 	historyYear3		= "%s" % (f.form.history_year3) 
 	historyCourt3		= "%s" % (f.form.history_court3)	
 	histories = [[historyParallel1,historyYear1,historyCourt1]
 					,[historyParallel2,historyYear2,historyCourt2]
 					,[historyParallel3,historyYear3,historyCourt3]]
+	'''histories = [[historyaff1, historyParallel1,historyYear1,historyCourt1]
+					,[historyaff2, historyParallel2,historyYear2,historyCourt2]
+					,[historyaff3, historyParallel3,historyYear3,historyCourt3]]'''
 	
 	leaveSelection 	= "%s" % (f.form.leaveToAppeal_selection)
 	leaveCourt		 	= "%s" % (f.form.leaveToAppeal_court)
@@ -176,6 +184,7 @@ def CanadianCase(form):
 	leaveDocket	  	= "%s" % (f.form.leaveToAppeal_docket)
 		
 	citations ="" 
+	citing = ""
 	leaveToAppeal =""
 	history =""
 	
@@ -213,10 +222,8 @@ def CanadianCase(form):
 			else:
 				print "didnt fully fill out citing"
 		
-		#check history -> see if its all completed
-		#validatehistory
-		#if history:
-			#history = GetHistory(history)
+		'''if (histories[0][1] and histories [0][2] and histories [0][3]) or (histories[1][1] and histories [1][2] and histories [1][3]) or (histories[2][1] and histories [2][2] and histories [2][3]):
+			history = GetHistory(histories)'''
 		
 		if shortform:
 			shortform = GetShortForm(shortform)
@@ -228,7 +235,7 @@ def CanadianCase(form):
 			#check leaveToAppeal	
 			leaveToAppeal = GetLeaveToAppeal(leaveToAppeal)
 		
-		returnString = styleofcause + citations +judge + shortform + leaveToAppeal + history
+		returnString = styleofcause + citations +judge + citing + leaveToAppeal + history + shortform+'.'
 		print returnString
 	else:
 		returnString =""

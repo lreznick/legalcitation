@@ -1299,7 +1299,7 @@ def GetHistory(listoflists):
 def GetCiting(SoC, Parallel, Year, Court):
 	SoC = GetStyleOfCause(SoC)
 	Citation = GetCitations(Parallel, Court, Year, False)
-	return "<i>"+SoC+"</i>" + Citation
+	return ", citing "+SoC + Citation
 	
 
 '''****************     LEAVE TO APPEAL     ****************'''
