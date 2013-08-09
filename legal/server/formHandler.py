@@ -29,7 +29,7 @@ def CreateFormClass(type,form):
 class JournalArticle(object):
 	def POST(self):
 		form = web.input()
-		JournalArticleFormatter(form)
+		return JournalArticleFormatter(form)
 			
 class Canlii(object):
 	def POST(self):
@@ -85,6 +85,7 @@ class FormParallel(object):
 
 def JournalArticleFormatter(form):	
 	f= CreateFormClass("JournalArticle", form)
+	print "\n \n\n \n"
 	print form
 	authors				= "%s" % (f.form.authors)
 	title					= "%s" % (f.form.title)
@@ -103,7 +104,7 @@ def JournalArticleFormatter(form):
 	if f.form.has_key('pinpoint_para_check'):
 		pinpointParaCheck= True
 	
-	ValidateJournalArticle(f)
+	ValidateJournalArticle(f)	
 	returnString = ""
 	if f.valid:
 		if (pinpointSelection =="None"):

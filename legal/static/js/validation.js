@@ -9,7 +9,82 @@ Validations
 	var regex_digits 	=/^\d+$/
 	var regex_court 		=/^[a-zA-Z\s.()-È…»ËÓŒÙ‘¡·¿‡¬‚&]*$/
 	var regex_judge		=/^[a-zA-Z\s.È…»ËÓŒÙ‘¡·¿‡¬‚]*$/
-
+	var regex_page 	=/^\d+$/
+	
+/*
+=============================================
+Journal Article
+=============================================
+*/			
+	// Validates the form to check if a form works or not
+	// Note: rules are based on name of form
+	var JournalArticleValidator = jQuery('#JournalArticle-Form').validate({
+			//ignore: ".search-query",
+			rules: { 
+				authors: { //check for insert code??????
+					maxlength:500,	
+					required: true 
+				},
+				title: {
+					maxlength:500,	
+					regex: regex_style,	
+					required: true 
+				},
+				citation: {
+					maxlength:250,	
+					required: true 
+				},
+				year: {
+					maxlength:20,
+					regex: regex_year,					
+					required: true 
+				},
+				pinpoint_form1: {
+					maxlength:20,
+					regex: regex_page,										
+					required: true 
+				},				
+				pinpoint_form1: {
+					maxlength:20,
+					regex: regex_page,										
+					required: true 
+				},				
+				pinpoint_form2: {
+					maxlength:20,
+					regex: regex_page,										
+					required: true 
+				},				
+				pinpoint_form3: {
+					maxlength:20,
+					regex: regex_page,										
+					required: true 
+				},				
+				pinpoint_form4: {
+					maxlength:20,
+					regex: regex_page,										
+					required: true 
+				},								
+				
+				
+				
+			},
+			highlight: function(element) {
+				console.log("in highlight");
+				jQuery(element).closest('.control-group').addClass('error');
+			},
+			success: function(element) {	
+				console.log("in success");			
+				element.closest('.control-group').removeClass('error');//.addClass('success'); 
+				
+			},
+			messages: { 
+				title: {
+					maxlength: "Maximum length: 250 characters.",
+					required: " "
+				},
+	
+			}
+		}); 	
 
 
 /*

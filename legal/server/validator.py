@@ -42,7 +42,9 @@ regexDigits = re.compile(r'^\d+$')
 regexCourt = re.compile(ur'^[a-zA-Z\.,\'\^&\(\)\]\[\s\u00E9\u00E8\u00C9\u00C8\u00C1\u00E1\u00F4\u00EE\u00F4\u00D4\u00E0\u00C2\u00E2]+$', flags = re.UNICODE)
 regexJudge = re.compile(ur'^[\wa-zA-Z-\.,&\s]+$', flags = re.UNICODE)
 regexPinpoint = re.compile(r'^[0-9-,\s]*$')
-
+regexAuthors = re.compile(ur'^[\wa-zA-Z0-9-\.,;:\'!\$\^&\(\)<>\s\n]+$', flags = re.UNICODE)
+regexPage = re.compile(r'^[0-9-,xivlcdmXIVLCDM\s]*$')
+regexCitation = re.compile(r'\w+\s?\d+$', flags = re.UNICODE)
 
 def ValidateJournalArticle(f):
 	authors				= "%s" % (f.form.authors)
@@ -59,9 +61,54 @@ def ValidateJournalArticle(f):
 	pinpointList =[] #list of three
 	if f.form.has_key('pinpoint_para_check'):
 		pinpointPageCheck= True
-	if f.form.has_key('pinpoint_para_check'):
+	if f.form.has_key('pinpoint_page_check'):
 		pinpointParaCheck= True
-	return
+	
+	#========	Authors
+	if authors:
+		if not Validate(regexStyle, authors):
+			GenerateErrorMsg(f,"authors","", ErrorMsgInvalid("Author(s)") )	
+	else:
+		GenerateErrorMsg(f,"authors","", ErrorMsgRequired("Author(s)"))
+	
+	#========	Title
+	if title:
+		if not Validate(regexStyle, title):
+			GenerateErrorMsg(f,"title","", ErrorMsgInvalid("title") )	
+	else:
+		GenerateErrorMsg(f,"title","", ErrorMsgRequired("title"))
+
+	
+	#========	Citation
+	if citation:
+		if not Validate(regexCitation, citation):
+			GenerateErrorMsg(f,"citation","", ErrorMsgInvalid("Citation") )	
+	else:
+		GenerateErrorMsg(f,"citation","", ErrorMsgRequired("Citation"))		
+		
+	#========	Year
+	if not year:
+		GenerateErrorMsg(f,"year","", ErrorMsgRequired("year"))			
+	else:
+		if not Validate(regexYear, year):
+			GenerateErrorMsg(f,"year","", ErrorMsgYear() )
+			
+	if pinpointPara:
+		if not Validate(regexPage, pinpointPara):	
+			GenerateErrorMsg(f,"pinpoint_form1","", ErrorMsgInvalid("Pinpoint page(s)") )	
+	if pinpointPage:
+		if not Validate(regexPage, pinpointPage):	
+			GenerateErrorMsg(f,"pinpoint_form2","", ErrorMsgInvalid("Pinpoint page(s)") )	
+	if pinpointFoot1:
+		if not Validate(regexPage, pinpointFoot1):	
+			GenerateErrorMsg(f,"pinpoint_form3","", ErrorMsgInvalid("Pinpoint footnote(s)") )	
+	if pinpointFoot2:
+		if not Validate(regexPage, pinpointFoot2):	
+			GenerateErrorMsg(f,"pinpoint_form4","", ErrorMsgInvalid("Pinpoint page(s)") )	
+	
+	return f
+	
+	
 	
 def ValidateCanadianParallel(f):
 	parallel				= "%s" % (f.form.parallel)
