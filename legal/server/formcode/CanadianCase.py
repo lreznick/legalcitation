@@ -243,6 +243,19 @@ def StyleAttributes(string):
 	string = re.sub('\(\s*?\)', '', string)#there are brackets sometimes not subbed out of the string, so I remove empty ones
 	string = CleanUp(string)#clean string for final presentation
 	##print("End:: " + string+"\n")
+	Shorten = ["In Re " or "In the Matter of " or "Dans L'Affaire de "]
+	for x in Shorten:
+		if x.lower() in string.lower(): string = string.replace(x, "Re ")
+	#Reference
+	#if "ref " in string.lower(): re.sub(r'(r|R)ef', 'Reference', string)
+	#print "Made it here with: ", string
+	Ref = re.compile(r'(^\(?ref?(erence)?( Re)?\)?|[\(\s]Ref?(erence)?.{0,2}( Re)?[\)\s]?$)', flags = re.I)
+	if Ref.search(string):
+		#print "Detected a reference in: ", string, ", adding 'Reference Re'"
+		match = Ref.search(string)#detect the match object
+		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
+		string = "Reference Re " + re.sub(sub, '', string)
+		string = re.sub('\(\s*?\)', '', string)
 	return string
 
 
@@ -259,10 +272,10 @@ def StatuteChallenge(string):
 		if x.lower() in string.lower(): string = string.replace(x, "Re ")
 	#Reference
 	#if "ref " in string.lower(): re.sub(r'(r|R)ef', 'Reference', string)
-	##print "Made it here with: ", string
-	Ref = re.compile(r'(^\(?(r|R)ef(erence)?\s?((r|R)e)?\)?|[\(\s]?(r|R)ef(erence)?.{0,2}\s?((r|R)e)?$)')
+	#print "Made it here with: ", string
+	Ref = re.compile(r'(^\(?ref?(erence)?( Re)?\)?|[\(\s]Ref?(erence)?.{0,2}( Re)?[\)\s]?$)', flags = re.I)
 	if Ref.search(string):
-		##print "Detected a reference in: ", string, ", adding 'Reference Re'"
+		#print "Detected a reference in: ", string, ", adding 'Reference Re'"
 		match = Ref.search(string)#detect the match object
 		sub = match.group().strip()#find the object and strip it of spaces to sub into the replacement function
 		string = "Reference Re " + re.sub(sub, '', string)
@@ -1033,8 +1046,9 @@ def PullDate(string):
 #this is the function that will ultimately call all of the other functions for the parallel citations
 #the input is what is written in the form for parallel citations
 def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
-	print "\n****** Starting GetCitations"
-	print "input is:\n", "citation string: ", Citation_Input, "\n", "court: ", Court_Input, "\n", "date: ", Date_Input, "\n", "pincite: ", pincite, "\n"
+	#print "\n****** Starting GetCitations"
+	#print "input is:\n", "citation string: ", Citation_Input, "\n", "court: ", Court_Input, "\n", "date: ", Date_Input, "\n", "pincite: ", pincite, "\n"
+	OUTPUT = ", [NTD: <i>Detected that your neutral citation did not have a proper date. Please try again.</i>]"
 	if not Citation_Input:
 		return "ERROR: missing citation input"
 	if not Court_Input:
@@ -1052,17 +1066,17 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 	# Determine if there is a Citator Date or a Court evident in the Parallel citation
 	if PullDate(TwoBest): CitationDate = PullDate(TwoBest) #set the citation date to be the lowest date in the string
 	if CheckForCourt(TwoBest): Court = True
-	print "Court = ", Court #True or False
-	print "Citation Date = ", CitationDate #year or False
+	#print "Court = ", Court #True or False
+	#print "Citation Date = ", CitationDate #year or False
 	if not Court and not CitationDate:
-		print "NOT COURT AND NOT CITATIONDATE DETECTED ****"
+		#print "NOT COURT AND NOT CITATIONDATE DETECTED ****"
 		#Court_input = raw_input("Enter Court with Canadian Jurisdiction: \n")
 		Ct = CleanUpCourt(CleanUp(Court_Input)) 
 		Ct = TakeOutJurisdiction(Ct[0], TwoBest)
 		JudgementDate = CleanUp(Date_Input)
 		OUTPUT = ' ('+ JudgementDate + '), ' + TwoBest +' (' + Ct + ')'#combine all of this in the right way
 	if CitationDate and not Court: 
-		print "CITATIONDATE AND NOT COURT DETECTED ****"
+		#print "CITATIONDATE AND NOT COURT DETECTED ****"
 		#Court_input = raw_input("Enter Court with Canadian Jurisdiction: \n")
 		Ct = CleanUpCourt(CleanUp(Court_Input)) 
 		Ct = TakeOutJurisdiction(Ct[0], TwoBest)
@@ -1072,9 +1086,9 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 		else:
 			OUTPUT = ' ('+ JudgementDate + '), ' + TwoBest + ' (' + Ct+ ')'
 	if CitationDate and Court:
-		print "CITATIONDATE AND COURT DETECTED"
+		#print "CITATIONDATE AND COURT DETECTED"
 		OUTPUT = ", " + TwoBest
-	print "Result:", OUTPUT
+	#print "Result:", OUTPUT
 	return OUTPUT
 	
 	

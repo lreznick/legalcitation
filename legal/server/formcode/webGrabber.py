@@ -77,7 +77,7 @@ def CanliiCheckForCt(string):
 				nospacecourt = ''.join(re.split(' ', x))
 				match = re.search(nospacecourt, nospacepossiblecourt)
 				if match:
-					court = CleanUpCourt(possiblecourt)[0]
+					court = x
 					string = CleanUp(re.sub(substr(entirecourt), '', string))
 					break
 			if court:
@@ -169,18 +169,40 @@ def Connect2Web(webURL):
 		##print "End of Connect2Web! Returning: ", Output, "*********"
 		return [Output, [styleofcause, parallel, date, court], AutoPCPinpoint(parallel)]
 	else:
-		return ["Sorry, some part of the CanLII web form is missing, please input information manually.", ["no", "no", "no", "no"], "no"]
+		return ["Sorry, this page is unsupported. Please input information manually.", ["no", "no", "no", "no"], "no"]
 
 
 def run():
+	pass
 	'''print Connect2Web("http://canlii.ca/en/ns/nssc/doc/1998/1998canlii1757/1998canlii1757.html")[0]+ "\n\n"
 	print Connect2Web("http://www.canlii.org/en/ca/scc/doc/1997/1997canlii400/1997canlii400.html")[0]+ "\n\n"
 	print Connect2Web("http://canlii.ca/en/ab/abqb/doc/1986/1986canlii1825/1986canlii1825.html")[0]+ "\n\n"
 	print Connect2Web("http://canlii.ca/en/ca/scc/doc/1986/1986canlii73/1986canlii73.html")[0]+ "\n\n"
 	print Connect2Web("http://beta.canlii.org/en/bc/bcca/doc/1987/1987canlii2590/1987canlii2590.html")[0]+ "\n\n"
 	print Connect2Web("http://canlii.ca/en/ab/abpc/doc/2010/2010abpc27/2010abpc27.html")[0]+ "\n\n"
-	print Connect2Web("http://canlii.ca/en/ca/scc/doc/2008/2008scc9/2008scc9.html")[0]+ "\n\n"'''
-	#print Connect2Web("http://canlii.ca/fr/qc/qcca/doc/1996/1996canlii6241/1996canlii6241.html")
+	print Connect2Web("http://canlii.ca/en/ca/scc/doc/2008/2008scc9/2008scc9.html")[0]+ "\n\n"
+	print Connect2Web("http://canlii.ca/fr/qc/qcca/doc/1996/1996canlii6241/1996canlii6241.html")[0]+ "\n\n"
+	print Connect2Web("http://canlii.ca/en/ab/abqb/doc/2008/2008abqb566/2008abqb566.html")[0]+ "\n\n"
+	print Connect2Web("http://canlii.ca/en/ab/abqb/doc/1986/1986canlii1879/1986canlii1879.html")[0]+ "\n\n"
+	print Connect2Web("http://canlii.ca/eliisa/highlight.do?language=en&searchTitle=1986+CanLII+1879+%28AB+QB%29&origin=%2Fen%2Fab%2Fabqb%2Fdoc%2F1986%2F1986canlii1879%2F1986canlii1879.html&path=/en/ab/abqb/doc/1989/1989canlii3405/1989canlii3405.html&searchUrlHash=AAAAAAAYMTk4NiBDYW5MSUkgMTg3OSAoQUIgUUIpAAAAAQA3L2VuL2FiL2FicWIvZG9jLzE5ODYvMTk4NmNhbmxpaTE4NzkvMTk4NmNhbmxpaTE4NzkuaHRtbAE")[0]+ "\n\n"
+	print Connect2Web("http://canlii.ca/en/ca/scc/doc/1982/1982canlii19/1982canlii19.html")[0]+ "\n\n"
+	print Connect2Web("http://canlii.ca/eliisa/highlight.do?language=en&searchTitle=1982+CanLII+19+%28SCC%29&origin=%2Fen%2Fca%2Fscc%2Fdoc%2F1982%2F1982canlii19%2F1982canlii19.html&translatedOrigin=%2Ffr%2Fca%2Fcsc%2Fdoc%2F1982%2F1982canlii19%2F1982canlii19.html&path=/en/ca/scc/doc/1990/1990canlii58/1990canlii58.html&searchUrlHash=AAAAAAAUMTk4MiBDYW5MSUkgMTkgKFNDQykAAAACADIvZW4vY2Evc2NjL2RvYy8xOTgyLzE5ODJjYW5saWkxOS8xOTgyY2FubGlpMTkuaHRtbAAyL2ZyL2NhL2NzYy9kb2MvMTk4Mi8xOTgyY2FubGlpMTkvMTk4MmNhbmxpaTE5Lmh0bWwB")[0]+ "\n\n"
+	print Connect2Web("http://canlii.ca/en/nt/ntca/doc/2008/2008nwtca1/2008nwtca1.html")[0]+ "\n\n"
+	print Connect2Web("http://canlii.ca/en/ca/scc/doc/1993/1993canlii158/1993canlii158.html")[0]+ "\n\n"
+	print Connect2Web("http://canlii.ca/en/ca/scc/doc/1989/1989canlii23/1989canlii23.html")[0]+ "\n\n"
+	print Connect2Web("http://canlii.ca/en/nl/nlsctd/doc/2012/2012canlii2508/2012canlii2508.html")[0]+ "\n\n"
+	print Connect2Web("http://canlii.ca/en/nl/nlca/doc/1989/1989canlii3932/1989canlii3932.html")[0]+ "\n\n"
+	print Connect2Web("http://canlii.ca/en/nl/nlsctd/doc/2009/2009nltd124/2009nltd124.html")[0]+ "\n\n"
+	print Connect2Web("http://canlii.ca/en/nl/nlca/doc/1988/1988canlii201/1988canlii201.html")[0]+ "\n\n"
+	print Connect2Web("http://canlii.ca/en/on/onsc/doc/1994/1994canlii7248/1994canlii7248.html")[0]+ "\n\n"
+	print Connect2Web("http://canlii.ca/en/pe/pescad/doc/2007/2007pescad4/2007pescad4.html")[0]+ "\n\n"
+	print Connect2Web("http://canlii.ca/en/ab/abqb/doc/2001/2001abqb624/2001abqb624.html")[0]+ "\n\n"
+	print Connect2Web("http://canlii.ca/en/nt/ntca/doc/1999/1999nwtca1/1999nwtca1.html")[0]+ "\n\n"
+	print Connect2Web("http://canlii.ca/en/ca/scc/doc/1961/1961canlii42/1961canlii42.html")[0]+ "\n\n"
+	print Connect2Web("http://canlii.ca/en/ca/scc/doc/1922/1922canlii3/1922canlii3.html")[0]+ "\n\n"'''
+	
+	
+	
 
 if __name__ == "__main__":
 	run()
