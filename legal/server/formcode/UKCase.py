@@ -548,12 +548,18 @@ def BestReporter(Citation_Input):
 ["Court of Sessions (Scotland)", "Ct Sess"], 
 ["High Court of Admirality", "HC Adm"], 
 ["High Court of Justice", "HCJ"], 
-["High Court: Chancery Division", "ChD"], 
+["High Court: Chancery Division", "ChD"],
 ["High Court: Family Division", "FamD"], 
 ["High Court: Queen's Bench Division", "QBD"], 
+["High Court: Divisional Court", "Div Ct"], 
+["Court of Appeal: Criminal Division", "CA Crim"],
+["Court of Appeal: Civil Division", "CA"], 
 ["House of Lords (England)", "HL (Eng)"],
 ["House of Lords (Scotland)", "HL (Scot)"],
 ["Judicial Committee of the Privy Council", "PC"],
+["Stipendiary Magistrate Court", "Stip Mag Ct"],
+["Magistrate Court", "Mag Ct"],
+["Crown Court", "Crown Ct"],
 ["Stipendiary Magistrate Court", "Stip Mag Ct"],
 ["Other", "Other"]]#(in case of other, have them input something and run DefaultCt on it'''
 
@@ -603,7 +609,7 @@ def AutoPCPinpoint(Citation_Input):
 #If CheckNC: need to cite to para
 #otherwise cite to page or para in the reporter from BestReporter
 #pincite = ["NC"/"reporter para"/"reporter page"/"none", number]
-def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
+def GetCitations(Citation_Input, Court_Input, Date_Input, pincite, EWHC):
 	print "\n****** Starting GetCitations"
 	print "citation string: ", Citation_Input, "\n", "court: ", Court_Input, "\n", "date: ", Date_Input, "\n", "pincite: ", pincite, "\n"
 	if not Citation_Input:

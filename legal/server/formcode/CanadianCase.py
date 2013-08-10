@@ -1084,14 +1084,14 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 		#Court_input = raw_input("Enter Court with Canadian Jurisdiction: \n")
 		Ct = CleanUpCourt(CleanUp(Court_Input)) 
 		Ct = TakeOutJurisdiction(Ct[0], TwoBest)
-		JudgementDate = CleanUp(Date_Input)
+		JudgementDate = PullDate(Date_Input)
 		OUTPUT = ' ('+ JudgementDate + '), ' + TwoBest +' (' + Ct + ')'#combine all of this in the right way
 	if CitationDate and not Court: 
 		#print "CITATIONDATE AND NOT COURT DETECTED ****"
 		#Court_input = raw_input("Enter Court with Canadian Jurisdiction: \n")
 		Ct = CleanUpCourt(CleanUp(Court_Input)) 
 		Ct = TakeOutJurisdiction(Ct[0], TwoBest)
-		JudgementDate = CleanUp(Date_Input)
+		JudgementDate = PullDate(Date_Input)
 		if (JudgementDate==CitationDate): 
 			OUTPUT = ', ' + TwoBest + ' (' + Ct + ')'
 		else:
@@ -1232,21 +1232,25 @@ def BestReporter(Citation_Input): # choose the best reporter out of all of the o
 	return Sorted[0][0]
 
 
+
+#this is the function that will ultimately call all of the other functions for the parallel citations
+#the input is what is written in the form for parallel citations
 def GetHistoryCitations(Citation_Input, Court_Input, Date_Input):
+	#print "\n****** Starting GetCitations"
+	#print "input is:\n", "citation string: ", Citation_Input, "\n", "court: ", Court_Input, "\n", "date: ", Date_Input, "\n", "pincite: ", pincite, "\n"
+	OUTPUT = ", [NTD: <i>Detected that your neutral citation did not have a proper date. Please try again.</i>]"
 	if not Citation_Input:
-		", ERROR: missing citation input"
+		return "ERROR: missing citation input"
 	if not Court_Input:
 		return ", ERROR: missing court input"
 	if not Date_Input:
 		return ", ERROR: missing date input"
-	#pincite = [pinpoint/cite, reporter, type (para or page), input]
-	OneBest = BestReporter(Citation_Input, pincite) #this returns a string with the two best reporters already formatted
-	Court = False #first assume there is no court evident in the input
-	Jurisdiction = False # assume there is no jurisdiction evident in the input
-	NeutralCite = False #first assume there is no neutral reporter evident in the input
+	OneBest = ChooseBestReporters(Citation_Input) #this returns a string with the two best reporters already formatted
+	Court = False #first assume there is no court evident in the reporter
+	Jurisdiction = False # assume there is no jurisdiction evident in the reporter
+	NeutralCite = False #first assume there is no neutral reporter evident in the reporter
 	JudgementDate = False #assume there is no date evident in the input judgement
 	CitationDate = False #assume there is no citation date evident in the input
-	Pinpont = False #assume there is no pinpoint for now
 	# Determine if there is a Citator Date or a Court evident in the Parallel citation
 	if PullDate(OneBest): CitationDate = PullDate(OneBest) #set the citation date to be the lowest date in the string
 	if CheckForCourt(OneBest): Court = True
@@ -1256,23 +1260,22 @@ def GetHistoryCitations(Citation_Input, Court_Input, Date_Input):
 		#print "NOT COURT AND NOT CITATIONDATE DETECTED ****"
 		#Court_input = raw_input("Enter Court with Canadian Jurisdiction: \n")
 		Ct = CleanUpCourt(CleanUp(Court_Input)) 
-		Ct = TakeOutJurisdiction(Ct, OneBest)
-		JudgementDate = CleanUp(Date_input)
+		Ct = TakeOutJurisdiction(Ct[0], OneBest)
+		JudgementDate = PullDate(Date_Input)
 		OUTPUT = ' ('+ JudgementDate + '), ' + OneBest +' (' + Ct + ')'#combine all of this in the right way
 	if CitationDate and not Court: 
 		#print "CITATIONDATE AND NOT COURT DETECTED ****"
 		#Court_input = raw_input("Enter Court with Canadian Jurisdiction: \n")
 		Ct = CleanUpCourt(CleanUp(Court_Input)) 
-		Ct = TakeOutJurisdiction(Ct, OneBest)
-		Date_input = raw_input("Enter Date: \n")
-		JudgementDate = CleanUp(Date_input)
+		Ct = TakeOutJurisdiction(Ct[0], OneBest)
+		JudgementDate = PullDate(Date_Input)
 		if (JudgementDate==CitationDate): 
-			OUTPUT =  + OneBest + ' (' + Ct + ')'
+			OUTPUT = ', ' + OneBest + ' (' + Ct + ')'
 		else:
 			OUTPUT = ' ('+ JudgementDate + '), ' + OneBest + ' (' + Ct+ ')'
 	if CitationDate and Court:
 		#print "CITATIONDATE AND COURT DETECTED"
-		OUTPUT = OneBest
+		OUTPUT = ", " + OneBest
 	#print "Result:", OUTPUT
 	return OUTPUT
 
