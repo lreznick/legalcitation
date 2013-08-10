@@ -50,26 +50,26 @@ a:link,a:visited{
 	text-decoration:none;
 }
 
-ul{
-	list-style-type:none;
-	margin:0;
-	padding:0;
-	overflow:hidden;
-	text-align: center;
-	
+.footer ul{
+list-style-type:none;
+margin:0;
+padding:0;
+overflow:hidden;
+/*text-align: center;*/
+
 }
 
-li{
-	float:left;
-	display:block;
-	/*width:60px;*/
-	text-align:center;
-	padding:7px;
-	line-height: 21px;
+.footer li{
+float:left;
+display:block;
+/*width:60px;*/
+/*text-align:center;*/
+padding:7px;
+line-height: 21px;
 }
-#footer-nav li{
-	margin-top:5px;
-	font-size: 13px;
+.footer li{
+margin-top:5px;
+font-size: 13px;
 }
 
  table td {

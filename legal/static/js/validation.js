@@ -1,3 +1,4 @@
+
 /*
 =============================================
 Validations 
@@ -9,7 +10,8 @@ Validations
 	var regex_digits 	=/^\d+$/
 	var regex_court 		=/^[a-zA-Z\s.()-éÉÈèîÎôÔÁáÀàÂâ&]*$/
 	var regex_judge		=/^[a-zA-Z\s.éÉÈèîÎôÔÁáÀàÂâ]*$/
-	var regex_page 	=/^\d+$/
+	var regex_pincite 	=/^[\d,-\s]*$/
+	var regex_page 		=/^\d+$/
 	
 /*
 =============================================
@@ -125,7 +127,7 @@ CanadaCaseValidator
 				},
 				pincite_input:{
 					maxlength:10,	
-					regex: /^[\d,-\s]*$/,
+					regex: regex_pincite,
 				},
 				judge:{
 					maxlength:100,	
@@ -362,7 +364,6 @@ CanadaCaseValidator
 Adding Methods
 =============================================
 */			
-
 
 	 //adding a method that allows regular expressions to check for validation
  jQuery.validator.addMethod(

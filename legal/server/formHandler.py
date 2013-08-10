@@ -155,33 +155,32 @@ def CanadianCase(form):
 	pinciteSelection  = "%s" % (f.form.pincite_selection)#
 	pinciteRadio		= "%s" % (f.form.pincite_radio)
 	pinciteInput		= "%s" % (f.form.pincite_input)	
-	pincite 				= [pinciteSelection, pinciteRadio, "page", pinciteInput]	 #deal with	
+	pincite 				= [pinciteSelection, pinciteRadio, "page", pinciteInput]	
 	
-	#Stephen: my commented out histories are what it should be like.
-	#historyaff1 = 		= "%s" % (f.form.history_aff1)
-	historyParallel1	= "%s" % (f.form.history_parallel1) 
+	
+	historyaff1  		= "%s" % (f.form.history_aff1)
 	historyParallel1	= "%s" % (f.form.history_parallel1) 
 	historyYear1		= "%s" % (f.form.history_year1) 
 	historyCourt1		= "%s" % (f.form.history_court1)
-	#historyaff2 = 		= "%s" % (f.form.history_aff2)
+	
+	historyaff2  		= "%s" % (f.form.history_aff2)
 	historyParallel2	= "%s" % (f.form.history_parallel2) 
 	historyYear2		= "%s" % (f.form.history_year2) 
 	historyCourt2		= "%s" % (f.form.history_court2)
-	#historyaff3 = 		= "%s" % (f.form.history_aff3)
+	
+	historyaff3 		= "%s" % (f.form.history_aff3)
 	historyParallel3	= "%s" % (f.form.history_parallel3) 
 	historyYear3		= "%s" % (f.form.history_year3) 
 	historyCourt3		= "%s" % (f.form.history_court3)	
-	histories = [[historyParallel1,historyYear1,historyCourt1]
-					,[historyParallel2,historyYear2,historyCourt2]
-					,[historyParallel3,historyYear3,historyCourt3]]
-	'''histories = [[historyaff1, historyParallel1,historyYear1,historyCourt1]
+	
+	histories = [[historyaff1, historyParallel1,historyYear1,historyCourt1]
 					,[historyaff2, historyParallel2,historyYear2,historyCourt2]
-					,[historyaff3, historyParallel3,historyYear3,historyCourt3]]'''
+					,[historyaff3, historyParallel3,historyYear3,historyCourt3]]
 	
 	leaveSelection 	= "%s" % (f.form.leaveToAppeal_selection)
 	leaveCourt		 	= "%s" % (f.form.leaveToAppeal_court)
-	#leaveCitation  	= "%s" % (form.leaveToAppeal_citation)
 	leaveDocket	  	= "%s" % (f.form.leaveToAppeal_docket)
+	
 	leaveArray = [leaveSelection, leaveCourt, leaveDocket]
 		
 	citations ="" 
@@ -191,10 +190,7 @@ def CanadianCase(form):
 	
 	ValidateCanadianCase(f)
 	if f.valid:
-		#[granted, courtappeal, citation/or docketnumber, input of docket]
-		#leaveToAppeal = "%s" % (form.leaveToAppeal) #deal with
-		
-		
+	
 		#========	Style of Cause
 		if styleofcause:
 				styleofcause = GetStyleOfCause(styleofcause)
@@ -212,26 +208,23 @@ def CanadianCase(form):
 					#citeTo = GetCiteTo(pincite)				
 			citations = GetCitations(parallel, court, year, pincite)
 		
-		#======== Citations
-		if (citingStyle == citingParallel == citingYear == citingCourt):
-			print "exit citing"
-			
-		else:
-			if (citingStyle and  citingParallel and citingYear and citingCourt):
-				#checkCiting(citingStyle, citingParallel, citingYear, citingCourt)
-				citing = GetCiting(citingStyle, citingParallel, citingYear, citingCourt)
-			else:
-				print "didnt fully fill out citing"
+		#======== Citing
+		if (citingStyle and  citingParallel and citingYear and citingCourt):
+			citing = GetCiting(citingStyle, citingParallel, citingYear, citingCourt)
 		
-		'''if (histories[0][1] and histories [0][2] and histories [0][3]) or (histories[1][1] and histories [1][2] and histories [1][3]) or (histories[2][1] and histories [2][2] and histories [2][3]):
-			history = GetHistory(histories)'''
+		#======== History
+		if (histories[0][1] and histories [0][2] and histories [0][3]) or (histories[1][1] and histories [1][2] and histories [1][3]) or (histories[2][1] and histories [2][2] and histories [2][3]):
+			history = GetHistory(histories)
 		
+		#======== Shortform
 		if shortform:
 			shortform = GetShortForm(shortform)
-			
+		
+		#======== Judge	
 		if judge:
 			judge = GetJudge(judge,dissenting)	
-
+		
+		#======== Leave To Appeal
 		if leaveSelection:
 			leaveToAppeal = GetLeaveToAppeal(leaveArray)
 		

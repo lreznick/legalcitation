@@ -88,8 +88,7 @@ THE TESTING BUTOON!!!!!!=================================================
 */		
 
 jQuery("#thetestbutton").click(function(){
-	generateErrorMessage("#Canlii-Form","something went wrong on our end :(")
-				
+							jQuery('#pincite-selection option[value="citeTo"]').hide();
 	
 
 })
@@ -281,7 +280,7 @@ Form Submissions
 					
 					if (data[0].date != false){
 						jQuery('#CanadaCaseDate').val(data[0].date);
-						console.log(CanadianCaseValidator.element('#CanadaCaseDate'))
+						//console.log(CanadianCaseValidator.element('#CanadaCaseDate'))
 					}
 					if (data[0].court != false){
 						jQuery('#CanadaCaseCourt').val(data[0].court);
