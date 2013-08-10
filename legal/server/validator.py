@@ -222,7 +222,8 @@ def ValidateCanadianCase(f):
 		c = CleanUpCourt(citingCourt) #returns [court, False/True]
 		#the regexCourt is found in CleanUpCourt in CanadianCase automatically
 		if not c[1]:
-			GenerateErrorMsg(f,"citing_court","", ErrorMsgCourt("court in the citing option"))	
+			GenerateWarningMsg(f,"citing_court","", ErrorMsgCourt("court in the citing option"))
+			#GenerateErrorMsg(f,"citing_court","", ErrorMsgCourt("court in the citing option"))	
 	
 	elif (citingStyle or citingParallel or citingYear or citingCourt):
 		if not citingStyle:
@@ -232,12 +233,13 @@ def ValidateCanadianCase(f):
 		if not citingYear:
 			GenerateErrorMsg(f,"citing_year","", ErrorMsgRequired("year in the citing option"))
 		if not citingCourt:
-			GenerateErrorMsg(f,"citing_court","", ErrorMsgRequired("court in the citing option"))
+			GenerateWarningMsg(f,"citing_court","", ErrorMsgRequired("court in the citing option"))
+			#GenerateErrorMsg(f,"citing_court","", ErrorMsgRequired("court in the citing option"))
 				
 				
 	#========	History 
 	#history=[[parallel,year,court],..]
-	i =0
+	i =1
 	for history in histories:
 		if (history[0] and history[1] and history[2]):
 			if not Validate(regexParallel, history[0]):
@@ -248,7 +250,8 @@ def ValidateCanadianCase(f):
 			c = CleanUpCourt(history[2]) #returns [court, False/True]
 			#the regexCourt is found in CleanUpCourt in CanadianCase automatically
 			if not c[1]:
-				GenerateErrorMsg(f,"historyParallel"+str(i),"", ErrorMsgCourt("court in history option "+str(i)) )	
+				GenerateWarningMsg(f,"historyParallel"+str(i),"", ErrorMsgCourt("court in history option "+str(i)) )	
+				#GenerateErrorMsg(f,"historyParallel"+str(i),"", ErrorMsgCourt("court in history option "+str(i)) )	
 
 		elif (history[0] or history[1] or history[2]):
 			if not history[0]:

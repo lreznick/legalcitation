@@ -856,6 +856,7 @@ def FindCourt(string):
 	["Sup Ct (Crim & Pen Div)", re.compile(r"Sup(erior)? Ct Crim(inal)? (&|and) Pen(al)? div", flags = re.I)],
 	["Sup Ct (Fam Div)", re.compile(r"Sup(erior)? Ct fam div", flags = re.I)],
 	["Sup Ct (Sm Cl Div)", re.compile(r"Sup(erior)? Ct Sm(all)? Cl(aims)? div", flags = re.I)],
+	["SC", re.compile(r"(Sup(reme)? Ct|SC)", flags = re.I)],
 	["SC (AD)", re.compile(r"(Sup(reme)? Ct|SC) (Appeal|Appellate) div", flags = re.I)],
 	["SC (Fam Div)", re.compile(r"(Sup(reme)? Ct|SC) fam div", flags = re.I)],
 	["SC (QB Div)", re.compile(r"(Sup(reme)? Ct|SC) Queens Bench( Div)?(ision)?", flags = re.I)],
@@ -1306,16 +1307,18 @@ def GetCiting(SoC, Parallel, Year, Court):
 
 def GetLeaveToAppeal(array):
 	#[granted, courtappeal, citation/or docketnumber, input of docket]
-	Court = CleanUpCourt(array[1])
+	#print "**** array: ", array
+	Court = CleanUpCourt(array[1])[0]
 	if re.search("Requested", CleanUp(array[0]), re.I):
-		return "leave to appeal to " + Court + " requested"
+		return ", leave to appeal to " + Court + " requested"
 	if re.search("Granted", CleanUp(array[0]), re.I):
-		return "leave to appeal to " + Court + " granted, " + array[2]
+		return ", leave to appeal to " + Court + " granted, " + array[2]
 	if re.search("Refused", CleanUp(array[0]), re.I):
-		return "leave to appeal to " + Court + " refused, " + array[2]
-	if re.search("As of Right", CleanUp(array[0]), re.I):
-		return "appeal as of right to " + Court	
-	return "Error"
+		return ", leave to appeal to " + Court + " refused, " + array[2]
+	if re.search("AsofRight", CleanUp(array[0]), re.I):
+		return ", appeal as of right to " + Court	
+	return ", sorry error in leave to appeal option"
+	
 	
 	
 '''****************     CITE TO    ****************'''

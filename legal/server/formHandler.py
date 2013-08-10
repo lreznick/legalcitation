@@ -182,6 +182,7 @@ def CanadianCase(form):
 	leaveCourt		 	= "%s" % (f.form.leaveToAppeal_court)
 	#leaveCitation  	= "%s" % (form.leaveToAppeal_citation)
 	leaveDocket	  	= "%s" % (f.form.leaveToAppeal_docket)
+	leaveArray = [leaveSelection, leaveCourt, leaveDocket]
 		
 	citations ="" 
 	citing = ""
@@ -231,9 +232,8 @@ def CanadianCase(form):
 		if judge:
 			judge = GetJudge(judge,dissenting)	
 
-		if leaveToAppeal:
-			#check leaveToAppeal	
-			leaveToAppeal = GetLeaveToAppeal(leaveToAppeal)
+		if leaveSelection:
+			leaveToAppeal = GetLeaveToAppeal(leaveArray)
 		
 		returnString = styleofcause + citations +judge + citing + leaveToAppeal + history + shortform+'.'
 		print returnString
