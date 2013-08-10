@@ -693,16 +693,31 @@ formClass.prototype.submitForm = function(){
 	}
 }
 
-		
+formClass.prototype.submitButton = function(elementList){
+	console.log("in here");
+	jQuery('#' +Name +'-Container .submitButton').click(function() {
+		this.submitForm();
+		return false;
+	});
+}
 
 dictionary = new formClass('Dictionary', [], BookValidator);
-
+/*
 jQuery('#DictionarySubmitButton').click(function() {
 	console.log("Yay!");
 	dictionary.submitForm();
 	return false;
 });
 
+
+formClass.prototype.submitButton = function(elementList){
+	
+	jQuery('#something').click(function() {
+		//do something
+	});
+}
+
+*/
 
 
 	
