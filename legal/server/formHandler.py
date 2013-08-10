@@ -8,7 +8,7 @@ from validator import *
 urls = (
 	'/parallel', 'Parallel',
 	'/court', 'Court',
-	'/CanadianCase', 'Canada',
+	'/CanadaCase', 'Canada',
 	'/canlii', 'Canlii',
 	'/JournalArticle', 'JournalArticle',
 	'/Dictionary', 'Dictionary'
@@ -144,6 +144,7 @@ def JournalArticleFormatter(form):
 	
 def CanadianCase(form):	
 	print "\n\n======in Canadian"
+	print form
 	f = CreateFormClass("canadian case", form)	
 	print form
 

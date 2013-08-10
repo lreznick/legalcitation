@@ -193,7 +193,7 @@ function SubmitCanLII(){
 			return false; 	
 	};
 
-
+/*
 		//Submitting the information to the server to be processed
 	jQuery('#CanadaCase-Container .submitButton').click(function() {
 		if (CanadianCaseValidator.form() == true){
@@ -240,7 +240,7 @@ function SubmitCanLII(){
 		else{
 		}
 	});
-	
+	*/
 	function autoFillPinCite(reporterType, reporters){
 		console.log("reporterType ::" +reporterType );
 		console.log("reporter 1::"+ reporters[0]);
@@ -378,135 +378,15 @@ jQuery('#leaveToAppeal-selection').change(function(){
 	}
 });
 
-/*
-=============================================
-Tool Tips
-=============================================
-*/	
-var tooltip_header              = "<div class=\"tooltip-title\">"
 
-var tooltip_styleofcause	    = tooltip_header + "Style of Cause     </div><font class = \"red\"> ex. Tilden Rent-A-Car Co. v Clendenning</font><br> Input the style of cause as written on the case. <br>"
-var tooltip_parallel				= tooltip_header + "Parallel Citations </div><font class = \"red\"> ex. 2008 SCC 9 (CanLII); [2008] 1 SCR 190; 229 NBR (2d) 1; 291 DLR (4th) 577 </font><br> Separate abbreviated reporters by commas or semicolons. Browse through the catalog to find abbreviations. <br>Input at least two reporters, unless only one is available. <br>Don't worry about formatting. <br>"
-var tooltip_year	                = tooltip_header + "Year of Decision    </div><font class = \"red\"> ex. 1985 </font><br>"
-var tooltip_court                 = tooltip_header + "Court                 </div><font class = \"red\"> ex. Alberta qb </font><br>Our recognition algorithm will format your input correctly. <br>"
-var tooltip_shortform     		= tooltip_header  + "Short Form      	</div><font class = \"red\"> ex. Van der Peet</font> <br>Use a short form to refer to the judgment later in your paper. <br>It is normally the first party name. <br>"
-var tooltip_pincite_input     	= tooltip_header + "Pinpoint             	</div><font class = \"red\"> ex. 132 </font><br>Use paragraphs where available, otherwise pages. <br>Use the radio button to indicate which reporter you are citing to.<br><br>"+ tooltip_header +  "Cite to </div> Use the radio buttons to select a reporter if you will pinpoint to it at some point other than the first instance of the citation. <br>"
-var tooltip_citing         		= tooltip_header  + "Citing               </div><font class = \"red\">  ex. Crevier v AG Quebec, [1981] 2 SCR 220; [1981] 127 DLR (3d) 1</font> <br>Use the citing feature if the main judgement cites a passage from another case, if appropriate. <br>"
-var tooltip_judge 				= tooltip_header  + "Judge               </div><font class = \"red\"> ex. Binnie J </font><br>CJC = Chief Justice of Canada <br>CJA = Chief Justice of Appeal <br>CJ = Chief Justice <br>JA = Justice of Appeal <br>JJA = Justices of Appeal <br>J = Justice <br>JJ = Justices <br>Mag = Magistrate <br>"
-var tooltip_history 	            = tooltip_header + "History              </div>Affirming or Reversing <font class = \"red\"> <br> ex. 2003 BCSC 14 </font><br>Input minimum <b>one</b> citation for the lower court judgement. <br> <br>Affirmed or Reversed <br><font class = \"red\">ex. 2011 SCC 66, [2011] 3 SCR 837 </font> <br>Input minimum <b>two</b> citations for the upper court judgement. <br> "
-var tooltip_leavetoappeal    = tooltip_header + "Leave To Appeal </div> <b>Granted:</b> input court and citation. <br> <font class = \"red\">ex. SCC, [2008] 1 SCR xiv </font><br><b>Refused:</b> input court and docket number. <br><font class = \"red\">ex. SCC, 23424 (November 20, 2009) </font><br><b>Requested </b> or <b> As of right:</b> input court. <br><font class = \"red\">ex. \"SCC\" </font><br>"
 
-var tooltip_citing_styleofcause = tooltip_citing_parallel = tooltip_citing_year=tooltip_citing_court=tooltip_citing;
-var tooltip_history_parallel1
-= tooltip_history_year1
-= tooltip_history_court1
-= tooltip_history_parallel2
-= tooltip_history_year2
-= tooltip_history_court2
-= tooltip_history_parallel3
-= tooltip_history_year3
-= tooltip_history_court3 = tooltip_history;
-
-var tooltip_leaveToAppeal_selection
-= tooltip_leaveToAppeal_court
-= tooltip_leaveToAppeal_citation
-= tooltip_leaveToAppeal_docket = tooltip_leavetoappeal;
-
-var formOffsets = [
-'#CanadaCase-Container',
-'#CanadaCaseJudge', //judge
-'#history1', //history
-'#leaveToAppeal-selection']; //leave to appeal
-
-jQuery('#CanadaCase-Container input').focus(function(){
-		var name = jQuery(this).attr('name') // get Forms name
-		var tool = eval('tooltip_'+name); // convert it to a variable
-		jQuery('#tooltips').html(tool); // display the tooltip
-		
-		var formTop = jQuery("#CanadaCase-Container").offset();
-		var currentForm = jQuery(this).offset();
-		var positionDifference = currentForm.top - formTop.top;
-
-		for (var i =0; i<formOffsets.length-1;i++){
-			var a = formOffsets[i];
-			var b = formOffsets[i+1];
-			var offset = (jQuery(a).offset().top-formTop.top);
-			var nextOffset = (jQuery(b).offset().top-formTop.top);
-			
-			if (positionDifference >= offset){
-				if (positionDifference < nextOffset){
-					jQuery('#tooltips').css('margin-top', offset);
-				}
-				if (positionDifference >= nextOffset){
-					jQuery('#tooltips').css('margin-top', nextOffset);
-				}
-			}
-		}
-});
-
-jQuery('#CanadaCase-Container select').change(function(){
-	console.log(jQuery(this).attr('name'));
-	// Do something in here
-});
-//jQuery('#tooltips').html(tooltip_styleOfCause);
-
- /*
-
-jQuery('#CanadaCaseDate').focus(function(){
-	jQuery('#tooltips').html(tooltip_year);
-});
-jQuery('#CanadaCaseCourt').focus(function(){
-	jQuery('#tooltips').html(tooltip_court);
-});
-
-jQuery('#CanadaCaseShortForm').focus(function(){
-	jQuery('#tooltips').html(tooltip_shortform);
-});
-jQuery('#CanadaCasePinpoint').focus(function(){
-	jQuery('#tooltips').html(tooltip_pinpoint);
-});
-jQuery('#CanadaCaseCiteTo').focus(function(){
-	jQuery('#tooltips').html(tooltip_citeTo);
-});
-jQuery('#CanadaCaseJudge').focus(function(){
-	jQuery('#tooltips').html(tooltip_judge);
-});
-jQuery('#CanadaCaseCiting').focus(function(){
-	jQuery('#tooltips').html(tooltip_citing);
-});
-jQuery('#CanadaCaseHistory').focus(function(){
-	jQuery('#tooltips').html(tooltip_history);
-});
-jQuery('#CanadaCaseLeaveToAppeal').focus(function(){
-	jQuery('#tooltips').html(tooltip_leaveToAppeal);
-});
-
-jQuery('#CanadaCaseSubnom').focus(function(){
-	jQuery('#tooltips').html(tooltip_subNom);
-});
-*/
 jQuery('#CanadaCase-Accordion-Toggle').click(function(){
-
 	if (jQuery( "#CanadaCaseExtraOptions" ).hasClass('collapse') !==true){
 				jQuery('#tooltips').html(''); 
 				
 	}
 });
 
-
-	
-/*
-=============================================
-Collapsing
-=============================================
-*/		
-	//jQuery(".demo").collapse()
-
-/*
-=============================================
-History
-=============================================
-*/	
 
 /*
 =============================================
@@ -617,8 +497,6 @@ jQuery('#CanadaCaseReset').click(function(){
 	$('#pinciteWrapper').show();
 	
 	jQuery('#manual-header').show();					
-	
-	
 	//Unhiding fields
 	jQuery('#CanadaCaseCourt-controlgroup').show();	
 	jQuery('#CanadaCaseParallel-controlgroup').show();	
@@ -655,24 +533,25 @@ formClass.prototype.hide = function(elementList){
 
 formClass.prototype.submitForm = function(){
 console.log("in submit");
-	if ( this.validator.form() == true){
-		var Name = this.name 
-		console.log("name: " + Name);
-		jQuery("#"+Name +"-Container .loading-gif").show();        
+var id = '#'+ this.name;  //ex. #CanadaCase
+
+	if ( this.validator.form() == true){		
+		
+		jQuery(id +"-Container .loading-gif").show();        
 		jQuery.ajax({ 
 			type: "POST", 
-			data: jQuery(Name +'-Form').serialize(),
-			url:'/form/'+Name,
+			data: jQuery(id +'-Form').serialize(),
+			url:'/form/'+this.name,
 			dataType: 'json',
 			success: function(data) {
-				jQuery("#"+Name +"-Container .loading-gif").hide();  
-				clearErrors(Name +'-Form')
+				jQuery(id+"-Container .loading-gif").hide();  
+				clearErrors(id +'-Form')
 				
 				if( data[0].valid ==true) {
 					var results = data[0].message; 
-					console.log("here " +results+ '#' +Name +' .result-container');
-					jQuery('#' +Name +'-Container .result-container').hide().fadeIn(200);
-					jQuery('#' +Name +'-Container .results').html(results).hide().fadeIn(400);
+					console.log("here " +results+ id +' .result-container');
+					jQuery(id+'-Container .result-container').hide().fadeIn(200);
+					jQuery(id +'-Container .results').html(results).hide().fadeIn(400);
 					//this.successFunction; //Call the success function
 				 }
 				 else{
@@ -681,34 +560,34 @@ console.log("in submit");
 						//error = [inputName, input, message]
 						var input = errorlist[i][1];
 						var message = errorlist[i][2];
-						generateErrorMessage('#' +Name+"-Form",message);
+						generateErrorMessage(id +"-Form",message);
 					}	
 				 }
 			},
 
 		}).fail(function(){
-				generateErrorMessage('#' +Name+"-Form","something went wrong on our end :( ")
+				generateErrorMessage(id+"-Form","something went wrong on our end :( ")
 			})		
 		.always( function(){
-			jQuery("#"+Name +"-Container .loading-gif").hide();  
+			jQuery(id+"-Container .loading-gif").hide();  
 		});//end of ajax
 		return false; 
 	} //end of if
 	else{
 	}
+return false; 	
 }
 
 formClass.prototype.addEvents = function(){
-	console.log("in here1");
 	$('#' +this.name +'-Container .submitButton').bind('click', {context: this}, this.onClick);
 	
 }
 
  formClass.prototype.onClick= function (ev)
     {
-
         var self = ev.data.context;
         self.submitForm();
+		//return false;
     },
 
 
@@ -721,6 +600,7 @@ jQuery('#Dictionary-Container .submitButton').click(function() {
 });*/
 
 dictionary = new formClass('Dictionary', [], BookValidator);
+canada = new formClass('CanadaCase', [], CanadianCaseValidator);
 /*
 
 formClass.prototype.submitButton = function(elementList){
