@@ -1245,7 +1245,7 @@ def GetHistoryCitations(Citation_Input, Court_Input, Date_Input):
 		return ", ERROR: missing court input"
 	if not Date_Input:
 		return ", ERROR: missing date input"
-	OneBest = ChooseBestReporters(Citation_Input) #this returns a string with the two best reporters already formatted
+	OneBest = BestReporter(Citation_Input) #this returns a string with the two best reporters already formatted
 	Court = False #first assume there is no court evident in the reporter
 	Jurisdiction = False # assume there is no jurisdiction evident in the reporter
 	NeutralCite = False #first assume there is no neutral reporter evident in the reporter
