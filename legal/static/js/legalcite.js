@@ -88,7 +88,8 @@ THE TESTING BUTOON!!!!!!=================================================
 */		
 
 jQuery("#thetestbutton").click(function(){
-							jQuery('#pincite-selection option[value="citeTo"]').hide();
+		//jQuery('#pincite-selection option[value="citeTo"]').hide();
+		jQuery('#Dictionary-Container .submitButton').hide();
 	
 
 })
@@ -194,7 +195,7 @@ function SubmitCanLII(){
 
 
 		//Submitting the information to the server to be processed
-	jQuery('#CanadaCase-go').click(function() {
+	jQuery('#CanadaCase-Container .submitButton').click(function() {
 		if (CanadianCaseValidator.form() == true){
 			jQuery("#CanadaCase-Container .loading-gif").show();        
 			
@@ -638,6 +639,10 @@ var formClass = function(name,hidelist, validator){
 	this.hidelist = hidelist;
 	this.validator = validator;
 	//this.successFunction = successFunction;
+	this.init();
+}
+formClass.prototype.init = function(){
+	this.addEvents();
 }
 
 formClass.prototype.getName = function(){
@@ -649,7 +654,7 @@ formClass.prototype.hide = function(elementList){
 }
 
 formClass.prototype.submitForm = function(){
-
+console.log("in submit");
 	if ( this.validator.form() == true){
 		var Name = this.name 
 		console.log("name: " + Name);
@@ -693,22 +698,30 @@ formClass.prototype.submitForm = function(){
 	}
 }
 
-formClass.prototype.submitButton = function(elementList){
-	console.log("in here");
-	jQuery('#' +Name +'-Container .submitButton').click(function() {
-		this.submitForm();
-		return false;
-	});
+formClass.prototype.addEvents = function(){
+	console.log("in here1");
+	$('#' +this.name +'-Container .submitButton').bind('click', {context: this}, this.onClick);
+	
 }
+
+ formClass.prototype.onClick= function (ev)
+    {
+
+        var self = ev.data.context;
+        self.submitForm();
+    },
+
+
+
+/*
+jQuery('#Dictionary-Container .submitButton').click(function() {
+	console.log("Yay!");
+	
+	//return false;
+});*/
 
 dictionary = new formClass('Dictionary', [], BookValidator);
 /*
-jQuery('#DictionarySubmitButton').click(function() {
-	console.log("Yay!");
-	dictionary.submitForm();
-	return false;
-});
-
 
 formClass.prototype.submitButton = function(elementList){
 	
