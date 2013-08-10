@@ -772,9 +772,7 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 	print "\n****** Starting GetCitations"
 	print "input is:\n", "citation string: ", Citation_Input, "\n", "court: ", Court_Input, "\n", "date: ", Date_Input, "\n", "pincite: ", pincite, "\n"
 	if not Citation_Input:
-		return "ERROR: missing citation input"
-	if not Date_Input:
-		return ", ERROR: missing date input"
+		return ["ERROR: missing citation input", "ERROR: missing citation input", "ERROR: missing citation input"]#citation #court #date"ERROR: missing citation input"
 	if not Court_Input:
 		SC = False
 		SupremeCourtReporters = ['US', 'S Ct', 'L Ed 2d', 'USLW']#order is important
@@ -783,9 +781,10 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 				SC = True
 				break
 		if not SC:
-			return "ERROR: missing court input"
+			Court = "[<i>NTD: missing court input</i>]"
+			#return "ERROR: missing court input"
 	if not Date_Input:
-		return "ERROR: missing date input"
+		Date_Input = "[<i>NTD: missing date input</i>]"
 	repDate = BestReporter(CleanUp(Citation_Input), Date_Input)
 	print "\nrepDate = ", repDate, "\n"
 	#pincite = [pinpoint/cite, input]
@@ -828,31 +827,29 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 '''****************     HISTORY     ****************'''
 
 
-#FIX INDEXES WHAT IS HAPPENING
 def GetHistory(listoflists):
-	#[[parallel, year, court, affirming/reversing],]
+	#[affirming/reversing, parallel, year, court]
 	List = []
 	for Instance in listoflists:
 		if re.search("affirming", CleanUp(Instance[0]), re.I):
-			List.append("aff'g"+ GetCitations(Instance[0], Instance[2], Instance[1]))
+			List.append(", aff'g"+ GetCitations(Instance[1], Instance[3], Instance[2], False))
 		if re.search("reversing", CleanUp(Instance[0]), re.I):
-			List.append("rev'g"+ GetCitations(Instance[1], Instance[2], Instance[3]))
+			List.append(", rev'g"+ GetCitations(Instance[1], Instance[3], Instance[2], False))
 		if re.search("affirmed", CleanUp(Instance[0]), re.I):
-			List.append("aff'd"+ GetCitations(Instance[1], Instance[2], Instance[3]))
+			List.append(", aff'd"+ GetCitations(Instance[1], Instance[3], Instance[2], False))
 		if re.search("reversed", CleanUp(Instance[0]), re.I):
-			List.append("rev'd"+ GetCitations(Instance[1], Instance[2], Instance[3]))
+			List.append(", rev'd"+ GetCitations(Instance[1], Instance[3], Instance[2], False))
 	output = ""
 	for x in List:
-		output = output + x + ", "
-	output = CleanUp(output[:-2])
+		output = output + x
 	return output
-
+	
 '''****************     CITING     ****************'''
 
 def GetCiting(SoC, Parallel, Year, Court):
 	SoC = GetStyleOfCause(SoC)
-	Citation = GetCitations(Citation_Input, Court_Input, Date_Input, False)
-	return "<i>"+string+"</i>" + Citation
+	Citation = GetCitations(Parallel, Court, Year, False)
+	return ", citing "+SoC + Citation
 	
 
 '''****************     LEAVE TO APPEAL     ****************'''
@@ -863,17 +860,23 @@ def GetLeaveToAppeal(array):
 	if array[1]=="Fed":
 		Court = CheckFedCt(CleanUp(Court_Input))
 	else: Court = CheckStateCt(CleanUp(Court_Input))
-	#format stuff
 	if re.search("Requested", CleanUp(array[0]), re.I):
-		return "leave to appeal to " + Court + " requested"
+		return ", leave to appeal to " + Court + " requested"
 	if re.search("Granted", CleanUp(array[0]), re.I):
-		return "leave to appeal to " + Court + " granted, " + array[3]
+		return ", leave to appeal to " + Court + " granted, " + array[2]
 	if re.search("Refused", CleanUp(array[0]), re.I):
-		return "leave to appeal to " + Court + " refused, " + array[3]
-	if re.search("As of Right", CleanUp(array[0]), re.I):
-		return "appeal as of right to " + Court	
-	return "Error"
+		return ", leave to appeal to " + Court + " refused, " + array[2]
+	if re.search("AsofRight", CleanUp(array[0]), re.I):
+		return ", appeal as of right to " + Court	
+	return ", sorry error in leave to appeal option"
 
+
+'''****************     CITE TO    ****************'''
+
+def GetCiteTo(pincite):
+	#pincite = [pinpoint/cite, reporter, type (para or page), input]
+	if pincite[0] == "cite":
+		return ' [cited to ', pincite[1], ']'
 
 '''****************     SHORT FORM     ****************'''
 
@@ -889,3 +892,4 @@ def GetJudge(string, dissenting):
 	if dissenting:
 		string = string + ", dissenting"
 	return ", " + string
+
