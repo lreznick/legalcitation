@@ -629,13 +629,13 @@ def ChooseBestReporters(Citation_Input, pincite): # choose the best reporter out
 			Priority +=1
 	#now sort List based on the priorities for each citation (sorted list is called Sorted)
 	#pincite = False or ["pinPoint_para"/"pinPoint_page"/"citeTo", "option1"/"option2", para or page number input]
-	citestring = ""
+	citestr = ""
 	citereporter = "No Reporter"
 	if pincite:
 		if pincite[0] == "pinPoint_para":
-			citestring = " at para " + pincite[2]
+			citestr = " at para " + pincite[2]
 		elif pincite[0] == "pinPoint_page":
-			citestring = " at " + pincite[2]
+			citestr = " at " + pincite[2]
 	if len(List)==1: #if there is only one reporter given, return it
 		if citestr:
 			return List[0][0] + citestr
@@ -651,9 +651,9 @@ def ChooseBestReporters(Citation_Input, pincite): # choose the best reporter out
 	Second = Sorted[1]
 	if pincite:
 		if pincite[1]=="option2":
-			Second[0] = Second[0] + citestring
+			Second[0] = Second[0] + citestr
 		elif pincite[1]=="option1": 
-			First[0] = First[0] + citestring
+			First[0] = First[0] + citestr
 	if Second[2]: #if the second reporter is electronic
 		return First[0] + Second[0]
 	else:
@@ -1327,17 +1327,7 @@ def GetLeaveToAppeal(array):
 	if re.search("AsofRight", CleanUp(array[0]), re.I):
 		return ", appeal as of right to " + Court	
 	return ", sorry error in leave to appeal option"
-	
-	
-	
-'''****************     CITE TO    ****************'''
 
-def GetCiteTo(pincite):
-	#pincite = [pinpoint/cite, reporter, type (para or page), input]
-	if pincite[0] == "citeTo":
-		return ' [cited to ', pincite[1], ']'
-	else:
-		return ""
 
 '''****************     SHORT FORM     ****************'''
 

@@ -599,7 +599,7 @@ def AutoPCPinpoint(Citation_Input):
 	
 #If CheckNC: need to cite to para
 #otherwise cite to page or para in the reporter from BestReporter
-#pincite = ["NC"/"reporter para"/"reporter page"/"none", number]
+#pincite = False or ["pinPoint_para"/"pinPoint_page"/"citeTo", "option1"/"option2", para or page number input]
 def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 	print "\n****** Starting GetCitations"
 	print "citation string: ", Citation_Input, "\n", "court: ", Court_Input, "\n", "date: ", Date_Input, "\n", "pincite: ", pincite, "\n"
@@ -738,6 +738,7 @@ def GetHistory(listoflists):
 		output = output + x
 	return output
 
+
 '''****************     CITING     ****************'''
 
 def GetCiting(SoC, Parallel, Year, Court):
@@ -761,18 +762,31 @@ def GetLeaveToAppeal(array):
 	return ", sorry error in leave to appeal option"
 	
 	
-	
-'''****************     CITE TO    ****************'''
-
-def GetCiteTo(pincite):
-	#pincite = [pinpoint/cite, reporter, type (para or page), input]
-	if pincite[0] == "cite":
-		return ' [cited to ', pincite[1], ']'
-
 '''****************     SHORT FORM     ****************'''
+	
+def GetShortForm(string, pincite, Citation_Input):
+	string = Capitalize(string)
+	OptionOne = False
+	OptionTwo = False
+	autopcp = AutoPCPinpoint(Citation_Input)
+	if autopcp == 
+	if pincite[0]=="citeTo":
+		# [Best reporter, Second Best Reporter] if there are 2
+		# [Only Reporter, False] if there is only 1
+		Reporters = AutoPCPinpoint(Citation_Input)
+		if pincite[1]=="option1":
+			if string:
+				return " [<i>"+string+"</i> cited to "+ str(Reporters[0][0])+"]"
+			else:
+				return " [cited to "+ str(Reporters[0][0])+"]"
+		if pincite[1]=="option2":
+			if string:
+				return " [<i>"+string+"</i> cited to "+ str(Reporters[0][1])+"]"
+			else:
+				return " [cited to "+ str(Reporters[0][1])+"]"
+	else: 
+		return " [<i>"+string+"</i>]"
 
-def GetShortForm(string):
-	return " [<i>"+string+"</i>]"
 
 '''****************     JUDGE    ****************'''
 
