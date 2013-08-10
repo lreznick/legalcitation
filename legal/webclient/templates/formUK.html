@@ -1,83 +1,36 @@
 <section>
 
 
- <!-- CANLII-->
-		<div class= "header2" style= "margin-bottom:20px; ">Enter A <a href ="http://www.canlii.org/"  target="_blank" style = "color:#fe6060">CanLII </a>site </div>
-	<form class="form-horizontal" id ="Canlii-Form">
-		<fieldset>
-			<div class="control-group" >
-				<!-- Html Link -->
-				<div class="controls"  style = "margin: 0px; padding-top: 2px">
-					<table>
-					<tr><td style = "margin: 0px; padding-top: 2px">
-					<input type="text" class="input-xxlarge" id="canlii-input" name="url" placeholder=" ex: http://www.canlii.org/en/ca/scc/doc/2013/2013scc29/2013scc29.html" >
-					</td>
-					<td style =" vertical-align:top"
-					<button type="submit" class="btn btn-danger" id="canlii-go"  >Go</button>
-					</td></tr>
-					</table>
-				</div>
-			</div> 
-			<img src ="./static/img/loading.gif" class = "loading-gif" >
-		<br>				
-		</fieldset>
-		
-		<!-- Error Container -->
-		<div class = "warning-container">
-		 </div>
-		<div class ="error-container" style= "width: 600px" >
-		</div>
-		<!-- Results -->
-		<div id="canlii-result-container" class= "leftHalf">							
-			<h3> Result</h3>
-			<div id="canlii-result-editField" contenteditable="true">
-				<style scoped>
-				  #canlii-result-editField { margin-bottom: 10px; margin-left: 2px; }
-				  [contenteditable="true"] { padding: 5px; outline: 1px dashed #CCC; }
-				  [contenteditable="true"]:hover { outline: 1px dashed #0090D2; }
-				</style>
-				<font id="results"> </font>
-			</div>	           
-			<div  class="header2" style = "margin-bottom:40px; margin-top:40px;">Add Some Additional Options</div>								
-		</div>
-	</form>
-	 
-	 
-	 
-	 
-	 
-	 
-	 
 	 
  <!-- MANUAL FORM -->
-	<div id = "manual-header" class="header2">Or Enter Your Information Manually</div>
+	<div id = "manual-header" class="header2"> Enter Your Information Manually</div>
 	<br>
 	<br>
 	<!-- CanadianCase-Div--> 
-	<div class="leftHalf" id="CanadaCase-Form"> 
+	<div class="leftHalf" id="UKCase-Container"> 
 		<!-- CanadianCase-Form--> 
-		<form class="form-horizontal" id ="canadacase-form"> 
+		<form class="form-horizontal" id ="UKCase-Form"> 
 		<fieldset>
 		
 		<!-- Style Of Cause -->
-		<div class="control-group"  id ="CanadaCaseStyle-controlgroup">
-			<label class="control-label" for="CanadaCaseStyle"><b>Style Of Cause<font color ="red"> *</font> </b></label>
+		<div class="control-group"  id ="UKCaseStyle-controlgroup">
+			<label class="control-label" for="UKCaseStyle"><b>Style Of Cause<font color ="red"> *</font> </b></label>
 			<div class="controls">
-				<input type="text" class="input-xxlarge" id="CanadaCaseStyle" 
+				<input type="text" class="input-xxlarge" id="UKCaseStyle" 
 							placeholder="" name="styleofcause">
 			</div>
 		</div>  
 		
-		<!--Paralle Citations -->
-		<div class="control-group" id ="CanadaCaseParallel-controlgroup">
-			<label class="control-label" for="CanadaCaseParallel"><b>Parallel Citations<font color ="red"> *</font> </b></label>
+		<!--Parallel Citations -->
+		<div class="control-group" id ="UKCaseParallel-controlgroup">
+			<label class="control-label" for="UKCaseParallel"><b>Parallel Citations<font color ="red"> *</font> </b></label>
 			<div class="controls">
-				<input type="text" class="input-xxlarge" id="CanadaCaseParallel"
+				<input type="text" class="input-xxlarge" id="UKCaseParallel"
 							placeholder="(Separated by commas or semicolons)" name = "parallel">
 			</div>
 		</div>
-			<!--Paralle Citations: Reporter list -->
-			<div class="controls form-inline" id ="CanadaCaseParallel-reporter">
+			<!--Parallel Citations: Reporter list -->
+			<div class="controls form-inline" id ="UKCaseParallel-reporter">
 				<span class="help-block">
 							<!-- REPORTER LIST -->
 								<button class ="browsebutton" type ="button" style ="color: #0088cc; margin-bottom: 5px;"> &#187  <i> Search Reporters</i> </span> </button>
@@ -95,35 +48,37 @@
 				</div>												
 
 		<!--Date -->
-		<div class="control-group"  id ="CanadaCaseDate-controlgroup">
-			<label class="control-label" for="CanadaCaseDate"> <b>Year of Decision<font color ="red"> *</font></b> </label>
+		<div class="control-group"  id ="UKCaseDate-controlgroup">
+			<label class="control-label" for="UKCaseDate"> <b>Year of Decision<font color ="red"> *</font></b> </label>
 			<div class="controls">
-				<input type="text" class="input-xxlarge" id="CanadaCaseDate"
+				<input type="text" class="input-xxlarge" id="UKCaseDate"
 							placeholder="" name = "year">
 			</div>
 		</div>
 		
 		<!--Court -->
-		<div class="control-group"  id ="CanadaCaseCourt-controlgroup">
-			<label class="control-label" for="CanadaCaseCourt"> <b>Court<font color ="red"> *</font></b></label>
+		<div class="control-group"  id ="UKCaseCourt-controlgroup">
+		<label class="control-label" for="UKCaseCourt">court</label>
 			<div class="controls">
-				<input type="text" class="input-xxlarge" id="CanadaCaseCourt"
-							placeholder="" name = "court">
+				<select name = "court_selection" id="court-selection" >
+					<option value ="pinPoint_para" >poop1</option>
+					<option value ="pinPoint_page" >poop2</option>
+				</select>	
 			</div>
 		</div>
 		
 		<!--ShortForm-->
 		<div class="control-group">
-			<label class="control-label" for="CanadaCaseShortForm">Short Form</label>
+			<label class="control-label" for="UKCaseShortForm">Short Form</label>
 			<div class="controls">
-				<input type="text" class="input-xxlarge" id="CanadaCaseShortForm"
+				<input type="text" class="input-xxlarge" id="UKCaseShortForm"
 							placeholder="" name = "shortform">
 			</div>
 		</div>	
 
 		<!--Pincite-->
 		<div class="control-group" >			
-			<label class="control-label" for="CanadaCasePinpoint">Pinpoint/Cite To</label>
+			<label class="control-label" for="UKCasePinpoint">Pinpoint/Cite To</label>
 				<div class="controls" >
 					<div id= "pinciteWrapper" style = "width:220px; height: 30px; position: absolute" data-toggle ="tooltip"> </div>
 
@@ -155,22 +110,22 @@
 		<div id = "hidden-forms">
 
 			<!-- Accordian -->
-			<div class="accordion" id="CanadaCase-Accordion">
+			<div class="accordion" id="UKCase-Accordion">
 			  <div class="accordion-group" style="border:none">
 				<div class="accordion-heading">
-					<a class="accordion-toggle" id='CanadaCase-Accordion-Toggle'  data-toggle="collapse" data-parent="#extra-options-accordian-extra" href="#CanadaCaseExtraOptions" style="color: #000000">
+					<a class="accordion-toggle" id='UKCase-Accordion-Toggle'  data-toggle="collapse" data-parent="#extra-options-accordian-extra" href="#UKCaseExtraOptions" style="color: #000000">
 						<i class="icon-play"></i> Options 
 					</a>
 				</div>
-				<div id="CanadaCaseExtraOptions" class="accordion-body collapse">
+				<div id="UKCaseExtraOptions" class="accordion-body collapse">
 				<!-- INNER -->
 				<div class="accordion-inner">
 
 					<!--Judge-->
 					<div class="control-group">
-						<label class="control-label" for="CanadaCaseJudge">Judge</label>
+						<label class="control-label" for="UKCaseJudge">Judge</label>
 						<div class="controls">
-							<input type="text" class="input-xxlarge" id="CanadaCaseJudge"
+							<input type="text" class="input-xxlarge" id="UKCaseJudge"
 										placeholder="" name = "judge">
 								<label class="checkbox">
 									<input type="checkbox" value="checked" name="judge_dissenting">
@@ -181,33 +136,35 @@
 					
 					<!--Citing -->											
 					<div class="control-group">
-						<label class="control-label" for="CanadaCaseCiting">Citing</label>
+						<label class="control-label" for="UKCaseCiting">Citing</label>
 						<div class="controls">
 							<div class = "well">
 									<!-- styleofcause -->
 								<div class="input-prepend" style="padding-bottom:2px">
 								<span class="add-on" >Style Of Cause</span>
-									<input type="text" class="input-xlarge" id="CanadaCaseCiting-Style"
+									<input type="text" class="input-xlarge" id="UKCaseCiting-Style"
 												placeholder="" name = "citing_styleofcause">
 								</div>
 								
 									<!-- parallel -->
 								<div class="input-prepend" style="padding-bottom:2px">
 								<span class="add-on">Parallel Citations</span>
-									<input type="text" class="input-xlarge" id="CanadaCaseCiting-Parallel"
+									<input type="text" class="input-xlarge" id="UKCaseCiting-Parallel"
 												placeholder="" name = "citing_parallel">
 								</div>
 									<!-- year-->
 								<div class="input-prepend" style="padding-bottom:2px">
 								<span class="add-on">Year of Decision</span>
-									<input type="text" class="input-xlarge" id="CanadaCaseCiting-Year"
+									<input type="text" class="input-xlarge" id="UKCaseCiting-Year"
 												placeholder="" name = "citing_year">
 								</div>
 									<!-- court -->
 								<div class="input-prepend" style="padding-bottom:2px">
 								<span class="add-on">Court</span>
-									<input type="text" class="input-xlarge" id="CanadaCaseCiting-Court"
-												placeholder="" name = "citing_court">
+									<select id="citing-court-selection" name = "citing_court_selection" >
+										<option value ="pinPoint_para" >poop1</option>
+										<option value ="pinPoint_page" >poop2</option>
+									</select>									
 								</div>
 							</div> <!-- well-->
 						</div><!-- controls-->
@@ -216,7 +173,7 @@
 					
 					<!--History-->										
 					<div class="control-group" >
-						<label class="control-label" for="CanadaCaseHistory">History</label>
+						<label class="control-label" for="UKCaseHistory">History</label>
 						
 						
 						<!--History 1 -->	
@@ -232,22 +189,26 @@
 								<!-- Affirming -->
 								<div class="input-prepend" style="padding-bottom:2px">
 								<span class="add-on" >Parallel Citations</span>
-									<input type="text" class="input-xlarge" id="CanadaCaseHistory-Parallel1"
+									<input type="text" class="input-xlarge" id="UKCaseHistory-Parallel1"
 												placeholder="" name = "history_parallel1">
 								</div>
 								
 								<!-- Reversing -->
 								<div class="input-prepend" style="padding-bottom:2px">
 								<span class="add-on" >Year of Decision</span>
-									<input type="text" class="input-xlarge" id="CanadaCaseHistory-Year1"
+									<input type="text" class="input-xlarge" id="UKCaseHistory-Year1"
 												placeholder="" name = "history_year1">
 								</div>
 								
 								<!-- Reversed By-->
 								<div class="input-prepend" style="padding-bottom:2px">
 								<span class="add-on">Court</span>
-									<input type="text" class="input-xlarge" id="CanadaCaseHistory-Court1"
-												placeholder="" name = "history_court1">
+								
+									<select  id="history-court-selection1" name = "history_court_selection1">
+										<option value ="court1" >poop1</option>
+										<option value ="court2" >poop2</option>
+									</select>									
+									
 								</div>
 								</div> <!-- well -->
 							</div>												
@@ -264,22 +225,26 @@
 									<!-- Affirming -->
 									<div class="input-prepend" style="padding-bottom:2px">
 									<span class="add-on" >Parallel Citations</span>
-										<input type="text" class="input-xlarge" id="CanadaCaseHistory-Parallel2"
+										<input type="text" class="input-xlarge" id="UKCaseHistory-Parallel2"
 													placeholder="" name = "history_parallel2">
 									</div>
 									
 									<!-- Reversing -->
 									<div class="input-prepend" style="padding-bottom:2px">
 									<span class="add-on" >Year of Decision</span>
-										<input type="text" class="input-xlarge" id="CanadaCaseHistory-Year2"
+										<input type="text" class="input-xlarge" id="UKCaseHistory-Year2"
 													placeholder="" name = "history_year2">
 									</div>
 									
 									<!-- Reversed By-->
 									<div class="input-prepend" style="padding-bottom:2px">
 									<span class="add-on">Court</span>
-										<input type="text" class="input-xlarge" id="CanadaCaseHistory-Court2"
-													placeholder="" name = "history_court2">
+									
+									<select  id="history-court-selection1" name = "history_court_selection1">
+										<option value ="court1" >poop1</option>
+										<option value ="court2" >poop2</option>
+									</select>									
+									
 									</div>
 								</div><!-- well -->
 							</div> 
@@ -296,22 +261,26 @@
 									<!-- Affirming -->
 									<div class="input-prepend" style="padding-bottom:2px">
 									<span class="add-on" >Parallel Citations</span>
-										<input type="text" class="input-xlarge" id="CanadaCaseHistory-Parallel3"
+										<input type="text" class="input-xlarge" id="UKCaseHistory-Parallel3"
 													placeholder="" name = "history_parallel3">
 									</div>
 									
 									<!-- Reversing -->
 									<div class="input-prepend" style="padding-bottom:2px">
 									<span class="add-on" >Year of Decision</span>
-										<input type="text" class="input-xlarge" id="CanadaCaseHistory-Year3"
+										<input type="text" class="input-xlarge" id="UKCaseHistory-Year3"
 													placeholder="" name = "history_year3">
 									</div>
 									
 									<!-- Reversed By-->
 									<div class="input-prepend" style="padding-bottom:2px">
 									<span class="add-on">Court</span>
-										<input type="text" class="input-xlarge" id="CanadaCaseHistory-Court3"
-													placeholder="" name = "history_court3">
+									
+									<select  id="history-court-selection1" name = "history_court_selection1">
+										<option value ="court1" >poop1</option>
+										<option value ="court2" >poop2</option>
+									</select>	
+									
 									</div>
 
 								</div><!-- well -->
@@ -323,7 +292,7 @@
 
 					<!--Leave To Appeal -->
 					<div class="control-group">
-						<label class="control-label" for="CanadaCaseLeaveToAppeal">Leave To Appeal</label>
+						<label class="control-label" for="UKCaseLeaveToAppeal">Leave To Appeal</label>
 						<div class="controls">
 							<div class = "well">
 							<select name = "leaveToAppeal_selection" id= "leaveToAppeal-selection">
@@ -333,7 +302,7 @@
 									<option value ="asOfRight">As of Right</option>
 								</select>	
 							<!-- docket no.-->
-							<div class="input-prepend" style="padding-bottom:2px" id="CanadaCaseLeaveToAppeal-Docket">
+							<div class="input-prepend" style="padding-bottom:2px" id="UKCaseLeaveToAppeal-Docket">
 							<span class="add-on">Citation/Docket no.</span>
 								<input type="text" class="input-xlarge" 
 											placeholder="" name = "leaveToAppeal_docket">
@@ -342,8 +311,11 @@
 							<!-- court appealed to-->
 							<div class="input-prepend" style="padding-bottom:2px">
 							<span class="add-on" >Court Appealed To</span>
-								<input type="text" class="input-xlarge" id="CanadaCaseLeaveToAppeal-Court"
-											placeholder="" name = "leaveToAppeal_court">
+							
+							<select  id="leave-court-selection1" name = "leave_court_selection1">
+										<option value ="court1" >poop1</option>
+										<option value ="court2" >poop2</option>
+							</select>	
 							</div>
 							</div> <!--well-->
 						</div>
@@ -360,8 +332,8 @@
 		
 		
 			<!-- Submit Button -->
-		<button  class="btn btn-danger" id ="CanadaCase-go"> Generate!</button>
-		<button type="reset" class="btn"  id="CanadaCaseReset" style ="margin-left:540px">reset</button>
+		<button  class="btn btn-danger" id ="UKCase-go"> Generate!</button>
+		<button type="reset" class="btn"  id="UKCaseReset" style ="margin-left:540px">reset</button>
 		
 		
 		
@@ -374,7 +346,7 @@
 			<div class ="error-container">
 			</div>
 			
-			<div class ="result-container">
+			<div id ="result-container">
 			<h3> Result</h3>
 			<div id="result-editField" contenteditable="true">
 			<style scoped>
@@ -382,7 +354,7 @@
 			  [contenteditable="true"] { padding: 10px; outline: 1px dashed #CCC; }
 			  [contenteditable="true"]:hover { outline: 1px dashed #0090D2; }
 			</style>
-			<font id="canadacase-results"> </font>
+			<font id="UKcase-results"> </font>
 			</div>	            
 		</div>
 			<img src ="./static/img/loading.gif" class = "loading-gif" >	

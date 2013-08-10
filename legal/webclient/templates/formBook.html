@@ -1,0 +1,260 @@
+<section>
+	 
+	 <!-- MANUAL FORM -->
+	<div id = "manual-header" class="header2">Enter Your Information Manually</div>
+	<br>
+	<br>
+
+	<!-- The forms --> 
+	<div class="leftHalf" id="Book-Container"> 
+		
+		<form class="form-horizontal" id ="Book-Form"> 
+		<fieldset>
+		
+		<!-- Authors -->
+		 <div class="control-group"  id ="BookAuthors-controlgroup">
+			<label class="control-label" for="BookAuthors"> <b>Author(s)<font color ="red"> *</font></b> </label>
+			<div class="controls">
+				<textarea id ="BookAuthors"  name ="authors" style ="width: 500px;"rows ="3" placeholder="Type each author on a new line."></textarea>
+				<label class="checkbox">
+					<input type="checkbox" value="checked" name="verbatim">
+						Use Verbatim
+				</label>
+				<label class="checkbox">
+					<input type="checkbox" value="checked" name="editors" >
+						Editors
+				</label>
+			</div>
+		</div>
+		
+		<!--Title-->
+		<div class="control-group"  id ="BookTitle-controlgroup">
+			<label class="control-label" for="BookTitle"> <b>Title<font color ="red"> *</font></b> </label>
+			<div class="controls">
+				<input type="text" class="input-xxlarge" id="BookTitle"
+							placeholder="" name = "title">
+			</div>
+		</div>
+		
+		<!--Publication Place -->
+		<div class="control-group"  id ="BookPublication-controlgroup">
+			<label class="control-label" for="BookPublication"> <b>Publication Place<font color ="red"> *</font></b> </label>
+			<div class="controls">
+				<input type="text" class="input-xxlarge" id="BookPublication"
+							placeholder="" name = "publication">
+				<label class="checkbox">
+					<input type="checkbox" value="checked" name="no_place">
+						No Place
+				</label>							
+			</div>
+		</div>		
+		
+		<!--Publisher -->
+		<div class="control-group"  id ="BookPublisher-controlgroup">
+			<label class="control-label" for="BookYear"> <b>Publisher<font color ="red"> *</font></b> </label>
+			<div class="controls">
+				<input type="text" class="input-xxlarge" id="BookPublisher"
+							placeholder="" name = "year">
+								<label class="checkbox">
+				<input type="checkbox" value="checked" name="no">
+					No Place
+				</label>							
+			</div>
+		</div>		
+		
+		<!--Volume-->
+		<div class="control-group" id ="BookVolume-controlgroup">
+			<label class="control-label" for="BookVolume">Volume</label>
+			<div class="controls">
+				<input type="text" class="input-xxlarge" id="BookVolume"
+							placeholder="" name = "volume">
+			</div>
+		</div>	
+		
+		<!--Edition-->
+		<div class="control-group" id ="BookEdition-controlgroup">
+			<label class="control-label" for="BookEdition">Edition</label>
+			<div class="controls">
+				<input type="text" class="input-xxlarge" id="BookEdition"
+							placeholder="" name = "edition">
+			</div>			
+		</div>
+		
+		<!--Date-->
+		<div class="control-group" id ="BookDate-controlgroup">
+			<label class="control-label" for="BookDate">Date Consulted (if looseleaf)</label>
+			<div class="controls">
+				<input type="text" class="input-xxlarge" id="BookDate"
+							placeholder="" name = "Date">
+			</div>
+		</div>	
+		
+		<!--Extra-->
+		<div class="control-group" id ="BookExtra-controlgroup">
+			<label class="control-label" for="BookExtra">Extra Information</label>
+			<div class="controls">
+				<input type="text" class="input-xxlarge" id="BookExtra"
+							placeholder="" name = "extra">
+			</div>
+		</div>	
+
+
+		
+
+		
+		
+					
+					
+	
+		<!--Pinpoint-->
+		<div class="control-group" >			
+			<label class="control-label" for="BookPinpoint">Pinpoint</label>
+				<div class="controls" >
+						<select class = "input-medium" name = "pinpoint_selection" id="pinpoint-selection" style ="float:left">
+							<option value ="None"  >None	</option>
+							<option value ="pinpoint_para" >To paragraph(s)</option>
+							<option value ="pinpoint_page" >To page(s)</option>											
+							<option value ="pinpoint_foot" >To footnote(s)</option>											
+						</select>	
+
+					<div id ="pinpoint-forms" class = "inline">
+						<input class="span2 " id="pinpoint-form1" placeholder = "para(s)" name = "pinpoint_form1" type="text">
+
+						<input class="span2 " id="pinpoint-form2" placeholder = "page(s)" name = "pinpoint_form2" type="text">
+						<input class="span2 " id="pinpoint-form3" placeholder = "footnote(s)" name = "pinpoint_form3" type="text">
+						<input class="span2 " id="pinpoint-form4" placeholder = "page(s) (optional)" name = "pinpoint_form4" type="text">											
+					</div>	
+						<label class="checkbox"><input type="checkbox" value="checked" name="pinpoint_para_check">
+						To general range
+						</label>
+						<label class="checkbox"><input type="checkbox" value="checked" name="pinpoint_page_check">
+						To general range
+						</label>
+				</div>
+		</div>							
+		
+		
+			
+		<!-- Error Containers -->
+		<br>
+			<div class = "warning-container">
+			</div>
+		
+			<div class ="error-container">
+			</div>
+			
+			<div class ="result-container">
+			<h3> Result</h3>
+			<div id="result-editField" contenteditable="true">
+			<style scoped>
+			  #result-editField { margin-bottom: 10px; margin-left: 2px; }
+			  [contenteditable="true"] { padding: 10px; outline: 1px dashed #CCC; }
+			  [contenteditable="true"]:hover { outline: 1px dashed #0090D2; }
+			</style>
+			<font id="Book-results"> </font>
+			</div>	            
+		</div>
+			
+			
+			
+			
+			
+			
+			
+		
+		<!-- Submit Button -->
+		<button  class="btn btn-danger" id ="BookSubmitButton"> Generate!</button>
+		<button type="reset" class="btn"  id="BookReset" >reset</button>
+		<button   type = "button" id="thetestbutton" >test</button>
+
+
+		</fieldset>
+		</form>
+	</div> <!-- leftHalf-->
+	
+	<div class "rightHalf" id = "tooltips">
+	</div> <!-- rightHalf / tooltips -->
+
+	
+	
+	
+	
+	<!-- Dictionary -->
+
+	<!-- The forms --> 
+	<div class="leftHalf" id="Dictionary-Container"> 
+		
+		<form class="form-horizontal" id ="Dictionary-Form"> 
+		<fieldset>
+		
+	<div id = "manual-header" class="header2">Dictionary</div>
+	
+		<!--Title-->
+		<div class="control-group"  id ="DictionaryTitle-controlgroup">
+			<label class="control-label" for="DictionaryTitle"> <b>Title<font color ="red"> *</font></b> </label>
+			<div class="controls">
+				<input type="text" class="input-xxlarge" id="DictionaryTitle"
+							placeholder="" name = "title">
+			</div>
+		</div>			
+					
+		<!--Edition-->
+		<div class="control-group"  id ="DictionaryEdition-controlgroup">
+			<label class="control-label" for="DictionaryEdition"> <b>Edition<font color ="red"> *</font></b> </label>
+			<div class="controls">
+				<input type="text" class="input-xxlarge" id="DictionaryEdition"
+							placeholder="" name = "Edition">
+			</div>
+		</div>			
+		<!--Word-->
+		<div class="control-group"  id ="DictionaryWord-controlgroup">
+			<label class="control-label" for="DictionaryWord"> <b>Word<font color ="red"> *</font></b> </label>
+			<div class="controls">
+				<input type="text" class="input-xxlarge" id="DictionaryWord"
+							placeholder="" name = "Word">
+			</div>
+		</div>	
+			
+		<!-- Error Containers -->
+		<br>
+			<div class = "warning-container">
+			</div>
+		
+			<div class ="error-container">
+			</div>
+			
+			<div id ="result-container">
+			<h3> Result</h3>
+			<div id="result-editField" contenteditable="true">
+			<style scoped>
+			  #result-editField { margin-bottom: 10px; margin-left: 2px; }
+			  [contenteditable="true"] { padding: 10px; outline: 1px dashed #CCC; }
+			  [contenteditable="true"]:hover { outline: 1px dashed #0090D2; }
+			</style>
+			<font id="Dictionary-results"> </font>
+			</div>	            
+		</div>
+			
+			
+			
+			
+			
+			
+			
+		
+		<!-- Submit Button -->
+		<button  class="btn btn-danger" id ="DictionarySubmitButton"> Generate!</button>
+		<button type="reset" class="btn"  id="DictionaryReset" >reset</button>
+		<button   type = "button" id="thetestbutton" >test</button>
+
+
+		</fieldset>
+		</form>
+	</div> <!-- leftHalf-->
+	
+	<div class "rightHalf" id = "tooltips">
+	</div> <!-- rightHalf / tooltips -->	
+	
+	
+</section>
+				

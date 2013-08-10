@@ -38,7 +38,7 @@ jQuery('#JournalArticle-Form #pinpoint-selection').change(function(){
 	}
 });
 
-	jQuery('#JournalArticle-Container #result-container').hide();
+	jQuery('#JournalArticle-Container .result-container').hide();
 	jQuery('#JournalArticleSubmitButton').click(function() {
            generateErrorMessage("#JournalArticle-Form","oh noes");
 		if (JournalArticleValidator.form() == true){
@@ -56,7 +56,7 @@ jQuery('#JournalArticle-Form #pinpoint-selection').change(function(){
 					 if( data[0].valid ==true) {
 						
 						var results = data[0].message; 
-						jQuery('#JournalArticle-Container #result-container').hide().fadeIn(200);
+						jQuery('#JournalArticle-Container .result-container').hide().fadeIn(200);
 						jQuery('#journalarticle-results').html(results).hide().fadeIn(400);
 						
 					 }
@@ -110,7 +110,7 @@ Set Up
 	//hiding all forms 
 	//jQuery("#hidden-forms").hide();
 	//jQuery(".textarea").wysihtml5();
-	jQuery("#result-container").hide();
+	jQuery(".result-container").hide();
 	jQuery("#canlii-result-container").hide();
 	jQuery("#pincite-form").hide();
 	jQuery("#reporter-container").hide();
@@ -196,7 +196,8 @@ function SubmitCanLII(){
 		//Submitting the information to the server to be processed
 	jQuery('#CanadaCase-go').click(function() {
 		if (CanadianCaseValidator.form() == true){
-			jQuery("#CanadaCase-Form .loading-gif").show();          
+			jQuery("#CanadaCase-Form .loading-gif").show();        
+			
 			jQuery.ajax({ 
                 type: "POST", 
                 data: jQuery('#canadacase-form').serialize(),
@@ -211,12 +212,10 @@ function SubmitCanLII(){
 					 if( data[0].valid ==true) {
 						
 						var results = data[0].message; 
-						jQuery('#result-container').hide().fadeIn(200);
+						jQuery('#CanadaCase-Form .result-container').hide().fadeIn(200);
 						jQuery('#canadacase-results').html(results).hide().fadeIn(400);
-						
 					 }
 					 else{
-
 						var errorlist=data[0].errors;
 						console.log("errorlist" + errorlist);
 					 	for (var i =0; i<errorlist.length; i++){
@@ -225,18 +224,19 @@ function SubmitCanLII(){
 							var message = errorlist[i][2];
 							generateErrorMessage("#canadacase-form",message);
 						}	
-						
 					 }
-					 
-
                 },
 
-			}).fail(function(){generateErrorMessage("#canadacase-form","something went wrong on our end :(")})
-			.always(jQuery("#CanadaCase-Form .loading-gif").hide());
+			}).fail(function(){
+				
+				generateErrorMessage("#canadacase-form","something went wrong on our end :(")
+				})		
+			.always( function(){
+				jQuery("#CanadaCase-Form .loading-gif").hide();
+			});
 			return false; 
 		}
 		else{
-		console.log("here3");
 		}
 	});
 	
@@ -449,7 +449,7 @@ jQuery('#CanadaCase-Form select').change(function(){
 });
 //jQuery('#tooltips').html(tooltip_styleOfCause);
 
- 
+ /*
 
 jQuery('#CanadaCaseDate').focus(function(){
 	jQuery('#tooltips').html(tooltip_year);
@@ -483,7 +483,7 @@ jQuery('#CanadaCaseLeaveToAppeal').focus(function(){
 jQuery('#CanadaCaseSubnom').focus(function(){
 	jQuery('#tooltips').html(tooltip_subNom);
 });
-
+*/
 jQuery('#CanadaCase-Accordion-Toggle').click(function(){
 
 	if (jQuery( "#CanadaCaseExtraOptions" ).hasClass('collapse') !==true){

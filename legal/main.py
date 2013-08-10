@@ -20,7 +20,7 @@ urls = (
     '/formInput', 'Index',	#
 	'/about', 'About',
 	'/form', app_formHandler,
-	'/login', app_signup,
+	'/login', 'Login',
 	'/register', 'Register',
 	'/', 'Index'
 
@@ -86,8 +86,7 @@ class Register(object):
 			result = insert_new_user(email, password)
 			if (result == False):
 				return "username already there!"
-				
-	
+
 			#users[username] = PasswordHash(password)
 			raise web.seeother('/')
 		else:
@@ -98,7 +97,30 @@ class Register(object):
 			print my_signup['password_again'].value
 			return render.signup(my_signup)
 			
+class Login(object):
+	def GET(self):
+		my_signup = signup_form()
+		return render.login(my_signup)
+		
+	def POST(self):
+		my_signup = signup_form()
+		if my_signup.validates(): 
+			myvar = dict(username = my_signup['username'].value)
+			email = my_signup['username'].value
+			password = my_signup['password_again'].value
+			result = insert_new_user(email, password)
+			if (result == False):
+				return "username already there!"
 
+			#users[username] = PasswordHash(password)
+			raise web.seeother('/')
+		else:
+			print "didn't validate baby"
+			print "note", my_signup['username'].note
+			print my_signup['username'].value
+			print my_signup['password'].value
+			print my_signup['password_again'].value
+			return render.signup(my_signup)
 
 			
 def main():
