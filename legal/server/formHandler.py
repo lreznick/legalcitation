@@ -165,7 +165,7 @@ def CanadianCase(form):
 	pinciteSelection  = "%s" % (f.form.pincite_selection)
 	pinciteRadio		= "%s" % (f.form.pincite_radio)
 	pinciteInput		= "%s" % (f.form.pincite_input)	
-	pincite 				= [pinciteSelection, pinciteRadio, "page", pinciteInput]	
+	pincite 				= [pinciteSelection, pinciteRadio, pinciteInput]	
 	
 	
 	historyaff1  		= "%s" % (f.form.history_aff1)
