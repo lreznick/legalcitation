@@ -213,7 +213,19 @@ def CanadianCase(form):
 			citing = GetCiting(citingStyle, citingParallel, citingYear, citingCourt)
 		
 		#======== History
-		if (histories[0][1] and histories [0][2] and histories [0][3]) or (histories[1][1] and histories [1][2] and histories [1][3]) or (histories[2][1] and histories [2][2] and histories [2][3]):
+		if (histories[0][1] and histories [0][2] and histories [0][3]):
+			pass
+		else:
+			histories[0][0] = "none"
+		if (histories[1][1] and histories [1][2] and histories [1][3]):
+			pass
+		else:
+			histories[1][0] = "none"
+		if (histories[2][1] and histories [2][2] and histories [2][3]):
+			pass
+		else:
+			histories[2][0] = "none"
+		if (histories[0][0]) or (histories[1][0]) or (histories[2][0]):
 			history = GetHistory(histories)
 		
 		#======== Shortform
@@ -225,7 +237,7 @@ def CanadianCase(form):
 			judge = GetJudge(judge,dissenting)	
 		
 		#======== Leave To Appeal
-		if leaveSelection:
+		if leaveSelection and leaveCourt and leaveDocket:
 			leaveToAppeal = GetLeaveToAppeal(leaveArray)
 		
 		returnString = styleofcause + citations +judge + citing + leaveToAppeal + history + shortform+'.'
