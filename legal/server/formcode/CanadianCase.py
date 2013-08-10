@@ -629,15 +629,15 @@ def ChooseBestReporters(Citation_Input, pincite): # choose the best reporter out
 			Priority +=1
 	#now sort List based on the priorities for each citation (sorted list is called Sorted)
 	#pincite = False or ["pinPoint_para"/"pinPoint_page"/"citeTo", "option1"/"option2", para or page number input]
-	citestring = False
+	citestring = ""
 	citereporter = "No Reporter"
 	if pincite:
 		if pincite[0] == "pinPoint_para":
 			citestring = " at para " + pincite[2]
-		elif pincite[2] == "pinPoint_page":
+		elif pincite[0] == "pinPoint_page":
 			citestring = " at " + pincite[2]
 	if len(List)==1: #if there is only one reporter given, return it
-		if pincite:
+		if citestr:
 			return List[0][0] + citestr
 		else:
 			return List[0][0]
@@ -652,7 +652,8 @@ def ChooseBestReporters(Citation_Input, pincite): # choose the best reporter out
 	if pincite:
 		if pincite[1]=="option2":
 			Second[0] = Second[0] + citestring
-		else: First[0] = First[0] + citestring
+		elif pincite[1]=="option1": 
+			First[0] = First[0] + citestring
 	if Second[2]: #if the second reporter is electronic
 		return First[0] + Second[0]
 	else:
@@ -1333,13 +1334,31 @@ def GetLeaveToAppeal(array):
 
 def GetCiteTo(pincite):
 	#pincite = [pinpoint/cite, reporter, type (para or page), input]
-	if pincite[0] == "cite":
+	if pincite[0] == "citeTo":
 		return ' [cited to ', pincite[1], ']'
+	else:
+		return ""
 
 '''****************     SHORT FORM     ****************'''
 
-def GetShortForm(string):
-	return " [<i>"+string+"</i>]"
+def GetShortForm(string, pincite, Citation_Input):
+	string = Capitalize(string)
+	if pincite[0]=="citeTo":
+		# [Best reporter, Second Best Reporter] if there are 2
+		# [Only Reporter, False] if there is only 1
+		Reporters = AutoPCPinpoint(Citation_Input)
+		if pincite[1]=="option1":
+			if string:
+				return " [<i>"+string+"</i> cited to "+ str(Reporters[0][0])+"]"
+			else:
+				return " [cited to "+ str(Reporters[0][0])+"]"
+		if pincite[1]=="option2":
+			if string:
+				return " [<i>"+string+"</i> cited to "+ str(Reporters[0][1])+"]"
+			else:
+				return " [cited to "+ str(Reporters[0][1])+"]"
+	else: 
+		return " [<i>"+string+"</i>]"
 
 '''****************     JUDGE    ****************'''
 
