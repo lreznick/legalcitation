@@ -608,7 +608,6 @@ def ChooseBestReporters(Citation_Input, pincite): # choose the best reporter out
 			if re.search(regstr(i), x[0], re.I):
 				x[0] = CleanUp(re.sub(regstr(i), " "+i+" ", x[0], flags = re.I))
 				x[1] = Priority
-				#print x[0], "was given priority", x[1], "********************************"
 				Priority +=1
 	for i in Electronic:
 		for x in List:
@@ -622,28 +621,23 @@ def ChooseBestReporters(Citation_Input, pincite): # choose the best reporter out
 				else: # if there is some reporter other than an electronic reporter, we only need the name of the electronic service and not the citation docket
 					x[0] = " (available on "+i[0]+")"
 				x[1] = Priority
-				#print x[0], "was given priority", x[1], "********************************"
 				Priority +=1
 				x[2] = True
 	for x in List: # in case there is no match for a particular reporter, just place it last in priority
 		if not x[1]:
 			x[1] = Priority
-			#print x[0], "was not recognized but is given priority", x[1], "********************************"
 			Priority +=1
 	#now sort List based on the priorities for each citation (sorted list is called Sorted)
-	#print "After assigning priorities, List: ", List
-	#pincite = [pinpoint/cite, reporter, type (para or page), input]
+	#pincite = False or ["pinPoint_para"/"pinPoint_page"/"citeTo", "option1"/"option2", para or page number input]
 	citestring = False
 	citereporter = "No Reporter"
 	if pincite:
-		citereporter = pincite[1]
-		if pincite[0] == "pinpoint":
-			if pincite[2] == "para":
-				citestring = " at para " + pincite[3]
-			elif pincite[2] == "page":
-				citestring = " at " + pincite[3]
+		if pincite[0] == "pinPoint_para":
+			citestring = " at para " + pincite[2]
+		elif pincite[2] == "pinPoint_page":
+			citestring = " at " + pincite[2]
 	if len(List)==1: #if there is only one reporter given, return it
-		if re.search(citereporter, List[0][0]):
+		if pincite:
 			return List[0][0] + citestr
 		else:
 			return List[0][0]
@@ -652,16 +646,13 @@ def ChooseBestReporters(Citation_Input, pincite): # choose the best reporter out
 			if x[2]:
 				x[1] = Priority
 				Priority +=1
-	#print "After modifying priorities of electronics, List: ", List
 	Sorted = sorted(List, key=lambda tup: tup[1])
-	#print "Sorted is: ", Sorted
 	First = Sorted[0]
 	Second = Sorted[1]
 	if pincite:
-		if re.search(citereporter, First[0]):
-			First[0] = First[0] + citestring
-		if re.search(citereporter, Second[0]):
+		if pincite[1]=="option2":
 			Second[0] = Second[0] + citestring
+		else: First[0] = First[0] + citestring
 	if Second[2]: #if the second reporter is electronic
 		return First[0] + Second[0]
 	else:
@@ -1251,8 +1242,8 @@ def BestReporter(Citation_Input): # choose the best reporter out of all of the o
 #this is the function that will ultimately call all of the other functions for the parallel citations
 #the input is what is written in the form for parallel citations
 def GetHistoryCitations(Citation_Input, Date_Input, Court_Input):
-	print "\n****** Starting GetHistoryCitations"
-	print "input is:\n", "citation string: ", Citation_Input, "\n", "court: ", Court_Input, "\n", "date: ", Date_Input, "\n"
+	#print "\n****** Starting GetHistoryCitations"
+	#print "input is:\n", "citation string: ", Citation_Input, "\n", "court: ", Court_Input, "\n", "date: ", Date_Input, "\n"
 	OUTPUT = ", [NTD: <i>Detected that your neutral citation did not have a proper date. Please try again.</i>]"
 	if not Citation_Input:
 		return "ERROR: missing citation input"
@@ -1296,7 +1287,7 @@ def GetHistoryCitations(Citation_Input, Date_Input, Court_Input):
 
 
 def GetHistory(listoflists):
-	#[[parallel, year, court, affirming/reversing],]
+	#[affirming/reversing, parallel, year, court]
 	List = []
 	for Instance in listoflists:
 		if re.search("affirming", CleanUp(Instance[0]), re.I):
@@ -1304,9 +1295,9 @@ def GetHistory(listoflists):
 		if re.search("reversing", CleanUp(Instance[0]), re.I):
 			List.append(", rev'g"+ GetHistoryCitations(Instance[1], Instance[2], Instance[3]))
 		if re.search("affirmed", CleanUp(Instance[0]), re.I):
-			List.append(", aff'd"+ GetHistoryCitations(Instance[1], Instance[2], Instance[3]))
+			List.append(", aff'd"+ GetCitations(Instance[1], Instance[3], Instance[2], False))
 		if re.search("reversed", CleanUp(Instance[0]), re.I):
-			List.append(", rev'd"+ GetHistoryCitations(Instance[1], Instance[2], Instance[3]))
+			List.append(", rev'd"+ GetCitations(Instance[1], Instance[3], Instance[2], False))
 	output = ""
 	for x in List:
 		output = output + x
