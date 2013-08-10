@@ -54,9 +54,9 @@
 	<br>
 	<br>
 	<!-- CanadianCase-Div--> 
-	<div class="leftHalf" id="CanadaCase-Form"> 
+	<div class="leftHalf" id="CanadaCase-Container"> 
 		<!-- CanadianCase-Form--> 
-		<form class="form-horizontal" id ="canadacase-form"> 
+		<form class="form-horizontal" id ="CanadaCase-Form"> 
 		<fieldset>
 		
 		<!-- Style Of Cause -->
@@ -363,33 +363,10 @@
 		<button  class="btn btn-danger" id ="CanadaCase-go"> Generate!</button>
 		<button type="reset" class="btn"  id="CanadaCaseReset" style ="margin-left:540px">reset</button>
 		
-		
-		
-		
 		<!-- Error Containers -->
 		<br>
-			<div class = "warning-container">
-			</div>
-		
-			<div class ="error-container">
-			</div>
-			
-			<div class ="result-container">
-			<h3> Result</h3>
-			<div id="result-editField" contenteditable="true">
-			<style scoped>
-			  #result-editField { margin-bottom: 10px; margin-left: 2px; }
-			  [contenteditable="true"] { padding: 10px; outline: 1px dashed #CCC; }
-			  [contenteditable="true"]:hover { outline: 1px dashed #0090D2; }
-			</style>
-			<font id="canadacase-results"> </font>
-			</div>	            
-		</div>
-			<img src ="./static/img/loading.gif" class = "loading-gif" >	
-		
-		
-		
-		
+		$:render.formResults()
+
 				<!-- THE TEST BUTTOOOOOOOOOOOOOOOOOON-->
 		<button   type = "button" id="thetestbutton" >test</button> 
 				<!-- THE TEST BUTTOOOOOOOOOOOOOOOOOON-->

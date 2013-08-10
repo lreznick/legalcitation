@@ -196,24 +196,24 @@ function SubmitCanLII(){
 		//Submitting the information to the server to be processed
 	jQuery('#CanadaCase-go').click(function() {
 		if (CanadianCaseValidator.form() == true){
-			jQuery("#CanadaCase-Form .loading-gif").show();        
+			jQuery("#CanadaCase-Container .loading-gif").show();        
 			
 			jQuery.ajax({ 
                 type: "POST", 
-                data: jQuery('#canadacase-form').serialize(),
+                data: jQuery('#CanadaCase-Form').serialize(),
 				url:'/form/CanadianCase',
 				dataType: 'json',
                 success: function(data) {
-					jQuery("#CanadaCase-Form .loading-gif").hide();            
-					clearErrors("#canadacase-form")
+					jQuery("#CanadaCase-Container .loading-gif").hide();            
+					clearErrors("#CanadaCase-Form")
 					console.log("the return data", data);
 					console.log("the return data", data[0].errors);
 					console.log("the return data", data[0].message);
 					 if( data[0].valid ==true) {
 						
 						var results = data[0].message; 
-						jQuery('#CanadaCase-Form .result-container').hide().fadeIn(200);
-						jQuery('#canadacase-results').html(results).hide().fadeIn(400);
+						jQuery('#CanadaCase-Container .result-container').hide().fadeIn(200);
+						jQuery('#CanadaCase-Container .results').html(results).hide().fadeIn(400);
 					 }
 					 else{
 						var errorlist=data[0].errors;
@@ -222,17 +222,17 @@ function SubmitCanLII(){
 							//error = [inputName, input, message]
 							var input = errorlist[i][1];
 							var message = errorlist[i][2];
-							generateErrorMessage("#canadacase-form",message);
+							generateErrorMessage("#CanadaCase-Form",message);
 						}	
 					 }
                 },
 
 			}).fail(function(){
 				
-				generateErrorMessage("#canadacase-form","something went wrong on our end :(")
+				generateErrorMessage("#CanadaCase-Form","something went wrong on our end :(")
 				})		
 			.always( function(){
-				jQuery("#CanadaCase-Form .loading-gif").hide();
+				jQuery("#CanadaCase-Container .loading-gif").hide();
 			});
 			return false; 
 		}
@@ -412,17 +412,17 @@ var tooltip_leaveToAppeal_selection
 = tooltip_leaveToAppeal_docket = tooltip_leavetoappeal;
 
 var formOffsets = [
-'#CanadaCase-Form',
+'#CanadaCase-Container',
 '#CanadaCaseJudge', //judge
 '#history1', //history
 '#leaveToAppeal-selection']; //leave to appeal
 
-jQuery('#CanadaCase-Form input').focus(function(){
+jQuery('#CanadaCase-Container input').focus(function(){
 		var name = jQuery(this).attr('name') // get Forms name
 		var tool = eval('tooltip_'+name); // convert it to a variable
 		jQuery('#tooltips').html(tool); // display the tooltip
 		
-		var formTop = jQuery("#CanadaCase-Form").offset();
+		var formTop = jQuery("#CanadaCase-Container").offset();
 		var currentForm = jQuery(this).offset();
 		var positionDifference = currentForm.top - formTop.top;
 
@@ -443,7 +443,7 @@ jQuery('#CanadaCase-Form input').focus(function(){
 		}
 });
 
-jQuery('#CanadaCase-Form select').change(function(){
+jQuery('#CanadaCase-Container select').change(function(){
 	console.log(jQuery(this).attr('name'));
 	// Do something in here
 });
@@ -599,14 +599,14 @@ Reset-button
 */
 jQuery('#CanadaCaseReset').click(function(){
 	CanadianCaseValidator.resetForm();
-	//jQuery("#CanadaCaseExtraOptions").collapse();
+	
 	//canlii
 	jQuery("#canlii-result-container").hide();
 	jQuery('#canlii-input').val('');
 	//tooltips
 	jQuery('#tooltips').html("");
 	
-	$("#canadacase-form .error").removeClass('error');
+	$("#CanadaCase-Form .error").removeClass('error');
 	jQuery("#pincite-form").hide();
 	jQuery("#reporter-container").hide();
 	jQuery("#history3").hide();
@@ -624,16 +624,86 @@ jQuery('#CanadaCaseReset').click(function(){
 	jQuery('#CanadaCaseParallel-reporter').show();	
 	jQuery('#CanadaCaseDate-controlgroup').show();	
 	jQuery('#CanadaCaseStyle-controlgroup').show();	
-	//$('#pinciteWrapper').remove();
-	
-	//$("#canadacase-Form .error").html("RAAAAAAAAAAAAAAAWR2")
-//remove();
-//element .text('OK!').addClass('valid').closest('.control-group').removeClass('error')//.addClass('success'); 
-//$("#CanadaCase-Form .error").remove();
-//$("#CanadaCase-Form label").removeClass("error valid");
-
 
 })
 	
+
+
+
+
+
+var formClass = function(name,hidelist, validator){ 
+
+	this.name = name;
+	this.hidelist = hidelist;
+	this.validator = validator;
+	//this.successFunction = successFunction;
+}
+
+formClass.prototype.getName = function(){
+	return this.name;
+}
+	
+formClass.prototype.hide = function(elementList){
+	//return this.name;
+}
+
+formClass.prototype.submitForm = function(){
+
+	if ( this.validator.form() == true){
+		var Name = this.name 
+		console.log("name: " + Name);
+		jQuery("#"+Name +"-Container .loading-gif").show();        
+		jQuery.ajax({ 
+			type: "POST", 
+			data: jQuery(Name +'-Form').serialize(),
+			url:'/form/'+Name,
+			dataType: 'json',
+			success: function(data) {
+				jQuery("#"+Name +"-Container .loading-gif").hide();  
+				clearErrors(Name +'-Form')
+				
+				if( data[0].valid ==true) {
+					var results = data[0].message; 
+					console.log("here " +results+ '#' +Name +' .result-container');
+					jQuery('#' +Name +'-Container .result-container').hide().fadeIn(200);
+					jQuery('#' +Name +'-Container .results').html(results).hide().fadeIn(400);
+					//this.successFunction; //Call the success function
+				 }
+				 else{
+					var errorlist=data[0].errors;
+					for (var i =0; i<errorlist.length; i++){
+						//error = [inputName, input, message]
+						var input = errorlist[i][1];
+						var message = errorlist[i][2];
+						generateErrorMessage('#' +Name+"-Form",message);
+					}	
+				 }
+			},
+
+		}).fail(function(){
+				generateErrorMessage('#' +Name+"-Form","something went wrong on our end :( ")
+			})		
+		.always( function(){
+			jQuery("#"+Name +"-Container .loading-gif").hide();  
+		});//end of ajax
+		return false; 
+	} //end of if
+	else{
+	}
+}
+
+		
+
+dictionary = new formClass('Dictionary', [], BookValidator);
+
+jQuery('#DictionarySubmitButton').click(function() {
+	console.log("Yay!");
+	dictionary.submitForm();
+	return false;
+});
+
+
+
 	
 }); //End of Document.

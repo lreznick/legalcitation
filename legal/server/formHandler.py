@@ -6,11 +6,12 @@ from formcode.webGrabber import *
 from validator import *
 
 urls = (
-	'/parallel', 'FormParallel',
-	'/court', 'FormCourt',
+	'/parallel', 'Parallel',
+	'/court', 'Court',
 	'/CanadianCase', 'Canada',
 	'/canlii', 'Canlii',
-	'/JournalArticle', 'JournalArticle'
+	'/JournalArticle', 'JournalArticle',
+	'/Dictionary', 'Dictionary'
 )
 
 class FormContainer:
@@ -45,7 +46,7 @@ class Canada(object):
 	def POST(self):
 		return CanadianCase(web.input())
 
-class FormCourt(object):
+class Court(object):
 	def POST(self):
 		form = web.input()
 		f = CreateFormClass("canadian case", form)	
@@ -56,8 +57,17 @@ class FormCourt(object):
 		print 'JSON:', data_string
 		return data_string
 		
+class Dictionary(object):
+	def POST(self):
+		form = web.input()
+		f = CreateFormClass("dictionary", form)	
+		data = [ {'message':'poops!!!!', 'valid':f.valid, 'errors':f.errors}]
+		data_string =json.dumps(data)
+		print 'JSON:', data_string
+		return data_string		
+		
 
-class FormParallel(object):
+class Parallel(object):
 	def POST(self):
 		form = web.input()
 		f = CreateFormClass("canadian case", form)	

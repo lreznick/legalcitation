@@ -12,6 +12,30 @@ Validations
 	var regex_judge		=/^[a-zA-Z\s.È…»ËÓŒÙ‘¡·¿‡¬‚]*$/
 	var regex_pincite 	=/^[\d,-\s]*$/
 	var regex_page 		=/^\d+$/
+
+var BookValidator = jQuery('#Book-Form').validate({
+			//ignore: ".search-query",
+			rules: { 
+				title: { 
+					maxlength:500	
+				}					
+			},
+			highlight: function(element) {
+				console.log("in highlight");
+				jQuery(element).closest('.control-group').addClass('error');
+			},
+			success: function(element) {	
+				console.log("in success");			
+				element.closest('.control-group').removeClass('error');//.addClass('success'); 
+				
+			},
+			messages: { 
+				title: {
+					maxlength: "Maximum length: 250 characters.",
+				},
+	
+			}
+		});
 	
 /*
 =============================================
@@ -97,7 +121,7 @@ CanadaCaseValidator
 	
 	// Validates the form to check if a form works or not
 	// Note: rules are based on name of form
-	var CanadianCaseValidator = jQuery('#canadacase-form').validate({
+	var CanadianCaseValidator = jQuery('#CanadaCase-Form').validate({
 			//ignore: ".search-query",
 			rules: { 
 				styleofcause: {
