@@ -209,13 +209,7 @@ def CanadianCase(form):
 		if not (parallel and year and court):				
 			return
 		else:
-			#checkCitations(parallel, court, year, pincite)
-			if pinciteSelection:
-				# do dropdown
-				if (pinciteSelection =="citeTo"):
-					print "exit cite-to"
-					return			
-					#citeTo = GetCiteTo(pincite)				
+			#checkCitations(parallel, court, year, pincite)				
 			citations = GetCitations(parallel, court, year, pincite)
 		
 		#======== Citing
@@ -239,8 +233,8 @@ def CanadianCase(form):
 			history = GetHistory(histories)
 		
 		#======== Shortform
-		if shortform:
-			shortform = GetShortForm(shortform)
+		if shortform or pincite[0]=="citeTo":
+			shortform = GetShortForm(shortform, pincite, parallel)
 		
 		#======== Judge	
 		if judge:
