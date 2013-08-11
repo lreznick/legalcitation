@@ -794,7 +794,7 @@ class UKCaseClass(object):
 		self.GetShortForm = GetShortForm
 		self.GetJudge = GetJudge
 		self.AutoPCPinpoint = AutoPCPinpoint
-		
+		self.PullDate = PullDate
 	
 	
 	
