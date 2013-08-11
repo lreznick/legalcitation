@@ -1,6 +1,8 @@
 import unicodedata
 import re #regexs
 from formcode.CanadianCase import *
+from formcode.UKCase import UKCaseClass
+Uk = UKCaseClass()
 
 b = "<b>"
 b1 ="</b>"
@@ -129,10 +131,10 @@ def ValidateCanadianCourt(f):
 		#the regexCourt is found in CleanUpCourt in CanadianCase automatically
 		if (c[1] == False):
 			GenerateWarningMsg(f,"court","", ErrorMsgCourt("court"))
-			print "\n =========== aaaah not right court!!!!!!"
+			print "\n CanadianCase.py did not find a court. Oh well."
 		else:
 			f.form.court = c[0]
-			print "form court thing ", f.form.court
+			print "\n CanadianCase.py found a court ", f.form.court
 	return f
 	
 
@@ -214,7 +216,7 @@ def ValidateCanadianCase(f):
 	#========	Citing (citingStyle, citing Parallel, citingYear, citingCourt)
 	if (citingStyle and  citingParallel and citingYear and citingCourt):
 		if not Validate(regexStyle, citingStyle):
-			GenerateErrorMsg(f,"citing_style","", ErrorMsgInvalid("style of cause in the citing option") )
+			GenerateErrorMsg(f,"citing_styleofcause","", ErrorMsgInvalid("style of cause in the citing option") )
 		if not Validate(regexParallel, citingParallel):
 			GenerateErrorMsg(f,"citing_parallel","", ErrorMsgInvalid("parallel citations in the citing option") )	
 		if not Validate(regexYear, citingYear):
@@ -265,7 +267,7 @@ def ValidateCanadianCase(f):
 	#========	pinciteInput
 	if pinciteInput:
 		if not Validate(regexPinpoint, pinciteInput):#use the regexStyle to validate shortform
-			GenerateErrorMsg(f,"pinciteInput","", ErrorMsgInvalid("pinpoint range") )	
+			GenerateErrorMsg(f,"pincite_input","", ErrorMsgInvalid("pinpoint range") )	
 
 	
 	
@@ -279,7 +281,7 @@ def ValidateCanadianCase(f):
 			if not leaveDocket:
 				GenerateErrorMsg(f,"leaveToAppeal_docket","", ErrorMsgDocketRequired())	
 		if not Validate(regexPinpoint, leaveDocket):#use the regexStyle to validate shortform
-			GenerateErrorMsg(f,"leaveDocket","", ErrorMsgInvalid("citation or docket number in the leave to appeal option") )	
+			GenerateErrorMsg(f,"leaveToAppeal_docket","", ErrorMsgInvalid("citation or docket number in the leave to appeal option") )	
 		#check leaveToAppeal	
 		#leaveToAppeal = GetLeaveToAppeal(leaveToAppeal)
 	
@@ -295,34 +297,34 @@ def ValidateUKCase(f):
 	year					= "%s" % (f.form.year)
 	court					= "%s" % (f.form.court)
 	shortform 			= "%s" % (f.form.shortform)
+	pinciteSelection  = "%s" % (f.form.pincite_selection)
+	pinciteInput		= "%s" % (f.form.pincite_input)	
+	pincite 				= [pinciteSelection, pinciteInput]
 	judge 				= "%s" % (f.form.judge)
 	citingStyle 			= "%s" % (f.form.citing_styleofcause)
 	citingParallel		= "%s" % (f.form.citing_parallel)
 	citingYear 			= "%s" % (f.form.citing_year)
 	citingCourt			= "%s" % (f.form.citing_court)
-	
-	pinciteSelection  = "%s" % (f.form.pincite_selection)#
-	pinciteRadio		= "%s" % (f.form.pincite_radio)
-	pinciteInput		= "%s" % (f.form.pincite_input)	
-	pincite 				= [pinciteSelection, pinciteRadio, "page", pinciteInput]	 #deal with	
-	
+	historyaff1  		= "%s" % (f.form.history_aff1)
 	historyParallel1	= "%s" % (f.form.history_parallel1) 
 	historyYear1		= "%s" % (f.form.history_year1) 
 	historyCourt1		= "%s" % (f.form.history_court1)
+	historyaff2  		= "%s" % (f.form.history_aff2)
 	historyParallel2	= "%s" % (f.form.history_parallel2) 
 	historyYear2		= "%s" % (f.form.history_year2) 
 	historyCourt2		= "%s" % (f.form.history_court2)
+	historyaff3 		= "%s" % (f.form.history_aff3)
 	historyParallel3	= "%s" % (f.form.history_parallel3) 
 	historyYear3		= "%s" % (f.form.history_year3) 
 	historyCourt3		= "%s" % (f.form.history_court3)	
-	histories = [[historyParallel1,historyYear1,historyCourt1],
-					 [historyParallel2,historyYear2,historyCourt2],
-					 [historyParallel3,historyYear3,historyCourt3]]
+	histories = [[historyaff1, historyParallel1,historyYear1,historyCourt1]
+					,[historyaff2, historyParallel2,historyYear2,historyCourt2]
+					,[historyaff3, historyParallel3,historyYear3,historyCourt3]]
 	
 	leaveSelection 	= "%s" % (f.form.leaveToAppeal_selection)
 	leaveCourt		 	= "%s" % (f.form.leaveToAppeal_court)
-	#leaveCitation  	= "%s" % (form.leaveToAppeal_citation)
 	leaveDocket	  	= "%s" % (f.form.leaveToAppeal_docket)
+	
 		
 
 	
@@ -347,8 +349,11 @@ def ValidateUKCase(f):
 			GenerateErrorMsg(f,"year","", ErrorMsgYear() )
 	
 	#========	Court	
-	ValidateCanadianCourt(f)
-
+	if not court:
+		GenerateErrorMsg(f,"court","", ErrorMsgRequired("court"))			
+	else:
+		if not Validate(regexCourt, year):
+			GenerateErrorMsg(f,"court","", ErrorMsgCourt("court") )
 		
 	
 	#========	Short Form
@@ -362,11 +367,16 @@ def ValidateUKCase(f):
 		if not Validate(regexJudge, judge):#use the regexStyle to validate shortform
 			GenerateErrorMsg(f,"judge","", ErrorMsgInvalid("Judge") )	
 
+	#========	pinciteInput
+	if pinciteInput:
+		if not Validate(regexPinpoint, pinciteInput):#use the regexStyle to validate shortform
+			GenerateErrorMsg(f,"pincite_input","", ErrorMsgInvalid("pinpoint range") )	
+
 	
 	#========	Citing (citingStyle, citing Parallel, citingYear, citingCourt)
 	if (citingStyle and  citingParallel and citingYear and citingCourt):
 		if not Validate(regexStyle, citingStyle):
-			GenerateErrorMsg(f,"citing_style","", ErrorMsgInvalid("style of cause in the citing option") )
+			GenerateErrorMsg(f,"citing_styleofcause","", ErrorMsgInvalid("style of cause in the citing option") )
 		if not Validate(regexParallel, citingParallel):
 			GenerateErrorMsg(f,"citing_parallel","", ErrorMsgInvalid("parallel citations in the citing option") )	
 		if not Validate(regexYear, citingYear):
@@ -414,11 +424,7 @@ def ValidateUKCase(f):
 				GenerateErrorMsg(f,"history_court"+str(i),"", ErrorMsgRequired("court in history option "+str(i)))
 		i+=1
 	
-	#========	pinciteInput
-	if pinciteInput:
-		if not Validate(regexPinpoint, pinciteInput):#use the regexStyle to validate shortform
-			GenerateErrorMsg(f,"pinciteInput","", ErrorMsgInvalid("pinpoint range") )	
-
+	
 	
 	
 	#========	leavetoappeal
@@ -431,7 +437,7 @@ def ValidateUKCase(f):
 			if not leaveDocket:
 				GenerateErrorMsg(f,"leaveToAppeal_docket","", ErrorMsgDocketRequired())	
 		if not Validate(regexPinpoint, leaveDocket):#use the regexStyle to validate shortform
-			GenerateErrorMsg(f,"leaveDocket","", ErrorMsgInvalid("citation or docket number in the leave to appeal option") )	
+			GenerateErrorMsg(f,"leaveToAppeal_docket","", ErrorMsgInvalid("citation or docket number in the leave to appeal option") )	
 		#check leaveToAppeal	
 		#leaveToAppeal = GetLeaveToAppeal(leaveToAppeal)
 	
