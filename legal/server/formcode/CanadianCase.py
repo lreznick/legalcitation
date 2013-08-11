@@ -630,7 +630,6 @@ def ChooseBestReporters(Citation_Input, pincite): # choose the best reporter out
 	#now sort List based on the priorities for each citation (sorted list is called Sorted)
 	#pincite = False or ["pinPoint_para"/"pinPoint_page"/"citeTo", "option1"/"option2", para or page number input]
 	citestr = ""
-	citereporter = "No Reporter"
 	if pincite:
 		if pincite[0] == "pinPoint_para":
 			citestr = " at para " + pincite[2]

@@ -136,7 +136,7 @@ def FormatAuthors(authorinput):
 	if len(formattedlist)>3:
 		return formattedlist[0] + " et al"+', '
 
-#print FormatAuthors(["David Pardy, MBA, BScH", "Huang, Stephen", "Jared Jackson", "Rahim R"])#print FormatAuthors(["Smith, Don, Cherry"])#print FormatAuthors(["Smith, Smith"])#print FormatAuthors(["PARDY, DAVID"])
+##print FormatAuthors(["David Pardy, MBA, BScH", "Huang, Stephen", "Jared Jackson", "Rahim R"])##print FormatAuthors(["Smith, Don, Cherry"])##print FormatAuthors(["Smith, Smith"])##print FormatAuthors(["PARDY, DAVID"])
 
 
 #input is string
@@ -146,7 +146,7 @@ def FormatTitle(titleinput):
 
 
 def DefaultCite(string):
-	print "**** Running DefaultCite within the FormatVolumeEtc function. Input: ", string
+	#print "**** Running DefaultCite within the FormatVolumeEtc function. Input: ", string
 	Change = [["Law Journal", "LJ"], ["Bar Journal", "BJ"], ["Human", "Hum"], ["Review", "Rev"], ["Rights", "Rts"], ["Law Quarterly", "LQ"], ["Civil", "Civ"], ["Development", "Dev"], ["Develop", "Dev"],["Negotiation", "Negot"], ["Arbitration", "Arb"], ["Corporate", "Corp"], ["Quarterly", "Q"], ["Industrial", "Induc"], ["Relations", "Rel"],	["Information", "Inf"], ["Bulletin", "Bull"], ["International", "Int'l"], ["Policy", "Pol'y"], ["and", "&"], ["Technology", "Tech"], ["Law Forum", "LF"], ["Employment", "Empl"], ["Labour", "Lab"], ["Criminal", "Crim"], ["Justice", "Just"], ["Society", "Soc"], ["Court", "Ct"], ["Courts", "Cts"], ["Studies", "Stud"], ["Environmental", "Envtl"], ["Communications", "Comm"],  ["Federal", "Fed"], ["European", "Eur"], ["in", ""], ["of", ""], ["The", ""], ["State", "St"], ["Law", "L"], ['Family', 'Fam']]
 	for C in Change:
 		foo = re.compile(regstrElec(C[0]), flags = re.I)
@@ -184,7 +184,7 @@ def FormatVolumeEtc(citationinput, yearinput, pinpoint):
 	for s in series:
 		match = re.search(' '+s+' ', cite, re.I)			
 		if match:
-			print "Found a series number without brackets"
+			#print "Found a series number without brackets"
 			cite = re.sub(match.group(), ' ('+s+') ', cite)
 			break
 	year = PullDate(cite)
@@ -235,7 +235,7 @@ def FormatVolumeEtc(citationinput, yearinput, pinpoint):
 	return [cite, hit]
 
 
-#print FormatAuthors("Huang, Stephen, \nDavid Pardy") + FormatTitle("BEING A BAUCE")+FormatVolumeEtc("2003 41 ONE WORLD JOURNAL 505", "2000", ["footnote", "550", "27-29"])[0]
+##print FormatAuthors("Huang, Stephen, \nDavid Pardy") + FormatTitle("BEING A BAUCE")+FormatVolumeEtc("2003 41 ONE WORLD JOURNAL 505", "2000", ["footnote", "550", "27-29"])[0]
 
 #make sure ther are numbers on the end.
 #tested: works
@@ -244,7 +244,7 @@ def CheckCitation(citationinput):
 		return True
 	return False
 
-#print CheckCitation("2003 41 Osgoode Hall LJ 505")
+##print CheckCitation("2003 41 Osgoode Hall LJ 505")
 
 '''
 AUTOFILL:

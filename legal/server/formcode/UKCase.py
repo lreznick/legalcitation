@@ -51,6 +51,16 @@ def regstrElec(i):#i is a string input
 	string =  r'('+ one + r'|' + two + r'|' + thr + r'|' + fou + r'|' + fiv + r'|' + six + r'|' + sev + r')'
 	return string
 
+def regstrSpec(i):#i is a string input
+	one = r'\s'+i+ r'(?=,)'
+	two = r'\s'+i+ r'$'
+	thr = r'\s'+i+ r'\s'
+	fou = r'^' +i+ r'\s'
+	fiv = r'\('+i+ r'\)'
+	six = r'\['+i+ r'\]'
+	string =  r'('+ one + r'|' + two + r'|' + thr + r'|' + fou + r'|' + fiv + r'|' + six + r')'
+	return string
+
 def regstrElecSpec(i):#i is a string input
 	one = r'\s'+i+ r'(?=,)'
 	two = r'\s'+i+ r'$'
@@ -322,6 +332,16 @@ def GetStyleOfCause(StyleOfCause_Input):
 '''****************     CITATIONS     ****************''''''****************     CITATIONS     ****************'''
 '''****************     CITATIONS     ****************''''''****************     CITATIONS     ****************'''
 
+def Divide(Citation_Input):
+	PC = CleanUp(Citation_Input)
+	if re.search(r"(;|,)$", PC):
+		PC = CleanUp(PC[:-1])
+	if re.search(r"^(;|,)", PC):
+		PC = CleanUp(PC[1:])
+	m = re.split('[,;]', PC) # 	#Split the citations based on positioning of commas and semicolons
+	if type(m)!=list:
+		m = [m]
+	return m
 
 def regstrElec(i):#i is a string input
 	i = re.sub("\[", "\[", i)
@@ -378,14 +398,7 @@ def PullDate(string):
 def CheckNC(Citation_Input): #pull the neutral citation from the list if there is one
 	print "**** Starting CheckNC"
 	print "Checking for NC in string: ", Citation_Input
-	PC = CleanUp(Citation_Input)
-	if re.search(r"(;|,)$", PC):
-		PC = CleanUp(PC[:-1])
-	if re.search(r"^(;|,)", PC):
-		PC = CleanUp(PC[1:])
-	m = re.split('[,;]', PC) # 	#Split the citations based on positioning of commas and semicolons
-	if type(m)!=list:
-		m = [m]
+	m = Divide(Citation_Input)
 	print "List of reporters: ", m
 	for string in m: 
 		Year = PullDate(string)
@@ -425,15 +438,7 @@ def CheckNC(Citation_Input): #pull the neutral citation from the list if there i
 def LawReports(Citation_Input):
 	print "\n******** Starting LawReports **********"
 	print "Citation Input: ", Citation_Input
-	PC = CleanUp(Citation_Input)
-	#need to put the electronic sources in the correct format in case someone puts in (available on CanLII) without the ; or ,
-	if re.search(r"(;|,)$", PC):
-		PC = CleanUp(PC[:-1])
-	if re.search(r"^(;|,)", PC):
-		PC = CleanUp(PC[1:])
-	m = re.split('[,;]', PC) # 	#Split the citations based on positioning of commas and semicolons
-	if type(m)!=list:
-		m = [m]
+	m = Divide(Citation_Input)
 	print "List of reporters: ", m
 	Abbs = ['A & E', 'AC', 'Ch', 'Ch App', 'CP', 'CCR', 'Eq', 'Ex', 'HL', 'Fam', 'ICR', 'Ir', 'KB', 'PC', 'P', 'QB', 'RP', 'Sc & Div']
 	for s in m:
@@ -500,15 +505,7 @@ def CheckReporter(m, list):
 def BestReporter(Citation_Input):
 	print "******** Starting BestReporter **********"
 	print "Citation Input: ", Citation_Input
-	PC = CleanUp(Citation_Input)
-	#need to put the electronic sources in the correct format in case someone puts in (available on CanLII) without the ; or ,
-	if re.search(r"(;|,)$", PC):
-		PC = CleanUp(PC[:-1])
-	if re.search(r"^(;|,)", PC):
-		PC = CleanUp(PC[1:])
-	m = re.split('[,;]', PC) # 	#Split the citations based on positioning of commas and semicolons
-	if type(m)!=list:
-		m = [m]
+	m = Divide(Citation_Input)
 	print "List of reporters: ", m				
 	series = ["2d", "3d", "4th", "5th", "6th", "7th", "8th"]
 	for x in range(len(m)): #replace "2d" with "(2d)", etc (i.e. put them in brackets
@@ -575,26 +572,23 @@ def DefaultCt(string):
 
 
 
+
 def AutoPCPinpoint(Citation_Input):
 	print "\n****** AutoPCPinpoint"
 	print "input is:\n", "citation string: ", Citation_Input
-	PC = CleanUp(Citation_Input)
-	if re.search(r"(;|,)$", PC):
-		PC = CleanUp(PC[:-1])
-	if re.search(r"^(;|,)", PC):
-		PC = CleanUp(PC[1:])
-	m = re.split('[,;]', PC) # 	#Split the citations based on positioning of commas and semicolons
-	if type(m)!=list:
-		m = [m]
+	m = Divide(Citation_Input)
 	print "List of reporters: ", m
 	NC = CheckNC(m)
-		if (NC[1]=="NC") or (NC[1]=="EWHC"):#returns: [string, "NC"/"EWHC"/"No NC"/]
-			if len(m)==1:
-				print "NC detected and no other reporter. Need another reporter."
-				return ["Requires a reporter in addition to this neutral citation.", "NA"]
-			return ["cite to paragraph in NC only", NC[0]]
-			pass
-	return ["cite to paragraph or page in reporter", BestReporter(m)]
+	if NC[1]=="NC":# or (NC[1]=="EWHC"):#returns: [string, "NC"/"EWHC"/"No NC"/]
+		neut = re.sub(regstrSpec(r'\d+'), '', NC[0])
+		if len(m)==1:
+			return ["Warning: should have reporter", neut]
+		return ["neutral", neut]
+	if NC[1]=="EWHC":
+		return ["EWHC", NC[0]]
+	R = BestReporter(m)
+	report = re.sub(regstrSpec(r'\d+'), '', R)
+	return ["reporter", report]
 
 	
 #If CheckNC: need to cite to para
@@ -610,12 +604,17 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 	if not Date_Input:
 		return ", ERROR: missing date input"
 	NC = CheckNC(Citation_Input) #returns: [string, "NC"/"EWHC"/"No NC"] #pull the neutral citation from the list if there is one
-	BR = BestReporter(Citation_Input) #returns the best reporter, no funny business
-	Best = BR[0]
 	if (NC[1]=="NC") or (NC[1]=="EWHC"):
 		print "In GetCitations, found NC:", NC[0]
 		NeutralCitation = NC[0]
 	else: NeutralCitation = False
+	Auto = AutoPCPinpoint(Citation_Input)
+	citestr = ""
+	if pincite:
+		if pincite[0]=="pinPoint_para":
+			citestr = " at para " + pincite[2]
+		elif pincite[0] == "pinPoint_page":
+			citestr = " at " + pincite[2]
 	#find if there is a citationyear present. if it is in the neutral citation, format it correctly
 	CitationYear = False #assume there is no citation date evident in the input
 	Court = False #first assume there is no court evident in the reporter
@@ -624,10 +623,15 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 		Court = True
 		CitationYear = PullDate(NeutralCitation)
 		if not CitationYear:
-			NeutralCitation = CleanUp("[input year] " + NeutralCitation)
+			NeutralCitation = CleanUp("[input year] " + NeutralCitation + citestr)
 			CitationYear = True
 		JudgementYear = CitationYear
+		m = Divide(Citation_Input)
+		if (len(m)==1):
+			return ', ' + NeutralCitation
 	else: CitationYear = PullDate(Best)
+	BR = BestReporter(Citation_Input) #returns the best reporter, no funny business
+	Best = BR[0]
 	#pincite = [pinpoint/cite, reporter, type (para or page), input]
 	if BR[1] == "court":
 		Court = True
@@ -668,7 +672,7 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 
 #this is the function that will ultimately call all of the other functions for the parallel citations
 #the input is what is written in the form for parallel citations
-def GetHistoryCitations(Citation_Input, Date_Input, Court_Input):
+def GetHistoryCitations(Citation_Input, Date_Input, Court_Input, pinpoint):
 		print "\n****** Starting GetHistoryCitations"
 	print "citation string: ", Citation_Input, "\n", "court: ", Court_Input, "\n", "date: ", Date_Input, "\n", "pincite: ", pincite, "\n"
 	if not Citation_Input:
