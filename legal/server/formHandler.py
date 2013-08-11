@@ -2,7 +2,7 @@ import web
 import json
 from formcode.CanadianCase import *
 from formcode.Journal import *
-from formcode.UKCase import UK
+from formcode.UKCase import *
 from formcode.webGrabber import *
 from validator import *
 
