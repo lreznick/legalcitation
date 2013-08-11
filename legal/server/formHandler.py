@@ -108,7 +108,7 @@ class Parallel(object):
 		else:
 			print "in formparallel"
 			
-			f= ValidateCanadianParallel(f)
+			f= ValidateParallel(f)
 			if (f.valid ==True):
 				date = PullDate(parallel)
 				court = CheckForCourt(parallel)
