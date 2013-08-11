@@ -344,7 +344,7 @@ def UKFormatter(form):
 	leaveToAppeal =""
 	history =""
 	
-	#ValidateUKCase(f)
+	ValidateUKCase(f)
 	if f.valid:
 	
 		#========	Style of Cause
