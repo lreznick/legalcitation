@@ -139,9 +139,7 @@ Form Submissions
 	// Submit a form when the go button for canada case is submitted.
 	//	Then reloads the page to display the contentss
 $('#canlii-input').keypress(function (e) {
-	console.log("Yo");
 	if (e.which == 13) {
-		console.log("Yo2");
 		SubmitCanLII()
 	}
 	return false;
@@ -265,7 +263,6 @@ function SubmitCanLII(){
 						
 						if (data[0].date != false){
 							jQuery('#CanadaCaseDate').val(data[0].date);
-							//console.log(CanadianCaseValidator.element('#CanadaCaseDate'))
 						}
 						if (data[0].court != false){
 							jQuery('#CanadaCaseCourt').val(data[0].court);
@@ -373,7 +370,6 @@ jQuery(' #pincite-selection').change(function(){
 			jQuery("#pincite-form-input").attr('placeholder',"page");
 		}
 	}
-	console.log("pincite " + txt);
 });
 
 var historycount =1;
@@ -598,16 +594,21 @@ jQuery('#UKCase-Container .resetButton').click(function(){
 
 
 var formClass = function(name, hidelist, validator){ 
-
-	this.name = name;
-	this.hidelist = hidelist;
-	this.validator = validator;
+	this.name = name; //ex CanadaCase
+	this.hidelist = hidelist; //The list of objects to be hidden before the code runs
+	this.validator = validator; //form validators (rules to be checked for inputs)
 	//this.successFunction = successFunction;
 	this.init();
 }
+
 formClass.prototype.init = function(){
 	this.addEvents();
 	this.hide();
+}
+
+formClass.prototype.addEvents = function(){
+	$('#' +this.name +'-Container .submitButton').bind('click', {context: this}, this.onClick);
+	
 }
 
 formClass.prototype.getName = function(){
@@ -617,7 +618,6 @@ formClass.prototype.getName = function(){
 formClass.prototype.hide = function(){
 	var id = '#'+ this.name +'-Container ';  //ex. #CanadaCase
 	for (var i=0 ; i<this.hidelist.length; i++){
-	console.log(id + " " +this.hidelist[i]);
 		jQuery(id +this.hidelist[i]).hide();
 	}
 }
@@ -670,28 +670,52 @@ var Name = this.name;  //ex. #CanadaCase
 //return false; 	
 }
 
-formClass.prototype.addEvents = function(){
-	$('#' +this.name +'-Container .submitButton').bind('click', {context: this}, this.onClick);
-	
-}
-
  formClass.prototype.onClick= function (ev){
         var self = ev.data.context;
         self.submitForm();
 		//return false;
     }
 
-var tooltipClass = function(tooltipList){
-	this.tooltipList = tooltipList
+	
+	
+	
+var tooltipClass = function(tooltipList,offsets){
+	this.name = "CanadaCase";
+	this.tooltipList = tooltipList;
+	this.offsets = offsets;
+	this.init();
 }	
- tooltipClass.prototype.tooltip= function (){
- 		var name = jQuery(this).attr('name') // get Forms name
-		var tool = eval('tooltip_'+name); // convert it to a variable
-		//console.log(tool + " " +jQuery('.tooltips').html()); // display the tooltip)
-		jQuery('#CanadaCase-tooltips').html(tool); // display the tooltip
+tooltipClass.prototype.init = function(){
+	this.addEvents();
+}
+tooltipClass.prototype.addEvents = function(){
+	console.log('#' +this.name +'-Container input');
+	$('#' +this.name +'-Container input').bind('focus', {context: this}, this.onFocus);	
+}
+tooltipClass.prototype.onFocus= function (ev){
+        var self = ev.data.context;
+		console.log("self " +this)
+		var something = this
+        self.updateTooltip(this);
+    }
+ tooltipClass.prototype.updateTooltip= function (jQueryInput){
+ 		
+		var id = "#" + this.name  
+		var htmlName = jQuery(jQueryInput).attr('name') // get Forms name
+		//var tool = eval('tooltip_'+name); // convert it to a variable
+		console.log("name " + htmlName);
+		var tip;
+		for( var i = 0; i< this.tooltipList.length;  i++ ) {
+			if( this.tooltipList[i][0] === htmlName ) {
+				tip = this.tooltipList[i][1];
+				break;
+			}
+		}
+		console.log('tip ' + tip);
+		jQuery('#'+this.name+'-tooltips').html(tip); //Display the tooltip
 		
-		var formTop = jQuery("#CanadaCase-Container").offset();
-		var currentForm = jQuery(this).offset();
+		var formTop = jQuery(id + "-Container").offset();
+		var currentForm = jQuery(jQueryInput).offset();
 		var positionDifference = currentForm.top - formTop.top;
 
 		for (var i =0; i<formOffsets.length-1;i++){
@@ -702,17 +726,19 @@ var tooltipClass = function(tooltipList){
 			
 			if (positionDifference >= offset){
 				if (positionDifference < nextOffset){
-					jQuery('#Canada.tooltips').css('margin-top', offset);
+					jQuery('#'+this.name+'-tooltips').css('margin-top', offset);
 				}
 				if (positionDifference >= nextOffset){
-					jQuery('#Canada .tooltips').css('margin-top', nextOffset);
+					jQuery('#'+this.name+'-tooltips').css('margin-top', nextOffset);
 				}
 			}
 		}
  }
 
-dictionary = new formClass('Dictionary', [], BookValidator);
+canadatooltip = new tooltipClass(CanadatooltipList,formOffsets) 
 canada = new formClass('CanadaCase', [], CanadianCaseValidator);
+dictionary = new formClass('Dictionary', [], BookValidator);
+
 journal = new formClass('Journal',[], JournalArticleValidator);
 UKhidelist = ['.optionalCourt', '#court-optional','#UKreporter-container', '#UKpincite-form', "#history2", "#history3"]
 uk = new formClass('UKCase',UKhidelist, UKCaseValidator);
