@@ -592,7 +592,7 @@ def AutoPCPinpoint(Citation_Input):
 	
 #If CheckNC: need to cite to para
 #otherwise cite to page or para in the reporter from BestReporter
-#pincite = False or ["pinPoint_para"/"pinPoint_page"/"citeTo", "option1"/"option2", para or page number input]
+#pincite = False or ["pinPoint_para"/"pinPoint_page", para or page number input]
 def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 	print "\n****** Starting GetCitations"
 	print "citation string: ", Citation_Input, "\n", "court: ", Court_Input, "\n", "date: ", Date_Input, "\n", "pincite: ", pincite, "\n"
@@ -611,9 +611,9 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 	citestr = ""
 	if pincite:
 		if pincite[0]=="pinPoint_para":
-			citestr = " at para " + pincite[2]
+			citestr = " at para " + pincite[1]
 		elif pincite[0] == "pinPoint_page":
-			citestr = " at " + pincite[2]
+			citestr = " at " + pincite[1]
 	#find if there is a citationyear present. if it is in the neutral citation, format it correctly
 	CitationYear = False #assume there is no citation date evident in the input
 	Court = False #first assume there is no court evident in the reporter
@@ -633,7 +633,6 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 	Best = BR[0]
 	if Auto[1] == "reporter":
 		Best += citestr
-	#pincite = [pinpoint/cite, reporter, type (para or page), input]
 	if BR[1] == "court":
 		Court = True
 	if PullDate(Best): 
