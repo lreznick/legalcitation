@@ -18,7 +18,7 @@ Validations
 UK Validator
 =============================================
 */			
-var UKValidator = jQuery('#UK-Form').validate({
+var UKCaseValidator = jQuery('#UKCase-Form').validate({
 			//ignore: ".search-query",
 			rules: { 
 				styleofcause: { 

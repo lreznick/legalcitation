@@ -2,9 +2,12 @@ import web
 import json
 from formcode.CanadianCase import *
 from formcode.Journal import *
-from formcode.UKCase import *
+from formcode.UKCase import UKCaseClass
 from formcode.webGrabber import *
 from validator import *
+
+Uk = UKCaseClass()
+
 
 urls = (
 	'/CanadaCase', 'Canada',
@@ -13,6 +16,7 @@ urls = (
 	'/court', 'Court',
 	
 	'/UKCaseParallel', 'UKParallel',
+	'/UKCase', 'UK',
 	'/Journal', 'JournalArticle',
 	'/Dictionary', 'Dictionary',
 	
@@ -37,17 +41,22 @@ def CreateFormClass(type,form):
 class UKParallel(object):
 	def POST(self):
 		form = web.input()
+		
 		f = CreateFormClass("UKCase", form)	
 		parallel = "%s" % (form.parallel)
 		print "in ukparallel"
 		f= ValidateParallel(f)
 		
 		if (f.valid ==True):
-			date = PullDate(parallel)
-			reporters = AutoPCPinpoint(parallel)
+			date = Uk.PullDate(parallel)
+			reporters = Uk.AutoPCPinpoint(parallel)
 		data = [ {'date':date, 'reporters':reporters}]
 		data_string =json.dumps(data)
 		return data_string	
+
+class UK(object):
+	def POST(self):
+		return UKFormatter(web.input())
 		
 class JournalArticle(object):
 	def POST(self):
@@ -87,7 +96,6 @@ class Dictionary(object):
 		data_string =json.dumps(data)
 		print 'JSON:', data_string
 		return data_string		
-		
 
 class Parallel(object):
 	def POST(self):
@@ -277,5 +285,118 @@ def CanadianCase(form):
 	print 'JSON:', data_string
 	#return returnString #http://localhost:8080/static/img/intropage.jpg			
 	return data_string
+
+
+	
+def UKFormatter(form):	
+	print "\n\n======in UK"
+	print form
+	f = CreateFormClass("UKCase", form)	
+	
+
+	styleofcause		= "%s" % (f.form.styleofcause)
+	parallel				= "%s" % (f.form.parallel)
+	year					= "%s" % (f.form.year)
+	court					= "%s" % (f.form.court)
+	shortform 			= "%s" % (f.form.shortform)
+	
+	pinciteSelection  = "%s" % (f.form.pincite_selection)
+	pinciteInput		= "%s" % (f.form.pincite_input)	
+	pincite 				= [pinciteSelection, pinciteInput]
+	
+	judge 				= "%s" % (f.form.judge)
+	dissenting = False
+	if f.form.has_key('judge_dissenting'):
+		dissenting = True
+	
+	citingStyle 			= "%s" % (f.form.citing_styleofcause)
+	citingParallel		= "%s" % (f.form.citing_parallel)
+	citingYear 			= "%s" % (f.form.citing_year)
+	citingCourt			= "%s" % (f.form.citing_court)
+	
+	historyaff1  		= "%s" % (f.form.history_aff1)
+	historyParallel1	= "%s" % (f.form.history_parallel1) 
+	historyYear1		= "%s" % (f.form.history_year1) 
+	historyCourt1		= "%s" % (f.form.history_court1)
+	
+	historyaff2  		= "%s" % (f.form.history_aff2)
+	historyParallel2	= "%s" % (f.form.history_parallel2) 
+	historyYear2		= "%s" % (f.form.history_year2) 
+	historyCourt2		= "%s" % (f.form.history_court2)
+	
+	historyaff3 		= "%s" % (f.form.history_aff3)
+	historyParallel3	= "%s" % (f.form.history_parallel3) 
+	historyYear3		= "%s" % (f.form.history_year3) 
+	historyCourt3		= "%s" % (f.form.history_court3)	
+	
+	histories = [[historyaff1, historyParallel1,historyYear1,historyCourt1]
+					,[historyaff2, historyParallel2,historyYear2,historyCourt2]
+					,[historyaff3, historyParallel3,historyYear3,historyCourt3]]
+	
+	leaveSelection 	= "%s" % (f.form.leaveToAppeal_selection)
+	leaveCourt		 	= "%s" % (f.form.leaveToAppeal_court)
+	leaveDocket	  	= "%s" % (f.form.leaveToAppeal_docket)
+	
+	leaveArray = [leaveSelection, leaveCourt, leaveDocket]
+		
+	citations ="" 
+	citing = ""
+	leaveToAppeal =""
+	history =""
+	
+	#ValidateUKCase(f)
+	if f.valid:
+	
+		#========	Style of Cause
+		if styleofcause:
+				styleofcause = Uk.GetStyleOfCause(styleofcause)
+			
+		#======== Citations			
+		print "/n \n " + court
+		#citations = Uk.GetCitations(parallel, court, year, pincite)
+		
+		#======== Citing
+		if (citingStyle and  citingParallel and citingYear and citingCourt):
+			citing = Uk.GetCiting(citingStyle, citingParallel, citingYear, citingCourt)
+		
+		#======== History
+		if (histories[0][1] and histories [0][2] and histories [0][3]):
+			pass
+		else:
+			histories[0][0] = "none"
+		if (histories[1][1] and histories [1][2] and histories [1][3]):
+			pass
+		else:
+			histories[1][0] = "none"
+		if (histories[2][1] and histories [2][2] and histories [2][3]):
+			pass
+		else:
+			histories[2][0] = "none"
+		if (histories[0][0]) or (histories[1][0]) or (histories[2][0]):
+			history = Uk.GetHistory(histories)
+		
+		#======== Shortform
+		if shortform or pincite[0]=="citeTo":
+			shortform = Uk.GetShortForm(shortform)
+		
+		#======== Judge	
+		if judge:
+			judge = Uk.GetJudge(judge,dissenting)	
+		
+		#======== Leave To Appeal
+		if leaveSelection and leaveCourt and leaveDocket:
+			leaveToAppeal = Uk.GetLeaveToAppeal(leaveArray)
+		
+		returnString = styleofcause + citations +judge + citing + leaveToAppeal + history + shortform+'.'
+		print returnString
+	else:
+		returnString =""
+		
+	data = [ {'message':returnString, 'valid':f.valid, 'errors':f.errors}]
+	data_string =json.dumps(data)
+	print 'JSON:', data_string
+	print returnString	
+	return data_string
+	
 
 app_formHandler = web.application(urls, locals())

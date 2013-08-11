@@ -585,7 +585,7 @@ def AutoPCPinpoint(Citation_Input):
 		return ["neutral", neut]
 	if NC[1]=="EWHC":
 		return ["EWHC", NC[0]]
-	R = BestReporter(Citation_Input)
+	R = BestReporter(Citation_Input)[0]
 	report = re.sub(regstrSpec(r'\d+'), '', R)
 	return ["reporter", report]
 

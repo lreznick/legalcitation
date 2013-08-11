@@ -58,7 +58,7 @@
 		<div class="control-group"  id ="UKCaseCourt-controlgroup">
 		<label class="control-label" for="UKCaseCourt">Court</label>
 			<div class="controls">
-				<select name = "court_selection" id="court-selection" >
+				<select  id="court-selection"  name = "court">
 				$:render.formUKCourts()
 
 				<input type="text" style = "width: 275px" id="UKCaseCourt" class ="optionalCourt" placeholder="" name = "court">
@@ -155,7 +155,7 @@
 									<!-- court -->
 								<div class="input-prepend" style="padding-bottom:2px">
 								<span class="add-on">Court</span>
-									<select id="citing-court-selection" name = "citing_court_selection" >
+									<select id="citing-court-selection" name = "citing_court" >
 									$:render.formUKCourts()	
 									<br>
 									<input type="text" class = "input-xlarge" id="UKCaseCourt"  placeholder="" name = "court">									
@@ -198,7 +198,7 @@
 								<div class="input-prepend" style="padding-bottom:2px">
 								<span class="add-on">Court</span>
 								
-									<select  id="history-court-selection1" name = "history_court_selection1">
+									<select  id="history-court-selection1" name = "history_court1">
 									$:render.formUKCourts()								
 									
 								</div>
@@ -232,7 +232,7 @@
 									<div class="input-prepend" style="padding-bottom:2px">
 									<span class="add-on">Court</span>
 									
-									<select  id="history-court-selection1" name = "history_court_selection1">
+									<select  id="history-court-selection1" name = "history_court2">
 										$:render.formUKCourts()															
 									
 									</div>
@@ -266,7 +266,7 @@
 									<div class="input-prepend" style="padding-bottom:2px">
 									<span class="add-on">Court</span>
 									
-									<select  id="history-court-selection1" name = "history_court_selection1">
+									<select  id="history-court-selection1" name = "history_court3">
 										$:render.formUKCourts()								
 									
 									</div>
@@ -300,7 +300,7 @@
 							<div class="input-prepend" style="padding-bottom:2px">
 							<span class="add-on" >Court Appealed To</span>
 							
-							<select  id="leave-court-selection1" name = "leave_court_selection1">
+							<select  id="leave-court-selection1" name = "leaveToAppeal_court">
 									$:render.formUKCourts()								
 							</div>
 							</div> <!--well-->

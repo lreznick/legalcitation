@@ -3,7 +3,9 @@ $def with (form)
 
 <div id = "login">
 
-<div class ="signup-titlebar" > <font id ="signup-title"> sign up </font></div>
+<!--<div class ="signup-titlebar" style ="width:500px;margin:0 auto" > <font id ="signup-title"> log in</font></div> -->
+<div  style ="width:500px;margin:0 auto" > <font id ="signup-title" style= "color:grey"> log in</font></div>
+<br>
 	<form class="form" action = "/register"  method="POST"  id ="login">
 		<fieldset>
 		<!-- Style Of Cause -->
@@ -15,13 +17,12 @@ $def with (form)
 				$:form.password.render()
 				
 			</div>
-			<div class="controls">
-			$:form.password_again.render()
-			</div>
+
 			 $if form.username.note :
 				<span class="error">$:form.username.note</span>
 			<button type="submit" class="btn">Sign in</button>
 			
 		</div>  
 </div>
-
+<img src = "./static/img/login/logo.png" style = "width:1000px; opacity:0.1">
+<div style ="height: 300px"> </div>
