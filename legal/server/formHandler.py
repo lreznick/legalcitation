@@ -43,8 +43,8 @@ class UKParallel(object):
 		f= ValidateParallel(f)
 		
 		if (f.valid ==True):
-			date = UK.PullDate(parallel)
-			reporters = UK.AutoPCPinpoint(parallel)
+			date = PullDate(parallel)
+			reporters = AutoPCPinpoint(parallel)
 		data = [ {'date':date, 'reporters':reporters}]
 		data_string =json.dumps(data)
 		return data_string	
