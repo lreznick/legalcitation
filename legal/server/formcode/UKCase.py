@@ -673,7 +673,7 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 #this is the function that will ultimately call all of the other functions for the parallel citations
 #the input is what is written in the form for parallel citations
 def GetHistoryCitations(Citation_Input, Date_Input, Court_Input, pinpoint):
-		print "\n****** Starting GetHistoryCitations"
+	print "\n****** Starting GetHistoryCitations"
 	print "citation string: ", Citation_Input, "\n", "court: ", Court_Input, "\n", "date: ", Date_Input, "\n", "pincite: ", pincite, "\n"
 	if not Citation_Input:
 		return "ERROR: missing citation input"
@@ -768,28 +768,8 @@ def GetLeaveToAppeal(array):
 	
 '''****************     SHORT FORM     ****************'''
 	
-def GetShortForm(string, pincite, Citation_Input):
-	string = Capitalize(string)
-	OptionOne = False
-	OptionTwo = False
-	autopcp = AutoPCPinpoint(Citation_Input)
-	if autopcp == 
-	if pincite[0]=="citeTo":
-		# [Best reporter, Second Best Reporter] if there are 2
-		# [Only Reporter, False] if there is only 1
-		Reporters = AutoPCPinpoint(Citation_Input)
-		if pincite[1]=="option1":
-			if string:
-				return " [<i>"+string+"</i> cited to "+ str(Reporters[0][0])+"]"
-			else:
-				return " [cited to "+ str(Reporters[0][0])+"]"
-		if pincite[1]=="option2":
-			if string:
-				return " [<i>"+string+"</i> cited to "+ str(Reporters[0][1])+"]"
-			else:
-				return " [cited to "+ str(Reporters[0][1])+"]"
-	else: 
-		return " [<i>"+string+"</i>]"
+def GetShortForm(string):
+	return " [<i>"+string+"</i>]"
 
 
 '''****************     JUDGE    ****************'''
