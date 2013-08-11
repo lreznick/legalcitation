@@ -37,6 +37,7 @@ jQuery('#JournalArticle-Form #pinpoint-selection').change(function(){
 		jQuery('#JournalArticle-Form #pinpoint-form4').show();
 	}
 });
+/*
 
 	jQuery('#JournalArticle-Container .result-container').hide();
 	jQuery('#JournalArticleSubmitButton').click(function() {
@@ -80,7 +81,7 @@ jQuery('#JournalArticle-Form #pinpoint-selection').change(function(){
 		}
 	});
 	
-
+*/
 /*
 =============================================
 THE TESTING BUTOON!!!!!!=================================================
@@ -112,12 +113,14 @@ Set Up
 	//jQuery("#hidden-forms").hide();
 	//jQuery(".textarea").wysihtml5();
 	jQuery(".result-container").hide();
+	jQuery(".loading-gif").hide();
+	
 	jQuery("#canlii-result-container").hide();
 	jQuery("#pincite-form").hide();
 	jQuery("#reporter-container").hide();
 	jQuery("#history3").hide();
 	jQuery("#history2").hide();
-	jQuery(".loading-gif").hide();
+
 	jQuery('#pinciteWrapper').tooltip({
 		trigger: 'hover',
 		placement: 'right',
@@ -241,73 +244,68 @@ function SubmitCanLII(){
 		}
 	});
 	*/
-	function autoFillPinCite(reporterType, reporters){
-		console.log("reporterType ::" +reporterType );
-		console.log("reporter 1::"+ reporters[0]);
-		console.log("reporter 2 ::" + reporters[1]);
-		// two reporters
-		if (reporterType == "two") { 
-			//everything
-			jQuery('#pincite-selection>option[value="citeTo"]').show();
-			jQuery('#pincite-selection>option[value="pinPoint_page"]').show();//attr({ disabled: 'disabled' });
-			jQuery('#pinciteRadio_Reporter1').html(reporters[0]);
-			jQuery('#pinciteRadio_Reporter2').html(reporters[1]);
-			jQuery('#pinciteRadio2').show();
-						
-		}
-		else{
-			jQuery('#pincite-selection>option[value="citeTo"]').hide();
-			if ( reporterType == "one"){
-			// pinpoint page , pinpoint para or nothing
-				jQuery('#pincite-selection>option[value="pinPoint_page"]').show();//attr({ disabled: 'disabled' });													
-				jQuery('#pinciteRadio_Reporter1').html(reporters[0]);
-				jQuery('#pinciteRadio2').hide();
-			}
-			if ( reporterType == "neutral"){
-			//pinpoint para or nothing
-				jQuery('#pincite-selection>option[value="pinPoint_page"]').hide();//attr({ disabled: 'disabled' });
-				jQuery('#pinciteRadio_Reporter1').html(reporters[0]);
-				jQuery('#pinciteRadio2').hide();
-			}
-		}
-	}
+
 	
 	jQuery('#CanadaCaseParallel').blur(function(){
 			var parallelValue = jQuery(this).val();
 			if (parallelValue == "banana jones!!"){
 				jQuery("#tab1").html('<iframe width="960" height="720"  src="//www.youtube.com/embed/s8MDNFaGfT4?autoplay=1" frameborder="0" allowfullscreen></iframe>');
 			}
-			
 			if (parallelValue != ""){	
-			
-            jQuery.ajax({ 
-                type: "POST", 
-				url: '/form/parallel',
-                data:{parallel : parallelValue},
-				dataType: 'json',
-                success: function(data) {
-					$('#pincite-selection').removeAttr('disabled');
-					jQuery('#pinciteWrapper').tooltip('disable');	
-					//$('#pinciteWrapper').remove();
-					$('#pinciteWrapper').hide();
-					
-					if (data[0].date != false){
-						jQuery('#CanadaCaseDate').val(data[0].date);
-						//console.log(CanadianCaseValidator.element('#CanadaCaseDate'))
-					}
-					if (data[0].court != false){
-						jQuery('#CanadaCaseCourt').val(data[0].court);
-					}
-					
-					var reporterType = data[0].reporters[1];
-					var reporters = data[0].reporters[0];	
-					autoFillPinCite(reporterType,reporters);
-					
-                },
-			
-			});
+				jQuery.ajax({ 
+					type: "POST", 
+					url: '/form/parallel',
+					data:{parallel : parallelValue},
+					dataType: 'json',
+					success: function(data) {
+						$('#pincite-selection').removeAttr('disabled');
+						jQuery('#pinciteWrapper').tooltip('disable');	
+						//$('#pinciteWrapper').remove();
+						$('#pinciteWrapper').hide();
+						
+						if (data[0].date != false){
+							jQuery('#CanadaCaseDate').val(data[0].date);
+							//console.log(CanadianCaseValidator.element('#CanadaCaseDate'))
+						}
+						if (data[0].court != false){
+							jQuery('#CanadaCaseCourt').val(data[0].court);
+						}
+						
+						var reporterType = data[0].reporters[1];
+						var reporters = data[0].reporters[0];	
+						autoFillPinCite(reporterType,reporters);
+					},
+				});
 			}
 	})
+	
+	jQuery('#UKCaseParallel').blur(function(){
+			var parallelValue = jQuery(this).val();
+			id = "#UKCase-Container"
+			if (parallelValue != ""){	
+				jQuery.ajax({ 
+					type: "POST", 
+					url: '/form/UKCaseParallel',
+					data:{parallel : parallelValue},
+					dataType: 'json',
+					success: function(data) {
+						$(id + ' #pincite-selection').removeAttr('disabled');
+						jQuery(id + ' #pinciteWrapper').tooltip('disable');	
+						$(id + ' #pinciteWrapper').hide();
+						
+						if (data[0].date != false){
+							jQuery('#UKCaseYear').val(data[0].date);
+						}
+						
+						var reporterType = data[0].reporters[1];
+						var reporters = data[0].reporters[0];	
+						autoFillUKPinpoint(reporterType,reporters);
+					},
+				});
+			}
+	})
+	
+	
 	
 	function clearErrors(form){
 		jQuery(form+' .error-container').html("");
@@ -318,6 +316,12 @@ function SubmitCanLII(){
 			jQuery(form+' .error-container').append(html);
 			//jQuery('#reporter-table').html(outputstring);
 	}
+	function generateWarningMessage(form,message){
+	html = "<div class=\"alert alert-warning\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>"	+	message		+"</div>"
+			jQuery(form+' .error-container').append(html);
+			//jQuery('#reporter-table').html(outputstring);
+	}
+	
 
 		
 /*
@@ -327,8 +331,29 @@ Form Events
 */	
 
 
-jQuery('#pincite-selection').change(function(){
+jQuery('#UKCase-Container #pincite-selection').change(function(){
 	var txt = jQuery(this).val();
+	id = "#UKCase-Container"
+	if (txt == ""){
+		jQuery(id + " #UKpincite-form").hide();
+	}
+	else{
+		jQuery(id + " #UKpincite-form").show();
+		if (txt == "pinPoint_para"){	
+			jQuery(id + " #pincite-form-input").show();
+			jQuery(id + " #pincite-form-input").attr('placeholder',"paragraph");
+			
+		}
+		else if (txt == "pinPoint_page"){
+			jQuery(id + " #pincite-form-input").show();
+			jQuery(id + " #pincite-form-input").attr('placeholder',"page");
+		}
+	}
+});
+
+jQuery(' #pincite-selection').change(function(){
+	var txt = jQuery(this).val();
+	
 	if (txt == ""){
 		jQuery("#pincite-form").hide();
 	}
@@ -387,7 +412,53 @@ jQuery('#CanadaCase-Accordion-Toggle').click(function(){
 	}
 });
 
-
+	function autoFillPinCite(reporterType, reporters){
+		// two reporters
+		if (reporterType == "two") { 
+			//everything
+			jQuery('#pincite-selection>option[value="citeTo"]').show();
+			jQuery('#pincite-selection>option[value="pinPoint_page"]').show();//attr({ disabled: 'disabled' });
+			jQuery('#pinciteRadio_Reporter1').html(reporters[0]);
+			jQuery('#pinciteRadio_Reporter2').html(reporters[1]);
+			jQuery('#pinciteRadio2').show();
+						
+		}
+		else{
+			jQuery('#pincite-selection>option[value="citeTo"]').hide();
+			if ( reporterType == "one"){
+			// pinpoint page , pinpoint para or nothing
+				jQuery('#pincite-selection>option[value="pinPoint_page"]').show();//attr({ disabled: 'disabled' });													
+				jQuery('#pinciteRadio_Reporter1').html(reporters[0]);
+				jQuery('#pinciteRadio2').hide();
+			}
+			if ( reporterType == "neutral"){
+			//pinpoint para or nothing
+				jQuery('#pincite-selection>option[value="pinPoint_page"]').hide();//attr({ disabled: 'disabled' });
+				jQuery('#pinciteRadio_Reporter1').html(reporters[0]);
+				jQuery('#pinciteRadio2').hide();
+			}
+		}
+	}
+	
+	function autoFillUKPinpoint(reporterType, reporters){
+		var id = "#UKCase"
+		console.log("reporterType ::" +reporterType );
+		console.log("reporter 1::"+ reporters[0]);
+		console.log("reporter 2 ::" + reporters[1]);
+		// two reporters
+		if (reporters == "reporter") { 
+			//everything
+			jQuery(id + '#pincite-selection>option[value="pinPoint_page"]').show();
+			jQuery(id + '#pincite-selection>option[value="pinPoint_para"]').show();
+			jQuery(id + '#pinciteRadio_Reporter1').html(reporters[0]);		
+		}
+		else{
+			// pinpoint page , pinpoint para or nothing
+				jQuery('#pincite-selection>option[value="pinPoint_page"]').hide();//attr({ disabled: 'disabled' });													
+				jQuery('#pinciteRadio_Reporter1').html(reporters[0]);
+			}
+	}
+		
 /*
 =============================================
 Reporter List
@@ -511,7 +582,7 @@ jQuery('#CanadaCaseReset').click(function(){
 
 
 
-var formClass = function(name,hidelist, validator){ 
+var formClass = function(name, hidelist, validator){ 
 
 	this.name = name;
 	this.hidelist = hidelist;
@@ -521,19 +592,25 @@ var formClass = function(name,hidelist, validator){
 }
 formClass.prototype.init = function(){
 	this.addEvents();
+	this.hide();
 }
 
 formClass.prototype.getName = function(){
 	return this.name;
 }
 	
-formClass.prototype.hide = function(elementList){
-	//return this.name;
+formClass.prototype.hide = function(){
+	var id = '#'+ this.name +'Container';  //ex. #CanadaCase
+	for (var i=0 ; i<this.hidelist.length; i++){
+	console.log(id + " " +this.hidelist[i]);
+		jQuery(this.hidelist[i]).hide();
+	}
 }
 
 formClass.prototype.submitForm = function(){
 console.log("in submit");
 var id = '#'+ this.name;  //ex. #CanadaCase
+var Name = this.name;  //ex. #CanadaCase
 
 	if ( this.validator.form() == true){		
 		
@@ -541,7 +618,7 @@ var id = '#'+ this.name;  //ex. #CanadaCase
 		jQuery.ajax({ 
 			type: "POST", 
 			data: jQuery(id +'-Form').serialize(),
-			url:'/form/'+this.name,
+			url:'/form/'+Name,
 			dataType: 'json',
 			success: function(data) {
 				jQuery(id+"-Container .loading-gif").hide();  
@@ -567,6 +644,7 @@ var id = '#'+ this.name;  //ex. #CanadaCase
 
 		}).fail(function(){
 				generateErrorMessage(id+"-Form","something went wrong on our end :( ")
+				//return false; 
 			})		
 		.always( function(){
 			jQuery(id+"-Container .loading-gif").hide();  
@@ -575,7 +653,7 @@ var id = '#'+ this.name;  //ex. #CanadaCase
 	} //end of if
 	else{
 	}
-return false; 	
+//return false; 	
 }
 
 formClass.prototype.addEvents = function(){
@@ -588,29 +666,14 @@ formClass.prototype.addEvents = function(){
         var self = ev.data.context;
         self.submitForm();
 		//return false;
-    },
-
-
-
-/*
-jQuery('#Dictionary-Container .submitButton').click(function() {
-	console.log("Yay!");
+    }
 	
-	//return false;
-});*/
 
+UKhidelist = ['.optionalCourt', '#court-optional','#UKreporter-container', '#UKpincite-form', "#history2", "#history3"]
 dictionary = new formClass('Dictionary', [], BookValidator);
 canada = new formClass('CanadaCase', [], CanadianCaseValidator);
-/*
-
-formClass.prototype.submitButton = function(elementList){
-	
-	jQuery('#something').click(function() {
-		//do something
-	});
-}
-
-*/
+journal = new formClass('Journal',[], JournalArticleValidator);
+uk = new formClass('UKCase',UKhidelist, JournalArticleValidator);
 
 
 	

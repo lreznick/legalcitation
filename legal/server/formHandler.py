@@ -2,16 +2,20 @@ import web
 import json
 from formcode.CanadianCase import *
 from formcode.Journal import *
+from formcode.UKCase import UK
 from formcode.webGrabber import *
 from validator import *
 
 urls = (
-	'/parallel', 'Parallel',
-	'/court', 'Court',
 	'/CanadaCase', 'Canada',
 	'/canlii', 'Canlii',
-	'/JournalArticle', 'JournalArticle',
-	'/Dictionary', 'Dictionary'
+	'/parallel', 'Parallel',
+	'/court', 'Court',
+	
+	'/UKCaseParallel', 'UKParallel',
+	'/Journal', 'JournalArticle',
+	'/Dictionary', 'Dictionary',
+	
 )
 
 class FormContainer:
@@ -27,6 +31,24 @@ def CreateFormClass(type,form):
 	f = FormContainer(type,form)
 	return f		
 	
+	
+	
+	
+class UKParallel(object):
+	def POST(self):
+		form = web.input()
+		f = CreateFormClass("UKCase", form)	
+		parallel = "%s" % (form.parallel)
+		print "in ukparallel"
+		f= ValidateParallel(f)
+		
+		if (f.valid ==True):
+			date = UK.PullDate(parallel)
+			reporters = UK.AutoPCPinpoint(parallel)
+		data = [ {'date':date, 'reporters':reporters}]
+		data_string =json.dumps(data)
+		return data_string	
+		
 class JournalArticle(object):
 	def POST(self):
 		form = web.input()
@@ -135,7 +157,7 @@ def JournalArticleFormatter(form):
 		newAuthors = FormatAuthors(authors)
 		newTitle =FormatTitle(title)
 		newCitation = FormatVolumeEtc(citation,year,pinpointList)
-		returnString= newAuthors + newTitle + newCitation
+		returnString= newAuthors + newTitle + newCitation[0]
 		
 	data = [ {'message':returnString, 'valid':f.valid, 'errors':f.errors}]
 	data_string =json.dumps(data)

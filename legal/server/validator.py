@@ -110,7 +110,7 @@ def ValidateJournalArticle(f):
 	
 	
 	
-def ValidateCanadianParallel(f):
+def ValidateParallel(f):
 	parallel				= "%s" % (f.form.parallel)
 	if not parallel:
 		GenerateErrorMsg(f,"parallel","", ErrorMsgRequired("parallel citation") )
@@ -184,7 +184,7 @@ def ValidateCanadianCase(f):
 		
 		
 	#========	Parallel
-	ValidateCanadianParallel(f)
+	ValidateParallel(f)
 	
 	
 	#========	Year

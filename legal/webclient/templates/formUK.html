@@ -1,7 +1,6 @@
 <section>
 
 
-	 
  <!-- MANUAL FORM -->
 	<div id = "manual-header" class="header2"> Enter Your Information Manually</div>
 	<br>
@@ -34,7 +33,7 @@
 				<span class="help-block">
 							<!-- REPORTER LIST -->
 								<button class ="browsebutton" type ="button" style ="color: #0088cc; margin-bottom: 5px;"> &#187  <i> Search Reporters</i> </span> </button>
-								<div id ="reporter-container" >
+								<div id ="UKreporter-container" >
 									<form class="form-search">
 									  <input type="text" class="input-medium search-query" placeholder ="Search..." id = "reporter-input" name="reporter">
 									</form>
@@ -47,23 +46,22 @@
 							</div> <!-- container-->   
 				</div>												
 
-		<!--Date -->
-		<div class="control-group"  id ="UKCaseDate-controlgroup">
-			<label class="control-label" for="UKCaseDate"> <b>Year of Decision<font color ="red"> *</font></b> </label>
+		<!-- Year -->
+		<div class="control-group"  id ="UKCaseYear-controlgroup">
+			<label class="control-label" for="UKCaseYear"> <b>Year of Decision<font color ="red"> *</font></b> </label>
 			<div class="controls">
-				<input type="text" class="input-xxlarge" id="UKCaseDate"
-							placeholder="" name = "year">
+				<input type="text" class="input-xxlarge" id="UKCaseYear" placeholder="" name = "year">
 			</div>
 		</div>
 		
 		<!--Court -->
 		<div class="control-group"  id ="UKCaseCourt-controlgroup">
-		<label class="control-label" for="UKCaseCourt">court</label>
+		<label class="control-label" for="UKCaseCourt">Court</label>
 			<div class="controls">
 				<select name = "court_selection" id="court-selection" >
-					<option value ="pinPoint_para" >poop1</option>
-					<option value ="pinPoint_page" >poop2</option>
-				</select>	
+				$:render.formUKCourts()
+
+				<input type="text" style = "width: 275px" id="UKCaseCourt" class ="optionalCourt" placeholder="" name = "court">
 			</div>
 		</div>
 		
@@ -76,9 +74,9 @@
 			</div>
 		</div>	
 
-		<!--Pincite-->
+		<!--Pinpoint-->
 		<div class="control-group" >			
-			<label class="control-label" for="UKCasePinpoint">Pinpoint/Cite To</label>
+			<label class="control-label" for="UKCasePinpoint">Pinpoint</label>
 				<div class="controls" >
 					<div id= "pinciteWrapper" style = "width:220px; height: 30px; position: absolute" data-toggle ="tooltip"> </div>
 
@@ -86,20 +84,16 @@
 							<option  value ="" style = "color: grey" >		select</option>
 							<option value ="pinPoint_para" >				Pinpoint to Paragraph</option>
 							<option value ="pinPoint_page" >				Pinpoint to Page</option>
-							<option value ="citeTo">Cite To</option>
 						</select>	
 
-						<div id ="pincite-form" class = "inline">
+						<div id ="UKpincite-form" class = "inline">
 						<input class="span2 " id="pincite-form-input" placeholder = "page" name = "pincite_input" type="text">
 						
 							<label class="radio" id ="pinciteRadio1">
 							  <input type="radio" name="pincite_radio" value="option1" checked >
 							  <font  id="pinciteRadio_Reporter1"> Reporter 1 </font>
 							</label>
-							<label class="radio" id ="pinciteRadio2">
-							  <input type="radio" name="pincite_radio" id="pinciteRadio1" value="option2" >
-							  <font  id="pinciteRadio_Reporter2"> Reporter 2 </font>
-							</label>	
+
 							<br>
 						</div>
 
@@ -162,9 +156,9 @@
 								<div class="input-prepend" style="padding-bottom:2px">
 								<span class="add-on">Court</span>
 									<select id="citing-court-selection" name = "citing_court_selection" >
-										<option value ="pinPoint_para" >poop1</option>
-										<option value ="pinPoint_page" >poop2</option>
-									</select>									
+									$:render.formUKCourts()	
+									<br>
+									<input type="text" class = "input-xlarge" id="UKCaseCourt"  placeholder="" name = "court">									
 								</div>
 							</div> <!-- well-->
 						</div><!-- controls-->
@@ -205,9 +199,7 @@
 								<span class="add-on">Court</span>
 								
 									<select  id="history-court-selection1" name = "history_court_selection1">
-										<option value ="court1" >poop1</option>
-										<option value ="court2" >poop2</option>
-									</select>									
+									$:render.formUKCourts()								
 									
 								</div>
 								</div> <!-- well -->
@@ -241,9 +233,7 @@
 									<span class="add-on">Court</span>
 									
 									<select  id="history-court-selection1" name = "history_court_selection1">
-										<option value ="court1" >poop1</option>
-										<option value ="court2" >poop2</option>
-									</select>									
+										$:render.formUKCourts()															
 									
 									</div>
 								</div><!-- well -->
@@ -277,9 +267,7 @@
 									<span class="add-on">Court</span>
 									
 									<select  id="history-court-selection1" name = "history_court_selection1">
-										<option value ="court1" >poop1</option>
-										<option value ="court2" >poop2</option>
-									</select>	
+										$:render.formUKCourts()								
 									
 									</div>
 
@@ -313,9 +301,7 @@
 							<span class="add-on" >Court Appealed To</span>
 							
 							<select  id="leave-court-selection1" name = "leave_court_selection1">
-										<option value ="court1" >poop1</option>
-										<option value ="court2" >poop2</option>
-							</select>	
+									$:render.formUKCourts()								
 							</div>
 							</div> <!--well-->
 						</div>
@@ -330,34 +316,10 @@
 
 		 <!--END OF THE FORM FIELDS -->
 		
-		
-			<!-- Submit Button -->
-		<button  class="btn btn-danger" id ="UKCase-go"> Generate!</button>
-		<button type="reset" class="btn"  id="UKCaseReset" style ="margin-left:540px">reset</button>
-		
-		
-		
+
 		
 		<!-- Error Containers -->
-		<br>
-			<div class = "warning-container">
-			</div>
-		
-			<div class ="error-container">
-			</div>
-			
-			<div id ="result-container">
-			<h3> Result</h3>
-			<div id="result-editField" contenteditable="true">
-			<style scoped>
-			  #result-editField { margin-bottom: 10px; margin-left: 2px; }
-			  [contenteditable="true"] { padding: 10px; outline: 1px dashed #CCC; }
-			  [contenteditable="true"]:hover { outline: 1px dashed #0090D2; }
-			</style>
-			<font id="UKcase-results"> </font>
-			</div>	            
-		</div>
-			<img src ="./static/img/loading.gif" class = "loading-gif" >	
+	$:render.formResults()
 		
 		
 		

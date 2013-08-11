@@ -6,9 +6,9 @@
 	<br>
 
 	<!-- The forms --> 
-	<div class="leftHalf" id="JournalArticle-Container"> 
+	<div class="leftHalf" id="Journal-Container"> 
 		
-		<form class="form-horizontal" id ="JournalArticle-Form"> 
+		<form class="form-horizontal" id ="Journal-Form"> 
 		<fieldset>
 		
 		<!-- Authors -->
@@ -94,32 +94,7 @@
 		
 			
 		<!-- Error Containers -->
-		<br>
-			<div class = "warning-container">
-			</div>
-		
-			<div class ="error-container">
-			</div>
-			
-			<div class ="result-container">
-			<h3> Result</h3>
-			<div id="result-editField" contenteditable="true">
-			<style scoped>
-			  #result-editField { margin-bottom: 10px; margin-left: 2px; }
-			  [contenteditable="true"] { padding: 10px; outline: 1px dashed #CCC; }
-			  [contenteditable="true"]:hover { outline: 1px dashed #0090D2; }
-			</style>
-			<font id="journalarticle-results"> </font>
-			</div>	            
-		</div>
-			
-		
-		<!-- Submit Button -->
-		<button  class="btn btn-danger" id ="JournalArticleSubmitButton"> Generate!</button>
-		<button type="reset" class="btn"  id="JournalArticleReset" >reset</button>
-		<button   type = "button" id="thetestbutton" >test</button>
-
-			
+		$:render.formResults()			
 		</fieldset>
 		</form>
 	</div> <!-- leftHalf-->

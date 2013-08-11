@@ -13,10 +13,15 @@ Validations
 	var regex_pincite 	=/^[\d,-\s]*$/
 	var regex_page 		=/^\d+$/
 
-var BookValidator = jQuery('#Book-Form').validate({
+/*
+=============================================
+UK Validator
+=============================================
+*/			
+var UKValidator = jQuery('#UK-Form').validate({
 			//ignore: ".search-query",
 			rules: { 
-				title: { 
+				styleofcause: { 
 					maxlength:500	
 				}					
 			},
@@ -30,13 +35,37 @@ var BookValidator = jQuery('#Book-Form').validate({
 				
 			},
 			messages: { 
-				title: {
+				styleofcause: {
 					maxlength: "Maximum length: 250 characters.",
 				},
 	
 			}
 		});
 	
+
+var BookValidator = jQuery('#Book-Form').validate({
+			//ignore: ".search-query",
+			rules: { 
+				styleofcause: { 
+					maxlength:500	
+				}					
+			},
+			highlight: function(element) {
+				console.log("in highlight");
+				jQuery(element).closest('.control-group').addClass('error');
+			},
+			success: function(element) {	
+				console.log("in success");			
+				element.closest('.control-group').removeClass('error');//.addClass('success'); 
+				
+			},
+			messages: { 
+				styleofcause: {
+					maxlength: "Maximum length: 250 characters.",
+				},
+	
+			}
+		});	
 /*
 =============================================
 Journal Article
@@ -44,7 +73,7 @@ Journal Article
 */			
 	// Validates the form to check if a form works or not
 	// Note: rules are based on name of form
-	var JournalArticleValidator = jQuery('#JournalArticle-Form').validate({
+	var JournalArticleValidator = jQuery('#Journal-Form').validate({
 			//ignore: ".search-query",
 			rules: { 
 				authors: { //check for insert code??????
@@ -68,31 +97,23 @@ Journal Article
 				pinpoint_form1: {
 					maxlength:20,
 					regex: regex_page,										
-					required: true 
 				},				
 				pinpoint_form1: {
 					maxlength:20,
 					regex: regex_page,										
-					required: true 
 				},				
 				pinpoint_form2: {
 					maxlength:20,
 					regex: regex_page,										
-					required: true 
 				},				
 				pinpoint_form3: {
 					maxlength:20,
 					regex: regex_page,										
-					required: true 
 				},				
 				pinpoint_form4: {
 					maxlength:20,
 					regex: regex_page,										
-					required: true 
 				},								
-				
-				
-				
 			},
 			highlight: function(element) {
 				console.log("in highlight");
