@@ -577,8 +577,7 @@ def AutoPCPinpoint(Citation_Input):
 	print "\n****** AutoPCPinpoint"
 	print "input is:\n", "citation string: ", Citation_Input
 	m = Divide(Citation_Input)
-	print "List of reporters: ", m
-	NC = CheckNC(m)
+	NC = CheckNC(Citation_Input)
 	if NC[1]=="NC":# or (NC[1]=="EWHC"):#returns: [string, "NC"/"EWHC"/"No NC"/]
 		neut = re.sub(regstrSpec(r'\d+'), '', NC[0])
 		if len(m)==1:
@@ -586,7 +585,7 @@ def AutoPCPinpoint(Citation_Input):
 		return ["neutral", neut]
 	if NC[1]=="EWHC":
 		return ["EWHC", NC[0]]
-	R = BestReporter(m)
+	R = BestReporter(Citation_Input)
 	report = re.sub(regstrSpec(r'\d+'), '', R)
 	return ["reporter", report]
 
@@ -632,6 +631,8 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 	else: CitationYear = PullDate(Best)
 	BR = BestReporter(Citation_Input) #returns the best reporter, no funny business
 	Best = BR[0]
+	if Auto[1] == "reporter":
+		Best += citestr
 	#pincite = [pinpoint/cite, reporter, type (para or page), input]
 	if BR[1] == "court":
 		Court = True
@@ -659,7 +660,7 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 			OUTPUT = ' ('+ JudgementYear + '), ' + Best + ' (' + Ct+ ')'
 	if NeutralCitation:
 		print "CITATIONDATE AND COURT DETECTED"
-		OUTPUT = NeutralCitation + ', ' + Best
+		OUTPUT = NeutralCitation + citestr+', ' + Best
 	print "Result:", OUTPUT
 	return OUTPUT
 
@@ -781,3 +782,19 @@ def GetJudge(string, dissenting):
 	if dissenting:
 		string = string + ", dissenting"
 	return ", " + string
+	
+
+class UKCaseClass(object):
+	def __init__(self):
+		self.GetCitations = GetCitations
+		self.GetStyleOfCause = GetStyleOfCause
+		self.GetHistory = GetHistory
+		self.GetCiting = GetCiting
+		self.GetLeaveToAppeal = GetLeaveToAppeal
+		self.GetShortForm = GetShortForm
+		self.GetJudge = GetJudge
+		self.AutoPCPinpoint = AutoPCPinpoint
+		
+	
+	
+	
