@@ -58,21 +58,26 @@ var formOffsets = [
 '#CanadaCase-Container',
 '#CanadaCaseJudge', //judge
 '#history1', //history
-'#leaveToAppeal-selection']; //leave to appeal
+'#leaveToAppeal-selection'
+]; //leave to appeal
+
+
+
+
 
 /* ******** UK ******** */
 
 var uktooltip_text = [
-/*0*/"Style of Cause     </div><font class = \"red\"> ex. Hadley v Baxendale</font><br> Input the style of cause as written on the case. <br>"
-/*1*/"Parallel Citations </div><font class = \"red\"> ex. [2011] 1 FCR 598, [2011] EWCA Civ 34, [2011] Fam Law 342, [2011] 1 FLR 2040 </font><br> Separate abbreviated reporters by commas or semicolons. Browse through the catalog to find abbreviations. <br>Input preferably one reporter and one neutral citation, otherwise either will do. <br>Don't worry about formatting. <br>"
-/*2*/"Year of Decision    </div><font class = \"red\"> ex. 2002 </font><br>"
-/*3*/"Court                 </div><font class = \"red\"> ex. Court of Appeal: Civil Division </font><br>"
-/*4*/"Short Form      	</div><font class = \"red\"> ex. Blake</font> <br>Use a short form to refer to the judgment later in your paper. <br>It is normally the first party name. <br>"
-/*5*/"Pinpoint             	</div><font class = \"red\"> ex. 42-49, 57 </font><br>You must pinpoint to paragraphs the neutral citation, if provided.<br>Otherwise, pinpoint paragraphs or pages on the reporter. <br>"
-/*6*/"Citing               </div><font class = \"red\">  ex. Officer L (Re), [2007] UKHL 36</font> <br>Use the citing feature if the main judgement cites a passage from another case, if appropriate. <br>"
-/*7*/"Judge               </div><font class = \"red\"> ex. Lord Denning MR</font><br>Consult the 'Judicial titles in England and Wales' Wikipedia page to find the appropriate formatting. <br>"
-/*8*/"History              </div>Affirming or Reversing <font class = \"red\"> <br> ex. [2005] EWHC 733 (Fam) </font><br>Input minimum <b>one</b> citation for the lower court judgement. <br> <br>Affirmed by or Reversed by<br><font class = \"red\">ex. [2013] EWHC 92 (Ch), [2013] WLR(D) 30 </font> <br>Input preferably <b>two</b> citations for the upper court judgement. <br> "
-/*9*/"Leave To Appeal </div> <b>Granted </b> or <b> Refused:</b> input court and case citation. <br> <font class = \"red\">ex. House of Lords (England), UKSC 2013/0044 </font><br><b>Requested </b> or <b> As of right:</b> input court. <br><font class = \"red\">ex. Court of Appeal: Criminal Division </font><br>"
+/*0*/"Style of Cause     </div><font class = \"red\"> ex. Hadley v Baxendale</font><br> Input the style of cause as written on the case. <br>",
+/*1*/"Parallel Citations </div><font class = \"red\"> ex. [2011] 1 FCR 598, [2011] EWCA Civ 34, [2011] Fam Law 342, [2011] 1 FLR 2040 </font><br> Separate abbreviated reporters by commas or semicolons. Browse through the catalog to find abbreviations. <br>Input preferably one reporter and one neutral citation, otherwise either will do. <br>Don't worry about formatting. <br>",
+/*2*/"Year of Decision    </div><font class = \"red\"> ex. 2002 </font><br>",
+/*3*/"Court                 </div><font class = \"red\"> ex. Court of Appeal: Civil Division </font><br>",
+/*4*/"Short Form      	</div><font class = \"red\"> ex. Blake</font> <br>Use a short form to refer to the judgment later in your paper. <br>It is normally the first party name. <br>",
+/*5*/"Pinpoint             	</div><font class = \"red\"> ex. 42-49, 57 </font><br>You must pinpoint to paragraphs the neutral citation, if provided.<br>Otherwise, pinpoint paragraphs or pages on the reporter. <br>",
+/*6*/"Citing               </div><font class = \"red\">  ex. Officer L (Re), [2007] UKHL 36</font> <br>Use the citing feature if the main judgement cites a passage from another case, if appropriate. <br>",
+/*7*/"Judge               </div><font class = \"red\"> ex. Lord Denning MR</font><br>Consult the 'Judicial titles in England and Wales' Wikipedia page to find the appropriate formatting. <br>",
+/*8*/"History              </div>Affirming or Reversing <font class = \"red\"> <br> ex. [2005] EWHC 733 (Fam) </font><br>Input minimum <b>one</b> citation for the lower court judgement. <br> <br>Affirmed by or Reversed by<br><font class = \"red\">ex. [2013] EWHC 92 (Ch), [2013] WLR(D) 30 </font> <br>Input preferably <b>two</b> citations for the upper court judgement. <br> ",
+/*9*/"Leave To Appeal </div> <b>Granted </b> or <b> Refused:</b> input court and case citation. <br> <font class = \"red\">ex. House of Lords (England), UKSC 2013/0044 </font><br><b>Requested </b> or <b> As of right:</b> input court. <br><font class = \"red\">ex. Court of Appeal: Criminal Division </font><br>",
 ]
 for (var i =0; i< uktooltip_text.length; i++){
 	uktooltip_text[i] = tooltip_header + uktooltip_text[i]
@@ -111,17 +116,17 @@ var UKtooltipList = [
 
 /* ******** US ******** */
 
-var ustip_text = [
-/*0*/"Style of Cause     </div><font class = \"red\"> ex. Roe v. Wade</font><br> Input the style of cause as written on the case. <br>"
-/*1*/"Parallel Citations </div><font class = \"red\"> ex. 971 F (2d) 1395, 1992 Lexis 23028 </font><br> Separate abbreviated reporters by commas or semicolons. Browse through the catalog to find abbreviations. <br>Input minimum <b>one</b> reporter. <br>Don't worry about formatting. <br>"
-/*2*/"Year of Decision    </div><font class = \"red\"> ex. 1994 </font><br>"
-/*3*/"Court                 </div><font class = \"red\"> ex. Northern District of California </font><br>"
-/*4*/"Short Form      	</div><font class = \"red\"> ex. King</font> <br>Use a short form to refer to the judgment later in your paper. <br>It is normally the first party name. <br>"
-/*5*/"Pinpoint             	</div><font class = \"red\"> ex. 239, 241-45 </font><br>Pinpoint to the page in the reporter indicated."
-/*6*/"Citing               </div><font class = \"red\">  ex. Asbury v Roanoake, 599 F Supp (2d) 712 (WD Virginia, 2009)</font> <br>Use the citing feature if the main judgement cites a passage from another case, if appropriate. <br>"
-/*7*/"Judge               </div><font class = \"red\"> ex. Jones J</font><br> J = Justice/Judge <br> CJ = Chief Justice/Judge<br>"
-/*8*/"History              </div>Affirming,  Reversing, Affirmed by, or Reversed by <font class = \"red\"> <br> ex. 393 US 503 (1969)  </font><br>Input one citation for the lower court judgement. <br>"
-/*9*/"Leave To Appeal </div> <b>Granted </b> or <b> Refused:</b> input court and case citation. <br> <font class = \"red\">ex. 2nd Circuit, APL 2013-00002 </font><br><b>Requested </b> or <b> As of right:</b> input court. <br><font class = \"red\">ex. 2nd Circuit</font><br>"
+var ustooltip_text = [
+/*0*/"Style of Cause     </div><font class = \"red\"> ex. Roe v. Wade</font><br> Input the style of cause as written on the case. <br>",
+/*1*/"Parallel Citations </div><font class = \"red\"> ex. 971 F (2d) 1395, 1992 Lexis 23028 </font><br> Separate abbreviated reporters by commas or semicolons. Browse through the catalog to find abbreviations. <br>Input minimum <b>one</b> reporter. <br>Don't worry about formatting. <br>",
+/*2*/"Year of Decision    </div><font class = \"red\"> ex. 1994 </font><br>",
+/*3*/"Court                 </div><font class = \"red\"> ex. Northern District of California </font><br>",
+/*4*/"Short Form      	</div><font class = \"red\"> ex. King</font> <br>Use a short form to refer to the judgment later in your paper. <br>It is normally the first party name. <br>",
+/*5*/"Pinpoint             	</div><font class = \"red\"> ex. 239, 241-45 </font><br>Pinpoint to the page in the reporter indicated.",
+/*6*/"Citing               </div><font class = \"red\">  ex. Asbury v Roanoake, 599 F Supp (2d) 712 (WD Virginia, 2009)</font> <br>Use the citing feature if the main judgement cites a passage from another case, if appropriate. <br>",
+/*7*/"Judge               </div><font class = \"red\"> ex. Jones J</font><br> J = Justice/Judge <br> CJ = Chief Justice/Judge<br>",
+/*8*/"History              </div>Affirming,  Reversing, Affirmed by, or Reversed by <font class = \"red\"> <br> ex. 393 US 503 (1969)  </font><br>Input one citation for the lower court judgement. <br>",
+/*9*/"Leave To Appeal </div> <b>Granted </b> or <b> Refused:</b> input court and case citation. <br> <font class = \"red\">ex. 2nd Circuit, APL 2013-00002 </font><br><b>Requested </b> or <b> As of right:</b> input court. <br><font class = \"red\">ex. 2nd Circuit</font><br>",
 ]
 for (var i =0; i< ustooltip_text.length; i++){
 	ustooltip_text[i] = tooltip_header + ustooltip_text[i]
