@@ -39,9 +39,11 @@ var formOffsets = [
 '#leaveToAppeal-selection']; //leave to appeal
 
 jQuery('#CanadaCase-Container input').focus(function(){
+		
 		var name = jQuery(this).attr('name') // get Forms name
 		var tool = eval('tooltip_'+name); // convert it to a variable
-		jQuery('#tooltips').html(tool); // display the tooltip
+		//console.log(tool + " " +jQuery('.tooltips').html()); // display the tooltip)
+		jQuery('#CanadaCase-tooltips').html(tool); // display the tooltip
 		
 		var formTop = jQuery("#CanadaCase-Container").offset();
 		var currentForm = jQuery(this).offset();
@@ -55,10 +57,10 @@ jQuery('#CanadaCase-Container input').focus(function(){
 			
 			if (positionDifference >= offset){
 				if (positionDifference < nextOffset){
-					jQuery('#tooltips').css('margin-top', offset);
+					jQuery('#Canada.tooltips').css('margin-top', offset);
 				}
 				if (positionDifference >= nextOffset){
-					jQuery('#tooltips').css('margin-top', nextOffset);
+					jQuery('#Canada .tooltips').css('margin-top', nextOffset);
 				}
 			}
 		}

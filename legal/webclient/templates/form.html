@@ -7,37 +7,37 @@ $def with (greeting= None)
 
         <div class="tabbable"> <!-- Only required for left/right tabs -->
           <ul class="nav nav-pills">
-            <li class="active"><a href="#tab1" data-toggle="tab">Case (Canada)</a></li>
-            <li><a href="#tab2" data-toggle="tab">Case (US)</a></li>
-            <li><a href="#tab3" data-toggle="tab">Case (UK)</a></li>
-			<li><a href="#tab4" data-toggle="tab">Journal Article</a></li>
-			<li><a href="#tab5" data-toggle="tab">Book</a></li>
+            <li class="active"><a href="#Canada" data-toggle="tab">Case (Canada)</a></li>
+            <li><a href="#US" data-toggle="tab">Case (US)</a></li>
+            <li><a href="#UK" data-toggle="tab">Case (UK)</a></li>
+			<li><a href="#Journal" data-toggle="tab">Journal Article</a></li>
+			<li><a href="#Book" data-toggle="tab">Book</a></li>
           </ul>
       <hr>
             <div class="tab-content">	
                 <!-- Canadian Case-->
-				<div class="tab-pane active" id="tab1">
+				<div class="tab-pane active" id="CanadaCase">
 					$:render.formCanadianCase()
 				</div>
 				
 				<!-- US-->
-                <div class="tab-pane" id="tab2">
+                <div class="tab-pane" id="US">
                   <p>Coming Soon</p>
                 </div>				
 
 				<!-- UK-->
-                <div class="tab-pane" id="tab3">
+                <div class="tab-pane" id="UK">
                    $:render.formUK()
                 </div>
 				
 				<!--Journal Article-->					 
-                <div class="tab-pane" id="tab4">
+                <div class="tab-pane" id="Journal">
                   $:render.formJournalArticle()
                 </div>
 
 				
 				<!-- Book-->
-                <div class="tab-pane" id="tab5">
+                <div class="tab-pane" id="Book">
                   $:render.formBook()
                 </div>				
                 

@@ -580,8 +580,7 @@ jQuery('#CanadaCaseReset').click(function(){
 jQuery('#UKCase-Container .resetButton').click(function(){
 	UKCaseValidator.resetForm();
 	id = "#UKCase-Container "
-	
-	
+
 	//tooltips
 	jQuery(id+'#tooltips').html("");
 
@@ -681,8 +680,36 @@ formClass.prototype.addEvents = function(){
         self.submitForm();
 		//return false;
     }
-	
 
+var tooltipClass = function(tooltipList){
+	this.tooltipList = tooltipList
+}	
+ tooltipClass.prototype.tooltip= function (){
+ 		var name = jQuery(this).attr('name') // get Forms name
+		var tool = eval('tooltip_'+name); // convert it to a variable
+		//console.log(tool + " " +jQuery('.tooltips').html()); // display the tooltip)
+		jQuery('#CanadaCase-tooltips').html(tool); // display the tooltip
+		
+		var formTop = jQuery("#CanadaCase-Container").offset();
+		var currentForm = jQuery(this).offset();
+		var positionDifference = currentForm.top - formTop.top;
+
+		for (var i =0; i<formOffsets.length-1;i++){
+			var a = formOffsets[i];
+			var b = formOffsets[i+1];
+			var offset = (jQuery(a).offset().top-formTop.top);
+			var nextOffset = (jQuery(b).offset().top-formTop.top);
+			
+			if (positionDifference >= offset){
+				if (positionDifference < nextOffset){
+					jQuery('#Canada.tooltips').css('margin-top', offset);
+				}
+				if (positionDifference >= nextOffset){
+					jQuery('#Canada .tooltips').css('margin-top', nextOffset);
+				}
+			}
+		}
+ }
 
 dictionary = new formClass('Dictionary', [], BookValidator);
 canada = new formClass('CanadaCase', [], CanadianCaseValidator);
