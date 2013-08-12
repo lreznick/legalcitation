@@ -8,33 +8,39 @@ Journal Articles
 
 function hidePinPoint(){
 
-	jQuery('#JournalArticle-Form #pinpoint-form1').hide();
-	jQuery('#JournalArticle-Form #pinpoint-form2').hide();
-	jQuery('#JournalArticle-Form #pinpoint-form3').hide();
-	jQuery('#JournalArticle-Form #pinpoint-form4').hide();
+	jQuery('#Journal #pinpoint-form1').hide();
+	jQuery('#Journal-Form #pinpoint-form2').hide();
+	jQuery('#Journal-Form #pinpoint-form3').hide();
+	jQuery('#Journal-Form #pinpoint-form4').hide();
+	jQuery('#Journal-Form #pinpoint-check1').hide();
+	jQuery('#Journal-Form #pinpoint-check2').hide();
 }
 
 hidePinPoint();
 
-jQuery('#JournalArticle-Form #pinpoint-selection').change(function(){
+jQuery('#Journal-Form #pinpoint-selection').change(function(){
 	var txt = jQuery(this).val();
+	var id ='#Journal-Form '
 	hidePinPoint();
-	console.log(txt)
-	console.log("1")
+	
 	if (txt == "None"){
 	
 	}
-	else if (txt =="pinpoint_para"){
-	console.log("2")	
-		jQuery('#JournalArticle-Form #pinpoint-form1').show();
-	}
-	else if (txt =="pinpoint_page"){
-		console.log("3")	
-		jQuery('#JournalArticle-Form #pinpoint-form2').show();
-	}
-	else if (txt =="pinpoint_foot"){
-		jQuery('#JournalArticle-Form #pinpoint-form3').show();
-		jQuery('#JournalArticle-Form #pinpoint-form4').show();
+	else {
+		jQuery('#Journal-Form #pinpoint-check1').show();
+		jQuery('#Journal-Form #pinpoint-check2').show();
+		if (txt =="pinpoint_para"){
+		console.log("2")	
+			jQuery(id+ '#pinpoint-form1').show();
+		}
+		else if (txt =="pinpoint_page"){
+			console.log("3")	
+			jQuery(id+' #pinpoint-form2').show();
+		}
+		else if (txt =="pinpoint_foot"){
+			jQuery(id +'#pinpoint-form3').show();
+			jQuery(id +'#pinpoint-form4').show();
+		}
 	}
 });
 /*
@@ -110,21 +116,6 @@ Set Up
 	jQuery(".result-container").hide();
 	jQuery(".loading-gif").hide();
 	jQuery("#canlii-result-container").hide();
-	/*
-	
-	jQuery("#pincite-form").hide();
-	jQuery("#reporter-container").hide();
-	jQuery("#history3").hide();
-	jQuery("#history2").hide();
-*/
-	jQuery('#pinciteWrapper').tooltip({
-		trigger: 'hover',
-		placement: 'right',
-		title: "Fill out Parallel Citations before pinpointing."
-	});
-
-
-	//jQuery("#CanadaCaseHistory-Group").hide();
 	
 /*
 =============================================
@@ -411,7 +402,7 @@ Reporter List
 	var currentstring1;
 	var currentList = [];
 	var outputstring = "";
-	var browseClicked = false;
+	
 	
 	var reporter = function(name,abbr,jurisdiction){
 		this.name = name;
@@ -442,7 +433,7 @@ Reporter List
 	
 	var updateCurrentList = function() {
 		outputstring="	<thead> <tr><td> <b> Abbreviation  </b></td><td><b> Name </b><td></tr> </thead> <tbody>";
-		var currentstring= jQuery("input#reporter-input").val();
+		var currentstring= jQuery("input #reporter-input").val();
 		
 		if (currentstring !=""){
 			currentList = _.filter(reporterList, function(singleReporter){
@@ -474,16 +465,7 @@ Reporter List
 	document.getElementById("reporter-input").onkeyup = updateCurrentList;
   
 
-	jQuery(".browsebutton").click(function(){
-		if(browseClicked == false){
-    		jQuery("#reporter-container").show();
-    		browseClicked = true;
-		}
-		else{
-			jQuery("#reporter-container").hide();
-			browseClicked = false;
-		}
-	});
+
 	
 
 /*
@@ -515,28 +497,32 @@ jQuery('#CanadaCaseReset').click(function(){
 })
 	
 jQuery('#UKCase-Container .resetButton').click(function(){
+	var id = "#UKCase-Container"
 	UKCaseValidator.resetForm();
-	id = "#UKCase-Container"
-
+	uk.hide();
+	resetWrapper(id)
 	//tooltips
 	jQuery(id+'#tooltips').html("");
 
-	uk.hide();
-	jQuery('#pinciteWrapper').tooltip('enable');
-	$('#pincite-selection').prop('disabled',true);
-	$('#pinciteWrapper').show();	
+	
 
 
 })
 	
 
+function resetWrapper(name){
+	jQuery(name+'#pinciteWrapper').tooltip('enable');
+	$(name+'#pincite-selection').prop('disabled',true);
+	$(name+'#pinciteWrapper').show();	
 
+}
 
 
 var formClass = function(name, hidelist, validator){ 
 	this.name = name; //ex CanadaCase
 	this.hidelist = hidelist; //The list of objects to be hidden before the code runs
 	this.validator = validator; //form validators (rules to be checked for inputs)
+	this.browseClicked = false; //form validators (rules to be checked for inputs)
 	//this.tooltip = tooltip;
 	//this.successFunction = successFunction;
 	this.init();
@@ -545,10 +531,16 @@ var formClass = function(name, hidelist, validator){
 formClass.prototype.init = function(){
 	this.addEvents();
 	this.hide();
+	jQuery('#'+this.name +'-Container #pinciteWrapper').tooltip({
+		trigger: 'hover',
+		placement: 'right',
+		title: "Fill out Parallel Citations before pinpointing."
+	});
 }
 
 formClass.prototype.addEvents = function(){
-	$('#' +this.name +'-Container .submitButton').bind('click', {context: this}, this.onClick);
+	$('#' +this.name +'-Container .submitButton').bind('click', {context: this}, this.submitClick);
+	$('#' +this.name +'-Container .browsebutton').bind('click', {context: this}, this.browseClick);
 	
 }
 
@@ -611,7 +603,25 @@ var Name = this.name;  //ex. #CanadaCase
 //return false; 	
 }
 
- formClass.prototype.onClick= function (ev){
+ formClass.prototype.browseClick= function (ev){
+        var self = ev.data.context;
+        self.browse();
+		
+    }
+formClass.prototype.browse = function(){
+		if(this.browseClicked == false){
+    		jQuery("#"+this.name +"-Container #reporter-container").show();
+    		this.browseClicked = true;
+		}
+		else{
+			jQuery("#"+this.name +"-Container #reporter-container").hide();
+			this.browseClicked = false;
+		}
+	}
+
+
+	
+ formClass.prototype.submitClick= function (ev){
         var self = ev.data.context;
         self.submitForm();
 		//return false;
@@ -620,7 +630,6 @@ var Name = this.name;  //ex. #CanadaCase
 	var superfunc = function(){
 		console.log(" UUUUUUUUUUUUUR MUR GURSH");
 	}
-
 	var someClass = function(func){
 		this.func = func;
 	}
@@ -633,6 +642,7 @@ var Name = this.name;  //ex. #CanadaCase
 		console.log('1');
 		test.go();
 	});
+	
 var tooltipClass = function(name, tooltipList,offsets){
 	this.name = name;
 	this.tooltipList = tooltipList;
@@ -701,9 +711,9 @@ uk = new formClass('USCase',ushidelist, USCaseValidator);
 
 dictionary = new formClass('Dictionary', [], BookValidator);
 
-journal = new formClass('Journal',[], JournalArticleValidator);
+journal = new formClass('Journal',['#reporter-container'], JournalArticleValidator);
 
-ukhidelist = ['.optionalCourt', '#court-optional','#UKreporter-container', '#UKpincite-form', "#history2", "#history3"]
+ukhidelist = ['.optionalCourt', '#court-optional','#reporter-container', '#UKpincite-form', "#history2", "#history3"]
 uktooltip = new tooltipClass('UKCase', UKtooltipList, UKTooltipOffsets) 
 uk = new formClass('UKCase',ukhidelist, UKCaseValidator);
 

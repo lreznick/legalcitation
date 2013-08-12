@@ -420,45 +420,39 @@ Journal Article
 			messages: { 
 				authors: { //check for insert code??????
 					maxlength:"Maximum length: 500 characters.",
-					required: "" 
+					required: " " 
 				},
 				title: {
 					maxlength:"Maximum length: 500 characters.",
-					required: "" 
+					required: " " 
 				},
-				/*
 				citation: {
-					maxlength:250,	
-					required: true 
+					maxlength:"Maximum length: 250 characters.",
+					required: " " 
 				},
 				year: {
-					maxlength:20,
-					regex: regex_year,					
-					required: true 
+					maxlength: "Maximum length: 20 characters.",
+					regex: "Enter a year between 1400 and 2014.",
+					required: " "
 				},
 				pinpoint_form1: {
-					maxlength:20,
-					regex: regex_pincite,										
+					maxlength: "Maximum length: 20 characters.",
 				},				
 				pinpoint_form1: {
-					maxlength:20,
-					regex: regex_pincite,										
+					maxlength: "Maximum length: 20 characters.",
 				},				
 				pinpoint_form2: {
-					maxlength:20,
-					regex: regex_pincite,										
+					maxlength: "Maximum length: 20 characters.",
 				},				
 				pinpoint_form3: {
-					maxlength:20,
-					regex: regex_pincite,										
+					maxlength: "Maximum length: 20 characters.",
 				},				
 				pinpoint_form4: {
-					maxlength:20,
-					regex: regex_pincite,										
+					maxlength: "Maximum length: 20 characters.",
 				},								
 			},				
-				*/
-			}
+				
+			
 		}); 	
 
 
