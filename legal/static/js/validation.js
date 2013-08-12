@@ -418,142 +418,46 @@ Journal Article
 				
 			},
 			messages: { 
-				styleofcause: {
-<<<<<<< HEAD
-					maxlength: "Maximum length: 250 characters.",
-					required: " "
+				authors: { //check for insert code??????
+					maxlength:"Maximum length: 500 characters.",
+					required: "" 
 				},
-				parallel: {
-					maxlength: "Maximum length: 250 characters.",
-					required: " "
+				title: {
+					maxlength:"Maximum length: 500 characters.",
+					required: "" 
 				},
-				year: {
-					maxlength: "Maximum length: 20 characters.",
-					regex: "Enter a year between 1400 and 2014.",
-					required: " "
-				},
-				court: {
-					maxlength: "Maximum length: 250 characters.",
-					required: " ",
-					remote: "The court you entered was invalid"
-				},
-				shortform: {
-					maxlength: "Maximum length: 100 characters.",
-					required: " "
-				},		
-				pincite_input:{
-					maxlength: "Maximum length: 10 characters.",
-					regex: "Digits only, please."
-				},
-				judge: {
-					maxlength: "Maximum length: 100 characters.",
-				},
-				citing_year:{
-					maxlength: "Maximum length: 20 characters.",
-					regex: "Enter a year between 1400 and 2014."
-				},
-				citing_court:{
-					maxlength: "Maximum length: 250 characters.",	
-				},
-				//History======
-				history_parallel1:{
-					maxlength: "Maximum length: 250 characters.",
-				},
-				history_year1: {
-					maxlength:"Maximum length: 20 characters.",	
-					regex:"Enter a year between 1400 and 2014."
-				},
-				history_court1: {
-					maxlength:"Maximum length: 250 characters.",	
-				},	
-				history_parallel2:{
-					maxlength: "Maximum length: 250 characters.",
-				},
-				history_year2: {
-					maxlength:"Maximum length: 20 characters.",	
-					regex:"Enter a year between 1400 and 2014."
-				},
-				history_court2: {
-					maxlength:"Maximum length: 250 characters.",	
-				},	
-				history_parallel3:{
-=======
->>>>>>> aa5a63a2b1cef4165de1b3937ca61f01eb4cfce2
-					maxlength: "Maximum length: 250 characters.",
-				},
-<<<<<<< HEAD
-=======
-				parallel: {
-					maxlength: "Maximum length: 250 characters.",
-					required: " "
+				/*
+				citation: {
+					maxlength:250,	
+					required: true 
 				},
 				year: {
-					maxlength: "Maximum length: 20 characters.",
-					regex: "Enter a year between 1400 and 2014.",
-					required: " "
+					maxlength:20,
+					regex: regex_year,					
+					required: true 
 				},
-				court: {
-					maxlength: "Maximum length: 250 characters.",
-					required: " ",
-					remote: "The court you entered was invalid"
-				},
-				shortform: {
-					maxlength: "Maximum length: 100 characters.",
-					required: " "
-				},		
-				pincite_input:{
-					maxlength: "Maximum length: 10 characters.",
-					regex: "Digits only, please."
-				},
-				judge: {
-					maxlength: "Maximum length: 100 characters.",
-				},
-				citing_year:{
-					maxlength: "Maximum length: 20 characters.",
-					regex: "Enter a year between 1400 and 2014."
-				},
-				citing_court:{
-					maxlength: "Maximum length: 250 characters.",	
-				},
-				//History======
-				history_parallel1:{
-					maxlength: "Maximum length: 250 characters.",
-				},
-				history_year1: {
-					maxlength:"Maximum length: 20 characters.",	
-					regex:"Enter a year between 1400 and 2014."
-				},
-				history_court1: {
-					maxlength:"Maximum length: 250 characters.",	
-				},	
-				history_parallel2:{
-					maxlength: "Maximum length: 250 characters.",
-				},
-				history_year2: {
-					maxlength:"Maximum length: 20 characters.",	
-					regex:"Enter a year between 1400 and 2014."
-				},
-				history_court2: {
-					maxlength:"Maximum length: 250 characters.",	
-				},	
-				history_parallel3:{
-					maxlength: "Maximum length: 250 characters.",
-				},
->>>>>>> aa5a63a2b1cef4165de1b3937ca61f01eb4cfce2
-				history_year3: {
-					maxlength:"Maximum length: 20 characters.",	
-					regex:"Enter a year between 1400 and 2014."
-				},
-				history_court3: {
-					maxlength:"Maximum length: 250 characters.",	
-				},					
-				leaveToAppeal_docket: {
-					maxlength:"Maximum length: 50 characters.",	
-					regex:"Enter a valid docket number or citation.",
-				},		
-				leaveToAppeal_court:{
-					maxlength:"Maximum length: 250 characters.",	
-				}				
+				pinpoint_form1: {
+					maxlength:20,
+					regex: regex_pincite,										
+				},				
+				pinpoint_form1: {
+					maxlength:20,
+					regex: regex_pincite,										
+				},				
+				pinpoint_form2: {
+					maxlength:20,
+					regex: regex_pincite,										
+				},				
+				pinpoint_form3: {
+					maxlength:20,
+					regex: regex_pincite,										
+				},				
+				pinpoint_form4: {
+					maxlength:20,
+					regex: regex_pincite,										
+				},								
+			},				
+				*/
 			}
 		}); 	
 
