@@ -151,7 +151,6 @@ def JournalArticleFormatter(form):
 			input2 =False
 			input3 = False
 		elif(pinpointSelection =="pinpoint_para"):
-			print pinpointParaCheck
 			input2 = pinpointPara
 			input3 = pinpointParaCheck
 		elif(pinpointSelection =="pinpoint_page"):
@@ -174,9 +173,7 @@ def JournalArticleFormatter(form):
 	
 def CanadianCase(form):	
 	print "\n\n======in Canadian"
-	print form
 	f = CreateFormClass("canadian case", form)	
-	print form
 
 	styleofcause		= "%s" % (f.form.styleofcause)
 	parallel				= "%s" % (f.form.parallel)
@@ -297,10 +294,12 @@ def UKFormatter(form):
 	styleofcause		= "%s" % (f.form.styleofcause)
 	parallel				= "%s" % (f.form.parallel)
 	year					= "%s" % (f.form.year)
-	court					= "%s" % (f.form.court)
-	shortform 			= "%s" % (f.form.shortform)
+	court				= "%s" % (f.form.court)
+	courtOpt			= "%s" % (f.form.court_option)
+	print "court " + court
+	shortform 		= "%s" % (f.form.shortform)
 	
-	pinciteSelection  = "%s" % (f.form.pincite_selection)
+	pinciteSelection = "%s" % (f.form.pincite_selection)
 	pinciteInput		= "%s" % (f.form.pincite_input)	
 	pincite 				= [pinciteSelection, pinciteInput]
 	
@@ -310,23 +309,24 @@ def UKFormatter(form):
 		dissenting = True
 	
 	citingStyle 			= "%s" % (f.form.citing_styleofcause)
-	citingParallel		= "%s" % (f.form.citing_parallel)
-	citingYear 			= "%s" % (f.form.citing_year)
+	citingParallel			= "%s" % (f.form.citing_parallel)
+	citingYear 				= "%s" % (f.form.citing_year)
 	citingCourt			= "%s" % (f.form.citing_court)
+	citingCourtOpt		= "%s" % (f.form.citing_court_option)
 	
-	historyaff1  		= "%s" % (f.form.history_aff1)
-	historyParallel1	= "%s" % (f.form.history_parallel1) 
-	historyYear1		= "%s" % (f.form.history_year1) 
+	historyaff1  			= "%s" % (f.form.history_aff1)
+	historyParallel1		= "%s" % (f.form.history_parallel1) 
+	historyYear1			= "%s" % (f.form.history_year1) 
 	historyCourt1		= "%s" % (f.form.history_court1)
 	
-	historyaff2  		= "%s" % (f.form.history_aff2)
-	historyParallel2	= "%s" % (f.form.history_parallel2) 
-	historyYear2		= "%s" % (f.form.history_year2) 
+	historyaff2  			= "%s" % (f.form.history_aff2)
+	historyParallel2		= "%s" % (f.form.history_parallel2) 
+	historyYear2			= "%s" % (f.form.history_year2) 
 	historyCourt2		= "%s" % (f.form.history_court2)
 	
-	historyaff3 		= "%s" % (f.form.history_aff3)
-	historyParallel3	= "%s" % (f.form.history_parallel3) 
-	historyYear3		= "%s" % (f.form.history_year3) 
+	historyaff3 			= "%s" % (f.form.history_aff3)
+	historyParallel3		= "%s" % (f.form.history_parallel3) 
+	historyYear3			= "%s" % (f.form.history_year3) 
 	historyCourt3		= "%s" % (f.form.history_court3)	
 	
 	histories = [[historyaff1, historyParallel1,historyYear1,historyCourt1]

@@ -107,20 +107,16 @@ Set Up
 =============================================
 */		
 	 
-
-	
-	//hiding all forms 
-	//jQuery("#hidden-forms").hide();
-	//jQuery(".textarea").wysihtml5();
 	jQuery(".result-container").hide();
 	jQuery(".loading-gif").hide();
-	
 	jQuery("#canlii-result-container").hide();
+	/*
+	
 	jQuery("#pincite-form").hide();
 	jQuery("#reporter-container").hide();
 	jQuery("#history3").hide();
 	jQuery("#history2").hide();
-
+*/
 	jQuery('#pinciteWrapper').tooltip({
 		trigger: 'hover',
 		placement: 'right',
@@ -193,56 +189,6 @@ function SubmitCanLII(){
 			);
 			return false; 	
 	};
-
-/*
-		//Submitting the information to the server to be processed
-	jQuery('#CanadaCase-Container .submitButton').click(function() {
-		if (CanadianCaseValidator.form() == true){
-			jQuery("#CanadaCase-Container .loading-gif").show();        
-			
-			jQuery.ajax({ 
-                type: "POST", 
-                data: jQuery('#CanadaCase-Form').serialize(),
-				url:'/form/CanadianCase',
-				dataType: 'json',
-                success: function(data) {
-					jQuery("#CanadaCase-Container .loading-gif").hide();            
-					clearErrors("#CanadaCase-Form")
-					console.log("the return data", data);
-					console.log("the return data", data[0].errors);
-					console.log("the return data", data[0].message);
-					 if( data[0].valid ==true) {
-						
-						var results = data[0].message; 
-						jQuery('#CanadaCase-Container .result-container').hide().fadeIn(200);
-						jQuery('#CanadaCase-Container .results').html(results).hide().fadeIn(400);
-					 }
-					 else{
-						var errorlist=data[0].errors;
-						console.log("errorlist" + errorlist);
-					 	for (var i =0; i<errorlist.length; i++){
-							//error = [inputName, input, message]
-							var input = errorlist[i][1];
-							var message = errorlist[i][2];
-							generateErrorMessage("#CanadaCase-Form",message);
-						}	
-					 }
-                },
-
-			}).fail(function(){
-				
-				generateErrorMessage("#CanadaCase-Form","something went wrong on our end :(")
-				})		
-			.always( function(){
-				jQuery("#CanadaCase-Container .loading-gif").hide();
-			});
-			return false; 
-		}
-		else{
-		}
-	});
-	*/
-
 	
 	jQuery('#CanadaCaseParallel').blur(function(){
 			var parallelValue = jQuery(this).val();
@@ -547,23 +493,18 @@ Reset-button
 */
 jQuery('#CanadaCaseReset').click(function(){
 	CanadianCaseValidator.resetForm();
-	
+	canada.hide();
+	id = "#CanadaCase-Container "
 	//canlii
 	jQuery("#canlii-result-container").hide();
 	jQuery('#canlii-input').val('');
 	//tooltips
-	jQuery('#tooltips').html("");
-	
-	$("#CanadaCase-Form .error").removeClass('error');
-	jQuery("#pincite-form").hide();
-	jQuery("#reporter-container").hide();
-	jQuery("#history3").hide();
-	jQuery("#history2").hide();
+	jQuery(' #CanadaCase-tooltips').html("");
+	jQuery("#CanadaCase-Form .error").removeClass('error');
 	jQuery('#pinciteWrapper').tooltip('enable');
-	$('#pincite-selection').prop('disabled',true);
-	$('#pinciteWrapper').show();
-	
-	jQuery('#manual-header').show();					
+	jQuery('#pincite-selection').prop('disabled',true);
+	jQuery('#pinciteWrapper').show();
+	jQuery('#manual-header').show();	
 	//Unhiding fields
 	jQuery('#CanadaCaseCourt-controlgroup').show();	
 	jQuery('#CanadaCaseParallel-controlgroup').show();	
@@ -575,7 +516,7 @@ jQuery('#CanadaCaseReset').click(function(){
 	
 jQuery('#UKCase-Container .resetButton').click(function(){
 	UKCaseValidator.resetForm();
-	id = "#UKCase-Container "
+	id = "#UKCase-Container"
 
 	//tooltips
 	jQuery(id+'#tooltips').html("");
@@ -592,11 +533,11 @@ jQuery('#UKCase-Container .resetButton').click(function(){
 
 
 
-
 var formClass = function(name, hidelist, validator){ 
 	this.name = name; //ex CanadaCase
 	this.hidelist = hidelist; //The list of objects to be hidden before the code runs
 	this.validator = validator; //form validators (rules to be checked for inputs)
+	//this.tooltip = tooltip;
 	//this.successFunction = successFunction;
 	this.init();
 }
@@ -676,18 +617,28 @@ var Name = this.name;  //ex. #CanadaCase
 		//return false;
     }
 
-	
-	
-	
-var tooltipClass = function(tooltipList,offsets){
-	this.name = "CanadaCase";
+	var superfunc = function(){
+		console.log(" UUUUUUUUUUUUUR MUR GURSH");
+	}
+
+	var someClass = function(func){
+		this.func = func;
+	}
+	someClass.prototype.go = function(){
+		console.log('2');
+		this.func();
+	}
+	test = new someClass(superfunc);
+	$('#thetestbutton').click(function(){
+		console.log('1');
+		test.go();
+	});
+var tooltipClass = function(name, tooltipList,offsets){
+	this.name = name;
 	this.tooltipList = tooltipList;
 	this.offsets = offsets;
-	this.init();
-}	
-tooltipClass.prototype.init = function(){
 	this.addEvents();
-}
+}	
 tooltipClass.prototype.addEvents = function(){
 	console.log('#' +this.name +'-Container input');
 	$('#' +this.name +'-Container input').bind('focus', {context: this}, this.onFocus);	
@@ -718,9 +669,9 @@ tooltipClass.prototype.onFocus= function (ev){
 		var currentForm = jQuery(jQueryInput).offset();
 		var positionDifference = currentForm.top - formTop.top;
 
-		for (var i =0; i<formOffsets.length-1;i++){
-			var a = formOffsets[i];
-			var b = formOffsets[i+1];
+		for (var i =0; i<this.offsets.length-1;i++){
+			var a = this.offsets[i];
+			var b = this.offsets[i+1];
 			var offset = (jQuery(a).offset().top-formTop.top);
 			var nextOffset = (jQuery(b).offset().top-formTop.top);
 			
@@ -735,13 +686,26 @@ tooltipClass.prototype.onFocus= function (ev){
 		}
  }
 
-canadatooltip = new tooltipClass(CanadatooltipList,formOffsets) 
-canada = new formClass('CanadaCase', [], CanadianCaseValidator);
+ /*
+=============================================
+Creating the Forms
+=============================================
+*/		
+canadahidelist = [ "#pincite-form","#reporter-container","#history3", "#history2"]
+canadatooltip = new tooltipClass('CanadaCase', CanadatooltipList,CanadaTooltipOffsets) 
+canada = new formClass('CanadaCase', canadahidelist, CanadianCaseValidator,canadatooltip);
+
+ushidelist = [ "#pincite-form","#reporter-container","#history3", "#history2"]
+ustooltip =  new tooltipClass('USCase', UStooltipList, USTooltipOffsets) 
+uk = new formClass('USCase',ushidelist, USCaseValidator);
+
 dictionary = new formClass('Dictionary', [], BookValidator);
 
 journal = new formClass('Journal',[], JournalArticleValidator);
-UKhidelist = ['.optionalCourt', '#court-optional','#UKreporter-container', '#UKpincite-form', "#history2", "#history3"]
-uk = new formClass('UKCase',UKhidelist, UKCaseValidator);
+
+ukhidelist = ['.optionalCourt', '#court-optional','#UKreporter-container', '#UKpincite-form', "#history2", "#history3"]
+uktooltip = new tooltipClass('UKCase', UKtooltipList, UKTooltipOffsets) 
+uk = new formClass('UKCase',ukhidelist, UKCaseValidator);
 
 
 	

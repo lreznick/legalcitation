@@ -1,39 +1,43 @@
 <section>
 
 
+	 
+	 
+	 
+	 
  <!-- MANUAL FORM -->
-	<div id = "manual-header" class="header2"> Enter Your Information Manually</div>
+	<div id = "manual-header" class="header2">Enter Your Information Manually</div>
 	<br>
 	<br>
 	<!-- CanadianCase-Div--> 
-	<div class="leftHalf" id="UKCase-Container"> 
+	<div class="leftHalf" id="USCase-Container"> 
 		<!-- CanadianCase-Form--> 
-		<form class="form-horizontal" id ="UKCase-Form"> 
+		<form class="form-horizontal" id ="USCase-Form"> 
 		<fieldset>
 		
 		<!-- Style Of Cause -->
-		<div class="control-group"  id ="UKCaseStyle-controlgroup">
-			<label class="control-label" for="UKCaseStyle"><b>Style Of Cause<font color ="red"> *</font> </b></label>
+		<div class="control-group"  id ="USCaseStyle-controlgroup">
+			<label class="control-label" for="USCaseStyle"><b>Style Of Cause<font color ="red"> *</font> </b></label>
 			<div class="controls">
-				<input type="text" class="input-xxlarge" id="UKCaseStyle" 
+				<input type="text" class="input-xxlarge" id="USCaseStyle" 
 							placeholder="" name="styleofcause">
 			</div>
 		</div>  
 		
-		<!--Parallel Citations -->
-		<div class="control-group" id ="UKCaseParallel-controlgroup">
-			<label class="control-label" for="UKCaseParallel"><b>Parallel Citations<font color ="red"> *</font> </b></label>
+		<!--Paralle Citations -->
+		<div class="control-group" id ="USCaseParallel-controlgroup">
+			<label class="control-label" for="USCaseParallel"><b>Parallel Citations<font color ="red"> *</font> </b></label>
 			<div class="controls">
-				<input type="text" class="input-xxlarge" id="UKCaseParallel"
+				<input type="text" class="input-xxlarge" id="USCaseParallel"
 							placeholder="(Separated by commas or semicolons)" name = "parallel">
 			</div>
 		</div>
-			<!--Parallel Citations: Reporter list -->
-			<div class="controls form-inline" id ="UKCaseParallel-reporter">
+			<!--Paralle Citations: Reporter list -->
+			<div class="controls form-inline" id ="USCaseParallel-reporter">
 				<span class="help-block">
 							<!-- REPORTER LIST -->
 								<button class ="browsebutton" type ="button" style ="color: #0088cc; margin-bottom: 5px;"> &#187  <i> Search Reporters</i> </span> </button>
-								<div id ="UKreporter-container" >
+								<div id ="reporter-container" >
 									<form class="form-search">
 									  <input type="text" class="input-medium search-query" placeholder ="Search..." id = "reporter-input" name="reporter">
 									</form>
@@ -46,57 +50,39 @@
 							</div> <!-- container-->   
 				</div>												
 
-		<!-- Year -->
-		<div class="control-group"  id ="UKCaseYear-controlgroup">
-			<label class="control-label" for="UKCaseYear"> <b>Year of Decision<font color ="red"> *</font></b> </label>
+		<!--Date -->
+		<div class="control-group"  id ="USCaseDate-controlgroup">
+			<label class="control-label" for="USCaseDate"> <b>Year of Decision<font color ="red"> *</font></b> </label>
 			<div class="controls">
-				<input type="text" class="input-xxlarge" id="UKCaseYear" placeholder="" name = "year">
+				<input type="text" class="input-xxlarge" id="USCaseDate"
+							placeholder="" name = "year">
 			</div>
 		</div>
 		
 		<!--Court -->
-		<div class="control-group"  id ="UKCaseCourt-controlgroup">
-		<label class="control-label" for="UKCaseCourt">Court</label>
+		<div class="control-group"  id ="USCaseCourt-controlgroup">
+			<label class="control-label" for="USCaseCourt"> <b>Court<font color ="red"> *</font></b></label>
 			<div class="controls">
-				<select  id="court-selection"  name = "court">
-				$:render.formUKCourts()
-
-				<input type="text" style = "width: 275px" id="UKCaseCourt" class ="optionalCourt" placeholder="" name = "court_optional">
+				<input type="text" class="input-xxlarge" id="USCaseCourt"
+							placeholder="" name = "court">
 			</div>
 		</div>
 		
 		<!--ShortForm-->
 		<div class="control-group">
-			<label class="control-label" for="UKCaseShortForm">Short Form</label>
+			<label class="control-label" for="USCaseShortForm">Short Form</label>
 			<div class="controls">
-				<input type="text" class="input-xxlarge" id="UKCaseShortForm"
+				<input type="text" class="input-xxlarge" id="USCaseShortForm"
 							placeholder="" name = "shortform">
 			</div>
 		</div>	
 
-		<!--Pinpoint-->
+		<!--Pincite-->
 		<div class="control-group" >			
-			<label class="control-label" for="UKCasePinpoint">Pinpoint</label>
+			<label class="control-label" for="USCasePinpoint">Pinpoint/Cite To</label>
 				<div class="controls" >
-					<div id= "pinciteWrapper" style = "width:220px; height: 30px; position: absolute" data-toggle ="tooltip"> </div>
-
-						<select name = "pincite_selection" id="pincite-selection"  disabled style ="float:left">
-							<option  value ="" style = "color: grey" >		select</option>
-							<option value ="pinPoint_para" >				Pinpoint to Paragraph</option>
-							<option value ="pinPoint_page" >				Pinpoint to Page</option>
-						</select>	
-
-						<div id ="UKpincite-form" class = "inline">
-						<input class="span2 " id="pincite-form-input" placeholder = "page" name = "pincite_input" type="text">
-						
-							<label class="radio" id ="pinciteRadio1">
-							  <input type="radio" name="pincite_radio" value="option1" checked >
-							  <font  id="pinciteRadio_Reporter1"> Reporter 1 </font>
-							</label>
-
-							<br>
-						</div>
-
+									<input type="text" class="input-xxlarge" id="USCaseShortForm"
+							placeholder="" name = "pinpoint">
 				</div>
 		</div>							
 		
@@ -104,22 +90,22 @@
 		<div id = "hidden-forms">
 
 			<!-- Accordian -->
-			<div class="accordion" id="UKCase-Accordion">
+			<div class="accordion" id="USCase-Accordion">
 			  <div class="accordion-group" style="border:none">
 				<div class="accordion-heading">
-					<a class="accordion-toggle" id='UKCase-Accordion-Toggle'  data-toggle="collapse" data-parent="#extra-options-accordian-extra" href="#UKCaseExtraOptions" style="color: #000000">
+					<a class="accordion-toggle" id='USCase-Accordion-Toggle'  data-toggle="collapse" data-parent="#extra-options-accordian-extra" href="#USCaseExtraOptions" style="color: #000000">
 						<i class="icon-play"></i> Options 
 					</a>
 				</div>
-				<div id="UKCaseExtraOptions" class="accordion-body collapse">
+				<div id="USCaseExtraOptions" class="accordion-body collapse">
 				<!-- INNER -->
 				<div class="accordion-inner">
 
 					<!--Judge-->
 					<div class="control-group">
-						<label class="control-label" for="UKCaseJudge">Judge</label>
+						<label class="control-label" for="USCaseJudge">Judge</label>
 						<div class="controls">
-							<input type="text" class="input-xxlarge" id="UKCaseJudge"
+							<input type="text" class="input-xxlarge" id="USCaseJudge"
 										placeholder="" name = "judge">
 								<label class="checkbox">
 									<input type="checkbox" value="checked" name="judge_dissenting">
@@ -130,35 +116,33 @@
 					
 					<!--Citing -->											
 					<div class="control-group">
-						<label class="control-label" for="UKCaseCiting">Citing</label>
+						<label class="control-label" for="USCaseCiting">Citing</label>
 						<div class="controls">
 							<div class = "well">
 									<!-- styleofcause -->
 								<div class="input-prepend" style="padding-bottom:2px">
 								<span class="add-on" >Style Of Cause</span>
-									<input type="text" class="input-xlarge" id="UKCaseCiting-Style"
+									<input type="text" class="input-xlarge" id="USCaseCiting-Style"
 												placeholder="" name = "citing_styleofcause">
 								</div>
 								
 									<!-- parallel -->
 								<div class="input-prepend" style="padding-bottom:2px">
 								<span class="add-on">Parallel Citations</span>
-									<input type="text" class="input-xlarge" id="UKCaseCiting-Parallel"
+									<input type="text" class="input-xlarge" id="USCaseCiting-Parallel"
 												placeholder="" name = "citing_parallel">
 								</div>
 									<!-- year-->
 								<div class="input-prepend" style="padding-bottom:2px">
 								<span class="add-on">Year of Decision</span>
-									<input type="text" class="input-xlarge" id="UKCaseCiting-Year"
+									<input type="text" class="input-xlarge" id="USCaseCiting-Year"
 												placeholder="" name = "citing_year">
 								</div>
 									<!-- court -->
 								<div class="input-prepend" style="padding-bottom:2px">
 								<span class="add-on">Court</span>
-									<select id="citing-court-selection" name = "citing_court" >
-									$:render.formUKCourts()	
-									<br>
-									<input type="text" class = "input-xlarge" id="UKCaseCourt"  placeholder="" name = "citing_court_option">									
+									<input type="text" class="input-xlarge" id="USCaseCiting-Court"
+												placeholder="" name = "citing_court">
 								</div>
 							</div> <!-- well-->
 						</div><!-- controls-->
@@ -167,7 +151,7 @@
 					
 					<!--History-->										
 					<div class="control-group" >
-						<label class="control-label" for="UKCaseHistory">History</label>
+						<label class="control-label" for="USCaseHistory">History</label>
 						
 						
 						<!--History 1 -->	
@@ -177,30 +161,28 @@
 								<select name = "history_aff1">
 									<option value= "affirming">Affirming</option>
 									<option value= "reversing">Reversing</option>
-									<option value= "affirmed">Affirmed</option>
-									<option value= "reversed">Reversed</option>													
+									<option value= "affirmed">Affirmed by</option>
+									<option value= "reversed">Reversed by</option>													
 								</select>
 								<!-- Affirming -->
 								<div class="input-prepend" style="padding-bottom:2px">
 								<span class="add-on" >Parallel Citations</span>
-									<input type="text" class="input-xlarge" id="UKCaseHistory-Parallel1"
+									<input type="text" class="input-xlarge" id="USCaseHistory-Parallel1"
 												placeholder="" name = "history_parallel1">
 								</div>
 								
 								<!-- Reversing -->
 								<div class="input-prepend" style="padding-bottom:2px">
 								<span class="add-on" >Year of Decision</span>
-									<input type="text" class="input-xlarge" id="UKCaseHistory-Year1"
+									<input type="text" class="input-xlarge" id="USCaseHistory-Year1"
 												placeholder="" name = "history_year1">
 								</div>
 								
 								<!-- Reversed By-->
 								<div class="input-prepend" style="padding-bottom:2px">
 								<span class="add-on">Court</span>
-								
-									<select  id="history-court-selection1" name = "history_court1">
-									$:render.formUKCourts()								
-									
+									<input type="text" class="input-xlarge" id="USCaseHistory-Court1"
+												placeholder="" name = "history_court1">
 								</div>
 								</div> <!-- well -->
 							</div>												
@@ -211,30 +193,28 @@
 									<select name = "history_aff2">
 										<option value= "affirming">Affirming</option>
 										<option value= "reversing">Reversing</option>
-										<option value= "affirmed">Affirmed</option>
-										<option value= "reversed">Reversed</option>													
+										<option value= "affirmed">Affirmed by</option>
+										<option value= "reversed">Reversed by</option>													
 									</select>
 									<!-- Affirming -->
 									<div class="input-prepend" style="padding-bottom:2px">
 									<span class="add-on" >Parallel Citations</span>
-										<input type="text" class="input-xlarge" id="UKCaseHistory-Parallel2"
+										<input type="text" class="input-xlarge" id="USCaseHistory-Parallel2"
 													placeholder="" name = "history_parallel2">
 									</div>
 									
 									<!-- Reversing -->
 									<div class="input-prepend" style="padding-bottom:2px">
 									<span class="add-on" >Year of Decision</span>
-										<input type="text" class="input-xlarge" id="UKCaseHistory-Year2"
+										<input type="text" class="input-xlarge" id="USCaseHistory-Year2"
 													placeholder="" name = "history_year2">
 									</div>
 									
 									<!-- Reversed By-->
 									<div class="input-prepend" style="padding-bottom:2px">
 									<span class="add-on">Court</span>
-									
-									<select  id="history-court-selection1" name = "history_court2">
-										$:render.formUKCourts()															
-									
+										<input type="text" class="input-xlarge" id="USCaseHistory-Court2"
+													placeholder="" name = "history_court2">
 									</div>
 								</div><!-- well -->
 							</div> 
@@ -245,30 +225,28 @@
 									<select name = "history_aff3">
 										<option value= "affirming">Affirming</option>
 										<option value= "reversing">Reversing</option>
-										<option value= "affirmed">Affirmed</option>
-										<option value= "reversed">Reversed</option>													
+										<option value= "affirmed">Affirmed by</option>
+										<option value= "reversed">Reversed by</option>													
 									</select>
 									<!-- Affirming -->
 									<div class="input-prepend" style="padding-bottom:2px">
 									<span class="add-on" >Parallel Citations</span>
-										<input type="text" class="input-xlarge" id="UKCaseHistory-Parallel3"
+										<input type="text" class="input-xlarge" id="USCaseHistory-Parallel3"
 													placeholder="" name = "history_parallel3">
 									</div>
 									
 									<!-- Reversing -->
 									<div class="input-prepend" style="padding-bottom:2px">
 									<span class="add-on" >Year of Decision</span>
-										<input type="text" class="input-xlarge" id="UKCaseHistory-Year3"
+										<input type="text" class="input-xlarge" id="USCaseHistory-Year3"
 													placeholder="" name = "history_year3">
 									</div>
 									
 									<!-- Reversed By-->
 									<div class="input-prepend" style="padding-bottom:2px">
 									<span class="add-on">Court</span>
-									
-									<select  id="history-court-selection1" name = "history_court3">
-										$:render.formUKCourts()								
-									
+										<input type="text" class="input-xlarge" id="USCaseHistory-Court3"
+													placeholder="" name = "history_court3">
 									</div>
 
 								</div><!-- well -->
@@ -280,7 +258,7 @@
 
 					<!--Leave To Appeal -->
 					<div class="control-group">
-						<label class="control-label" for="UKCaseLeaveToAppeal">Leave To Appeal</label>
+						<label class="control-label" for="USCaseLeaveToAppeal">Leave To Appeal</label>
 						<div class="controls">
 							<div class = "well">
 							<select name = "leaveToAppeal_selection" id= "leaveToAppeal-selection">
@@ -290,7 +268,7 @@
 									<option value ="asOfRight">As of Right</option>
 								</select>	
 							<!-- docket no.-->
-							<div class="input-prepend" style="padding-bottom:2px" id="UKCaseLeaveToAppeal-Docket">
+							<div class="input-prepend" style="padding-bottom:2px" id="USCaseLeaveToAppeal-Docket">
 							<span class="add-on">Citation/Docket no.</span>
 								<input type="text" class="input-xlarge" 
 											placeholder="" name = "leaveToAppeal_docket">
@@ -299,9 +277,8 @@
 							<!-- court appealed to-->
 							<div class="input-prepend" style="padding-bottom:2px">
 							<span class="add-on" >Court Appealed To</span>
-							
-							<select  id="leave-court-selection1" name = "leaveToAppeal_court">
-									$:render.formUKCourts()								
+								<input type="text" class="input-xlarge" id="USCaseLeaveToAppeal-Court"
+											placeholder="" name = "leaveToAppeal_court">
 							</div>
 							</div> <!--well-->
 						</div>
@@ -316,14 +293,10 @@
 
 		 <!--END OF THE FORM FIELDS -->
 		
+	
 
-		
-		<!-- Error Containers -->
-	$:render.formResults()
-		
-		
-		
-		
+		$:render.formResults()
+
 				<!-- THE TEST BUTTOOOOOOOOOOOOOOOOOON-->
 		<button   type = "button" id="thetestbutton" >test</button> 
 				<!-- THE TEST BUTTOOOOOOOOOOOOOOOOOON-->
@@ -335,7 +308,7 @@
 	</form>
 	</div> <!-- leftHalf -->
 	
-	<div class "rightHalf tooltips">
+	<div class "rightHalf" id = "USCase-tooltips">
 	</div> <!-- RightHalf -->
 
 	</section>

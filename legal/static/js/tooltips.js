@@ -54,7 +54,7 @@ var CanadatooltipList = [
 	["leaveToAppeal_citation", canadatooltip_text[9]],
 	["leaveToAppeal_docket" , canadatooltip_text[9]]
 ]
-var formOffsets = [
+var CanadaTooltipOffsets = [
 '#CanadaCase-Container',
 '#CanadaCaseJudge', //judge
 '#history1', //history
@@ -113,6 +113,12 @@ var UKtooltipList = [
 	["leaveToAppeal_docket" , uktooltip_text[9]]
 ]
 
+var UKTooltipOffsets = [
+'#UKCase-Container',
+'#UKCaseJudge', //judge
+'#history1', //history
+'#leaveToAppeal-selection'
+]; //leave to appeal
 
 /* ******** US ******** */
 
@@ -163,7 +169,12 @@ var UStooltipList = [
 ]
 
 
-
+var USTooltipOffsets = [
+'#USCase-Container',
+'#USCaseJudge', //judge
+'#history1', //history
+'#leaveToAppeal-selection'
+]; //leave to appeal
 
 
 /*

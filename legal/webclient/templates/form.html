@@ -7,7 +7,7 @@ $def with (greeting= None)
 
         <div class="tabbable"> <!-- Only required for left/right tabs -->
           <ul class="nav nav-pills">
-            <li class="active"><a href="#Canada" data-toggle="tab">Case (Canada)</a></li>
+            <li class="active"><a href="#CanadaCase" data-toggle="tab">Case (Canada)</a></li>
             <li><a href="#US" data-toggle="tab">Case (US)</a></li>
             <li><a href="#UK" data-toggle="tab">Case (UK)</a></li>
 			<li><a href="#Journal" data-toggle="tab">Journal Article</a></li>
@@ -22,7 +22,7 @@ $def with (greeting= None)
 				
 				<!-- US-->
                 <div class="tab-pane" id="US">
-                  <p>Coming Soon</p>
+                   $:render.formUS()
                 </div>				
 
 				<!-- UK-->
