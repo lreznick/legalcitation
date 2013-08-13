@@ -789,8 +789,7 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 		Date_Input = "[<i>NTD: missing date input</i>]"
 	repDate = BestReporter(CleanUp(Citation_Input), Date_Input)
 	if pincite:
-		if pincite[0] == "pinpoint":
-			repDate[0] = repDate[0] + ' at ' + pincite[1]
+		repDate[0] = repDate[0] + ' at ' + pincite
 	if repDate[1]=="USSC":
 		if re.search(regstr("USLW"), repDate[0]):
 			repDate[2]= "US "+ repDate[2]
@@ -863,20 +862,13 @@ def GetLeaveToAppeal(array):
 	if re.search("Requested", CleanUp(array[0]), re.I):
 		return ", leave to appeal to " + Court + " requested"
 	if re.search("Granted", CleanUp(array[0]), re.I):
-		return ", leave to appeal to " + Court + " granted, " + array[2]
+		return ", leave to appeal to " + Court + " granted, " + str(array[2])
 	if re.search("Refused", CleanUp(array[0]), re.I):
-		return ", leave to appeal to " + Court + " refused, " + array[2]
+		return ", leave to appeal to " + Court + " refused, " + str(array[2])
 	if re.search("AsofRight", CleanUp(array[0]), re.I):
 		return ", appeal as of right to " + Court	
 	return ", sorry error in leave to appeal option"
 
-
-'''****************     CITE TO    ****************'''
-
-def GetCiteTo(pincite):
-	#pincite = [pinpoint/cite, reporter, type (para or page), input]
-	if pincite[0] == "cite":
-		return ' [cited to ', pincite[1], ']'
 
 '''****************     SHORT FORM     ****************'''
 

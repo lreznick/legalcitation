@@ -758,9 +758,9 @@ def GetLeaveToAppeal(array):
 	if re.search("Requested", CleanUp(array[0]), re.I):
 		return ", leave to appeal to " + Court + " requested"
 	if re.search("Granted", CleanUp(array[0]), re.I):
-		return ", leave to appeal to " + Court + " granted, " + array[2]
+		return ", leave to appeal to " + Court + " granted, " + str(array[2])
 	if re.search("Refused", CleanUp(array[0]), re.I):
-		return ", leave to appeal to " + Court + " refused, " + array[2]
+		return ", leave to appeal to " + Court + " refused, " + str(array[2])
 	if re.search("AsofRight", CleanUp(array[0]), re.I):
 		return ", appeal as of right to " + Court	
 	return ", sorry error in leave to appeal option"

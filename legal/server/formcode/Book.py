@@ -478,6 +478,14 @@ Word referenced *:
 '''
 
 
+class BookClass(object):
+	def __init__(self):
+		self.FormatAuthors = FormatAuthors
+		self.FormatTitle = FormatTitle
+		self.FormatPublication = FormatPublication
+		self.FormatPinpoint = FormatPinpoint
+		self.CiteDictionary = CiteDictionary
+
 
 
 
