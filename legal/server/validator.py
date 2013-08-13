@@ -1,8 +1,9 @@
 import unicodedata
 import re #regexs
 from formcode.CanadianCase import *
-from formcode.UKCase import UKCaseClass
-Uk = UKCaseClass()
+from formcode.UKCase import UKCaseClass as Uk
+from formcode.USCase import USCaseClass as Us
+from formcode.Book import BookClass as Book
 
 regexStyle = re.compile(ur'^[\u0040-\u007E\s\u1D00-\u1D7F\u0020-\u003B\u00A3\u00A5\u00C0-\u00FF]+$', flags = re.UNICODE)
 regexParallel = re.compile(ur'^[a-zA-Z0-9-\.,;\'!\^&\(\)\]\[\s\u00E9\u00E8\u00C9\u00C8\u00C1\u00E1\u00F4]+$', flags = re.UNICODE)
@@ -16,6 +17,7 @@ regexAuthors = re.compile(ur'^[\wa-zA-Z0-9-\.,;:\'!\$\^&\(\)<>\s\n]+$', flags = 
 regexPage = re.compile(r'^[0-9-,xivlcdmXIVLCDM\s]*$')
 regexCitation = re.compile(r'\w+\s?\d+$', flags = re.UNICODE)
 regexAuthors = re.compile(ur'^[\u0040-\u007E\s\u1D00-\u1D7F\u0020-\u003B\u00A3\u00A5\u00C0-\u00FF\n]+$', flags = re.UNICODE)
+regexEdition = re.compile(r'^[0-9A-Za-z]*$')
 
 b = "<b>"
 b1 ="</b>"
@@ -236,9 +238,9 @@ def ValidateJournalArticle(f):
 	pinpointFoot1		= "%s" % (f.form.pinpoint_form3)
 	pinpointFoot2		= "%s" % (f.form.pinpoint_form4)
 	pinpointList =[] #list of three
-	if f.form.has_key('pinpoint_para_check'):
-		pinpointPageCheck= True
 	if f.form.has_key('pinpoint_page_check'):
+		pinpointPageCheck= True
+	if f.form.has_key('pinpoint_para_check'):
 		pinpointParaCheck= True
 	
 	#========	Authors
@@ -291,10 +293,17 @@ def ValidateBook(f):
 	verbatim				= "%s" % (f.form.verbatim)
 	
 	title					= "%s" % (f.form.title)
-	publication				= "%s" % (f.form.publication)
+	place				= "%s" % (f.form.place)
 	noplace 				= "%s" % (f.form.no_place)
+	if noplace: place = "no place"
+	
 	publisher				= "%s" % (f.form.publisher)
 	nopublisher				= "%s" % (f.form.no_publisher)
+	if nopublisher: publisher = "no publisher"
+	
+	year				= "%s" % (f.form.year)
+	noyear				= "%s" % (f.form.no_year)
+	if noyear: year = "no year"
 	
 	volume					= "%s" % (f.form.volume)
 	edition					= "%s" % (f.form.edition)
@@ -309,12 +318,12 @@ def ValidateBook(f):
 	pinpointFoot1		= "%s" % (f.form.pinpoint_form3)
 	pinpointFoot2		= "%s" % (f.form.pinpoint_form4)
 	pinpointList =[] #list of three
-	if f.form.has_key('pinpoint_para_check'):
+	if f.form.has_key('pinpoint_page_check'):
 		pinpointPageCheck= True
 	if f.form.has_key('pinpoint_para_check'):
 		pinpointParaCheck= True
 	
-	'''#========	Authors
+	#========	Authors
 	if authors:
 		if not Validate(regexAuthors, authors):
 			GenerateErrorMsg(f,"authors","", ErrorMsgInvalid("Author(s)") )	
@@ -327,22 +336,42 @@ def ValidateBook(f):
 			GenerateErrorMsg(f,"title","", ErrorMsgInvalid("title") )	
 	else:
 		GenerateErrorMsg(f,"title","", ErrorMsgRequired("title"))
-
 	
-	#========	Citation
-	if citation:
-		if not Validate(regexCitation, citation):
-			GenerateErrorMsg(f,"citation","", ErrorMsgInvalid("Citation") )	
+	#========	Place
+	if title:
+		if not Validate(regexJudge, place):
+			GenerateErrorMsg(f,"place","", ErrorMsgInvalid("place") )	
 	else:
-		GenerateErrorMsg(f,"citation","", ErrorMsgRequired("Citation"))		
+		GenerateErrorMsg(f,"place","", ErrorMsgRequired("place"))
+	
+	#========	Publisher
+	if title:
+		if not Validate(regexJudge, publisher):
+			GenerateErrorMsg(f,"publisher","", ErrorMsgInvalid("publisher") )	
+	else:
+		GenerateErrorMsg(f,"publisher","", ErrorMsgRequired("publisher"))
 		
 	#========	Year
 	if not year:
 		GenerateErrorMsg(f,"year","", ErrorMsgRequired("year"))			
 	else:
-		if not Validate(regexYear, year):
+		if (not Validate(regexYear, year)) and not (year == "no year"):
 			GenerateErrorMsg(f,"year","", ErrorMsgYear() )
-			
+	
+	#========	Volume, date consulted, edition
+	if volume:
+		if not Validate(regexFindADigit, volume):
+			GenerateErrorMsg(f,"volume","", ErrorMsgInvalid("volume") )	
+	if dateconsulted:
+		if CheckFullDate(dateconsulted)[1]=="bad format":
+			GenerateErrorMsg(f,"date_consulted","", ErrorMsgInvalid("date consulted") )	
+	if edition:
+		if not Validate(regexEdition, edition):
+			GenerateErrorMsg(f,"edition","", ErrorMsgInvalid("edition") )	
+	if extra:
+		if not Validate(regexStyle, extra):
+			GenerateErrorMsg(f,"extra","", ErrorMsgInvalid("extra") )	
+	
 	if pinpointPara:
 		if not Validate(regexPage, pinpointPara):	
 			GenerateErrorMsg(f,"pinpoint_form1","", ErrorMsgInvalid("Pinpoint page(s)") )	
@@ -354,7 +383,7 @@ def ValidateBook(f):
 			GenerateErrorMsg(f,"pinpoint_form3","", ErrorMsgInvalid("Pinpoint footnote(s)") )	
 	if pinpointFoot2:
 		if not Validate(regexPage, pinpointFoot2):	
-			GenerateErrorMsg(f,"pinpoint_form4","", ErrorMsgInvalid("Pinpoint page(s)") )	'''
+			GenerateErrorMsg(f,"pinpoint_form4","", ErrorMsgInvalid("Pinpoint page(s)") )
 	
 	return f
 
@@ -366,23 +395,23 @@ def ValidateDictionary(f):
 	#========	Title
 	if title:
 		if not Validate(regexStyle, title):
-			GenerateErrorMsg(f,"title","", ErrorMsgInvalid("title") )	
+			GenerateErrorMsg(f,"dictionary_title","", ErrorMsgInvalid("title") )	
 	else:
-		GenerateErrorMsg(f,"title","", ErrorMsgRequired("title"))
+		GenerateErrorMsg(f,"dictionary_title","", ErrorMsgRequired("title"))
 	
 	#========	Edition
 	if edition:
-		if not Validate(regexYear, edition) or Validate(regexFindADigit, edition):
-			GenerateErrorMsg(f,"edition","", "The " +b+ "edition"+ b1 +" is invalid. Please enter a year or a number." )	
+		if not Validate(regexYear, edition) and (not Validate(regexEdition, edition)):
+			GenerateErrorMsg(f,"dictionary_edition","", "The " +b+ "edition"+ b1 +" is invalid. Please enter a year or a number." )	
 	else:
-		GenerateErrorMsg(f,"edition","", ErrorMsgRequired("edition"))
+		GenerateErrorMsg(f,"dictionary_edition","", ErrorMsgRequired("edition"))
 
 	#========	Keyword
 	if word:
 		if not Validate(regexJudge, word):
-			GenerateErrorMsg(f,"word","", ErrorMsgInvalid("word") )
+			GenerateErrorMsg(f,"dictionary_word","", ErrorMsgInvalid("word") )
 	else:
-		GenerateErrorMsg(f,"word","", ErrorMsgRequired("word"))
+		GenerateErrorMsg(f,"dictionary_word","", ErrorMsgRequired("word"))
 		
 	return f
 

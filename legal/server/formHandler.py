@@ -204,16 +204,15 @@ def BookFormatter(form):
 	title					= "%s" % (f.form.title)
 	place				= "%s" % (f.form.place)
 	noplace 				= "%s" % (f.form.no_place)
-	if noplace:
-		place = "no place"
+	if noplace: place = "no place"
+	
 	publisher				= "%s" % (f.form.publisher)
 	nopublisher				= "%s" % (f.form.no_publisher)
-	if nopublisher:
-		publisher = "no publisher"
+	if nopublisher: publisher = "no publisher"
+	
 	year				= "%s" % (f.form.year)
 	noyear				= "%s" % (f.form.no_year)
-	if noyear:
-		year = "no year"
+	if noyear: year = "no year"
 	
 	volume					= "%s" % (f.form.volume)
 	edition					= "%s" % (f.form.edition)
