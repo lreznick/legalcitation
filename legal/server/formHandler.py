@@ -411,8 +411,11 @@ def UKFormatter(form):
 	courtOpt			= "%s" % (f.form.court_option)
 	print "court " + court
 	shortform 		= "%s" % (f.form.shortform)
+	if f.form.has_key('pincite_selection'):	
+		pinciteSelection = "%s" % (f.form.pincite_selection)
+	else:
+		pinciteSelection = ""
 	
-	pinciteSelection = "%s" % (f.form.pincite_selection)
 	pinciteInput		= "%s" % (f.form.pincite_input)	
 	pincite 				= [pinciteSelection, pinciteInput]
 	

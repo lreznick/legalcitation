@@ -155,10 +155,10 @@
 									<!-- court -->
 								<div class="input-prepend" style="padding-bottom:2px">
 								<span class="add-on">Court</span>
-									<select id="citing-court-selection" name = "citing_court" >
+									<select id="citing-court-selection" class="court-selection" name = "citing_court" >
 									$:render.formUKCourts()	
-									<br>
-									<input type="text" class = "input-xlarge" id="UKCaseCourt"  placeholder="" name = "citing_court_option">									
+									
+									<input type="text" class = "input-large court-input"  id="UKCaseCiting-Court"  placeholder="" name = "citing_court_option">									
 								</div>
 							</div> <!-- well-->
 						</div><!-- controls-->
@@ -198,9 +198,9 @@
 								<div class="input-prepend" style="padding-bottom:2px">
 								<span class="add-on">Court</span>
 								
-									<select  id="history-court-selection1" name = "history_court1">
+									<select  id="history-court-selection1" class="court-selection" name = "history_court1">
 									$:render.formUKCourts()								
-									
+									<input type="text" class = "input-large court-input"  id="UKCaseHistory-Court1"  placeholder="" name = "history_court_option1">									
 								</div>
 								</div> <!-- well -->
 							</div>												
@@ -232,9 +232,9 @@
 									<div class="input-prepend" style="padding-bottom:2px">
 									<span class="add-on">Court</span>
 									
-									<select  id="history-court-selection1" name = "history_court2">
+									<select  id="history-court-selection2" class="court-selection" name = "history_court2">
 										$:render.formUKCourts()															
-									
+									<input type="text" class = "input-large court-input"  id="UKCaseHistory-Court2"  placeholder="" name = "history_court_option2">									
 									</div>
 								</div><!-- well -->
 							</div> 
@@ -266,9 +266,9 @@
 									<div class="input-prepend" style="padding-bottom:2px">
 									<span class="add-on">Court</span>
 									
-									<select  id="history-court-selection1" name = "history_court3">
+									<select  id="history-court-selection3" class="court-selection" name = "history_court3">
 										$:render.formUKCourts()								
-									
+									<input type="text" class = "input-large court-input"  id="UKCaseHistory-Court3"  placeholder="" name = "history_court_option3">									
 									</div>
 
 								</div><!-- well -->
@@ -300,8 +300,9 @@
 							<div class="input-prepend" style="padding-bottom:2px">
 							<span class="add-on" >Court Appealed To</span>
 							
-							<select  id="leave-court-selection1" name = "leaveToAppeal_court">
-									$:render.formUKCourts()								
+							<select  id="leave-court-selection1" class="court-selection" name = "leaveToAppeal_court">
+									$:render.formUKCourts()		
+								<input type="text" class = "input-large court-input"  id="UKCaseLeaveToAppeal-Court"  placeholder="" name = "leaveToAppeal_court_option">																		
 							</div>
 							</div> <!--well-->
 						</div>

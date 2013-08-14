@@ -325,6 +325,19 @@ jQuery('#addHistory').click(function(){
 
 });
 
+jQuery('#UKCase-Form .court-selection').change(function(){
+	var txt = jQuery(this).val();
+	console.log("txt \n\n\n\n\n\n\n" + txt);
+	console.log("txt \n\n\n\n\n\n\n" + txt);
+	if(txt =="Other"){
+		jQuery(this).closest('.court-input').show();
+		var whatever = jQuery(this).closest('.input-prepend');
+		jQuery(whatever +".court-input").show()
+	}
+	else{
+		jQuery(this).closest('.court-input').hide();
+	}
+});
 jQuery('#leaveToAppeal-selection').change(function(){
 	var txt = jQuery(this).val();
 	console.log("txt" + txt);
@@ -335,7 +348,6 @@ jQuery('#leaveToAppeal-selection').change(function(){
 		jQuery("#CanadaCaseLeaveToAppeal-Docket").hide();
 	}
 });
-
 
 
 jQuery('#CanadaCase-Accordion-Toggle').click(function(){
@@ -707,13 +719,13 @@ canada = new formClass('CanadaCase', canadahidelist, CanadianCaseValidator,canad
 
 ushidelist = [ "#pincite-form","#reporter-container","#history3", "#history2"]
 ustooltip =  new tooltipClass('USCase', UStooltipList, USTooltipOffsets) 
-uk = new formClass('USCase',ushidelist, USCaseValidator);
+us = new formClass('USCase',ushidelist, USCaseValidator);
 
 dictionary = new formClass('Dictionary', [], BookValidator);
 
 journal = new formClass('Journal',['#reporter-container'], JournalArticleValidator);
 
-ukhidelist = ['.optionalCourt', '#court-optional','#reporter-container', '#UKpincite-form', "#history2", "#history3"]
+ukhidelist = ['.optionalCourt', '#court-optional','.court-input','#reporter-container', '#UKpincite-form', "#history2", "#history3"]
 uktooltip = new tooltipClass('UKCase', UKtooltipList, UKTooltipOffsets) 
 uk = new formClass('UKCase',ukhidelist, UKCaseValidator);
 
