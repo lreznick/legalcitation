@@ -168,7 +168,6 @@ def ValidateHistory(f):
 		i+=1
 	return f
 def ValidateCanadianPincite(f):
-	pinciteSelection  = "%s" % (f.form.pincite_selection)#
 	pinciteRadio		= "%s" % (f.form.pincite_radio)
 	pinciteInput		= "%s" % (f.form.pincite_input)	
 	pincite 				= [pinciteSelection, pinciteRadio, "page", pinciteInput]
@@ -198,17 +197,26 @@ def ValidateCourt(f):
 	else:
 		if not Validate(regexCourt, court):
 			GenerateErrorMsg(f,"court","", ErrorMsgCourt("court") )
+			
 	return f
 def ValidateCourtOption(f):
-	court					= "%s" % (f.form.court_option)
-	if not court:
-		GenerateErrorMsg(f,"court","", ErrorMsgRequired("court"))			
-	else:
-		if not Validate(regexCourt, court):
-			GenerateErrorMsg(f,"court","", ErrorMsgCourt("court") )
+	court				= "%s" % (f.form.court)
+	if (court =="Other"):
+		print "other has been selected"
+		courtOption				= "%s" % (f.form.court_option)
+		if not court:
+			GenerateErrorMsg(f,"court","", ErrorMsgRequired("court"))			
+		else:
+			if not Validate(regexCourt, court):
+				GenerateErrorMsg(f,"court","", ErrorMsgCourt("court") )
 	return f
 def ValidateUKPincite(f):
-	pinciteSelection  = "%s" % (f.form.pincite_selection)
+	if f.form.has_key('pincite_selection'):	
+		pinciteSelection = "%s" % (f.form.pincite_selection)
+	else:
+		pinciteSelection = ""	
+	
+	#pinciteSelection  = "%s" % (f.form.pincite_selection)
 	pinciteInput		= "%s" % (f.form.pincite_input)	
 	pincite 				= [pinciteSelection, pinciteInput]
 	if pinciteInput:
