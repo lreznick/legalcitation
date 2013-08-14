@@ -262,7 +262,7 @@ def FormatAuthors(authorinput, verbatim, editors):
 def GetEdition(string):
 	Numbers = [["1st", "first", "1", "one"], ["2nd", "second", "2", "two"], ["3rd", "third", "3", "three"],	["4th", "fourth", "4", "four"],	["5th", "fifth", "5", "five"],
 	["6th", "sixth", "6", "six"], ["7th", "seventh", "7", "seven"], ["8th", "eigth", "8", "eight"], ["9th", "ninth", "9", "nine"], ["10th", "tenth", "10", "ten"], ["11th", "eleventh", "11", "eleven"],
-	["12th", "twelfth", "11", "twelve"]]
+	["12th", "twelfth", "12", "twelve"]]
 	for n in Numbers:
 		for i in n:	
 			matchNum = re.search(regstrElec(i), string, re.I)
@@ -367,6 +367,8 @@ def FormatPinpoint(pinpoint):
 
 def CiteDictionary(title, edition, keyword):
 	ed = GetEdition(edition)+', '
+	if PullDate(ed):
+		ed = PullDate(ed)
 	title = "<i>"+Capitalize(title)+"</i>, "
 	keyword = '"'+keyword.lower()+'"'
 	output = CleanUp( title + ed + "<i>sub verbo</i> "+keyword)
@@ -477,6 +479,15 @@ Word referenced *:
 
 '''
 
+
+class BookClass(object):
+	def __init__(self):
+		self.FormatAuthors = FormatAuthors
+		self.FormatTitle = FormatTitle
+		self.FormatPublication = FormatPublication
+		self.FormatPinpoint = FormatPinpoint
+		self.CiteDictionary = CiteDictionary
+		self.CheckFullDate = CheckFullDate
 
 
 

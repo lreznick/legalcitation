@@ -18,11 +18,11 @@
 				<textarea id ="BookAuthors"  name ="authors" style ="width: 500px;"rows ="3" placeholder="Type each author on a new line."></textarea>
 				<label class="checkbox">
 					<input type="checkbox" value="checked" name="verbatim">
-						Use Verbatim
+						Use input verbatim
 				</label>
 				<label class="checkbox">
 					<input type="checkbox" value="checked" name="editors" >
-						Editors
+						Authors are editors
 				</label>
 			</div>
 		</div>
@@ -41,23 +41,36 @@
 			<label class="control-label" for="BookPublication"> <b>Publication Place<font color ="red"> *</font></b> </label>
 			<div class="controls">
 				<input type="text" class="input-xxlarge" id="BookPublication"
-							placeholder="" name = "publication">
+							placeholder="" name = "place">
 				<label class="checkbox">
 					<input type="checkbox" value="checked" name="no_place">
-						No Place
+						No place indicated
 				</label>							
 			</div>
 		</div>		
 		
 		<!--Publisher -->
 		<div class="control-group"  id ="BookPublisher-controlgroup">
-			<label class="control-label" for="BookYear"> <b>Publisher<font color ="red"> *</font></b> </label>
+			<label class="control-label" for="BookPublisher"> <b>Publisher<font color ="red"> *</font></b> </label>
 			<div class="controls">
 				<input type="text" class="input-xxlarge" id="BookPublisher"
+							placeholder="" name = "publisher">
+								<label class="checkbox">
+				<input type="checkbox" value="checked" name="no_publisher">
+					No publisher indicated
+				</label>							
+			</div>
+		</div>		
+		
+		<!--Year of Publication-->
+		<div class="control-group"  id ="BookYear-controlgroup">
+			<label class="control-label" for="BookYear"> <b>Year of Publication<font color ="red"> *</font></b> </label>
+			<div class="controls">
+				<input type="text" class="input-xxlarge" id="BookYear"
 							placeholder="" name = "year">
 								<label class="checkbox">
-				<input type="checkbox" value="checked" name="no">
-					No Place
+				<input type="checkbox" value="checked" name="no_year">
+					No year indicated
 				</label>							
 			</div>
 		</div>		
@@ -85,7 +98,7 @@
 			<label class="control-label" for="BookDate">Date Consulted (if looseleaf)</label>
 			<div class="controls">
 				<input type="text" class="input-xxlarge" id="BookDate"
-							placeholder="" name = "Date">
+							placeholder="" name = "date_consulted">
 			</div>
 		</div>	
 		
@@ -186,7 +199,7 @@
 			<label class="control-label" for="DictionaryTitle"> <b>Title<font color ="red"> *</font></b> </label>
 			<div class="controls">
 				<input type="text" class="input-xxlarge" id="DictionaryTitle"
-							placeholder="" name = "title">
+							placeholder="" name = "dictionary_title">
 			</div>
 		</div>			
 					
@@ -195,7 +208,7 @@
 			<label class="control-label" for="DictionaryEdition"> <b>Edition<font color ="red"> *</font></b> </label>
 			<div class="controls">
 				<input type="text" class="input-xxlarge" id="DictionaryEdition"
-							placeholder="" name = "Edition">
+							placeholder="" name = "dictionary_edition">
 			</div>
 		</div>			
 		<!--Word-->
@@ -203,7 +216,7 @@
 			<label class="control-label" for="DictionaryWord"> <b>Word<font color ="red"> *</font></b> </label>
 			<div class="controls">
 				<input type="text" class="input-xxlarge" id="DictionaryWord"
-							placeholder="" name = "Word">
+							placeholder="" name = "dictionary_word">
 			</div>
 		</div>	
 			
