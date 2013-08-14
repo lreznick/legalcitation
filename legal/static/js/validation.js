@@ -8,13 +8,18 @@ Validations -- see http://en.wikipedia.org/wiki/List_of_Unicode_characters
 	var regex_parallel 	= /^[a-zA-Z0-9-.,;'&!()\]\[\u00E9\u00E8\u00C9\u00C8\u00C1\u00E1\u00F4\s]*$/
 	var regex_year 		= /(1[4-9][0-9]{2}|200[0-9]{1}|201[01234]{1})/
 	var regex_digits 	=/^\d+$/
-	var regex_court 	=/^[a-zA-Z\s.()-\u00E9\u00E8\u00C9\u00C8\u00C1\u00E1\u00F4]*$/
+	var regex_findadigit = /\d+/
+	var regex_court 	=/^[a-zA-Z\s.&,()-\u00E9\u00E8\u00C9\u00C8\u00C1\u00E1\u00F4]*$/
 	var regex_judge		=/^[a-zA-Z-'\s.\u00E9\u00E8\u00C9\u00C8\u00C1\u00E1\u00F4]*$/
 	var regex_pincite 	=/^[\d,-\s]*$/
-
+	var regex_page		= /^[0-9-,xivlcdmXIVLCDM\s]$/
+	var regex_citation 	= /^\w+\s?\d+$/
+	var regex_authors 	= /^[\u0040-\u007E\s\u1D00-\u1D7F\u0020-\u003B\u00A3\u00A5\u00C0-\u00FF\n]+$/
+	var regex_edition	= /^[0-9A-Za-z]*$/
+	
 /*
 =============================================
-UK Validator
+UK Case Validator
 =============================================
 */			
 var UKCaseValidator = jQuery('#UKCase-Form').validate({
@@ -31,7 +36,7 @@ var UKCaseValidator = jQuery('#UKCase-Form').validate({
 					required: true 
 				},
 				year: {
-					maxlength:15,
+					maxlength:25,
 					regex: regex_year,
 					required: true 
 				},
@@ -46,7 +51,7 @@ var UKCaseValidator = jQuery('#UKCase-Form').validate({
 					regex: regex_style,
 				},
 				pincite_input:{
-					maxlength:10,	
+					maxlength:20,	
 					regex: regex_pincite,
 				},
 				judge:{
@@ -63,7 +68,7 @@ var UKCaseValidator = jQuery('#UKCase-Form').validate({
 					regex: regex_parallel,
 				},
 				citing_year:{
-					maxlength:20,	
+					maxlength:25,	
 					regex: regex_year,
 				},
 				citing_court:{
@@ -77,7 +82,7 @@ var UKCaseValidator = jQuery('#UKCase-Form').validate({
 					regex: regex_parallel, 
 				},
 				history_year1: {
-					maxlength:20,	
+					maxlength:25,	
 					regex: regex_year,	
 				},
 				history_court1: {
@@ -90,7 +95,7 @@ var UKCaseValidator = jQuery('#UKCase-Form').validate({
 					regex: regex_parallel, 
 				},
 				history_year2: {
-					maxlength:20,	
+					maxlength:25,	
 					regex: regex_year,	
 				},
 				history_court2: {
@@ -103,7 +108,7 @@ var UKCaseValidator = jQuery('#UKCase-Form').validate({
 					regex: regex_parallel, 
 				},
 				history_year3: {
-					maxlength:20,	
+					maxlength:25,	
 					regex: regex_year,	
 				},
 				history_court3: {
@@ -133,158 +138,6 @@ var UKCaseValidator = jQuery('#UKCase-Form').validate({
 			messages: { 
 				styleofcause: {
 					maxlength: "Maximum length: 250 characters.",
-				},
-	
-			}
-		});
-
-
-/*
-=============================================
-US Validator
-=============================================
-*/			
-var USCaseValidator = jQuery('#USCase-Form').validate({
-			//ignore: ".search-query",
-			rules: { 
-				styleofcause: {
-					maxlength:250,	
-					regex: regex_style, 
-					required: true 
-				},
-				parallel: {
-					maxlength:250,	
-					regex: regex_parallel, 
-					required: true 
-				},
-				year: {
-					maxlength:15,
-					regex: regex_year,
-					required: true 
-				},
-				court: {
-					maxlength:250,	
-					regex: regex_court, 
-					validateCourt: true,
-					required: true,
-				},
-				shortform: {
-					maxlength:100,	
-					regex: regex_style,
-				},
-				pincite_input:{
-					maxlength:10,	
-					regex: regex_pincite,
-				},
-				judge:{
-					maxlength:100,	
-					regex: regex_judge
-				},
-				//Citing======
-				citing_styleofcause:{
-					maxlength:250,	
-					regex: regex_style
-				},
-				citing_parallel:{
-					maxlength:250,	
-					regex: regex_parallel,
-				},
-				citing_year:{
-					maxlength:20,	
-					regex: regex_year,
-				},
-				citing_court:{
-					maxlength:250,	
-					regex: regex_court,
-					validateCourt: true,					
-				},
-				//History======
-				history_parallel1:{
-					maxlength:250,	
-					regex: regex_parallel, 
-				},
-				history_year1: {
-					maxlength:20,	
-					regex: regex_year,	
-				},
-				history_court1: {
-					maxlength:250,	
-					regex: regex_court,
-					validateCourt: true,
-				},	
-				history_parallel2:{
-					maxlength:250,	
-					regex: regex_parallel, 
-				},
-				history_year2: {
-					maxlength:20,	
-					regex: regex_year,	
-				},
-				history_court2: {
-					maxlength:250,	
-					regex: regex_court,
-					validateCourt: true,
-				},		
-				history_parallel3:{
-					maxlength:250,	
-					regex: regex_parallel, 
-				},
-				history_year3: {
-					maxlength:20,	
-					regex: regex_year,	
-				},
-				history_court3: {
-					maxlength:250,	
-					regex: regex_court,
-					validateCourt: true,
-				},					
-				leaveToAppeal_docket: {
-					maxlength:50,	
-					regex: regex_parallel,
-				},		
-				leaveToAppeal_court:{
-					maxlength:250,	
-					regex: regex_court,
-					validateCourt: true,
-				},
-			},
-			highlight: function(element) {
-				console.log("in highlight");
-				jQuery(element).closest('.control-group').addClass('error');
-			},
-			success: function(element) {	
-				console.log("in success");			
-				element.closest('.control-group').removeClass('error');//.addClass('success'); 
-				
-			},
-			messages: { 
-				styleofcause: {
-					maxlength: "Maximum length: 250 characters.",
-				},
-	
-			}
-		});
-	
-
-var BookValidator = jQuery('#Book-Form').validate({
-			//ignore: ".search-query",
-			rules: { 
-				styleofcause: { 
-					maxlength:500	
-				}					
-			},
-			highlight: function(element) {
-				console.log("in highlight");
-				jQuery(element).closest('.control-group').addClass('error');
-			},
-			success: function(element) {	
-				console.log("in success");			
-				element.closest('.control-group').removeClass('error');//.addClass('success'); 
-				
-			},
-			messages: { 
-				styleofcause: {
-					maxlength: "Maximum length: 250 characters.",
 					required: " "
 				},
 				parallel: {
@@ -292,7 +145,7 @@ var BookValidator = jQuery('#Book-Form').validate({
 					required: " "
 				},
 				year: {
-					maxlength: "Maximum length: 20 characters.",
+					maxlength: "Maximum length: 25 characters.",
 					regex: "Enter a year between 1400 and 2014.",
 					required: " "
 				},
@@ -303,17 +156,16 @@ var BookValidator = jQuery('#Book-Form').validate({
 				},
 				shortform: {
 					maxlength: "Maximum length: 100 characters.",
-					required: " "
 				},		
 				pincite_input:{
-					maxlength: "Maximum length: 10 characters.",
+					maxlength: "Maximum length: 20 characters.",
 					regex: "Digits only, please."
 				},
 				judge: {
 					maxlength: "Maximum length: 100 characters.",
 				},
 				citing_year:{
-					maxlength: "Maximum length: 20 characters.",
+					maxlength: "Maximum length: 25 characters.",
 					regex: "Enter a year between 1400 and 2014."
 				},
 				citing_court:{
@@ -324,7 +176,7 @@ var BookValidator = jQuery('#Book-Form').validate({
 					maxlength: "Maximum length: 250 characters.",
 				},
 				history_year1: {
-					maxlength:"Maximum length: 20 characters.",	
+					maxlength:"Maximum length: 25 characters.",	
 					regex:"Enter a year between 1400 and 2014."
 				},
 				history_court1: {
@@ -334,7 +186,7 @@ var BookValidator = jQuery('#Book-Form').validate({
 					maxlength: "Maximum length: 250 characters.",
 				},
 				history_year2: {
-					maxlength:"Maximum length: 20 characters.",	
+					maxlength:"Maximum length: 25 characters.",	
 					regex:"Enter a year between 1400 and 2014."
 				},
 				history_court2: {
@@ -344,7 +196,7 @@ var BookValidator = jQuery('#Book-Form').validate({
 					maxlength: "Maximum length: 250 characters.",
 				},
 				history_year3: {
-					maxlength:"Maximum length: 20 characters.",	
+					maxlength:"Maximum length: 25 characters.",	
 					regex:"Enter a year between 1400 and 2014."
 				},
 				history_court3: {
@@ -356,9 +208,179 @@ var BookValidator = jQuery('#Book-Form').validate({
 				},		
 				leaveToAppeal_court:{
 					maxlength:"Maximum length: 250 characters.",	
-				}				
+				}
+	
+			}
+		});
+
+
+/*
+=============================================
+Book
+=============================================
+*/
+var BookValidator = jQuery('#Book-Form').validate({
+			//ignore: ".search-query",
+			rules: { 
+				authors: { 
+					maxlength:500, 	
+					regex: regex_authors, 
+					required: true 
+				},
+				title: { 
+					maxlength:500, 
+					regex: regex_style, 
+					required: true 
+				},
+				place: { 
+					maxlength:100,	
+					regex: regex_judge,
+				},
+				publisher: { 
+					maxlength:100,
+					regex: regex_judge,
+				},
+				year: { 
+					maxlength:25,
+					regex: regex_year,	
+				},
+				volume: { 
+					maxlength:10,
+					regex: regex_findadigit,	
+				},
+				edition: { 
+					maxlength:20,
+					regex: regex_edition,	
+				},
+				date_consulted: { 
+					maxlength:25,
+					regex: regex_authors,	
+				},
+				extra: { 
+					maxlength:100,
+					regex: regex_style,	
+				},	
+				pinpoint_form1: {
+					maxlength:20,
+					regex: regex_pincite,																		
+				},				
+				pinpoint_form2: {
+					maxlength:20,
+					regex: regex_pincite,										
+				},				
+				pinpoint_form3: {
+					maxlength:20,
+					regex: regex_pincite,										
+				},				
+				pinpoint_form4: {
+					maxlength:20,
+					regex: regex_pincite,										
+				},	
+			},
+			highlight: function(element) {
+				console.log("in highlight");
+				jQuery(element).closest('.control-group').addClass('error');
+			},
+			success: function(element) {	
+				console.log("in success");			
+				element.closest('.control-group').removeClass('error');//.addClass('success'); 
+				
+			},
+			messages: { 
+				authors: { 
+					maxlength: "Maximum length: 500 characters.",
+					required: " "
+				},
+				title: { 
+					maxlength: "Maximum length: 500 characters.",
+					required: " "
+				},
+				place: { 
+					maxlength: "Maximum length: 100 characters.",
+				},
+				publisher: { 
+					maxlength: "Maximum length: 100 characters.",
+				},
+				year: { 
+					maxlength: "Maximum length: 25 characters.",	
+				},
+				volume: { 
+					maxlength: "Maximum length: 10 characters.",	
+				},
+				edition: { 
+					maxlength: "Maximum length: 20 characters.",	
+				},
+				date_consulted: { 
+					maxlength: "Maximum length: 25 characters.",	
+				},
+				extra: { 
+					maxlength: "Maximum length: 100 characters.",	
+				},	
+				pinpoint_form1: {
+					maxlength: "Maximum length: 20 characters.",																		
+				},				
+				pinpoint_form2: {
+					maxlength: "Maximum length: 20 characters.",										
+				},				
+				pinpoint_form3: {
+					maxlength: "Maximum length: 20 characters.",										
+				},				
+				pinpoint_form4: {
+					maxlength: "Maximum length: 20 characters.",										
+				},		
 			}
 		});	
+
+
+/*
+=============================================
+Dictionary
+=============================================
+*/
+/*var DictionaryValidator = jQuery('#Dictionary-Form').validate({
+			//ignore: ".search-query",
+			rules: { 
+				dictionary_title: { 
+					maxlength:500, 
+					regex: regex_style, 
+					required: true 
+				},
+				dictionary_edition: { 
+					maxlength:25,
+					regex: regex_edition,
+					regex2: regex_year,
+					required: true
+				},
+				dictionary_word: { 
+					maxlength:100,
+					regex: regex_style,	
+					required: true
+				},		
+			},
+			highlight: function(element) {
+				console.log("in highlight");
+				jQuery(element).closest('.control-group').addClass('error');
+			},
+			success: function(element) {	
+				console.log("in success");			
+				element.closest('.control-group').removeClass('error');//.addClass('success'); 
+				
+			},
+			messages: { 
+				dictionary_title: { 
+					maxlength: "Maximum length: 500 characters.",
+					required: " "
+				},
+				dictionary_edition: { 
+					maxlength: "Maximum length: 20 characters.",	
+				},
+				dictionary_word: { 
+					maxlength: "Maximum length: 100 characters.",	
+				},		
+			}
+		});	*/
+
+
 /*
 =============================================
 Journal Article
@@ -383,17 +405,13 @@ Journal Article
 					required: true 
 				},
 				year: {
-					maxlength:20,
+					maxlength:25,
 					regex: regex_year,					
 					required: true 
 				},
 				pinpoint_form1: {
 					maxlength:20,
-					regex: regex_pincite,										
-				},				
-				pinpoint_form1: {
-					maxlength:20,
-					regex: regex_pincite,										
+					regex: regex_pincite,																		
 				},				
 				pinpoint_form2: {
 					maxlength:20,
@@ -431,7 +449,7 @@ Journal Article
 					required: " " 
 				},
 				year: {
-					maxlength: "Maximum length: 20 characters.",
+					maxlength: "Maximum length: 25 characters.",
 					regex: "Enter a year between 1400 and 2014.",
 					required: " "
 				},
@@ -493,7 +511,7 @@ CanadaCaseValidator
 					regex: regex_style,
 				},
 				pincite_input:{
-					maxlength:10,	
+					maxlength:20,	
 					regex: regex_pincite,
 				},
 				judge:{
@@ -592,7 +610,7 @@ CanadaCaseValidator
 					required: " "
 				},
 				year: {
-					maxlength: "Maximum length: 20 characters.",
+					maxlength: "Maximum length: 25 characters.",
 					regex: "Enter a year between 1400 and 2014.",
 					required: " "
 				},
@@ -603,17 +621,16 @@ CanadaCaseValidator
 				},
 				shortform: {
 					maxlength: "Maximum length: 100 characters.",
-					required: " "
 				},		
 				pincite_input:{
-					maxlength: "Maximum length: 10 characters.",
+					maxlength: "Maximum length: 20 characters.",
 					regex: "Digits only, please."
 				},
 				judge: {
 					maxlength: "Maximum length: 100 characters.",
 				},
 				citing_year:{
-					maxlength: "Maximum length: 20 characters.",
+					maxlength: "Maximum length: 25 characters.",
 					regex: "Enter a year between 1400 and 2014."
 				},
 				citing_court:{
@@ -624,7 +641,7 @@ CanadaCaseValidator
 					maxlength: "Maximum length: 250 characters.",
 				},
 				history_year1: {
-					maxlength:"Maximum length: 20 characters.",	
+					maxlength:"Maximum length: 25 characters.",	
 					regex:"Enter a year between 1400 and 2014."
 				},
 				history_court1: {
@@ -634,7 +651,7 @@ CanadaCaseValidator
 					maxlength: "Maximum length: 250 characters.",
 				},
 				history_year2: {
-					maxlength:"Maximum length: 20 characters.",	
+					maxlength:"Maximum length: 25 characters.",	
 					regex:"Enter a year between 1400 and 2014."
 				},
 				history_court2: {
@@ -644,7 +661,7 @@ CanadaCaseValidator
 					maxlength: "Maximum length: 250 characters.",
 				},
 				history_year3: {
-					maxlength:"Maximum length: 20 characters.",	
+					maxlength:"Maximum length: 25 characters.",	
 					regex:"Enter a year between 1400 and 2014."
 				},
 				history_court3: {
@@ -727,9 +744,9 @@ CanadaCaseValidator
 			}
 		}); 
 		
-		/*
+/*
 =============================================
-CanadaCaseValidator
+USCaseValidator
 =============================================
 */		
 	
@@ -749,7 +766,7 @@ CanadaCaseValidator
 					required: true 
 				},
 				year: {
-					maxlength:15,
+					maxlength:25,
 					regex: regex_year,
 					required: true 
 				},
@@ -764,7 +781,7 @@ CanadaCaseValidator
 					regex: regex_style,
 				},
 				pincite_input:{
-					maxlength:10,	
+					maxlength:20,	
 					regex: regex_pincite,
 				},
 				judge:{
@@ -781,7 +798,7 @@ CanadaCaseValidator
 					regex: regex_parallel,
 				},
 				citing_year:{
-					maxlength:20,	
+					maxlength:25,	
 					regex: regex_year,
 				},
 				citing_court:{
@@ -795,7 +812,7 @@ CanadaCaseValidator
 					regex: regex_parallel, 
 				},
 				history_year1: {
-					maxlength:20,	
+					maxlength:25,	
 					regex: regex_year,	
 				},
 				history_court1: {
@@ -808,7 +825,7 @@ CanadaCaseValidator
 					regex: regex_parallel, 
 				},
 				history_year2: {
-					maxlength:20,	
+					maxlength:25,	
 					regex: regex_year,	
 				},
 				history_court2: {
@@ -821,7 +838,7 @@ CanadaCaseValidator
 					regex: regex_parallel, 
 				},
 				history_year3: {
-					maxlength:20,	
+					maxlength:25,	
 					regex: regex_year,	
 				},
 				history_court3: {
@@ -863,7 +880,7 @@ CanadaCaseValidator
 					required: " "
 				},
 				year: {
-					maxlength: "Maximum length: 20 characters.",
+					maxlength: "Maximum length: 25 characters.",
 					regex: "Enter a year between 1400 and 2014.",
 					required: " "
 				},
@@ -874,17 +891,16 @@ CanadaCaseValidator
 				},
 				shortform: {
 					maxlength: "Maximum length: 100 characters.",
-					required: " "
 				},		
 				pincite_input:{
-					maxlength: "Maximum length: 10 characters.",
+					maxlength: "Maximum length: 20 characters.",
 					regex: "Digits only, please."
 				},
 				judge: {
 					maxlength: "Maximum length: 100 characters.",
 				},
 				citing_year:{
-					maxlength: "Maximum length: 20 characters.",
+					maxlength: "Maximum length: 25 characters.",
 					regex: "Enter a year between 1400 and 2014."
 				},
 				citing_court:{
@@ -895,7 +911,7 @@ CanadaCaseValidator
 					maxlength: "Maximum length: 250 characters.",
 				},
 				history_year1: {
-					maxlength:"Maximum length: 20 characters.",	
+					maxlength:"Maximum length: 25 characters.",	
 					regex:"Enter a year between 1400 and 2014."
 				},
 				history_court1: {
@@ -905,7 +921,7 @@ CanadaCaseValidator
 					maxlength: "Maximum length: 250 characters.",
 				},
 				history_year2: {
-					maxlength:"Maximum length: 20 characters.",	
+					maxlength:"Maximum length: 25 characters.",	
 					regex:"Enter a year between 1400 and 2014."
 				},
 				history_court2: {
@@ -915,7 +931,7 @@ CanadaCaseValidator
 					maxlength: "Maximum length: 250 characters.",
 				},
 				history_year3: {
-					maxlength:"Maximum length: 20 characters.",	
+					maxlength:"Maximum length: 25 characters.",	
 					regex:"Enter a year between 1400 and 2014."
 				},
 				history_court3: {
