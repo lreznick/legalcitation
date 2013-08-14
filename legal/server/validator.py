@@ -271,7 +271,8 @@ def ValidateJournalArticle(f):
 	else:
 		if not Validate(regexYear, year):
 			GenerateErrorMsg(f,"year","", ErrorMsgYear() )
-			
+	
+	#========	Pinpoint
 	if pinpointPara:
 		if not Validate(regexPage, pinpointPara):	
 			GenerateErrorMsg(f,"pinpoint_form1","", ErrorMsgInvalid("Pinpoint page(s)") )	
@@ -372,6 +373,7 @@ def ValidateBook(f):
 		if not Validate(regexStyle, extra):
 			GenerateErrorMsg(f,"extra","", ErrorMsgInvalid("extra") )	
 	
+	#========	Pinpoint
 	if pinpointPara:
 		if not Validate(regexPage, pinpointPara):	
 			GenerateErrorMsg(f,"pinpoint_form1","", ErrorMsgInvalid("Pinpoint page(s)") )	

@@ -2,12 +2,15 @@ import web
 import json
 from formcode.CanadianCase import *
 from formcode.Journal import *
-from formcode.Book import BookClass as Book
-from formcode.UKCase import UKCaseClass as Uk
-from formcode.USCase import USCaseClass as Us
+from formcode.Book import BookClass
+from formcode.UKCase import UKCaseClass
+from formcode.USCase import USCaseClass
 from formcode.webGrabber import *
 from validator import *
 
+Uk = UKCaseClass()
+Us = USCaseClass
+Book = BookClass
 
 urls = (
 	'/CanadaCase', 'Canada',
@@ -379,10 +382,10 @@ def CanadianCase(form):
 			judge = GetJudge(judge,dissenting)	
 		
 		#======== Leave To Appeal
-		if re.search("Requested", CleanUp(array[0]), re.I) or re.search("AsofRight", CleanUp(array[0]), re.I):
+		if re.search("Requested", CleanUp(leaveArray[0]), re.I) or re.search("AsofRight", CleanUp(leaveArray[0]), re.I):
 			if leaveCourt:
 				leaveToAppeal = GetLeaveToAppeal(leaveArray)
-		if re.search("Refused", CleanUp(array[0]), re.I) or re.search("Granted", CleanUp(array[0]), re.I):
+		if re.search("Refused", CleanUp(leaveArray[0]), re.I) or re.search("Granted", CleanUp(leaveArray[0]), re.I):
 			if leaveCourt and leaveDocket:
 				leaveToAppeal = GetLeaveToAppeal(leaveArray)
 		
