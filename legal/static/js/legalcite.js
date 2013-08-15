@@ -26,22 +26,19 @@ jQuery('#Journal-Form #pinpoint-selection').change(function(){
 	if (txt == "None"){
 	
 	}
-	else {
-		jQuery('#Journal-Form #pinpoint-check1').show();
-		jQuery('#Journal-Form #pinpoint-check2').show();
-		if (txt =="pinpoint_para"){
-		console.log("2")	
+	else if (txt =="pinpoint_para"){
+			jQuery('#Journal-Form #pinpoint-check1').show();
 			jQuery(id+ '#pinpoint-form1').show();
 		}
-		else if (txt =="pinpoint_page"){
-			console.log("3")	
+	else if (txt =="pinpoint_page"){
+			jQuery('#Journal-Form #pinpoint-check2').show();
 			jQuery(id+' #pinpoint-form2').show();
 		}
-		else if (txt =="pinpoint_foot"){
+	else if (txt =="pinpoint_foot"){
 			jQuery(id +'#pinpoint-form3').show();
 			jQuery(id +'#pinpoint-form4').show();
 		}
-	}
+	
 });
 /*
 
