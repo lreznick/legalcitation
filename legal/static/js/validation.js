@@ -235,14 +235,17 @@ var BookValidator = jQuery('#Book-Form').validate({
 				place: { 
 					maxlength:100,	
 					regex: regex_judge,
+					required: true 
 				},
 				publisher: { 
 					maxlength:100,
 					regex: regex_judge,
+					required: true 
 				},
 				year: { 
 					maxlength:25,
 					regex: regex_year,	
+					required: true 
 				},
 				volume: { 
 					maxlength:10,
@@ -297,12 +300,15 @@ var BookValidator = jQuery('#Book-Form').validate({
 				},
 				place: { 
 					maxlength: "Maximum length: 100 characters.",
+					required: " "
 				},
 				publisher: { 
 					maxlength: "Maximum length: 100 characters.",
+					required: " "
 				},
 				year: { 
 					maxlength: "Maximum length: 25 characters.",	
+					required: " "
 				},
 				volume: { 
 					maxlength: "Maximum length: 10 characters.",	
@@ -337,7 +343,7 @@ var BookValidator = jQuery('#Book-Form').validate({
 Dictionary
 =============================================
 */
-/*var DictionaryValidator = jQuery('#Dictionary-Form').validate({
+var DictionaryValidator = jQuery('#Dictionary-Form').validate({
 			//ignore: ".search-query",
 			rules: { 
 				dictionary_title: { 
@@ -373,12 +379,14 @@ Dictionary
 				},
 				dictionary_edition: { 
 					maxlength: "Maximum length: 20 characters.",	
+					required: " "
 				},
 				dictionary_word: { 
 					maxlength: "Maximum length: 100 characters.",	
+					required: " "
 				},		
 			}
-		});	*/
+		});	
 
 
 /*

@@ -72,8 +72,10 @@ color: #333333;
 	/*font-weight: bold;*/
 }
 .court-input{
-margin-left:2px;
-width:188px
+margin-top:3px;
+margin-left:110px;
+display: block;
+/*width:184px */
 }
 #collapseTwo-extra {
  	border: 0 none; 

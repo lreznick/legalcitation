@@ -58,10 +58,10 @@
 		<div class="control-group"  id ="UKCaseCourt-controlgroup">
 		<label class="control-label" for="UKCaseCourt"><b>Court<font color ="red"> *</font> </b></label>
 			<div class="controls">
-				<select  id="court-selection"  name = "court">
+				<select  class="court-selection"  name = "court">
 				$:render.formUKCourts()
 
-				<input type="text" style = "width: 275px" id="UKCaseCourt" class ="optionalCourt" placeholder="" name = "court_option">
+				<input type="text" style = "width: 275px" id="UKCaseCourt" class ="optionalCourt court-input" placeholder="Enter your input." name = "court_option">
 			</div>
 		</div>
 		
@@ -158,7 +158,7 @@
 									<select id="citing-court-selection" class="court-selection" name = "citing_court" >
 									$:render.formUKCourts()	
 									
-									<input type="text" class = "input-large court-input"  id="UKCaseCiting-Court"  placeholder="" name = "citing_court_option">									
+									<input type="text" class = "input-xlarge court-input"  id="UKCaseCiting-Court"  placeholder="" name = "citing_court_option">									
 								</div>
 							</div> <!-- well-->
 						</div><!-- controls-->

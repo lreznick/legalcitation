@@ -309,33 +309,17 @@ jQuery(' #pincite-selection').change(function(){
 	}
 });
 
-var historycount =1;
 
-
-jQuery('#addHistory').click(function(){
-	if (historycount ==1){
-		jQuery('#history2').show();
-		historycount ++;
-	}
-	else if (historycount ==2){
-		jQuery('#history3').show();
-		jQuery('#addHistory').hide();
-		
-	}
-
-});
 
 jQuery('#UKCase-Form .court-selection').change(function(){
 	var txt = jQuery(this).val();
 	console.log("txt \n\n\n\n\n\n\n" + txt);
 	console.log("txt \n\n\n\n\n\n\n" + txt);
 	if(txt =="Other"){
-		jQuery(this).closest('.court-input').show();
-		var whatever = jQuery(this).closest('.input-prepend');
-		jQuery(whatever +".court-input").show()
+		jQuery(this).siblings('.court-input').show();
 	}
 	else{
-		jQuery(this).closest('.court-input').hide();
+		jQuery(this).siblings('.court-input').hide();
 	}
 });
 jQuery('#leaveToAppeal-selection').change(function(){
@@ -516,9 +500,6 @@ jQuery('#UKCase-Container .resetButton').click(function(){
 	//tooltips
 	jQuery(id+'#tooltips').html("");
 
-	
-
-
 })
 	
 
@@ -535,6 +516,7 @@ var formClass = function(name, hidelist, validator){
 	this.hidelist = hidelist; //The list of objects to be hidden before the code runs
 	this.validator = validator; //form validators (rules to be checked for inputs)
 	this.browseClicked = false; //form validators (rules to be checked for inputs)
+	var historycount =1;
 	//this.tooltip = tooltip;
 	//this.successFunction = successFunction;
 	this.init();
@@ -553,6 +535,7 @@ formClass.prototype.init = function(){
 formClass.prototype.addEvents = function(){
 	$('#' +this.name +'-Container .submitButton').bind('click', {context: this}, this.submitClick);
 	$('#' +this.name +'-Container .browsebutton').bind('click', {context: this}, this.browseClick);
+	$('#' +this.name +'-Container #addHistory').bind('click', {context: this}, this.addHistoryClick);
 	
 }
 
@@ -631,6 +614,38 @@ formClass.prototype.browse = function(){
 		}
 	}
 
+	
+ formClass.prototype.addHistoryClick= function (ev){
+        var self = ev.data.context;
+        self.addHistory();
+		
+    }	
+formClass.prototype.addHistory = function(){
+		if (historycount ==1){
+			jQuery("#"+this.name +"-Container #history2").show();
+			historycount ++;
+		}
+		else if (historycount ==2){
+			jQuery("#"+this.name +"-Container #history3").show();
+			jQuery("#"+this.name +"-Container #addHistory").hide();
+		}
+	}
+	
+	
+
+
+jQuery('#addHistory').click(function(){
+	if (historycount ==1){
+		jQuery('#history2').show();
+		historycount ++;
+	}
+	else if (historycount ==2){
+		jQuery('#history3').show();
+		jQuery('#addHistory').hide();
+		
+	}
+
+});
 
 	
  formClass.prototype.submitClick= function (ev){
@@ -655,6 +670,8 @@ formClass.prototype.browse = function(){
 		test.go();
 	});
 	
+	
+	
 var tooltipClass = function(name, tooltipList,offsets){
 	this.name = name;
 	this.tooltipList = tooltipList;
@@ -671,6 +688,7 @@ tooltipClass.prototype.onFocus= function (ev){
 		var something = this
         self.updateTooltip(this);
     }
+	
  tooltipClass.prototype.updateTooltip= function (jQueryInput){
  		
 		var id = "#" + this.name  
@@ -721,7 +739,8 @@ ushidelist = [ "#pincite-form","#reporter-container","#history3", "#history2"]
 ustooltip =  new tooltipClass('USCase', UStooltipList, USTooltipOffsets) 
 us = new formClass('USCase',ushidelist, USCaseValidator);
 
-dictionary = new formClass('Dictionary', [], BookValidator);
+dictionary = new formClass('Dictionary', [], DictionaryValidator);
+book = new formClass('Book', [], BookValidator);
 
 journal = new formClass('Journal',['#reporter-container'], JournalArticleValidator);
 
