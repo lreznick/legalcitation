@@ -181,8 +181,8 @@ def JournalArticleFormatter(form):
 			input2 = pinpointPage
 			input3 = pinpointPageCheck
 		elif(pinpointSelection =="pinpoint_foot"):
-			input2 = pinpointFoot1
-			input3 = pinpointFoot2
+			input2 = pinpointFoot2
+			input3 = pinpointFoot1
 		pinpointList=[pinpointSelection,input2,input3]
 		
 		newAuthors = FormatAuthors(authors)
@@ -229,6 +229,7 @@ def BookFormatter(form):
 	pinpointPageCheck= False
 	pinpointFoot1		= "%s" % (f.form.pinpoint_form3)
 	pinpointFoot2		= "%s" % (f.form.pinpoint_form4)
+	pinpointChapter		= "%s" % (f.form.pinpoint_form0)
 	pinpointList =[] #list of three
 	if f.form.has_key('pinpoint_para_check'):
 		pinpointPageCheck= True
@@ -238,18 +239,27 @@ def BookFormatter(form):
 	ValidateBook(f)	
 	if f.valid:
 		if (pinpointSelection =="None"):
-			input2 =False
+			input2 = False
 			input3 = False
+			input4 = False
 		elif(pinpointSelection =="pinpoint_para"):
 			input2 = pinpointPara
-			input3 = pinpointParaCheck
+			input3 = pinpointChapter
+			input4 = pinpointParaCheck
 		elif(pinpointSelection =="pinpoint_page"):
 			input2 = pinpointPage
-			input3 = pinpointPageCheck
+			input3 = pinpointChapter
+			input4 = pinpointPageCheck
 		elif(pinpointSelection =="pinpoint_foot"):
 			input2 = pinpointFoot1
 			input3 = pinpointFoot2
-		pinpointList=[pinpointSelection,input2,input3]
+			input4 = pinpointChapter
+		elif(pinpointSelection =="pinpoint_chapter"):
+			input2 = pinpointChapter
+			input3 = False
+			input4 = False
+			
+		pinpointList=[pinpointSelection,input2,input3, input4]
 		
 		newauthor = Book.FormatAuthors(authors, verbatim, editors)
 		newtitle = Book.FormatTitle(title, volume, edition, dateconsulted, extra)[0]
