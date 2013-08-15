@@ -620,6 +620,8 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 	CitationYear = False #assume there is no citation date evident in the input
 	Court = False #first assume there is no court evident in the reporter
 	JudgementYear = False #assume there is no date evident in the input judgement
+	BR = BestReporter(Citation_Input) #returns the best reporter, no funny business
+	Best = BR[0]
 	if NeutralCitation: 
 		Court = True
 		CitationYear = PullDate(NeutralCitation)
@@ -631,8 +633,6 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 		if (len(m)==1):
 			return ', ' + NeutralCitation
 	else: CitationYear = PullDate(Best)
-	BR = BestReporter(Citation_Input) #returns the best reporter, no funny business
-	Best = BR[0]
 	if Auto[1] == "reporter":
 		Best += citestr
 	if BR[1] == "court":
