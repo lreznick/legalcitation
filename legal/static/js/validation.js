@@ -684,7 +684,7 @@ CanadaCaseValidator
 	
 		
 		// Validates the form to check if a form works or not
-		jQuery('#Canlii-Form').validate({
+		var CanliiValidator = jQuery('#Canlii-Form').validate({
 			rules: { 
 				url: {
 					minlength: 6,
