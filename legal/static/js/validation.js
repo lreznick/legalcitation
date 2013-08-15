@@ -15,7 +15,7 @@ Validations -- see http://en.wikipedia.org/wiki/List_of_Unicode_characters
 	var regex_page		= /^[0-9-,xivlcdmXIVLCDM\s]$/
 	var regex_citation 	= /^\w+\s?\d+$/
 	var regex_authors 	= /^[\u0040-\u007E\s\u1D00-\u1D7F\u0020-\u003B\u00A3\u00A5\u00C0-\u00FF\n]+$/
-	var regex_edition	= /^[0-9A-Za-z]*$/
+	var regex_edition	= /^[0-9A-Za-z\s]*$/
 	
 /*
 =============================================
@@ -115,7 +115,7 @@ var UKCaseValidator = jQuery('#UKCase-Form').validate({
 				},					
 				leaveToAppeal_docket: {
 					maxlength:50,	
-					regex: regex_parallel,
+					regex: regex_edition,
 				},		
 				leaveToAppeal_court:{
 					maxlength:250,	
@@ -583,7 +583,7 @@ CanadaCaseValidator
 				},					
 				leaveToAppeal_docket: {
 					maxlength:50,	
-					regex: regex_parallel,
+					regex: regex_edition,
 				},		
 				leaveToAppeal_court:{
 					maxlength:250,	
@@ -853,7 +853,7 @@ USCaseValidator
 				},					
 				leaveToAppeal_docket: {
 					maxlength:50,	
-					regex: regex_parallel,
+					regex: regex_edition,
 				},		
 				leaveToAppeal_court:{
 					maxlength:250,	
