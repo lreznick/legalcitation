@@ -403,7 +403,9 @@ def CheckNC(Citation_Input): #pull the neutral citation from the list if there i
 	for string in m: 
 		Year = PullDate(string)
 		if Year:
-			string = CleanUp("["+Year+"] " + re.sub(re.search(regstr(Year), string).group(), " ", string))
+			yr = re.search(regstrElec(Year), string)
+			if yr:
+				string = CleanUp("["+Year+"] " + re.sub(yr.group(), " ", string))
 		else: 
 			string = CleanUp("[input year] " + string)
 		print "string modified to: ", string
