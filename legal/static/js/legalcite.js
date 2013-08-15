@@ -129,7 +129,10 @@ Form Submissions
 $('#canlii-input').keypress(function (e) {
 	if (e.which == 13) {
 		SubmitCanLII()
-	return false;
+		return false;
+	}
+	else{
+		//fix meee
 	}
 	
 });*/
@@ -326,7 +329,7 @@ jQuery('#UKCase-Form .court-selection').change(function(){
 });
 jQuery('#leaveToAppeal-selection').change(function(){
 	var txt = jQuery(this).val();
-	console.log("txt" + txt);
+	//console.log("txt" + txt);
 	if(txt =="granted" || txt =="refused")	{
 		jQuery("#CanadaCaseLeaveToAppeal-Docket").show();
 	}
@@ -375,9 +378,15 @@ jQuery('#CanadaCase-Accordion-Toggle').click(function(){
 		var id = "#UKCase-Container"
 		console.log("reporterType ::" +reporterType );
 		console.log("reporter 1::"+ reporters);
-		
+		jQuery(id + ' #pinpoint-warning').html("");
+		if (reporterType == "Warning: should have reporter") { 
+			message = "<b>Parallel Citations:</b> Warning, we detected a neutral citation only. You generally should include a reporter as well, if possible."
+			html = "<div class=\"alert alert-warning\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>"	+	message		+"</div>"
+			jQuery(id + ' #pinpoint-warning').html(html);
+			jQuery(id + ' #pinciteRadio_Reporter1').html(reporters);		
+		}
 		// two reporters
-		if (reporterType == "reporter") { 
+		else if (reporterType == "reporter") { 
 			//everything
 			jQuery(id + ' #pincite-selection>option[value="pinPoint_page"]').show();
 			jQuery(id + ' #pincite-selection>option[value="pinPoint_para"]').show();
@@ -387,7 +396,7 @@ jQuery('#CanadaCase-Accordion-Toggle').click(function(){
 			// pinpoint page , pinpoint para or nothing
 				jQuery(id + ' #pincite-selection>option[value="pinPoint_page"]').hide();//attr({ disabled: 'disabled' });													
 				jQuery(id + ' #pinciteRadio_Reporter1').html(reporters[0]);
-			}
+		}
 	}
 		
 /*
@@ -686,8 +695,6 @@ tooltipClass.prototype.addEvents = function(){
 }
 tooltipClass.prototype.onFocus= function (ev){
         var self = ev.data.context;
-		console.log("self " +this)
-		var something = this
         self.updateTooltip(this);
     }
 	
@@ -696,7 +703,7 @@ tooltipClass.prototype.onFocus= function (ev){
 		var id = "#" + this.name  
 		var htmlName = jQuery(jQueryInput).attr('name') // get Forms name
 		//var tool = eval('tooltip_'+name); // convert it to a variable
-		console.log("name " + htmlName);
+		//console.log("name " + htmlName);
 		var tip;
 		for( var i = 0; i< this.tooltipList.length;  i++ ) {
 			if( this.tooltipList[i][0] === htmlName ) {
@@ -705,7 +712,8 @@ tooltipClass.prototype.onFocus= function (ev){
 			}
 		}
 		console.log('tip ' + tip);
-		jQuery('#'+this.name+'-tooltips').html(tip); //Display the tooltip
+		console.log(id+'-tooltips');
+		jQuery(id+'-tooltips').html(tip); //Display the tooltip
 		
 		var formTop = jQuery(id + "-Container").offset();
 		var currentForm = jQuery(jQueryInput).offset();
@@ -719,10 +727,10 @@ tooltipClass.prototype.onFocus= function (ev){
 			
 			if (positionDifference >= offset){
 				if (positionDifference < nextOffset){
-					jQuery('#'+this.name+'-tooltips').css('margin-top', offset);
+					jQuery(id+'-tooltips').css('margin-top', offset);
 				}
 				if (positionDifference >= nextOffset){
-					jQuery('#'+this.name+'-tooltips').css('margin-top', nextOffset);
+					jQuery(id+'-tooltips').css('margin-top', nextOffset);
 				}
 			}
 		}
