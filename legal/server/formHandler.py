@@ -9,8 +9,8 @@ from formcode.webGrabber import *
 from validator import *
 
 Uk = UKCaseClass()
-Us = USCaseClass
-Book = BookClass
+Us = USCaseClass()
+Book = BookClass()
 
 urls = (
 	'/CanadaCase', 'Canada',
@@ -582,7 +582,7 @@ def USFormatter(form):
 			
 		#======== Citations			
 		print "/n " + court
-		citations = Us.GetCitations(parallel, court, year, pincite)
+		citations = Us.GetCitations(parallel, court, year, pinciteInput)
 		
 		#======== Citing
 		if (citingStyle and  citingParallel and citingYear and citingCourt):
@@ -610,7 +610,7 @@ def USFormatter(form):
 		
 		#======== Judge	
 		if judge:
-			judge = Us.GetJudge(judge,dissenting)	
+			judge = Us.GetJudge(judge, dissenting)	
 		
 		#======== Leave To Appeal
 		if re.search("Requested", CleanUp(leaveArray[0]), re.I) or re.search("AsofRight", CleanUp(leaveArray[0]), re.I):

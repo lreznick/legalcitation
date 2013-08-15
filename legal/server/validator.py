@@ -17,7 +17,7 @@ regexAuthors = re.compile(ur'^[\wa-zA-Z0-9-\.,;:\'!\$\^&\(\)<>\s\n]+$', flags = 
 regexPage = re.compile(r'^[0-9-,xivlcdmXIVLCDM\s]*$')
 regexCitation = re.compile(r'\w+\s?\d+$', flags = re.UNICODE)
 regexAuthors = re.compile(ur'^[\u0040-\u007E\s\u1D00-\u1D7F\u0020-\u003B\u00A3\u00A5\u00C0-\u00FF\n]+$', flags = re.UNICODE)
-regexEdition = re.compile(r'^[0-9A-Za-z]*$')
+regexEdition = re.compile(r'^[0-9A-Za-z\s]*$')
 
 b = "<b>"
 b1 ="</b>"
@@ -186,7 +186,7 @@ def ValidateLeaveToAppeal(f):
 		if leaveSelection == ("granted" or "refused"):
 			if not leaveDocket:
 				GenerateErrorMsg(f,"leaveToAppeal_docket","", ErrorMsgDocketRequired())	
-		if not Validate(regexPinpoint, leaveDocket):#use the regexStyle to validate shortform
+		if not Validate(regexEdition, leaveDocket):#use the regexStyle to validate shortform
 			GenerateErrorMsg(f,"leaveToAppeal_docket","", ErrorMsgInvalid("citation or docket number in the leave to appeal option") )
 	return f
 def ValidateCourt(f):

@@ -389,6 +389,21 @@ def CheckUSLWDate(string):
 	#[- /\.]
 	else: return [string, errormsg]
 
+def CheckReporter(m, list):
+	#print "\n****** StartingCheckReporter within BestReporter"
+	#print "Input reporter list: ", m
+	##print "Checking to see if in, ", list
+	for r in m: #look at each reporter inputed in the input list
+		for x in list:#will run through the Federa; reporters in order.
+			match = re.search(regstr(x), r, re.I)
+			if match:
+				r = CleanUp(re.sub(match.group(), " "+x+" ", r, flags = re.I))
+				#print "*Found a reporter* ::: ", x
+				return [r, "NA"]
+	return False
+
+
+
 #returns 3-part list [Reporter, "USSC"/"Fed"/"State", Date]
 def BestReporter(Citation_Input, Date):
 	#print "******** Starting BestReporter **********"
@@ -771,7 +786,7 @@ def CheckFedCt(string):
 #pincite = [pinpoint/cite, input]
 def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 	#print "\n****** Starting GetCitations"
-	#print "input is:\n", "citation string: ", Citation_Input, "\n", "court: ", Court_Input, "\n", "date: ", Date_Input, "\n", "pincite: ", pincite, "\n"
+	#print "input is:\n", "citation string: ", Citation_Input, "\n", "court: ", Court_Input, "\n", "date: ", Date_Input, "\n"
 	if not Citation_Input:
 		return ["ERROR: missing citation input", "ERROR: missing citation input", "ERROR: missing citation input"]#citation #court #date"ERROR: missing citation input"
 	Court = ""
@@ -800,7 +815,7 @@ def GetCitations(Citation_Input, Court_Input, Date_Input, pincite):
 	else:
 		#print "****DANGER ASSIGNMENT ERROR"
 		Court = "Ct Error"
-	return repDate[0] + " ("+Court+repDate[2]+")"
+	return ", "+repDate[0] + " ("+Court+repDate[2]+")"
 	#return [repDate[0], Court, repDate[2]]#citation #court #date
 	
 	
@@ -895,6 +910,5 @@ class USCaseClass(object):
 		self.GetLeaveToAppeal = GetLeaveToAppeal
 		self.GetShortForm = GetShortForm
 		self.GetJudge = GetJudge
-		self.AutoPCPinpoint = AutoPCPinpoint
 		self.PullDate = PullDate
 

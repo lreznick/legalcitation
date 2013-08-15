@@ -99,6 +99,29 @@ def CleanUp(string):
 	Strip     = Spaces.strip()                        #Remove leading or trailing white spaces
 	return Strip
 
+    
+def CleanUpTitle(string):
+	end = re.compile(r"[;,\.:\s\(\[<\\/]+$")#remove excess punctuation at the end of the string
+	beg = re.compile(r"^[;,\.:\s\)\)>\\/]+")#and at the beginning
+	if end.search(string):#remove excess punctuation at the end
+		remove = len(end.search(string).group())
+		#print "Detected last "+str(remove)+"characters are punctuation..."
+		string = string[:-remove]
+		#print "... removing. Now is: ", string
+	if beg.search(string):
+		remove = len(beg.search(string).group())
+		#print "Detected first "+str(remove)+"characters are punctuation..."
+		string = string[remove:]
+		#print "... removing. Now is: ", string
+	string	= re.sub('\s*?,\s*?', ', ', string)	#put a space after a comma instead of multiple spaces or no space
+	string 	= re.sub('\s*?\(', ' (', string)    #put a space before a left bracket instead of multiple spaces or no space
+	string 	= re.sub('\)\s*?', ') ', string)    #put a space after a right bracket instead of multiple spaces or no space
+	string 	= re.sub('\s*?:\s*?', ': ', string) #put a space after a comma instead of multiple spaces or no space
+	string 	= re.sub('\s*?;\s*?', '; ', string) #put a space after a semicolon instead of multiple spaces or no space
+	string	= re.sub(' +',' ', string)          #Remove excess white spaces
+	string 	= string.strip()                    #Remove leading or trailing white spaces
+	return string
+
 #Capitalizes first word after a space or an open bracket "(" (so long as there are not multiple brackets in a row... that raises an error which is overriden), words such as MacDonald and McMaster (if they are inputted capitalized), and AMA Canada.
 #does not capitalize words that are meant to not be capitalized ["in rem", " and", "ex rel", " of", " de"]
 #can only accept numbers, round brackets, apostrophes, and letters (no commas or periods, or weird utf-8  characters)
@@ -349,7 +372,7 @@ def Action(StyleOfCause):
 #this is the function to call to reformat the style of cause
 #input string
 def GetStyleOfCause(StyleOfCause_Input):
-	StyleOfCause = CleanUp(StyleOfCause_Input) #Properly capitalize SoC and clean it up
+	StyleOfCause = CleanUpTitle(StyleOfCause_Input) #Properly capitalize SoC and clean it up
 	Suits = re.split(r'\b(?:\s*);(?:\s*)\b', StyleOfCause)
 	if len(Suits)==1:
 		##print "Calling Action for only 1 suit on: ", StyleOfCause
