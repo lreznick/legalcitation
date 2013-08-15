@@ -502,10 +502,10 @@ def UKFormatter(form):
 			judge = Uk.GetJudge(judge,dissenting)	
 		
 		#======== Leave To Appeal
-		if re.search("Requested", CleanUp(array[0]), re.I) or re.search("AsofRight", CleanUp(array[0]), re.I):
+		if re.search("Requested", CleanUp(leaveArray[0]), re.I) or re.search("AsofRight", CleanUp(leaveArray[0]), re.I):
 			if leaveCourt:
 				leaveToAppeal = GetLeaveToAppeal(leaveArray)
-		if re.search("Refused", CleanUp(array[0]), re.I) or re.search("Granted", CleanUp(array[0]), re.I):
+		if re.search("Refused", CleanUp(leaveArray[0]), re.I) or re.search("Granted", CleanUp(leaveArray[0]), re.I):
 			if leaveCourt and leaveDocket:
 				leaveToAppeal = GetLeaveToAppeal(leaveArray)
 		
@@ -613,10 +613,10 @@ def USFormatter(form):
 			judge = Us.GetJudge(judge,dissenting)	
 		
 		#======== Leave To Appeal
-		if re.search("Requested", CleanUp(array[0]), re.I) or re.search("AsofRight", CleanUp(array[0]), re.I):
+		if re.search("Requested", CleanUp(leaveArray[0]), re.I) or re.search("AsofRight", CleanUp(leaveArray[0]), re.I):
 			if leaveCourt:
 				leaveToAppeal = GetLeaveToAppeal(leaveArray)
-		if re.search("Refused", CleanUp(array[0]), re.I) or re.search("Granted", CleanUp(array[0]), re.I):
+		if re.search("Refused", CleanUp(leaveArray[0]), re.I) or re.search("Granted", CleanUp(leaveArray[0]), re.I):
 			if leaveCourt and leaveDocket:
 				leaveToAppeal = GetLeaveToAppeal(leaveArray)
 		
