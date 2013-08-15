@@ -1,8 +1,8 @@
 <section>
 	 
 	 <!-- MANUAL FORM -->
-	<div id = "manual-header" class="header2">Enter Your Information Manually</div>
-	<br>
+	<div id = "manual-header" class="header2">Book</div>
+	
 	<br>
 
 	<!-- The forms --> 
@@ -128,19 +128,21 @@
 							<option value ="pinpoint_para" >To paragraph(s)</option>
 							<option value ="pinpoint_page" >To page(s)</option>											
 							<option value ="pinpoint_foot" >To footnote(s)</option>											
+							<option value ="pinpoint_chapter" >To chapter(s)</option>				
 						</select>	
 
 					<div id ="pinpoint-forms" class = "inline">
+						
 						<input class="span2 " id="pinpoint-form1" placeholder = "para(s)" name = "pinpoint_form1" type="text">
-
 						<input class="span2 " id="pinpoint-form2" placeholder = "page(s)" name = "pinpoint_form2" type="text">
 						<input class="span2 " id="pinpoint-form3" placeholder = "footnote(s)" name = "pinpoint_form3" type="text">
+						<input class="span2 " id="pinpoint-form0" placeholder = "Chapter(s)" name = "pinpoint_form0" type="text">
 						<input class="span2 " id="pinpoint-form4" placeholder = "page(s) (optional)" name = "pinpoint_form4" type="text">											
 					</div>	
-						<label class="checkbox"><input type="checkbox" value="checked" name="pinpoint_para_check">
+						<label class="checkbox" id ="check1"><input type="checkbox" value="checked" name="pinpoint_para_check">
 						To general range
 						</label>
-						<label class="checkbox"><input type="checkbox" value="checked" name="pinpoint_page_check">
+						<label class="checkbox" id ="check2"><input type="checkbox" value="checked" name="pinpoint_page_check">
 						To general range
 						</label>
 				</div>
@@ -177,7 +179,7 @@
 		<hr>
 	</div> <!-- leftHalf-->
 	
-	<div class "rightHalf" id = "tooltips">
+	<div class "rightHalf" id =  "Book-tooltips">
 	</div> <!-- rightHalf / tooltips -->
 
 	
@@ -190,9 +192,11 @@
 	<div class="leftHalf" id="Dictionary-Container"> 
 		
 		<form class="form-horizontal" id ="Dictionary-Form"> 
+
 		<fieldset>
 		
 	<div id = "manual-header" class="header2">Dictionary</div>
+	<br>
 	
 		<!--Title-->
 		<div class="control-group"  id ="DictionaryTitle-controlgroup">
@@ -240,7 +244,7 @@
 		</form>
 	</div> <!-- leftHalf-->
 	
-	<div class "rightHalf tooltips">
+	<div class "rightHalf tooltips" id = "Dictionary-tooltips">
 	</div> <!-- rightHalf / tooltips -->	
 	
 	

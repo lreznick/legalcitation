@@ -57,8 +57,8 @@ var CanadatooltipList = [
 var CanadaTooltipOffsets = [
 '#CanadaCase-Container',
 '#CanadaCaseJudge', //judge
-'#history1', //history
-'#leaveToAppeal-selection'
+'#CanadaCase-Container #history1', //history
+'#CanadaCase-Container #leaveToAppeal-selection'
 ]; //leave to appeal
 
 
@@ -116,8 +116,8 @@ var UKtooltipList = [
 var UKTooltipOffsets = [
 '#UKCase-Container',
 '#UKCaseJudge', //judge
-'#history1', //history
-'#leaveToAppeal-selection'
+'#UKCase-Container #history1', //history
+'#UKCase-Container #leaveToAppeal-selection'
 ]; //leave to appeal
 
 /* ******** US ******** */
@@ -172,8 +172,8 @@ var UStooltipList = [
 var USTooltipOffsets = [
 '#USCase-Container',
 '#USCaseJudge', //judge
-'#history1', //history
-'#leaveToAppeal-selection'
+'#USCase-Container #history1', //history
+'#USCase-Container #leaveToAppeal-selection'
 ]; //leave to appeal
 
 

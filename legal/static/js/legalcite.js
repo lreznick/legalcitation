@@ -314,6 +314,46 @@ jQuery(' #pincite-selection').change(function(){
 	}
 });
 
+function hidePinPointBook(){
+	jQuery('#Book-Container #pinpoint-form0').hide();
+	jQuery('#Book-Container #pinpoint-form1').hide();
+	jQuery('#Book-Container #pinpoint-form2').hide();
+	jQuery('#Book-Container #pinpoint-form3').hide();
+	jQuery('#Book-Container #pinpoint-form4').hide();
+	jQuery('#Book-Container #check1').hide();
+	jQuery('#Book-Container #check2').hide();
+}
+
+
+
+jQuery('#Book-Container #pinpoint-selection').change(function(){
+	var txt = jQuery(this).val();
+	hidePinPointBook();
+	if (txt == "None"){
+		
+	}
+	else if (txt == "pinpoint_para"){
+		jQuery('#Book-Container #pinpoint-form0').show();
+		jQuery("#Book-Container #pinpoint-form1").show();
+		jQuery("#Book-Container #check1").show();
+	}
+	else if (txt == "pinpoint_page"){
+		jQuery('#Book-Container #pinpoint-form0').show();
+		jQuery("#Book-Container #pinpoint-form2").show();
+		jQuery("#Book-Container #check2").show();
+	}
+	else if (txt == "pinpoint_foot"){
+		jQuery('#Book-Container #pinpoint-form0').show();
+		jQuery("#Book-Container #pinpoint-form3").show();
+		jQuery("#Book-Container #pinpoint-form4").show();
+	}
+	else if (txt == "pinpoint_chapter"){
+		jQuery('#Book-Container #pinpoint-form0').show();
+	}
+	
+	
+	
+});
 
 
 jQuery('#UKCase-Form .court-selection').change(function(){
@@ -512,6 +552,15 @@ jQuery('#UKCase-Container .resetButton').click(function(){
 	jQuery(id+'#tooltips').html("");
 
 })
+jQuery('#USCase-Container .resetButton').click(function(){
+	var id = "#USCase-Container"
+	USCaseValidator.resetForm();
+	us.hide();
+	resetWrapper(id)
+	//tooltips
+	jQuery(id+'#tooltips').html("");
+
+})
 	
 
 function resetWrapper(name){
@@ -527,7 +576,7 @@ var formClass = function(name, hidelist, validator){
 	this.hidelist = hidelist; //The list of objects to be hidden before the code runs
 	this.validator = validator; //form validators (rules to be checked for inputs)
 	this.browseClicked = false; //form validators (rules to be checked for inputs)
-	var historycount =1;
+	this.historycount =1;
 	//this.tooltip = tooltip;
 	//this.successFunction = successFunction;
 	this.init();
@@ -632,32 +681,18 @@ formClass.prototype.browse = function(){
 		
     }	
 formClass.prototype.addHistory = function(){
-		if (historycount ==1){
+		console.log("")
+		
+		if (this.historycount ==1){
 			jQuery("#"+this.name +"-Container #history2").show();
-			historycount ++;
+			this.historycount ++;
 		}
-		else if (historycount ==2){
+		else if (this.historycount ==2){
 			jQuery("#"+this.name +"-Container #history3").show();
 			jQuery("#"+this.name +"-Container #addHistory").hide();
 		}
 	}
 	
-	
-
-
-jQuery('#addHistory').click(function(){
-	if (historycount ==1){
-		jQuery('#history2').show();
-		historycount ++;
-	}
-	else if (historycount ==2){
-		jQuery('#history3').show();
-		jQuery('#addHistory').hide();
-		
-	}
-
-});
-
 	
  formClass.prototype.submitClick= function (ev){
         var self = ev.data.context;
@@ -749,8 +784,11 @@ ushidelist = [ "#pincite-form","#reporter-container","#history3", "#history2"]
 ustooltip =  new tooltipClass('USCase', UStooltipList, USTooltipOffsets) 
 us = new formClass('USCase',ushidelist, USCaseValidator);
 
-dictionary = new formClass('Dictionary', [], DictionaryValidator);
-book = new formClass('Book', [], BookValidator);
+bookhidelist =["#pinpoint-form0","#pinpoint-form1","#pinpoint-form2","#pinpoint-form3","#pinpoint-form4", "#check1", "#check2"]
+book = new formClass('Book', bookhidelist, BookValidator);
+dictionary = new formClass('Dictionary',[] , DictionaryValidator);
+
+
 
 journal = new formClass('Journal',['#reporter-container'], JournalArticleValidator);
 
