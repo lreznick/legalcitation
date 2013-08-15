@@ -64,7 +64,6 @@ def ValidateParallel(f):
 	return f		
 def ValidateCanadianCourt(f):
 	court					= "%s" % (f.form.court)
-	
 	if not court:
 		GenerateErrorMsg(f,"court","", ErrorMsgRequired("court"))			
 	else:

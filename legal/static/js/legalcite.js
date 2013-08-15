@@ -125,12 +125,14 @@ Form Submissions
 
 	// Submit a form when the go button for canada case is submitted.
 	//	Then reloads the page to display the contentss
+	/*
 $('#canlii-input').keypress(function (e) {
 	if (e.which == 13) {
 		SubmitCanLII()
-	}
 	return false;
-});
+	}
+	
+});*/
 
 jQuery('#canlii-go').click(function(){
 	SubmitCanLII()

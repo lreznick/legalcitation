@@ -41,9 +41,6 @@ var UKCaseValidator = jQuery('#UKCase-Form').validate({
 					required: true 
 				},
 				court: {
-					maxlength:250,	
-					regex: regex_court, 
-					validateCourt: true,
 					required: true,
 				},
 				shortform: {
