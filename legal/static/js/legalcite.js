@@ -232,7 +232,7 @@ function SubmitCanLII(){
 						if (data[0].date != false){
 							jQuery('#UKCaseYear').val(data[0].date);
 						}
-						console.log(data[0])
+						//console.log(data[0])
 						var reporters = data[0].reporters[1];
 						var reporterType= data[0].reporters[0];	
 						autoFillUKPinpoint(reporterType,reporters);
@@ -355,8 +355,8 @@ jQuery('#Book-Container #pinpoint-selection').change(function(){
 
 jQuery('#UKCase-Form .court-selection').change(function(){
 	var txt = jQuery(this).val();
-	console.log("txt \n\n\n\n\n\n\n" + txt);
-	console.log("txt \n\n\n\n\n\n\n" + txt);
+	//console.log("txt \n\n\n\n\n\n\n" + txt);
+	//console.log("txt \n\n\n\n\n\n\n" + txt);
 	if(txt =="Other"){
 		jQuery(this).siblings('.court-input').show();
 	}
@@ -413,8 +413,8 @@ jQuery('#CanadaCase-Accordion-Toggle').click(function(){
 	
 	function autoFillUKPinpoint(reporterType, reporters){
 		var id = "#UKCase-Container"
-		console.log("reporterType ::" +reporterType );
-		console.log("reporter 1::"+ reporters);
+		//console.log("reporterType ::" +reporterType );
+		//console.log("reporter 1::"+ reporters);
 		jQuery(id + ' #pinpoint-warning').html("");
 		if (reporterType == "Warning: should have reporter") { 
 			message = "<b>Parallel Citations:</b> Warning, we detected a neutral citation only. You generally should include a reporter as well, if possible."

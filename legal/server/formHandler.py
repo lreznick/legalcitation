@@ -24,6 +24,7 @@ urls = (
 	'/USCase', 'US',
 	'/Journal', 'JournalArticle',
 	'/Dictionary', 'Dictionary',
+	'/Book', 'Book',
 	
 )
 
@@ -111,6 +112,10 @@ class Court(object):
 		data_string =json.dumps(data)
 		print 'JSON:', data_string
 		return data_string
+
+class Book(object):
+	def POST(self):
+		return BookFormatter(web.input())
 		
 class Dictionary(object):
 	def POST(self):
