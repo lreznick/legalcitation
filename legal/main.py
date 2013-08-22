@@ -2,9 +2,19 @@
 # user requests the website, it grabs the html file and opens it up. 
 #	Website opened at http://localhost:8080 It then waits for an input 
 #from the user and then grabs that information. then calls webgrabber which grabs links
+'''
+			import os
+			import sys
+			root = os.path.join(os.path.dirname(__file__)+"/")
+			sys.path.insert(0, root)
+			modules = os.path.join(os.path.dirname(__file__)+"/server/")
+			sys.path.insert(1, modules)
+			os.chdir(root)
+			app = web.application(urls, globals(),autoreload=False)
+			application = app.wsgifunc()
+'''
 
-
-from server.testyface import test123
+#from server.testyface import test123
 from server.formcode.webGrabber import *
 from server.formcode.CanadianCase import *
 from server.subapplications.dbConnector import *
@@ -126,6 +136,7 @@ class Login(object):
 def main():
 	app.internalerror = web.debugerror
 	string = app.run() 
+	#string = app.wsgifunc() 
 	print string
   
 if __name__ == "__main__":

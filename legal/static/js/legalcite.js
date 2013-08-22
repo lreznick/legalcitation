@@ -141,7 +141,7 @@ function SubmitCanLII(){
 	jQuery('#CanadaCaseParallel').blur(function(){
 			var parallelValue = jQuery(this).val();
 			if (parallelValue == "banana jones!!"){
-				jQuery("#tab1").html('<iframe width="960" height="720"  src="//www.youtube.com/embed/s8MDNFaGfT4?autoplay=1" frameborder="0" allowfullscreen></iframe>');
+				jQuery("#CanadaCase").html('<iframe width="960" height="720"  src="//www.youtube.com/embed/s8MDNFaGfT4?autoplay=1" frameborder="0" allowfullscreen></iframe>');
 			}
 			if (parallelValue != ""){	
 				jQuery.ajax({ 

@@ -39,7 +39,10 @@ Setting up the Server
 			sudo chmod -R 775 html
 	
 	5. Run Apache
-		sudo /sbin/service httpd start
+		sudo /sbin/service httpd restart
+		
+		5.0 Test syntax
+			httpd -t
 		
 		5.1 To view error logs
 			sudo su /var/log/httpd/

@@ -1,0 +1,132 @@
+We assume that you have root access for all of the installation process
+
+1. Get Apache 2
+	sudo apt-get install apache2
+	
+2. Get Pip
+	sudo apt-get python-pip
+	
+3. Get web.py
+	sudo pip install web.py
+
+4. Get passlib
+	sudo apt-get install python-passlib
+
+5. Get MySQL
+	sudo apt-get install python-mysql.connector
+	sudo apt-get install python-mysqldb
+	
+4. Get mod_wsgi
+	sudo apt-get install libapache2-mod-wsgi
+	
+	4.0 Check to see its working
+		sudo service apache2 restart
+		put ip address in web browser to see if it works
+
+5. enable mod_rewrite
+	a2enmod rewrite
+	
+6. Configuration of apache
+	cd /etc/apache2/sites-available
+	
+	
+	6.1 Changing the default file
+	vim default
+	changed everything to:
+		<VirtualHost *:80>
+				ServerAdmin webmaster@localhost
+				DocumentRoot /var/www/html/legal/
+				DirectoryIndex main.py
+				WSGIScriptAlias / /var/www/html/legal/
+				Alias /static /var/www/html/legal/static/
+				<Directory />
+						Options FollowSymLinks
+						AllowOverride None
+				</Directory>
+				<Directory /var/www/html/legal/>
+						Options +Indexes +FollowSymLinks +MultiViews
+						#changed from non to FileInfo
+						AllowOverride FileInfo Options
+						Order allow,deny
+						allow from all
+				</Directory>
+				#ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+				#<Directory "/usr/lib/cgi-bin">
+				#        AllowOverride None
+				#        Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+				#        Order allow,deny
+				#        Allow from all
+				#</Directory>
+				ErrorLog ${APACHE_LOG_DIR}/error.log
+				# Possible values include: debug, info, notice, warn, error, crit,
+				# alert, emerg.
+				LogLevel warn
+				CustomLog ${APACHE_LOG_DIR}/access.log combined
+		</VirtualHost>
+	6.1 Test to see if there are errors
+		apachectl configtest
+	6.2 Monitor For errors when messing with config files (optional)
+		tail -f /var/log/apache2/error.log
+		and 
+
+	
+	7.2 Creating a .htaccess file
+		sudo vim .htaccess
+		Added:
+			<Files index.py>
+				SetHandler wsgi-script
+				Options +ExecCGI +FollowSymLinks
+			</Files>
+			RewriteEngine On
+			RewriteBase /
+			RewriteCond %{REQUEST_URI} !^favicon.ico$
+			RewriteCond %{REQUEST_URI} !^(/.*)+index.py/
+			RewriteCond %{REQUEST_URI} !^(/.*)+\.(css|png|js|jpg|tff|oft|gif)$
+			RewriteRule ^(.*)$ index.py/$1 [PT]
+			
+8 SFTP (filezilla)
+	8.1 Giving permissions to allow filezilla in
+		chown -R ubuntu /var/www/html (or whichever directory you want)
+		chown -R 755 /var/www/html 
+	8.2 Connecting in Filezilla
+		Open Site manager
+			host: some ip like 54.213.173.233
+			Port: 22
+			Protocol: SFTP
+			Login Type: Normal
+			User: Ubuntu
+		Edit -> Setting -> SFTP: add your key	
+
+7.0 Adding your code
+	cd /var/www/
+	sudo mkdir html
+	cd html
+	sudo mkdir test.com
+	cd test.com
+	sudo vim index.py (or whatever your main is)
+	
+	7.1 Modifying your code: 
+		7.1.1 Wsgifunc()
+			app = web.application(urls, globals(), autoreload=False)
+			application = app.wsgifunc()
+			
+			application = app.run()
+			CHANGES TO
+			application =app.wsgifunc()	
+			***ensure it is at the top!!!!! ****
+			
+		7.1.2 Ensure python can find all of your files
+			AT THE TOP OF YOUR FILE
+			import os
+			import sys
+			root = os.path.join(os.path.dirname(__file__)+"/")
+			sys.path.insert(0, root)
+			modules = os.path.join(os.path.dirname(__file__)+"/server/")
+			sys.path.insert(1, modules)
+			os.chdir(root)
+	
+8 Restart
+	sudo service apache2 restart
+	
+	
+9 Profit!
