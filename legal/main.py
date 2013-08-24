@@ -27,7 +27,7 @@ from web import form
  
 # mapping. Each post request contains what to do.    '/' ,  'Index', '/signup', 'SignUp',
 urls = (
-    '/formInput', 'Index',	#
+    '/formInput', 'Index',	
 	'/about', 'About',
 	'/form', app_formHandler,
 	'/login', 'Login',
@@ -46,12 +46,7 @@ render =web.template.render('webclient/templates/', globals=template_globals, ba
 template_globals.update(render=render_partial)
 
 
-#Then you will be able to call $:render.any_template() in templates.
-if web.config.get('_session') is None:
-    session = web.session.Session(app, web.session.DiskStore('sessions'), initializer={'user': 'anonymous'})
-    web.config._session = session
-else:
-    session = web.config._session
+
 
 class About(object):
 	def GET(self):		
@@ -81,8 +76,14 @@ signup_form =form.Form(
 						form.Password('password_again',  placeholder = "password again", class_ = "input"),
 						validators = [passwords_match]		
 						)
+						
+login_form = form.Form(
+						form.Textbox('username', username_required, placeholder = "email", note ="", class_ = "input"),
+						form.Password('password', password_required, placeholder = "password", class_ = "input")
+						)
 
 class Register(object):
+	
 	def GET(self):
 		my_signup = signup_form()
 		return render.signup(my_signup)
@@ -93,46 +94,55 @@ class Register(object):
 			myvar = dict(username = my_signup['username'].value)
 			email = my_signup['username'].value
 			password = my_signup['password_again'].value
-			result = insert_new_user(email, password)
+			result = handle_user(email, password, "register")
 			if (result == False):
 				return "username already there!"
 
 			#users[username] = PasswordHash(password)
 			raise web.seeother('/')
 		else:
-			print "didn't validate baby"
+			print "didn't validate baby REGISTER"
 			print "note", my_signup['username'].note
 			print my_signup['username'].value
 			print my_signup['password'].value
 			print my_signup['password_again'].value
-			return render.signup(my_signup)
+			return render.form()
 			
 class Login(object):
 	def GET(self):
-		my_signup = signup_form()
-		return render.login(my_signup)
+		my_login = login_form()
+		return render.login(my_login)
 		
 	def POST(self):
-		my_signup = signup_form()
-		if my_signup.validates(): 
-			myvar = dict(username = my_signup['username'].value)
-			email = my_signup['username'].value
-			password = my_signup['password_again'].value
-			result = insert_new_user(email, password)
+		my_login = login_form()
+		if my_login.validates(): 
+			#myvar = dict(username = my_login['username'].value)
+			email = my_login['username'].value
+			password = my_login['password'].value
+			result = handle_user(email, password, "login")
+			#session(user)
 			if (result == False):
 				return "username already there!"
-
+			else:
+				print "THIS MEANS YOU GOT VALIDATED BABY!"
 			#users[username] = PasswordHash(password)
-			raise web.seeother('/')
+				raise web.seeother('/')
 		else:
-			print "didn't validate baby"
+			print "didn't validate baby LOGIN"
 			print "note", my_signup['username'].note
 			print my_signup['username'].value
 			print my_signup['password'].value
-			print my_signup['password_again'].value
-			return render.signup(my_signup)
+			#print my_signup['password_again'].value
+			return render.form()
 
-			
+def session(user):
+	#Then you will be able to call $:render.any_template() in templates.
+	if web.config.get('_session') is None:
+	    session = web.session.Session(app, web.session.DiskStore('sessions'), initializer={'user': 'anonymous'})
+	    web.config._session = session
+	else:
+	    session = web.config._session
+
 def main():
 	app.internalerror = web.debugerror
 	string = app.run() 
