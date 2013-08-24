@@ -1,0 +1,19 @@
+$def with (citations)
+
+ <h1> My Citations </h1>
+<br>
+ 
+ 	<div class="container" style ="margin-top:25px;width: 1000px;">     
+		$for citation in citations
+		
+		<div>
+			<h1> $citation.title </h1>
+			<h2> $citation.date </h2>
+			<h3> $citation.formtype </h3>
+			<hr>
+		</div>
+    </div><!-- Entire Container -->
+ <div class="container" style ="margin-top:50px;"> </div>     
+
+ 
+	  

@@ -1,0 +1,292 @@
+\documentclass[11pt]{article}
+\usepackage[english]{babel}
+%\usepackage{blindtext}
+\usepackage{lineno}
+%\usepackage{fullpage}
+\usepackage{amsmath, amssymb, graphicx, color, array, appendix}
+%\renewcommand*\familydefault{\sfdefault} %% Only if the base font of the document is to be sans serif
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+%\usepackage{sistyle}
+\usepackage{setspace}
+\usepackage{soul}
+\usepackage{hyperref}
+\usepackage{verbatim}
+\usepackage{fancyhdr}
+\fancyhf{} % sets both header and footer to nothing
+\renewcommand{\headrulewidth}{0pt}
+\usepackage{lastpage}
+\pagestyle{fancy}
+\usepackage{times}
+\usepackage{changepage}
+\usepackage{footnote}
+\cfoot{Page \thepage\ of \pageref{LastPage}}
+\usepackage{calc}
+\doublespacing
+
+
+
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+\begin{document}
+\setlength{\parindent}{1cm}
+
+\exhyphenpenalty=10000
+\interfootnotelinepenalty=10000
+\frenchspacing
+
+\begin{center}
+\Huge
+\emph{Intra Vires} Research
+\end{center}
+ \normalsize
+
+\begin{center}
+\vspace{-0.5in}
+\line(1,0){361}
+
+
+\normalsize
+\textsc{David Pardy \& Stephen Huang}\\
+\textsc{June 19, 2013}\\
+CONFIDENTIAL -- Intended for Innovate Calgary only
+\end{center}
+
+\section*{Introduction to the Legal Service Sector}
+
+
+
+%Law firms make their business by advising clients on legal issues, representing them in court, and providing legal documents to them. Big law firms charge from \$700 to \$1200 per hour to clients, plus research fees that range from \$50 to over \$2000 per question. Research fees are costs incurred by searching databanks containing cases, charged by major research outfits.
+
+%Although it might appear that the hourly rate would incline lawyers to pad their hours, that is in fact the opposite of their goal. Lawyers are bound by ethical Codes to reduce client costs as much as possible while still giving the best legal service. Violation of the Code can lead to disbarment or fines. Some lawyers even discard some charges to clients just to improve client satisfaction. Competition demands that clients be billed the least number of hours for the highest quality of work. Pleased clients lead to more clients.
+
+%To this end, law firms continuously ask how they can work more efficiently and give better advice. From personal experience, we believe that the technology used by law firms is severely lacking. With so room for improvement, the question is not \emph{what} can we do, but \emph{how much} we can do with the time and resources we have.
+
+
+\section*{The Problem and the Solution}
+
+Lawyers work incredibly hard, often until 3AM and back in the office at 8AM. And lawyers might not even charge hours to their clients if they feel the time was not well-spent. It's frustrating.
+
+Each lawyer already has a full-time assistant to keep things running efficiently. Bigger firms (30+ lawyers) also have full-service staffed libraries, a host of receptionists, IT support, and a servery. These tools aim to maximize the utility of every minute the lawyer is in the office. But they are all peripheral to the actual substance of a lawyer's work that cannot be delegated: legal research. 
+
+Legal research involves ploughing through enormous databases and old books to find the state of the law (a "precedent") on discrete, often tangential issues. It can be very confusing. Even keeping track of what cases you have read, and where they were found, is annoying. We see  potential for software to help with knowledge management through the use of precedent trees and a highly interactive personal precedent bank. 
+
+Supposing a lawyer has all of that figured out, he or she still has to cite the precedents correctly. Citing alone can take several hours, even for experts. And it cannot effectively be delegated to assistants. This is a second area for potential.
+
+There is a Uniform Guide to Legal Citation published jointly by the McGill Law Journal and Thomson Reuters Carswell. It is the standard for submitting documents to courts, and even within the firm. Lawyers groan just hearing about it. The McGill guide is 600 pages.
+
+
+\section*{The Market}
+
+The market for this product is large and growing. It is all lawyers who do legal research, plus law students and academics. In a Bloomberg Law interview with 30-year law firm consultant and author Richard Susskind on May 2, 2013, he identified the influx of technology to law firms as one of the three key opportunities for profitable change in the field. The other two were reducing costs to clients, and using non-lawyers in the delivery of legal services. All three are helpful to us, as we are a third party providing technology aimed at reducing costs to clients.
+
+Law firms growth generally mirrors the local economy, with a lag of a few years. Recent concerns over legal recruiting is a result of the 2008 financial crisis, though growth is returning to the sector. In the end, legal services are always required when business occurs. In economic downtimes, legal services may be delegated to individuals other than in law firms to save costs. However, that is not detrimental to our service, as it is geared at anyone who practices law, whether in a firm or not.
+
+
+\section*{The Competition}
+
+Despite considerable searching, we have found no comparable service to what we aim to offer.
+
+The following are the large legal SaaS providers that are at least in the same market space for us, and could be potential buyers of our software.
+
+\begin{quote}
+\textbf{QuickLaw} -- QuickLaw is a Lexis subsidiary. It is a database of Canadian cases and legislation. Law schools and law firms hold licences that cost \$10,000 per year. Students at law schools get unlimited access. During their time at law school, students become dependent on it. Law firms, on the other hand, must charge clients \$20 to \$200 per search. So when the addicted students come work at law firms, they end up charging their clients a lot due to inefficient searching habits. It is an effective business model.
+\end{quote}
+
+\begin{quote}
+\textbf{Westlaw Canada} -- Carswell is a Thomson Reuters sub-subsidiary, and Westlaw Canada is subsidiary of Carswell. It is for all intents and purposes the same as Westlaw, but has better functionality and dependency for legislation. Westlaw creates visual aids for judicial consideration of past cases.
+\end{quote}
+
+\begin{quote}
+\textbf{CanLII} (Canada Legal Information Institute) -- CanLII provides a database of legislation and cases for free. There is no subscription. CanLII has attempted to provide citations of cases and legislation like we will do, but they are not correct according to the McGill Guide. CanLII is not highly dependable so cannot oust QuickLaw and Westlaw from the market space, despite being free to use.
+\end{quote}
+
+\begin{quote}
+\textbf{Clio} -- Clio is a Calgary start-up providing document management, time-keeping, and billing services. There are several services like this used by businesses, but Clio is aimed at law firms. 
+\end{quote}
+
+\begin{quote}
+\textbf{My Legal Briefcase} -- My Legal Briefcase is an embodiment of access to justice by letting non-lawyers do law. It provides standard forms and general document management for beginners. 
+\end{quote}
+
+None of these outfits are comparable to our service, though we expect that at least some of them will be used in conjunction with our service. We are building in functionality with CanLII even in our beta service. It will allow users to retrieve citations automatically after merely pasting in the CanLII url to a case.
+
+Our competitive difference will be our design. Stephen and I are working hard to create an intuitive and aesthetic design. Westlaw and QuickLaw, have archaic and ugly user interfaces, though Clio and My Legal Briefcase are fairly appealing.
+
+
+\section*{The Technology}
+
+We plan on delivering our product as SaaS. The product is conveniently split into two parts: the automatic McGill Guide citation formatter, and the interactive precedent tree engine. As our market approach plan is also split into these two parts, I will address them separately.
+
+Before examining each, however, we should explain one key point. Legal research is like a complex of highways and dead-end roads. We want our product to be a car with GPS, whereas everyone else stuck with bicycles. To build the car, we need both an engineer and a cartographer -- i.e. a programmer and a lawyer. Either alone would fail, the lawyer for lack of programming skills, and the programmer for lack of contextual understanding. Stephen and David make a good pair because David is the lawyer and Stephen is the programmer. 
+
+So below, where we say the technology is replicable, we assume another team exists that could tackle the problem like we can. That assumption is tenuous at best.
+
+
+\subsection*{McGill Guide Citation}
+
+The McGill guide costs \$50 at a legal book store. Although some aspects of coding it are tricky, there are no processes in it that can only be done as we have done them. Therefore any patent that could be contrived over part of the process could likely be circumvented. 
+
+
+\subsection*{Precedent Tree Engine}
+
+We have not started coding the precedent tree engine, and, as per below, we likely will not for at least one year.
+
+That being said, we anticipate it will be challenging. But as most software, it will be replicable. \\
+
+The lack of software protection has been a concern to us, but we have a plan to avoid a market takeover from a future competitor. It is connected with our approach to the market, so it will be explained there.
+
+\section*{The Approach to Market}
+
+Like everything in this document, the following roll-out plan may need amending.
+
+Please consider the following timeline before continuing.
+
+\begin{table}[htdp]
+\begin{center}
+\begin{tabular}{ L{3cm} | L{3cm} | L{3cm} }
+\textbf{Goal} & \textbf{Date}& \textbf{Purpose}\\
+\hline
+\hline
+Launch free McGill Guide beta for law students & August 15, 2013 & Free testing and market litmus test\\
+\hline
+Initiate formal McGill Guide testing & September 9, 2013 (when law school resumes) & Bugs and design feedback \\
+\hline
+Get 6 customers & November 15, 2013 & See if students use it for their first papers\\
+\hline
+Revamp McGill Guide suite & June, 2014 & Implement good suggestions from feedback\\
+\hline
+Begin coding precedent trees & July, 2014 & Begin phase 2\\
+\hline 
+Launch free precedent tree editor beta for law students & August 15, 2014 & Free testing and market litmus test\\
+\hline
+Initiate formal McGill Guide testing & September 8, 2014 (when law school resumes) & Bugs and design feedback \\
+\hline
+Revamp entire website & June, 2015 & Implement good suggestions from feedback on entire website\\
+\hline
+Pitch to law firms & August, 2015 & Enter new market\\
+\hline
+Begin paid sessions with students and firms & September 7, 2015 & Begin full operations\\
+\end{tabular}
+\end{center}
+\label{Timeline}
+\end{table}%
+
+
+\break
+
+
+An overriding theme is to hook law students on the service so that they continue with it when they enter the legal workforce. In order to accomplish this, we want to first focus on law students. This will start this fall with the McGill Guide free beta service.
+
+Initially focusing on law students enables us three great advantages: finding bugs, providing design feedback, and testing the market. We want to collect feedback for the 2013-2014 school year.
+
+The following summer (2014), we want to implement the necessary changes to the McGill Guide and create the precedent tree beta service. We will launch the precedent tree beta service in September 2014 and run it throughout the 2014-2015 school year. During this period, the McGill Guide system will continue to be in beta because it is too interconnected with the precedent tree service to test separately.
+
+In the summer of 2015, we will revamp the entire website and furnish it for full use. At this time, it may be necessary to take on more team-members.
+
+We will then pitch to law firms, which, at the time, will likely be a mere introduction. They will not yet feel comfortable using a program that has not been paid for or adopted by the market. 
+
+Starting September 2015, we aim to have the full website up for paid service. It is then that we anticipate the longer term business strategy of hooking law students and infiltrating firms will come to fruition.
+
+
+\section*{Making Money}
+
+Once the service is out of beta, we will sell it through subscription available monthly or yearly. 
+
+Students will get a ``discount'' price, which is really an individual price. A month will cost \$5.95, and a year will cost \$44.95. The yearly cost is the same as about eight months, which is the time students are in school. There are 7860 law students in Canada per year. The following table projects revenues.
+
+\begin{table}[htdp]
+\begin{center}
+\caption{Revenue from Students}
+\begin{tabular}{ R{3cm} |  C{3cm} | L{3cm} }
+\textbf{Market uptake} & \textbf{Months Subscribed} & \textbf{Forecast} \\
+\hline
+\hline
+1\% & 1 & \$467.67  \\
+3\% & 1 & \$1,403.01  \\
+5\% & 1 &  \$2,338.35  \\
+10\% & 1 &  \$4,676.70  \\ 
+20\% & 1 & \$9,353.40  \\
+50\% & 1 &  \$23,383.50  \\ 
+100\% & 1 &  \$46,767.00 \\
+1\% & 3 & \$1,403.01  \\
+3\% & 3 & \$4,209.03  \\
+5\% & 3 &  \$7,015.05  \\
+10\% & 3 &  \$14,030.10  \\ 
+20\% & 3 & \$28,060.20  \\
+50\% & 3 &  \$70,150.50  \\ 
+100\% & 3 &  \$140,301.00  \\
+1\% & 5 & \$2,338.35  \\
+3\% & 5 &  \$7,015.05  \\
+5\% & 5 &  \$11,691.75  \\ 
+10\% & 5 &  \$23,383.50 \\ 
+20\% & 5 &  \$46,767.00 \\
+50\% & 5 &  \$116,917.50 \\
+100\% & 5 &  \$233,835.00 \\
+1\% & 12 (1 year) &   \$42,396.84  \\
+3\% & 12 (1 year) & \$127,190.52    \\
+5\% & 12 (1 year) &  \$211,984.20  \\
+10\% & 12 (1 year) &  \$423,968.40  \\ 
+20\% & 12 (1 year) & \$847,936.80  \\
+50\% & 12 (1 year) &  \$2,119,842.00  \\ 
+100\% & 12 (1 year) &  \$4,239,684.00  \\
+\end{tabular}
+\end{center}
+\end{table}%
+
+\break
+
+Firms will get a bulk year-long subscription price according to the population of the firm. We cannot set a price now, as we will need to examine market uptake and how much the program increases productivity, and how much law firms will be willing to pay. But this market could be extremely lucrative, as per the following. 
+
+The firm price will be strategically under the dollar amount that each lawyer is able to save their clients through more efficient researching. As a very conservative estimate, this will be two hours per month per lawyer at a billing cost of \$900. So a yearly subscription could save clients \$21,600 per lawyer. Clearly this amount is far too high for a law firm to pay. From speaking with the director of knowledge management at Norton Rose Fulbright LLP, we anticipate that law firms will not be willing to pay more than \$500 per lawyer per year. Knowing there are about 25,000 practicing lawyers in Canada, The following table projects revenues.
+
+We also intend to allow firms a discounted trial price for 3 months.
+
+\begin{table}[htdp]
+\begin{center}
+\caption{Revenue from all Lawyers}
+\begin{tabular}{ R{3cm} | C{3cm} | L{3cm} }
+\textbf{Market uptake} & Months Subscribed & \textbf{Forecast} \\
+\hline
+\hline
+1\% & 12 (1 year) & \$ 124,987.50  \\
+3\% & 12 (1 year) & \$ 374,962.50  \\
+5\% & 12 (1 year) &  \$ 624,937.50  \\
+10\% & 12 (1 year) &  \$ 1,249,875.00  \\ 
+20\% & 12 (1 year) & \$2,499,750.00  \\
+50\% & 12 (1 year) &  \$6,249,375.00  \\ 
+100\% & 12 (1 year) &  \$12,498,750.00  \\
+\end{tabular}
+\end{center}
+\end{table}%
+
+
+
+
+\section*{Exit Strategy}
+
+sell
+
+consider that lexis or westlaw will get a lot more utility out of it -- need to up the price
+
+\section*{Execution}
+
+yes we can
+
+\section*{The Ask}
+
+video
+
+marketing
+
+
+
+
+
+
+
+
+
+\end{document}
