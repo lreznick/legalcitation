@@ -19,10 +19,20 @@ pwd_context = CryptContext(
 	sha512_crypt__default_rounds = 8000,
 	) 
 db = web.database(dbn='mysql', host='127.0.0.1', port=3306, user='root', pw='Jeenyus1', db='intravires')
+
 urls = (
   "", "Register",
-  "/(.*)", "blog"
 )
+
+
+
+
+def getCitations():
+	userID = "banana jones"
+	return citations = db.query("SELECT * FROM citations WHERE user_id=$id", vars={'id':userID})[0]
+	print "hello"
+
+
 
 
 signin_form = form.Form(form.Textbox('username',
@@ -50,35 +60,6 @@ users = {
     'falken' : PasswordHash('joshua') }									  
 
 
-
-class hello:
-    def GET(self):
-        my_signin = signin_form()
-        return render.hello(session.user, my_signin)
-
-    def POST(self): 
-        my_signin = signin_form() 
-        if not my_signin.validates(): 
-            return render.hello(session.user, my_signin)
-        else:
-            session.user = my_signin['username'].value
-            return render.hello(session.user, my_signin)
-
-
-
-
-class logout:
-	def GET(self):
-		session.kill()
-		raise web.seeother('/')
-		
-class reblog:
-	def GET(self): 
-		raise web.seeother('./about')
-
-class blog:
-	def GET(self, path):
-		return "blog " + path
 
 #for data in results: #members is IterBetter
 					#print data.user_id #member is Storage	

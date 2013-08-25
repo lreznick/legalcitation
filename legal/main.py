@@ -44,7 +44,7 @@ app = web.application(urls, globals(),True)
 
 template_globals ={}
 render_partial = web.template.render('webclient/templates/', globals=template_globals)
-render =web.template.render('webclient/templates/', globals=template_globals, base='layout')
+render = web.template.render('webclient/templates/', globals=template_globals, base='layout')
 template_globals.update(render=render_partial)
 
 class citation:
@@ -58,6 +58,7 @@ class MyCitations(object):
 	def GET(self):
 		a = citation("Johnson v. Johnson", "Johnson v Johnson, 2008 SCC 9 at para 289, [2008] 1 SCR 190, Binnie J.", "4 Feb 2013", "Canadian Case")
 		citationList =[a,a,a,a,a]
+		#citationList = getCitations()
 		return render.myCitations(citationList)
 		
 
