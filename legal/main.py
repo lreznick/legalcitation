@@ -112,10 +112,11 @@ class Register(object):
 			password = my_signup['password_again'].value
 			result = handle_user(email, password, "register")
 			if (result == False):
-				return "username already there!"
+				my_signup['username'].note = "username already there!"
+				return render.signup(my_signup)
 
 			#users[username] = PasswordHash(password)
-			raise web.seeother('/')
+			return render.form()
 		else:
 			print "didn't validate baby REGISTER"
 			print "note", my_signup['username'].note
@@ -126,6 +127,11 @@ class Register(object):
 			
 class Login(object):
 	def GET(self):
+		print "CHECKING FOR COOKIES AT LOGIN!!!!!!!"
+		if ((web.cookies().get('username') != None)):
+			print "COOKIES FOUND"
+			print web.cookies()
+			return "YOUR COOKIE WORKED!!!"
 		my_login = login_form()
 		return render.login(my_login)
 		
@@ -138,11 +144,12 @@ class Login(object):
 			result = handle_user(email, password, "login")
 			#session(user)
 			if (result == False):
+				print "something unexpected has occured"
 				return "username already there!"
 			else:
 				print "THIS MEANS YOU GOT VALIDATED BABY!"
 			#users[username] = PasswordHash(password)
-				raise web.seeother('/')
+				return render.form()
 		else:
 			print "didn't validate baby LOGIN"
 			print "note", my_signup['username'].note

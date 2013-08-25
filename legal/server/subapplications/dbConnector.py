@@ -95,14 +95,15 @@ def verify_user_hash(unverified_pwd, query_result):
 def handle_user(user_email, password, function_type):
 	try:
 		results = db.query("SELECT * FROM users WHERE email=$id", vars={'id':user_email})[0]
-		
+		remember_me = "no"
 		print results
 		print results.email
 		print results.salt
 		print type(results)
 		
-		if not list(results):
-			if (function_type == "register"):
+		if (function_type == "register"):
+			if not list(results):
+			
 				
 				hashobj = PasswordHash(password)
 				print "pw", len(hashobj.hashedpw)
@@ -113,17 +114,36 @@ def handle_user(user_email, password, function_type):
 				print "id" , id
 				sequence_id = db.insert('users',  user_id = id, email = user_email, hash = hashobj.hashedpw, salt = hashobj.salt , create_date = web.SQLLiteral("NOW()"))
 				return "hooray"
-		else:
-			if (function_type == "login"):
-				return verify_user_hash(password, results)
-				
-				
-			elif (function_type == "register"):
+			else:
 				print "I occur when the login username is already taken"
 				return False
-			else:
-				print "I shouldn't occur"
-				return False
+		elif (function_type == "login"):
+		
+				verified = verify_user_hash(password, results)
+				print "ABOUT TO CHECK FOR COOKIES"
+				if ((web.cookies().get('username') != None) and (verified==True)):
+					print "COOKIES FOUND"
+					return verified
+				else:
+					
+					if verified:
+				
+						if(remember_me == "yes"):
+							print "ABOUT TO CREATE 6MONTH COOKIE"
+							web.setcookie('username', user_email, expires=2592000, domain=None, secure=False)
+							#web.setcookie('password', results.hash, expires=2592000, domain='localhost', secure=False)
+						else:
+							print "ABOUT TO CREATE COOKIE!!!!!!!"
+							web.setcookie('username', user_email, expires=180, domain=None, secure=False)
+							#pass_cookie = web.setcookie('password', results.hash, expires=180, domain='localhost', secure=False)				
+							print web.cookies()
+							#print pass_cookie
+					return verified
+				
+			
+		else:
+			print "I shouldn't occur"
+			return False
 			
 	except IndexError:
 		print "AN EXCEPTION HAS OCCURED MATHAFUCKA"
