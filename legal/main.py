@@ -32,7 +32,9 @@ urls = (
 	'/form', app_formHandler,
 	'/login', 'Login',
 	'/register', 'Register',
-	'/', 'Index'
+	'/', 'Index',
+	'/citations', 'MyCitations'
+	
 
 )
 
@@ -45,15 +47,19 @@ render_partial = web.template.render('webclient/templates/', globals=template_gl
 render =web.template.render('webclient/templates/', globals=template_globals, base='layout')
 template_globals.update(render=render_partial)
 
-
-
-
-class About(object):
-	def GET(self):		
-		return render.aboutUs();
-	
-	def POST(self):
-		return render.aboutUs();
+class citation:
+	def __init__(self, styleofcause, fullcitation, date, formtype):
+		self.styleofcause = styleofcause
+		self.fullcitation = fullcitation
+		self.date = date
+		self.formtype = formtype
+		
+class MyCitations(object):
+	def GET(self):
+		a = citation("Johnson v. Johnson", "Johnson v Johnson, 2008 SCC 9 at para 289, [2008] 1 SCR 190, Binnie J.", "4 Feb 2013", "Canadian Case")
+		citationList =[a,a,a,a,a]
+		return render.myCitations(citationList)
+		
 
 class Index(object):
 	def GET(self):
@@ -63,6 +69,16 @@ class Index(object):
 		form = web.input()
 		webURL = "%s" % (form.styleofcause)
 		return webURL
+
+		
+class About(object):
+	def GET(self):		
+		return render.aboutUs();
+	
+	def POST(self):
+		return render.aboutUs();
+
+
 
 	
 passwords_match = form.Validator("Passwords didn't match.", lambda i: i.password == i.password_again)			
