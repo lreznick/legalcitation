@@ -81,7 +81,7 @@ jQuery('#canlii-go').click(function(){
 	//	Then reloads the page to display the contentss
 	
 $('#canlii-input').keypress(function (e) {
-	console.log("e: " + e.which);
+	//console.log("e: " + e.which);
 	if (e.which == 13) {
 		if (CanliiValidator.form()){
 			SubmitCanLII()
@@ -103,7 +103,7 @@ function SubmitCanLII(){
                 data:{url: jQuery('#canlii-input').val()},
 				dataType: 'json',
                 success: function(data) {
-					console.log(data[0]);
+					//console.log(data[0]);
 					var styleofcause = data[0].styleofcause;
 					var parallel = data[0].parallel;
 					var court = data[0].court;
@@ -198,7 +198,7 @@ jQuery(' #pincite-selection').change(function(){
 
 jQuery('#leaveToAppeal-selection').change(function(){
 	var txt = jQuery(this).val();
-	//console.log("txt" + txt);
+	////console.log("txt" + txt);
 	if(txt =="granted" || txt =="refused")	{
 		jQuery("#CanadaCaseLeaveToAppeal-Docket").show();
 	}
@@ -293,7 +293,7 @@ UK Case
 						if (data[0].date != false){
 							jQuery('#UKCaseYear').val(data[0].date);
 						}
-						//console.log(data[0])
+						////console.log(data[0])
 						var reporters = data[0].reporters[1];
 						var reporterType= data[0].reporters[0];	
 						autoFillUKPinpoint(reporterType,reporters);
@@ -326,8 +326,8 @@ UK Case
 		
 jQuery('#UKCase-Form .court-selection').change(function(){
 	var txt = jQuery(this).val();
-	//console.log("txt \n\n\n\n\n\n\n" + txt);
-	//console.log("txt \n\n\n\n\n\n\n" + txt);
+	////console.log("txt \n\n\n\n\n\n\n" + txt);
+	////console.log("txt \n\n\n\n\n\n\n" + txt);
 	if(txt =="Other"){
 		jQuery(this).siblings('.court-input').show();
 	}
@@ -340,8 +340,8 @@ jQuery('#UKCase-Form .court-selection').change(function(){
 
 	function autoFillUKPinpoint(reporterType, reporters){
 		var id = "#UKCase-Container"
-		//console.log("reporterType ::" +reporterType );
-		//console.log("reporter 1::"+ reporters);
+		////console.log("reporterType ::" +reporterType );
+		////console.log("reporter 1::"+ reporters);
 		jQuery(id + ' #pinpoint-warning').html("");
 		if (reporterType == "Warning: should have reporter") { 
 			message = "<b>Parallel Citations:</b> Warning, we detected a neutral citation only. You generally should include a reporter as well, if possible."
@@ -678,7 +678,7 @@ formClass.prototype.browse = function(){
 		
     }	
 formClass.prototype.addHistory = function(){
-		console.log("")
+		//console.log("")
 		
 		if (this.historycount ==1){
 			jQuery("#"+this.name +"-Container #history2").show();
@@ -713,7 +713,7 @@ var tooltipClass = function(name, tooltipList,offsets){
 	this.addEvents();
 }	
 tooltipClass.prototype.addEvents = function(){
-	console.log('#' +this.name +'-Container input');
+	//console.log('#' +this.name +'-Container input');
 	$('#' +this.name +'-Container input').bind('focus', {context: this}, this.onFocus);	
 }
 tooltipClass.prototype.onFocus= function (ev){
@@ -726,7 +726,7 @@ tooltipClass.prototype.onFocus= function (ev){
 		var id = "#" + this.name  
 		var htmlName = jQuery(jQueryInput).attr('name') // get Forms name
 		//var tool = eval('tooltip_'+name); // convert it to a variable
-		//console.log("name " + htmlName);
+		////console.log("name " + htmlName);
 		var tip;
 		for( var i = 0; i< this.tooltipList.length;  i++ ) {
 			if( this.tooltipList[i][0] === htmlName ) {
@@ -734,8 +734,8 @@ tooltipClass.prototype.onFocus= function (ev){
 				break;
 			}
 		}
-		console.log('tip ' + tip);
-		console.log(id+'-tooltips');
+		//console.log('tip ' + tip);
+		//console.log(id+'-tooltips');
 		jQuery(id+'-tooltips').html(tip); //Display the tooltip
 		
 		var formTop = jQuery(id + "-Container").offset();
@@ -765,18 +765,18 @@ tooltipClass.prototype.onFocus= function (ev){
 	
 	// EXTRAS
 	var superfunc = function(){
-		console.log(" UUUUUUUUUUUUUR MUR GURSH");
+		//console.log(" UUUUUUUUUUUUUR MUR GURSH");
 	}
 	var someClass = function(func){
 		this.func = func;
 	}
 	someClass.prototype.go = function(){
-		console.log('2');
+		//console.log('2');
 		this.func();
 	}
 	test = new someClass(superfunc);
 	$('#thetestbutton').click(function(){
-		console.log('1');
+		//console.log('1');
 		test.go();
 	});
  
