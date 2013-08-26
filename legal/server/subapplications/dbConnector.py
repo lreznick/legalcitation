@@ -60,6 +60,14 @@ users = {
     'falken' : PasswordHash('joshua') }									  
 
 
+class createSession:
+	def __init__(self):
+		store = web.session.DBStore(db, 'sessions')
+		if web.config.get('_session') is None:
+    		session = web.session.Session(app,store,initializer={'login': 0,'privilege': 0,'user':'anonymous','loggedin':False})
+    		web.config._session = session
+		else:
+    		session = web.config._session
 
 #for data in results: #members is IterBetter
 					#print data.user_id #member is Storage	

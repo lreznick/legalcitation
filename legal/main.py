@@ -132,7 +132,7 @@ class Login(object):
 		if ((web.cookies().get('username') != None)):
 			print "COOKIES FOUND"
 			print web.cookies()
-			return "YOUR COOKIE WORKED!!!"
+			return render.myCitations([citation("Johnson v. Johnson", "Johnson v Johnson, 2008 SCC 9 at para 289, [2008] 1 SCR 190, Binnie J.", "4 Feb 2013", "Canadian Case")])
 		my_login = login_form()
 		return render.login(my_login)
 		
