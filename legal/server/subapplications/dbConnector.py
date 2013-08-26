@@ -5,6 +5,7 @@ from passlib.context import CryptContext
 #import pwd_context
 from web import form
 
+
 #
 # create a single global instance for your app...
 #
@@ -29,7 +30,7 @@ urls = (
 
 def getCitations():
 	userID = "banana jones"
-	return citations = db.query("SELECT * FROM citations WHERE user_id=$id", vars={'id':userID})[0]
+	#return citations = db.query("SELECT * FROM citations WHERE user_id=$id", vars={'id':userID})[0]
 	print "hello"
 
 
@@ -60,14 +61,7 @@ users = {
     'falken' : PasswordHash('joshua') }									  
 
 
-class createSession:
-	def __init__(self):
-		store = web.session.DBStore(db, 'sessions')
-		if web.config.get('_session') is None:
-    		session = web.session.Session(app,store,initializer={'login': 0,'privilege': 0,'user':'anonymous','loggedin':False})
-    		web.config._session = session
-		else:
-    		session = web.config._session
+
 
 #for data in results: #members is IterBetter
 					#print data.user_id #member is Storage	

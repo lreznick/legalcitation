@@ -2,6 +2,8 @@
 # user requests the website, it grabs the html file and opens it up. 
 #	Website opened at http://localhost:8080 It then waits for an input 
 #from the user and then grabs that information. then calls webgrabber which grabs links
+
+
 '''
 			import os
 			import sys
@@ -20,9 +22,9 @@ from server.formcode.CanadianCase import *
 from server.subapplications.dbConnector import *
 from server.formHandler import *
 
-import web
-import json
+import web, json
 from web import form
+from server.globals import *
 
  
 # mapping. Each post request contains what to do.    '/' ,  'Index', '/signup', 'SignUp',
