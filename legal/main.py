@@ -24,7 +24,6 @@ from server.formHandler import *
 
 import web, json
 from web import form
-from server.globals import *
 
  
 # mapping. Each post request contains what to do.    '/' ,  'Index', '/signup', 'SignUp',
@@ -42,8 +41,6 @@ urls = (
 
 app = web.application(urls, globals(),True)
 #render = web.template.render('webclient/templates/', base = 'layout')
-
-
 template_globals ={}
 render_partial = web.template.render('webclient/templates/', globals=template_globals)
 render = web.template.render('webclient/templates/', globals=template_globals, base='layout')
