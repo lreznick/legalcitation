@@ -205,9 +205,9 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- Table 'intravires'.'sessions'
 -- ------------------------------------------------------
 
- create table 'intravires'.'sessions' (
-    'session_id' char(128) UNIQUE NOT NULL,
-    'atime' timestamp NOT NULL default current_timestamp,
-    'data' text
+create table `intravires`.`sessions` (
+    `session_id` char(128) UNIQUE NOT NULL,
+    `atime` timestamp NOT NULL default current_timestamp,
+    `data` text
 );
 

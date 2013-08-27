@@ -46,19 +46,16 @@ class PasswordHash(object):
 	def __init__(self, password_):
 		self.salt = "".join(chr(random.randint(33,127)) for x in xrange(60))
 		self.hashedpw = pwd_context.encrypt(password_ + self.salt)
-		#self.saltedpw = sha1(password_ + self.salt).hexdigest()
 
-	
 	def check_password(self, hash2):
 		"""checks if the password is correct"""
-		#print self.hashedpw == hash2
-		#return self.hashedpw == hash2
-		return pwd_context.verify(password_+self.salt, self.hashedpw)
-        #return self.saltedpw == sha1(password_ + self.salt).hexdigest()									  
+		return pwd_context.verify(password_+self.salt, self.hashedpw)	
+										  
 users = {
     'Kermit' : PasswordHash('frog'), 
     'ET' : PasswordHash('eetee'),  
     'falken' : PasswordHash('joshua') }									  
+
 
 
 
@@ -101,28 +98,33 @@ def handle_user(user_email, password, function_type):
 				print "I occur when the login username is already taken"
 				return False
 		elif (function_type == "login"):
-		
-				verified = verify_user_hash(password, results)
-				print "ABOUT TO CHECK FOR COOKIES"
-				if ((web.cookies().get('username') != None) and (verified==True)):
-					print "COOKIES FOUND"
-					return verified
-				else:
-					
-					if verified:
+			
+			verified = verify_user_hash(password, results)
+			
+			
+			print "ABOUT TO CHECK FOR COOKIES"
+			if ((web.cookies().get('username') != None) and (verified==True)):
+			
+				print "COOKIES FOUND"
+				web.ctx.session.username = user_email
+				web.ctx.session.loggedin = True
+				print web.ctx.session.username + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+				return verified
+			else:
 				
-						if(remember_me == "yes"):
-							print "ABOUT TO CREATE 6MONTH COOKIE"
-							web.setcookie('username', user_email, expires=2592000, domain=None, secure=False)
-							#web.setcookie('password', results.hash, expires=2592000, domain='localhost', secure=False)
-						else:
-							print "ABOUT TO CREATE COOKIE!!!!!!!"
-							web.setcookie('username', user_email, expires=180, domain=None, secure=False)
-							#pass_cookie = web.setcookie('password', results.hash, expires=180, domain='localhost', secure=False)				
-							print web.cookies()
-							#print pass_cookie
-					return verified
-				
+				if verified:
+					web.ctx.session.username = user_email
+					web.ctx.session.loggedin = True
+					print web.ctx.session.username + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+					if(remember_me == "yes"):
+						print "ABOUT TO CREATE 6MONTH COOKIE"
+						web.setcookie('username', user_email, expires=2592000, domain=None, secure=False)
+					else:
+						print "ABOUT TO CREATE COOKIE!!!!!!!"
+						web.setcookie('username', user_email, expires=180, domain=None, secure=False)			
+						print web.cookies()
+				return verified
+			
 			
 		else:
 			print "I shouldn't occur"
