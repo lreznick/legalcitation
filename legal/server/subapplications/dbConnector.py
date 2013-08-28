@@ -4,6 +4,7 @@ from hashlib import sha1
 from passlib.context import CryptContext
 #import pwd_context
 from web import form
+import globs
 
 
 #
@@ -19,7 +20,7 @@ pwd_context = CryptContext(
 	all__vary_rounds = 0.1,
 	sha512_crypt__default_rounds = 8000,
 	) 
-db = web.database(dbn='mysql', host='127.0.0.1', port=3306, user='root', pw='Jeenyus1', db='intravires')
+#db = web.database(dbn='mysql', host='127.0.0.1', port=3306, user='root', pw='root', db='intravires')
 
 urls = (
   "", "Register",
@@ -74,7 +75,7 @@ def verify_user_hash(unverified_pwd, query_result):
 					
 def handle_user(user_email, password, function_type):
 	try:
-		results = db.query("SELECT * FROM users WHERE email=$id", vars={'id':user_email})[0]
+		results = globs.db.query("SELECT * FROM users WHERE email=$id", vars={'id':user_email})[0]
 		remember_me = "no"
 		print results
 		print results.email
@@ -92,7 +93,7 @@ def handle_user(user_email, password, function_type):
 				print "salt", len(hashobj.salt)
 				id = random.randint(33,1270)
 				print "id" , id
-				sequence_id = db.insert('users',  user_id = id, email = user_email, hash = hashobj.hashedpw, salt = hashobj.salt , create_date = web.SQLLiteral("NOW()"))
+				sequence_id = globs.db.insert('users',  user_id = id, email = user_email, hash = hashobj.hashedpw, salt = hashobj.salt , create_date = web.SQLLiteral("NOW()"))
 				return "hooray"
 			else:
 				print "I occur when the login username is already taken"

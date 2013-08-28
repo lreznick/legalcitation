@@ -44,15 +44,17 @@ urls = (
 	
 
 )
+import globs
+globs.init()          # Call only once
+print "HOOORRAAAAY"
+
 
 app = web.application(urls, globals(),True)
 #render = web.template.render('webclient/templates/', base = 'layout')
 
-
-
 #Initializing sessions with DBStore. Storing in database.
-db = web.database(dbn='mysql', host='127.0.0.1', port=3306, user='root', pw='Jeenyus1', db='intravires')
-store = web.session.DBStore(db, 'sessions')
+
+store = web.session.DBStore(globs.db, 'sessions')
 if web.config.get('_session') is None:
 	session = web.session.Session(app,store,initializer={'login': 0,'privilege': 0,'username':'anonymous','loggedin':False})
 	web.config._session = session
@@ -66,11 +68,8 @@ def session_hook():
 #Adding session_hook to its own processor
 app.add_processor(web.loadhook(session_hook))
 
->>>>>>> origin/master
-template_globals ={}
-render_partial = web.template.render('webclient/templates/', globals=template_globals)
-render = web.template.render('webclient/templates/', globals=template_globals, base='layout')
-template_globals.update(render=render_partial)
+
+
 
 class citation:
 	def __init__(self, styleofcause, fullcitation, date, formtype):
@@ -85,11 +84,11 @@ class MyCitations(object):
 		a = citation("Johnson v. Johnson", "Johnson v Johnson, 2008 SCC 9 at para 289, [2008] 1 SCR 190, Binnie J.", "4 Feb 2013", "Canadian Case")
 		citationList =[a,a,a,a,a]
 		#citationList = getCitations()
-		return render.myCitations(citationList)
+		return globs.render.myCitations(citationList)
 		
 class Index(object):
 	def GET(self):
-		return render.form() #index is the name of the html in /templates
+		return globs.render.form() #index is the name of the html in /templates
 
 	def POST(self):
 		form = web.input()
@@ -99,10 +98,10 @@ class Index(object):
 		
 class About(object):
 	def GET(self):		
-		return render.aboutUs();
+		return globs.render.aboutUs();
 	
 	def POST(self):
-		return render.aboutUs();
+		return globs.render.aboutUs();
 
 
 
@@ -128,7 +127,7 @@ class Register(object):
 	
 	def GET(self):
 		my_signup = signup_form()
-		return render.signup(my_signup)
+		return globs.render.signup(my_signup)
 		
 	def POST(self):
 		my_signup = signup_form()
@@ -138,15 +137,15 @@ class Register(object):
 			result = handle_user(email, password, "register")
 			if (result == False):
 				my_signup['username'].note = "username already there!"
-				return render.signup(my_signup)
-			return render.form()
+				return globs.render.signup(my_signup)
+			return globs.render.form()
 		else:
 			print "didn't validate baby REGISTER"
 			print "note", my_signup['username'].note
 			print my_signup['username'].value
 			print my_signup['password'].value
 			print my_signup['password_again'].value
-			return render.form()
+			return globs.render.form()
 			
 class Login(object):
 	def GET(self):
@@ -154,9 +153,9 @@ class Login(object):
 		if ((web.cookies().get('username') != None)):
 			print "COOKIES FOUND"
 			print web.cookies()
-			return render.myCitations([citation("Johnson v. Johnson", "Johnson v Johnson, 2008 SCC 9 at para 289, [2008] 1 SCR 190, Binnie J.", "4 Feb 2013", "Canadian Case")])
+			return globs.render.myCitations([citation("Johnson v. Johnson", "Johnson v Johnson, 2008 SCC 9 at para 289, [2008] 1 SCR 190, Binnie J.", "4 Feb 2013", "Canadian Case")])
 		my_login = login_form()
-		return render.login(my_login)
+		return globs.render.login(my_login)
 		
 	def POST(self):
 		my_login = login_form()
@@ -169,19 +168,19 @@ class Login(object):
 				return "username already there!"
 			else:
 				print "THIS MEANS YOU GOT VALIDATED BABY!(LOGIN)"
-				return render.form()
+				return globs.render.form()
 		else:
 			print "didn't validate baby! (LOGIN)"
 			print "note", my_signup['username'].note
 			print my_signup['username'].value
 			print my_signup['password'].value
-			return render.form()
+			return globs.render.form()
 
 class Logout:
 	def GET(self):
 		print session.username
 		session.kill()
-		return render.form()
+		return globs.render.form()
 
 def main():
 	app.internalerror = web.debugerror
