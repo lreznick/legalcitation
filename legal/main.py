@@ -26,16 +26,19 @@ from server.formcode.webGrabber import *
 from server.formcode.CanadianCase import *
 from server.subapplications.dbConnector import *
 from server.formHandler import *
+from server.account.accountHandler import *
 
 import web, json
 from web import form
-
+import globs
+globs.init()          # Call only once
  
 # mapping. Each post request contains what to do.    '/' ,  'Index', '/signup', 'SignUp',
 urls = (
     '/formInput', 'Index',	
 	'/about', 'About',
 	'/form', app_formHandler,
+	'/account', app_accountHandler,
 	'/login', 'Login',
 	'/logout', 'Logout',
 	'/register', 'Register',
@@ -44,10 +47,6 @@ urls = (
 	
 
 )
-import globs
-globs.init()          # Call only once
-print "HOOORRAAAAY"
-
 
 app = web.application(urls, globals(),True)
 #render = web.template.render('webclient/templates/', base = 'layout')
