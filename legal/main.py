@@ -27,6 +27,7 @@ from server.formcode.CanadianCase import *
 from server.subapplications.dbConnector import *
 from server.formHandler import *
 from server.account.accountHandler import *
+from server.citations.citationHandler import *
 
 import web, json
 from web import form
@@ -36,7 +37,9 @@ globs.init()          # Call only once
 # mapping. Each post request contains what to do.    '/' ,  'Index', '/signup', 'SignUp',
 urls = (
     #'/formInput', 'Index',	
+	#'/instructional/(.+)', 'Instructional',
 	'/instructional', 'Instructional',
+	'/instructional', 'Instructionalz',
 	'/about', 'About',
 	'/form', app_formHandler,
 	'/account', app_accountHandler,
@@ -44,7 +47,7 @@ urls = (
 	'/logout', 'Logout',
 	'/register', 'Register',
 	'/', 'Index',
-	'/citations', 'MyCitations'
+	'/citations', app_citationHandler
 	
 
 )
@@ -80,7 +83,18 @@ class Index(object):
 
 class Instructional(object):
 	def GET(self):
-		return globs.render.instructional()
+		data=  web.input()
+		return globs.render.instructional(data.linkLocation)
+		#return "wsup"
+
+'''
+	def GET(self, name):
+		#name is actually linkLocation
+		return globs.render.instructional(None)'''
+		
+class Instructionalz:
+	def GET(self):
+		return globs.render.instructional(None)		
 		
 class About(object):
 	def GET(self):		

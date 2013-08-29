@@ -22,7 +22,7 @@ var canadatooltip_text = [
 /*9*/"Leave To Appeal </div> <b>Granted:</b> input court and citation. <br> <font class = \"red\">ex. SCC, [2008] 1 SCR xiv </font><br><b>Refused:</b> input court and docket number. <br><font class = \"red\">ex. SCC, 23424 (November 20, 2009) </font><br><b>Requested </b> or <b> As of right:</b> input court. <br><font class = \"red\">ex. \"SCC\" </font><br>"
 ]
 for (var i =0; i< canadatooltip_text.length; i++){
-	canadatooltip_text[i] = tooltip_header + canadatooltip_text[i] + "<a href =\"instructional.html\"> LINK </a>"
+	canadatooltip_text[i] = tooltip_header + canadatooltip_text[i] + "<a href = \"./instructional?linkLocation=abaa\"> LINK </a>"
 }
 var CanadatooltipList = [
 	["styleofcause" , canadatooltip_text[0]],

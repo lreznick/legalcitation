@@ -1,65 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Legal Citation</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+$def with (linkLocation)
+<script type="text/javascript">
+//var a = String($linkLocation)
+//console.log(a)
+var location = jQuery("#shortform")
+var off = location.offset();
+console.log("offset" + off.top)
+//jQuery.scrollTop(offset.top);
+//console.log(offset.top)
+</script>
 
-    <!-- Le styles -->
-    <link href="./static/css/bootstrap.css" rel="stylesheet">
-	<link href="./static/css/bootstrap-styling-addon.css" rel="stylesheet">
-	<link href="./static/css/bootstrap-wysihtml5.css" rel="stylesheet">
-	
-	<link href="./static/css/main.css" rel="stylesheet">
-	<link href="./static/css/form.css" rel="stylesheet">
-	<link href="./static/css/signup.css" rel="stylesheet">
-    </head>
-  <body style=" background:white">
+$linkLocation
+<div class = "span3" id ="FAQ-nav" >
+<ul class="nav nav-list" style ="border-width:1px" >
+  <li class="nav-header">Contents </li>
+  <li class="active">
+	<a href="#CanadaCase">Canadian Cases</a>
+  </li>
+  <!--   <ul class="nav nav-list">
+		<li>
+		  <a href ="#">test</a>
+		</li>
+	  </ul>  -->
+  <li>
+	<a href="#UKCase">UK Cases</a>
+  </li>
+  <li>
+	<a href="#USCase">American Cases</a>
+  </li>
+  <li>
+	<a href="#JournalArticle">Journal Articles</a>
+  </li>
+</ul>
+</div>
+    
 
-
-      <div class = "span3" id ="FAQ-nav" >
-        <ul class="nav nav-list" style ="border-width:1px" >
-          <li class="nav-header">Contents </li>
-          <li class="active">
-            <a href="#CanadaCase">Canadian Cases</a>
-          </li>
-          <!--   <ul class="nav nav-list">
-                <li>
-                  <a href ="#">test</a>
-                </li>
-              </ul>  -->
-          <li>
-            <a href="#UKCase">UK Cases</a>
-          </li>
-          <li>
-            <a href="#USCase">American Cases</a>
-          </li>
-          <li>
-            <a href="#JournalArticle">Journal Articles</a>
-          </li>
-        </ul>
-      </div>
-    
-  We have experienced law school first hand. we have spent countless hours slogging through the Mcgill Guide, trying to understand how to cite, and research efficiently. Too many nights have been spent at our desks instead of going to the weekly pub night. 
-  This is our motivation to simplify your lives. Nobody wants to spend their Friday nights citing. 
-  
-  <h1>INTRO PAGE</h1>
-    The entire Canadian Guide to Legal Citation, in one simple form. 
-    Intra-Vires let's you easily generate and store your citations. 
-    
-    Save Time. Save Marks. 
-    Intra-Vires's form is designed for both the expert and beginning. 
-    
-      Minimalist, sleek and easy to use. Each form field has unique tooltips to ensure correct usage
-      
-      It's 11:30.
-      Your paper is due and your citations need to be done now. And they need to be done right.
-      We have your back.
-    
-    Store your Citations.
-    Save, organize and customize all of your citations
   
       <br></br><br></br><br></br><br></br><br></br>
 <h1>How Legal Citations Work Generally</h1>
@@ -130,7 +104,7 @@ The court input bar accepts various abbreviations that you can get to know to be
 Note that the court may appear differently in your citation because of the reporter that you used.
 
 
-<h2 id="shortfrom">Short Form</h2>
+<h2 id="shortform">Short Form</h2>
 Most styles of cause are cumbersome to write over and over. Therefore, the McGill Guide allows you to create a short form of the style of cause that you can use after you define it.
 
 Short forms are usually given by the first party in a civil case (normally shortened to exclude words like "Corp" and "Ltd."): Tilden Rent-A-Car Co. v Clendenning can be shortened to "Tilden" or "Tilden Rent-A-Car". You choose.
@@ -222,7 +196,3 @@ Journals are cited as such: 32 Toronto LR 178 means the 32nd issue of the Univer
 <h1>Dictionary</h1>
 
 
-
-
-
-  </body>
