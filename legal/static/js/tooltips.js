@@ -6,7 +6,7 @@ Tool Tips
 
 
 var tooltip_header              = "<div class=\"tooltip-title\">"
-
+var tooltip_link 				= "<a href = \"./instructional?linkLocation=somediv\" target=\"_blank\"> more info</a>"
 /* ******** CANADA ******** */
 
 var canadatooltip_text = [
@@ -22,7 +22,8 @@ var canadatooltip_text = [
 /*9*/"Leave To Appeal </div> <b>Granted:</b> input court and citation. <br> <font class = \"red\">ex. SCC, [2008] 1 SCR xiv </font><br><b>Refused:</b> input court and docket number. <br><font class = \"red\">ex. SCC, 23424 (November 20, 2009) </font><br><b>Requested </b> or <b> As of right:</b> input court. <br><font class = \"red\">ex. \"SCC\" </font><br>"
 ]
 for (var i =0; i< canadatooltip_text.length; i++){
-	canadatooltip_text[i] = tooltip_header + canadatooltip_text[i] + "<a href = \"./instructional?linkLocation=abaa\"> LINK </a>"
+	canadatooltip_text[i] = tooltip_header + canadatooltip_text[i] + 
+	tooltip_link
 }
 var CanadatooltipList = [
 	["styleofcause" , canadatooltip_text[0]],
@@ -80,7 +81,9 @@ var uktooltip_text = [
 /*9*/"Leave To Appeal </div> <b>Granted </b> or <b> Refused:</b> input court and case citation. <br> <font class = \"red\">ex. House of Lords (England), UKSC 2013/0044 </font><br><b>Requested </b> or <b> As of right:</b> input court. <br><font class = \"red\">ex. Court of Appeal: Criminal Division </font><br>",
 ]
 for (var i =0; i< uktooltip_text.length; i++){
-	uktooltip_text[i] = tooltip_header + uktooltip_text[i]
+	uktooltip_text[i] = tooltip_header + uktooltip_text[i]+ 
+	tooltip_link
+	
 }
 var UKtooltipList = [
 	["styleofcause" , uktooltip_text[0]],
@@ -135,7 +138,8 @@ var ustooltip_text = [
 /*9*/"Leave To Appeal </div> <b>Granted </b> or <b> Refused:</b> input court and case citation. <br> <font class = \"red\">ex. 2nd Circuit, APL 2013-00002 </font><br><b>Requested </b> or <b> As of right:</b> input court. <br><font class = \"red\">ex. 2nd Circuit</font><br>",
 ]
 for (var i =0; i< ustooltip_text.length; i++){
-	ustooltip_text[i] = tooltip_header + ustooltip_text[i]
+	ustooltip_text[i] = tooltip_header + ustooltip_text[i]+ 
+	tooltip_link
 }
 var UStooltipList = [
 	["styleofcause" , ustooltip_text[0]],

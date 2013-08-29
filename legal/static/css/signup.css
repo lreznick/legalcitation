@@ -1,8 +1,14 @@
 #signup{
 	position: relative;
 	left: 620px;
-	top: 420px;
+	top: 150px;
 	width:300px;
+	z-index:2;
+}
+#signup-image{
+	position: relative;
+	z-index:1;
+	margin-top: -250px;
 }
 #signup-title{
 	font-family:RalewayReg;

@@ -1,16 +1,24 @@
 $def with (linkLocation)
+$var location:  $linkLocation
+$var content_type: text/html
 <script type="text/javascript">
-//var a = String($linkLocation)
+
+var a = location
+a.toString()
+console.log(a.toString())
 //console.log(a)
-var location = jQuery("#shortform")
-var off = location.offset();
-console.log("offset" + off.top)
+//var location = jQuery("#shortform").offset();
+
+//var off = location.offset();
+//console.log("offset" + off.top)
 //jQuery.scrollTop(offset.top);
 //console.log(offset.top)
 </script>
+<h1> Instructional Page</h1>
 
-$linkLocation
-<div class = "span3" id ="FAQ-nav" >
+<br>
+<div class = "row">
+<div class = "span4" id ="FAQ-nav" >
 <ul class="nav nav-list" style ="border-width:1px" >
   <li class="nav-header">Contents </li>
   <li class="active">
@@ -33,10 +41,10 @@ $linkLocation
 </ul>
 </div>
     
-
+</div>
   
-      <br></br><br></br><br></br><br></br><br></br>
-<h1>How Legal Citations Work Generally</h1>
+      
+<h2 class ='red'>How Legal Citations Work Generally</h2>
 
     After a court case comes down, it does not just magically disperse to lawyers. There are companies that make their business by choosing cases to report, and publishing them. These companies are called "reporters."
 
@@ -58,9 +66,10 @@ Intra Vires simplifies this process. With everything going digital and the legal
 
 
 
-<h1 id ="CanadaCase">Canadian Cases</h1>
+<h2 id ="CanadaCase" class ='red'>Canadian Cases</h2>
 
-<h2 id ="styleofcause">Style of Cause</h2>
+
+<h4 id ="styleofcause">Style of Cause</h4>
 The style of cause is a fancy name for the title of a case, which is usually the names of the parties in the case: ex. Wang v. Reese.<br></br>
 
 The "v." does not stand for "versus". It means "and".
@@ -74,7 +83,7 @@ Input the style of cause as it appears on the case. Sometimes there are several 
 Intra Vires will automatically format your input to make it correct, so don't worry if the output looks different than your input.
 
 
-<h2 id ="parallel">Parallel Citations</h2>
+<h4 id ="parallel">Parallel Citations</h4>
 Cases can be cited to multiple places. Think of it like multiple addresses (i.e. citations) that all lead to the same person (i.e. case). These citations are called "parallel citations".
 
 Some reporters are organized by year: [2008] 3 SCR 412 means the 3rd Supreme Court Report given in the year 2008, with the page on 412.
@@ -86,13 +95,13 @@ Always input at least two parallel citations, if they exist. Otherwise one will 
 Intra Vires will automatically select the preferred citations out of the ones you entered, and will take care of formatting.
 
 
-<h2 id="year">Year of Decision</h2>
+<h4 id="year">Year of Decision</h4>
 The year of the decision is the year in which the court came down with its judgement. <br>
 
 The year of the decision may be different than the date of a reporter, if the reporter is organized by year. This is unusual, only really happening when the court case came down at the end of a calendar year and the reporter publishes it the following calendar year.
 
 
-<h2 id="court">Court</h2>
+<h4 id="court">Court</h4>
 There are many different courts in Canada. Some have adopted neutral citations, others have not.
 
 The Intra Vires court input bar is designed to detect and inform you of the court as it is normally published.
@@ -104,7 +113,7 @@ The court input bar accepts various abbreviations that you can get to know to be
 Note that the court may appear differently in your citation because of the reporter that you used.
 
 
-<h2 id="shortform">Short Form</h2>
+<h4 id="shortform">Short Form</h4>
 Most styles of cause are cumbersome to write over and over. Therefore, the McGill Guide allows you to create a short form of the style of cause that you can use after you define it.
 
 Short forms are usually given by the first party in a civil case (normally shortened to exclude words like "Corp" and "Ltd."): Tilden Rent-A-Car Co. v Clendenning can be shortened to "Tilden" or "Tilden Rent-A-Car". You choose.
@@ -112,7 +121,7 @@ Short forms are usually given by the first party in a civil case (normally short
 Short forms are the name of an accused in a criminal case: R. v. Royer is shortened to "Royer".
 
 
-<h2 id="pincite_input">Pinpoint</h2>
+<h4 id="pincite_input">Pinpoint</h4>
 Pinpointing tells the reader of the citation which page(s) or paragraph(s) in particular contain the information you are conveying.
 
 Intra Vires will only let you cite to particular reporters or neutral citations based on your input. Always cite to a paragraph(s) if the judgement has numbered paragraphs, otherwise a page(s) will have to do.
@@ -120,17 +129,17 @@ Intra Vires will only let you cite to particular reporters or neutral citations 
 You may also "cite to" a particular reporter if you don't want to pinpoint when you originally cite the case. This means that, if you later cite to "Royer at 475", the reader will look back to where you cited Royer and see which reporter you "cite to". Then the reader will know that the page 475 belongs in that reporter.
 
 
-<h2 id="judge">Judge</h2>
+<h4 id="judge">Judge</h4>
 Better judges are better to cite, especially if one of the judges in a case gets cited in later cases. You may indicate the judge in the citation if you think it is relevant for the reader to know. 
 
 You may also indicate if the judge was dissenting. If you are citing a dissenting judge, you should tell the reader.
 
 
-<h2 id="citing">Citing</h2>
+<h4 id="citing">Citing</h4>
 Often judges cite other cases in their judgements, for many reasons. If you think the reader should know where they have done so, you may add the case that they cite using the rules outlined above.
 
 
-<h2 id="history">History</h2>
+<h4 id="history">History</h4>
 The history of a case may be relevant for the reader to know. 
 
 Lower court judgements are usually assumed to be correct until the upper court finds an error in it. So it's a more powerful precedent if an appellate court reverses a lower court judgement. 
@@ -140,7 +149,7 @@ Furthermore, lower court judges don't like to have their judgements overturned. 
 You should always indicate if the case you are citing was affirmed or reversed on appeal. 
 
 
-<h2 id="leavetoappeal">Leave To Appeal</h2>
+<h4 id="leavetoappeal">Leave To Appeal</h4>
 If you cite a recent case, check to see if it was appealed, and what the status of the appeal was. You should mention if leave appeal has been requested, or if it was denied or granted, because that's germane information for your reader in considering the persuasiveness of the case you cited.
 
 
@@ -149,11 +158,11 @@ If you cite a recent case, check to see if it was appealed, and what the status 
 
 
 
-<h1 id ="UKCase">United Kingdom Cases</h1>
+<h2 id ="UKCase" class ='red'>United Kingdom Cases</h2>
 
 Most of the rules for UK cases are explained above, in the Canadian cases. The major difference is with parallel citations.
 
-<h2 id="UKparallel">Parallel Citations</h2>
+<h4 id="UKparallel" >Parallel Citations</h4>
 In the UK, you should cite to a neutral citation and a paper reporter, if possible. If a neutral citation does not exist, then you can cite to only one reporter.
 
 
@@ -165,20 +174,20 @@ In the UK, you should cite to a neutral citation and a paper reporter, if possib
 
 
 
-<h1 id="USCase">American Cases</h1>
+<h2 id="USCase" class ='red'>American Cases</h2>
 
 Most of the rules for American cases are explained above, in the Canadian cases. The major difference is with parallel citations and pinpointing.
 
-<h2 id="USparallel">Parallel Citations</h2>
+<h4 id="USparallel">Parallel Citations</h4>
 In the USA, you only need to cite to one reporter. There are no neutral reporters.
 
 
-<h2 id="USpinpoint">Pinpoint</h2>
+<h4 id="USpinpoint">Pinpoint</h4>
 Cite to pages in the USA because paragraph numbering is uncommon.
 
 
 
-<h1 id ="JournalArticle">Journal Articles</h1>
+<h2 id ="JournalArticle" class ='red'>Journal Articles</h2>
 
 Citing journal articles is mostly self-evident.
 
@@ -188,11 +197,11 @@ Journals are cited as such: 32 Toronto LR 178 means the 32nd issue of the Univer
 
 
 
-<h1>Books</h1>
+<h2 class ='red'>Books</h2>
+
+More to come
 
 
-
-
-<h1>Dictionary</h1>
-
+<h2 class ='red'>Dictionary</h2>
+More to come
 
