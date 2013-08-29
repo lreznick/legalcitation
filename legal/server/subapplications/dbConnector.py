@@ -32,7 +32,7 @@ urls = (
 def getCitations():
 	userID = "banana jones"
 	#return citations = db.query("SELECT * FROM citations WHERE user_id=$id", vars={'id':userID})[0]
-	print "hello"
+	#print "hello"
 
 
 
@@ -65,65 +65,80 @@ users = {
 					#print data.user_id #member is Storage	
 
 def verify_user_hash(unverified_pwd, query_result):
-	print "INSIDE VERIFY USER!!!!"
+	#print "INSIDE VERIFY USER!!!!"
 	v_salt = query_result.salt
 	v_hash = query_result.hash
 	ok = pwd_context.verify(unverified_pwd + v_salt, v_hash)
-	print ok
+	#print ok
 	return ok
 					
 					
 def handle_user(user_email, password, function_type):
-	try:
-		results = globs.db.query("SELECT * FROM users WHERE email=$id", vars={'id':user_email})[0]
-		remember_me = "no"
-		print results
-		print results.email
-		print results.salt
-		print type(results)
-		
+	
+		check_username = globs.db.query("SELECT * FROM users WHERE email=$id", vars={'id':user_email})
+		print check_username
 		if (function_type == "register"):
-			if not list(results):
+			if not list(check_username):
 			
 				
 				hashobj = PasswordHash(password)
-				print "pw", len(hashobj.hashedpw)
-				print "\n\n\n", hashobj.hashedpw
-				print "\n\n\n"
-				print "salt", len(hashobj.salt)
-				id = random.randint(33,1270)
-				print "id" , id
-				sequence_id = globs.db.insert('users',  user_id = id, email = user_email, hash = hashobj.hashedpw, salt = hashobj.salt , create_date = web.SQLLiteral("NOW()"))
+				#print "pw", len(hashobj.hashedpw)
+				#print "\n\n\n", hashobj.hashedpw
+				#print "\n\n\n"
+				#print "salt", len(hashobj.salt)
+				#id = random.randint(0,1000000000)
+				user_ident = globs.db.query ("SELECT MAX(user_id) as highestId from users")[0]
+				#print user_ident
+				if (user_ident.highestId == None):
+					userID = 0
+				else:
+					userID = user_ident.highestId + 1
+				
+				#print "THE USER_IDENTIFIER is : " + userID
+				#print "id" , id
+				#userID = 0
+				sequence_id = globs.db.insert('users',  user_id = userID, email = user_email, hash = hashobj.hashedpw, salt = hashobj.salt , create_date = web.SQLLiteral("NOW()"))
 				return "hooray"
 			else:
 				print "I occur when the login username is already taken"
 				return False
 		elif (function_type == "login"):
-			
+			try:
+				results = globs.db.query("SELECT * FROM users WHERE email=$id", vars={'id':user_email})[0]
+				remember_me = "no"
+				#print results
+				#print results.email
+				#print results.salt
+				#print type(results)
+			except IndexError:
+				print "AN EXCEPTION HAS OCCURED MATHAFUCKA"
+				return None
+		
+			#print "RESUUULTS", results
 			verified = verify_user_hash(password, results)
 			
 			
-			print "ABOUT TO CHECK FOR COOKIES"
-			if ((web.cookies().get('username') != None) and (verified==True)):
+			#print "ABOUT TO CHECK FOR COOKIES"
+			if ((web.cookies().get('chocolate_chip_session') != None) and (verified==True)):
 			
-				print "COOKIES FOUND"
+				#print "COOKIES FOUND"
 				web.ctx.session.username = user_email
 				web.ctx.session.loggedin = True
-				print web.ctx.session.username + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+				#print web.ctx.session.username + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 				return verified
 			else:
 				
 				if verified:
 					web.ctx.session.username = user_email
 					web.ctx.session.loggedin = True
-					print web.ctx.session.username + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+					#print web.ctx.session.username + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 					if(remember_me == "yes"):
-						print "ABOUT TO CREATE 6MONTH COOKIE"
+						#print "ABOUT TO CREATE 6MONTH COOKIE"
 						web.setcookie('username', user_email, expires=2592000, domain=None, secure=False)
 					else:
-						print "ABOUT TO CREATE COOKIE!!!!!!!"
+						#print "ABOUT TO CREATE COOKIE!!!!!!!"
 						web.setcookie('username', user_email, expires=180, domain=None, secure=False)			
-						print web.cookies()
+						#print web.cookies()
 				return verified
 			
 			
@@ -131,10 +146,6 @@ def handle_user(user_email, password, function_type):
 			print "I shouldn't occur"
 			return False
 			
-	except IndexError:
-		print "AN EXCEPTION HAS OCCURED MATHAFUCKA"
-		return None
-		
-	print "RESUUULTS", results
+	
 
 app_signup = web.application(urls, globals())

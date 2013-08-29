@@ -1,5 +1,6 @@
 import web
 import json
+import globs
 from formcode.CanadianCase import *
 from formcode.Journal import *
 from formcode.Book import BookClass
@@ -407,6 +408,17 @@ def CanadianCase(form):
 		
 		returnString = styleofcause + citations +judge + citing + leaveToAppeal + history + shortform+'.'
 		print returnString
+		
+		#MESSING AROUND WITH DATABASE!!!!!
+		user = 0
+		citation_ident = globs.db.query ("SELECT MAX(citation_id) as highestCitation from citation")[0]
+		print citation_ident
+		if (citation_ident.highestCitation == None):
+			cit_id = 0
+		else:
+			cit_id = citation_ident.highestCitation + 1
+		#globs.db.insert('citation',  citation_id = cit_id, title = styleofcause, comments = "", date_created = web.SQLLiteral("NOW()"), date_modified = web.SQLLiteral("NOW()") , citation = returnString, finished = 1, user_id = user)
+		#END !!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	else:
 		returnString =""
 		

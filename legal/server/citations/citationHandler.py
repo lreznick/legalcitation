@@ -8,6 +8,23 @@ urls = (
 
 )
 
+
+'''
+	DATABASE
+	Table: citation
+	COLUMNS:		TYPES:
+	citation_id		int(11) PK
+	title			varchar(45)
+	comments		varchar(45)
+	date_created	datetime
+	date_modified	timestamp
+	citation		varchar(45)
+	finished		tinyint(1)
+	user_id			int(11) PK
+
+'''
+
+
 class citation:
 	def __init__(self, styleofcause, fullcitation, date, formtype):
 		self.styleofcause = styleofcause
