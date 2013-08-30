@@ -22,7 +22,7 @@ $def with (account,sub)
 			 
 			<div class = "span4" id ="user-details"> 
 				<h4> $:account.email </h4>
-				<h4> <a href ='#'> change your password </a> </h4>
+				<h4> <a data-toggle="modal"href="#passwordModal" Title="edit details" '> change your password </a> </h4>
 				<h4> $:account.occupation</h4>
 				<h4> $:account.school </h4>
 			</div>
@@ -47,7 +47,7 @@ $def with (account,sub)
 		</div> <!-- row -->
 	 </div> <!-- Sub -->
 	 
-	 <h4> <a href ='#'> delete my account</a> </h4>
+	 <h4 > <a href ='#'> delete my account</a> </h4>
 	 
 </div> <!-- Container --> 
  
@@ -98,7 +98,51 @@ $def with (account,sub)
 </div>
 
  
- 
+  <!--- Change account detailas --->
+<div id="passwordModal" class="modal hide fade" style="display: none; ">
+            <div class="modal-header">
+              <button class="close" data-dismiss="modal">x</button>
+              <h3>Change your password</h3>
+            </div>
+			
+            <div class="modal-body">
+			
+			<form class="form-horizontal" id ="Book-Form"> 
+				<fieldset>
+
+					<!--Email-->
+					<div class="control-group"  id ="email-controlgroup">
+						<label class="control-label" for="Email"> <b>Old Password</b> </label>
+						<div class="controls">
+							<input type="text" class="input-large" id="Email"
+										placeholder="" name = "oldpass"  >
+						</div>
+					</div>
+					<!--Occupation-->
+					<div class="control-group"  id ="email-controlgroup">
+						<label class="control-label" for="occupation"> <b>New Password</b> </label>
+						<div class="controls">
+							<input type="text" class="input-large" id="occupation"
+										placeholder="" name = "newpass" >
+						</div>
+					</div>
+					<!--Occupation-->
+					<div class="control-group"  id ="school-controlgroup">
+						<label class="control-label" for="school"> <b>New Password</b> </label>
+						<div class="controls">
+							<input type="text" class="input-large" id="school"
+										placeholder="" name = "newpass_again" >
+						</div>
+					</div>
+					
+
+            </div>
+            <div class="modal-footer">
+              <a href="#" class="btn" data-dismiss="modal">Close</a>
+              <a href="#" class="btn btn-primary">Save changes</a>
+            </div>
+</div>
+
  
  
 
