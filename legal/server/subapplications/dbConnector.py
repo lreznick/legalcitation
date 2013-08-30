@@ -74,78 +74,37 @@ def verify_user_hash(unverified_pwd, query_result):
 					
 					
 def handle_user(user_email, password, function_type):
-	
+	try:
 		check_username = globs.db.query("SELECT * FROM users WHERE email=$id", vars={'id':user_email})
+		print "CHECK USERNAME!!!!!!!!!!!!"
 		print check_username
 		if (function_type == "register"):
 			if not list(check_username):
-			
-				
 				hashobj = PasswordHash(password)
-				#print "pw", len(hashobj.hashedpw)
-				#print "\n\n\n", hashobj.hashedpw
-				#print "\n\n\n"
-				#print "salt", len(hashobj.salt)
-				#id = random.randint(0,1000000000)
 				user_ident = globs.db.query ("SELECT MAX(user_id) as highestId from users")[0]
-				#print user_ident
+
 				if (user_ident.highestId == None):
 					userID = 0
 				else:
 					userID = user_ident.highestId + 1
-				
-				#print "THE USER_IDENTIFIER is : " + userID
-				#print "id" , id
-				#userID = 0
+
 				sequence_id = globs.db.insert('users',  user_id = userID, email = user_email, hash = hashobj.hashedpw, salt = hashobj.salt , create_date = web.SQLLiteral("NOW()"))
-				return "hooray"
 			else:
 				print "I occur when the login username is already taken"
 				return False
 		elif (function_type == "login"):
-			try:
-				results = globs.db.query("SELECT * FROM users WHERE email=$id", vars={'id':user_email})[0]
-				remember_me = "no"
-				#print results
-				#print results.email
-				#print results.salt
-				#print type(results)
-			except IndexError:
-				print "AN EXCEPTION HAS OCCURED MATHAFUCKA"
-				return None
-		
-			#print "RESUUULTS", results
+			results = check_username[0]
 			verified = verify_user_hash(password, results)
-			
-			
-			#print "ABOUT TO CHECK FOR COOKIES"
-			if ((web.cookies().get('chocolate_chip_session') != None) and (verified==True)):
-			
-				#print "COOKIES FOUND"
-				web.ctx.session.username = user_email
-				web.ctx.session.loggedin = True
-				#print web.ctx.session.username + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-				return verified
-			else:
-				
-				if verified:
-					web.ctx.session.username = user_email
-					web.ctx.session.loggedin = True
-					#print web.ctx.session.username + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-					if(remember_me == "yes"):
-						#print "ABOUT TO CREATE 6MONTH COOKIE"
-						web.setcookie('username', user_email, expires=2592000, domain=None, secure=False)
-					else:
-						#print "ABOUT TO CREATE COOKIE!!!!!!!"
-						web.setcookie('username', user_email, expires=180, domain=None, secure=False)			
-						#print web.cookies()
-				return verified
+			return verified
+
 			
 			
 		else:
 			print "I shouldn't occur"
 			return False
-			
+	except IndexError:
+		web.debug("AN SQL EXCEPTION HAS OCCURED")
+		return False		
 	
 
 app_signup = web.application(urls, globals())

@@ -32,8 +32,10 @@ from server.citations.citationHandler import *
 import web, json
 from web import form
 import globs
+#web.config.debug = False
 globs.init()          # Call only once
- 
+web.config.debug = False
+global session
 # mapping. Each post request contains what to do.    '/' ,  'Index', '/signup', 'SignUp',
 urls = (
     #'/formInput', 'Index',	
@@ -53,10 +55,17 @@ urls = (
 )
 
 app = web.application(urls, globals(),True)
-#render = web.template.render('webclient/templates/', base = 'layout')
+#render = web.template.render('webclient/templates/', base = 'layout
 
-#Initializing sessions with DBStore. Storing in database.
-
+#Configure session parameters
+web.config.session_parameters['cookie_name'] = 'chocolate_chip_local'
+web.config.session_parameters['cookie_domain'] = None
+web.config.session_parameters['cookie_path'] = '/'
+web.config.session_parameters['timeout'] = 600 #24 * 60 * 60, # 24 hours in seconds is default
+web.config.session_parameters['ignore_expiry'] = False
+web.config.session_parameters['ignore_change_ip'] = True
+web.config.session_parameters['secret_key'] = 'fLjUfxqXtfNoIldA0A0J'
+web.config.session_parameters['expired_message'] = 'Session expired.. Please Reload and Login Again.'
 store = web.session.DBStore(globs.db, 'sessions')
 if web.config.get('_session') is None:
 	session = web.session.Session(app,store,initializer={'login': 0,'privilege': 0,'username':'anonymous','loggedin':False})
@@ -71,7 +80,9 @@ def session_hook():
 #Adding session_hook to its own processor
 app.add_processor(web.loadhook(session_hook))
 
-		
+
+
+	
 class Index(object):
 	def GET(self):
 		return globs.render.form() #index is the name of the html in /templates
@@ -150,36 +161,53 @@ class Register(object):
 class Login(object):
 	def GET(self):
 		print "CHECKING FOR COOKIES AT LOGIN!!!!!!!"
-		if ((web.cookies().get('username') != None)):
-			print "COOKIES FOUND"
+		session_cookie = web.cookies().get('chocolate_chip_local')
+		if ((session_cookie != None) and (session.loggedin == True)):
 			print web.cookies()
-			return globs.render.myCitations([citation("Johnson v. Johnson", "Johnson v Johnson, 2008 SCC 9 at para 289, [2008] 1 SCR 190, Binnie J.", "4 Feb 2013", "Canadian Case")])
+			#return globs.render.myCitations(None)
+			raise web.seeother("/citations")
 		my_login = login_form()
 		return globs.render.login(my_login)
 		
 	def POST(self):
+		print "LOGIN POST"
 		my_login = login_form()
 		if my_login.validates(): 
 			email = my_login['username'].value
 			password = my_login['password'].value
+
 			result = handle_user(email, password, "login")
+
 			if (result == False):
 				print "something unexpected has occured"
-				return "username already there!"
+				my_login['username'].note = "Invalid Username/Password Combination"
+				return globs.render.login(my_login)
 			else:
 				print "THIS MEANS YOU GOT VALIDATED BABY!(LOGIN)"
-				return globs.render.form()
+				session.loggedin = True
+				session.username = email
+				raise web.seeother("/citations")
 		else:
 			print "didn't validate baby! (LOGIN)"
 			print "note", my_signup['username'].note
 			print my_signup['username'].value
-			print my_signup['password'].value
-			return globs.render.form()
+			print my_signup['password'].value                        
+			if ((my_signup['username'].value == "") or (my_signup['username'].value == None)):
+				my_login['username'].note = "Please enter a valid username"
+				session.loggedin = False
+				return render.login(my_login)
+			elif((my_signup['password'].value == "") or (my_signup['password'].value == None)):
+				my_login['password'].note = "Please enter a valid password"
+				session.loggedin = False
+				return globs.render.login(my_login)
+			else:
+				return globs.render.login()
+
 
 class Logout:
 	def GET(self):
-		print session.username
-		session.kill()
+		#print session.username
+		#session.kill()
 		return globs.render.form()
 
 def main():

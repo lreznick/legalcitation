@@ -4,8 +4,9 @@ import globs
 
 
 urls = (
-	'' , 'MyCitations'
-
+	'' , 'MyCitations',
+	'/sss' , 'MyCitations',
+	'/remove', 'removeCitation'
 )
 
 
@@ -24,7 +25,6 @@ urls = (
 
 '''
 
-
 class citation:
 	def __init__(self, styleofcause, fullcitation, date, formtype):
 		self.styleofcause = styleofcause
@@ -34,11 +34,31 @@ class citation:
 		
 class MyCitations(object):
 	def GET(self):
-		#user_name = web.ctx.session.username
-		a = citation("Johnson v. Johnson", "Johnson v Johnson, 2008 SCC 9 at para 289, [2008] 1 SCR 190, Binnie J.", "4 Feb 2013", "Canadian Case")
-		citationList =[a,a,a,a,a]
-		#citationList = getCitations()
-		return globs.render.myCitations(citationList)
-	
+		user_name = web.ctx.session.username
+		userQuery = globs.db.query("SELECT user_id FROM users WHERE email=$user", vars={'user':user_name})[0]
+		user = userQuery.user_id
+		citations = globs.db.query("SELECT * FROM citation WHERE user_id=$user", vars={'user':user})
+		return globs.render.myCitations(citations)
+
+class removeCitation(object):
+	def GET(self):
+		print "INSIDE REMOVE CITATION, TRYING TO REMOVE A CITATION"
+		print "0"
+		data = web.input()
+		print "1/2"
+		citationID = data.id
+		print "1"
+		globs.db.query("DELETE FROM citation WHERE citation_id=$citid", vars={'citid':citationID})
+		print "2"
+		raise web.seeother('/citations', absolute=True)
+	'''
+	class Instructional(object):
+	def GET(self):
+		data=  web.input()
+		return globs.render.instructional(data.linkLocation)
+	<a href "/instructional?linkLocation=blahblahblah">
+
+	'''
+		
 
 app_citationHandler = web.application(urls, locals())
