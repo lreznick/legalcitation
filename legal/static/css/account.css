@@ -1,0 +1,52 @@
+h2{
+	
+	margin-bottom: 0px;
+	line-height: 0px;
+}
+
+#accountDetails-inner{
+	text-align:right;
+}
+#accountDetails-inner h4{
+	font-weight:bold;
+}
+h4{
+	padding-top: 10px;
+	font-size: 15px;
+}
+#user-details h4{
+	padding-top: 10px
+	font-weight: 400px;
+}
+#edit{
+	margin-top: 10px; 
+}
+
+
+
+form.register table{
+	background: -webkit-gradient(linear, bottom, left 175px, from(#CCCCCC), to(#EEEEEE));
+	background: -moz-linear-gradient(bottom, #CCCCCC, #EEEEEE 175px);
+	margin:auto;
+	position:relative;
+	width:550px;
+	height:450px;
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: 14px;
+	font-style: italic;
+	line-height: 24px;
+	font-weight: bold;
+	color: #09C;
+	text-decoration: none;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	padding:10px;
+	border: 1px solid #999;
+	border: inset 1px solid #333;
+	-webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+	-moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+	box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+	width:300px;
+
+}

@@ -42,17 +42,17 @@
 	margin-bottom: 10px;
 	max-height: 500px;
  }
-.Tooltips a:hover, a:active
-{
-	color: orange;
-}
+
 .Tooltips a:link, .Tooltips a:visited
 {
 	color: #0088cc;
 	font-weight: bold;
 	text-decoration:none;
 }
-
+.Tooltips a:hover, .Tooltips a:active
+{
+	text-decoration: underline
+}
 .leftHalf{ width: 750px; float: left; padding-right: 0px;}
 .rightHalf{ width: 260px; float: left; }
 .accordion{

@@ -60,15 +60,15 @@ text-align: center;
 margin-left: 50px;
 padding-bottom:100px;
 }
- .footer a:hover,a:active
-{
-	color: black;
-}
-.footer a:link, a:visited{
+
+.footer a:link, .footer a:visited{
 	color:grey;
 	text-decoration:none;
 }
-
+.footer a:hover , .footer a:active
+{
+	color: black;
+}
 .footer ul{
 list-style-type:none;
 margin:0;
