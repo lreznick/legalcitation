@@ -49,9 +49,9 @@ urls = (
 	'/logout', 'Logout',
 	'/register', 'Register',
 	'/', 'Index',
-	'/citations', app_citationHandler
-	
-
+	'/citations', app_citationHandler,
+	'/email', 'email',
+	'/testy', 'Test'
 )
 
 app = web.application(urls, globals(),True)
@@ -81,7 +81,14 @@ def session_hook():
 app.add_processor(web.loadhook(session_hook))
 
 
-
+class email(object):
+	def GET(self):
+		web.sendmail('Register.IntraVires@gmail.com', 'stephenhuang1@gmail.com', 'SUP', '<button > sup </button> NAAAAAAAAAAAAAA', headers={'Content-Type':'text/html;charset=utf-8'})
+		return None
+	
+class Test(object):
+	def GET(self):
+		return globs.render.test123()
 	
 class Index(object):
 	def GET(self):

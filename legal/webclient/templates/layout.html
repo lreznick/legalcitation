@@ -128,9 +128,42 @@ $def with (content)
 					<img src ="./static/img/logo.png" style= "height: 20px; margin-top:
 					-2px">
 					<a href = "/" style = "color: #fe6060"> intra-vires.com	 </a>
+					<div style ="float:right; padding-right: 25px;">
+						<a href="#" id="login-popup" style = "color: #fe6060" rel="popover"
+						data-original-title="" data-trigger ="click">login</a>		
+					</div>
 				</div>		
 			</div>
 
+
+      <script type = "text/javascript">
+		jQuery(function (){
+		var click = true;
+			console.log("in here")
+			jQuery("#login-popup").popover({
+				placement: 'bottom',
+				html: 'true',
+				content: '<form> </fieldset> <div class="control-group">	<div class="controls"><input type="text" class="input-large" id="UKCaseYear" placeholder="email" name = "email"> </div> </fieldset></form>'
+			}); 
+			/*jQuery("#login-popup)").click(function(){
+				console.log("3");
+				jQuery("#login-popup").popover('hide')
+			});		*/
+			
+			jQuery("#login-popup").click(function(){
+				console.log("2");
+				if (click == true){
+					jQuery("#login-popup").popover('show')
+					click = false;
+				}
+				else{
+					jQuery("#login-popup").popover('hide')
+					click = true;
+				}
+			});
+	
+      });
+      </script>
 			<!-- content -->
 			<div class = "content-container">
 				<div id ="mainLinks">

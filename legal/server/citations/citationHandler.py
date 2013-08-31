@@ -7,7 +7,7 @@ urls = (
 	'' , 'MyCitations',
 	'/sss' , 'MyCitations',
 	'/remove', 'removeCitation'
-	'/email', 'email'
+
 )
 
 
@@ -33,9 +33,7 @@ class citation:
 		self.date = date
 		self.formtype = formtype
 		
-class email(object):
-	def GET(self):
-		return None
+
 		
 class MyCitations(object):
 	def GET(self):

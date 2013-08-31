@@ -176,7 +176,9 @@ body{
 }
 
 
-
+.popover{
+	margin-right: 50px;
+}
 .content-container{
 	margin:0 auto;
 	width: 1000px;
