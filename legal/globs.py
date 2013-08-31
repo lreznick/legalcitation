@@ -17,6 +17,7 @@ def init():
 	render_partial = web.template.render('webclient/templates/', globals=template_globals)
 	render = web.template.render('webclient/templates/', globals=template_globals, base='layout')
 	template_globals.update(render=render_partial)
+<<<<<<< HEAD
 
 
 	web.config.smtp_server = 'smtp.gmail.com'
@@ -25,6 +26,9 @@ def init():
 	web.config.smtp_password = 'bananajones'
 	web.config.smtp_starttls = True
 
+=======
+	
+>>>>>>> 26a115e1d2a52969999545040220e15c7856754e
 	
 	pwd_context = CryptContext(
     # replace this list with the hash(es) you wish to support.
@@ -52,4 +56,7 @@ class PasswordHash(object):
 	def check_password(self, hash2):
 		"""checks if the password is correct"""
 		return pwd_context.verify(password_+self.salt, self.hashedpw)	
+<<<<<<< HEAD
 
+=======
+>>>>>>> 26a115e1d2a52969999545040220e15c7856754e
