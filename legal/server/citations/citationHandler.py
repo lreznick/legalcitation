@@ -45,14 +45,9 @@ class MyCitations(object):
 
 class removeCitation(object):
 	def GET(self):
-		print "INSIDE REMOVE CITATION, TRYING TO REMOVE A CITATION"
-		print "0"
 		data = web.input()
-		print "1/2"
 		citationID = data.id
-		print "1"
 		globs.db.query("DELETE FROM citation WHERE citation_id=$citid", vars={'citid':citationID})
-		print "2"
 		raise web.seeother('/citations', absolute=True)
 	'''
 	class Instructional(object):
