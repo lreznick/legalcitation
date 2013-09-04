@@ -37,6 +37,7 @@ class citation:
 		
 class MyCitations(object):
 	def GET(self):
+		#return globs.render.myCitations(None)
 		user_name = web.ctx.session.username
 		userQuery = globs.db.query("SELECT user_id FROM users WHERE email=$user", vars={'user':user_name})[0]
 		user = userQuery.user_id

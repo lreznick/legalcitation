@@ -88,7 +88,7 @@ class email(object):
 	
 class Test(object):
 	def GET(self):
-		return globs.render.test123()
+		return globs.render.hello(None)
 	
 class Index(object):
 	def GET(self):

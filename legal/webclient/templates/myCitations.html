@@ -7,29 +7,31 @@ $def with (citations)
  	<div class="leftContainer"> 
 	</div>    
 	<div class ="citationsContainer">
+	$if citations:
 		$for citation in citations
-		
-		$code:
-			removal = "/citations/remove?id=" + str(citation.citation_id)
-		<div class ="citation">
-			<font class = "formtype"> $:citation.formtype </font>	
-			<div class ="well">
-				<div class ="rightWellContainer">
-					<div class ="iconContainer">
-						<a href ="#" class = "iconLink"> Edit Form <i class="icon-share-alt"></i>	</a>
-						<a href ="#" class = "iconLink"><i class="icon-edit"></i> </a>
-						<a href =$removal class = "iconLink"><i class="icon-remove"></i> </a>
+			$code:
+				removal = "/citations/remove?id=" + str(citation.citation_id)
+
+			<div class ="citation">
+				<font class = "formtype"> $:citation.formtype </font>	
+				<div class ="well">
+					<div class ="rightWellContainer">
+						<div class ="iconContainer">
+							<a href ="#" class = "iconLink"> Edit Form <i class="icon-share-alt"></i>	</a>
+							<a href ="#" class = "iconLink"><i class="icon-edit"></i> </a>
+							<a href =$removal class = "iconLink"><i class="icon-remove"></i> </a>
+						</div>
+						<font class ="date">Created -  $:citation.date_created </font>
 					</div>
-					<font class ="date">Created -  $:citation.date_created </font>
+					
+					<a href ="#" ><font class ="styleofcause red"> $:citation.title </font> </a> <br>
+					<font class ="citation"> $:citation.citation </font>
+					
 				</div>
-				
-				<a href ="#" ><font class ="styleofcause red"> $:citation.title </font> </a> <br>
-				<font class ="citation"> $:citation.citation </font>
-				
 			</div>
-			
-		</div>
-		
+	$else:
+		You currently have no citations.
+		<a href="#" class ="btn"> Create a Citation! </a>
 		
     </div><!-- Entire Container -->
  <div class="container" style ="margin-top:50px;"> </div>     
