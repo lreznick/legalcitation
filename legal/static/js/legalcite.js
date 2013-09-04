@@ -131,7 +131,7 @@ function SubmitCanLII(){
 					jQuery('#CanadaCaseCourt').val(court);
 					autoFillPinCite(reporterType,reporters);
                 }
-			}).fail(function(){generateErrorMessage("#Canlii-Form","something went wrong on our end :(")})
+			}).fail(function(){generateErrorMessage("#Canlii-Form","The input link you have entered is incorrect, or incompatible. Please try again.")})
 			.always(function(){
 			jQuery("#Canlii-Form .loading-gif").hide()}
 			);

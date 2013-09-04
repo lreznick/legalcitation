@@ -54,7 +54,7 @@ urls = (
 	'/testy', 'Test'
 )
 
-app = web.application(urls, globals(),True)
+app = web.application(urls, globals(),autoreload=True)
 #render = web.template.render('webclient/templates/', base = 'layout
 
 #Configure session parameters
@@ -83,12 +83,16 @@ app.add_processor(web.loadhook(session_hook))
 
 class email(object):
 	def GET(self):
-		web.sendmail('Register.IntraVires@gmail.com', 'stephenhuang1@gmail.com', 'SUP', '<button > sup </button> NAAAAAAAAAAAAAA', headers={'Content-Type':'text/html;charset=utf-8'})
+		htmlbody =  open('email1.html').read()
+		web.sendmail('Register.IntraVires@gmail.com', 'stephenhuang1@gmail.com', 'Complete Your Intra Vires Registration', htmlbody, headers={'Content-Type':'text/html;charset=utf-8'})
+		print htmlbody
 		return None
 	
 class Test(object):
 	def GET(self):
-		return globs.render.hello(None)
+		test = open('email1.html').read()
+		print test		
+		return test
 	
 class Index(object):
 	def GET(self):
