@@ -27,11 +27,13 @@ urls = (
 '''
 
 class citation:
-	def __init__(self, styleofcause, fullcitation, date, formtype):
-		self.styleofcause = styleofcause
-		self.fullcitation = fullcitation
+	def __init__(self, styleofcause, fullcitation, date, formtype,id):
+		self.title = styleofcause
+		self.citation = fullcitation
 		self.date = date
 		self.formtype = formtype
+		self.citation_id = id
+		self.date_created = "Feb 7, 2013"
 		
 
 		
