@@ -97,16 +97,25 @@ $def with (content)
 			<!-- main title -->
 			<div id = "titlebar">
 				<div class="inner-titlebar"> 
-					<img src ="./static/img/logo.png" style= "height: 27px; margin-top:
-					-2px">
-					<a href = "/" style = "color: #fe6060"> intra-vires.com	 </a>
+					
+					<a href = "/" style = "color: #fe6060"> <img src ="./static/img/logo.png" style= "height: 27px; margin-top:-2px; opacity:0.5"> intra-vires.com	 </a>
 					<div style ="float:right; padding-right: 25px;">
-						<a href="#" id="login-popup" style = "color: #fe6060" rel="popover"
-						data-original-title="" data-trigger ="click">login</a>		
-						<a href="logout" > logout </a>
+					<!--	<a href="#" id="login-popup" style = "color: #fe6060" rel="popover"
+						data-original-title="" data-trigger ="click">login</a>		 -->
+						<!--<a href="logout" > logout </a> -->
+					<div id ="mainLinks">
+						<ul >
+							<li><a href = "/" > Create Citation </a></li> 
+							<li><a href = "/citations"> Dashboard </a></li>
+							<li><a href = "/logout"> Logout</a></li>
+							<li> <a href="#" id="login-popup" style = "color: #fe6060" rel="popover"
+						data-original-title="" data-trigger ="click">login</a> </li>
+					</ul>
 					</div>
-				</div>		
+					</div>
+				</div>				
 			</div>
+			
 
 
       <script type = "text/javascript">
@@ -116,7 +125,7 @@ $def with (content)
 			jQuery("#login-popup").popover({
 				placement: 'bottom',
 				html: 'true',
-				content: '<form style= "margin: 0 njjnauto"> </fieldset> <div class="control-group">	<div class="controls"><input type="text" class="input-large" id="loginemail" placeholder="email" name = "email" style ="width: 240px"><input type="text" class="input-large" id="loginemail" placeholder="password" name = "password" style ="width: 240px"> </div> </fieldset></form>'
+				content: '<form style= "margin: 0 auto; padding-top:20px;"> </fieldset> <div class="control-group">	<div class="controls"><input type="text" class="input-large" id="loginemail" placeholder="email" name = "email" style ="width: 240px"><input type="text" class="input-large" id="loginemail" placeholder="password" name = "password" style ="width: 240px"> </div> </fieldset></form>'
 			}); 
 			/*jQuery("#login-popup)").click(function(){
 				console.log("3");
@@ -139,15 +148,7 @@ $def with (content)
       </script>
 			<!-- content -->
 			<div class = "content-container">
-				<div id ="mainLinks">
-					<ul  class = "inline-block">
-						
-						<li><a href = "/instructional?linkLocation=None"> Account </a></li>
-						<li><a href = "/citations"> My Citations </a></li>
-						<li><a href = "/" > Create Citation </a></li> 
-					</ul>
-						
-				</div>
+
 				
 				$:content
 			</div>
@@ -160,12 +161,13 @@ $def with (content)
 	<div class="footer">
 		<img src ="./static/img/footer.png" style="width: 1100px; display:block; margin:auto;">
 				<ul  class = "inline-block">
-					<li><a href = "/about" > ABOUT US </a></li> 
-					<li><a href = "#"> HOW IT WORKS  </a></li>
-					<li><a href = "#"> WHY INTRAVIRES </a></li>
-					<li><a href = ""> FAQ </a></li>
-					<li><a href = "/instructional?linkLocation=None"> HELP </a></li>
 					<li><a href = "./register"> REGISTER </a></li>
+					<li><a href = "/about" > ABOUT US </a></li> 
+					 <li><a href = "#"> HOW IT WORKS  </a></li>
+					<li><a href = "#"> WHY INTRAVIRES </a></li>
+					<li><a href = ""> FAQ </a></li> 
+					<li><a href = "/instructional?linkLocation=None"> HELP </a></li>
+					
 				</ul>
 					
 			</div> <!-- /footer-->

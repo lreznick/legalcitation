@@ -30,7 +30,6 @@ from server.account.accountHandler import *
 from server.citations.citationHandler import *
 
 import web, json
-from web import form
 import globs
 #web.config.debug = False
 globs.init()          # Call only once
