@@ -27,17 +27,19 @@ urls = (
 '''
 
 class citation:
-	def __init__(self, styleofcause, fullcitation, date, formtype):
-		self.styleofcause = styleofcause
-		self.fullcitation = fullcitation
+	def __init__(self, styleofcause, fullcitation, date, formtype,id):
+		self.title = styleofcause
+		self.citation = fullcitation
 		self.date = date
 		self.formtype = formtype
+		self.citation_id = id
+		self.date_created = "Feb 7, 2013"
 		
 
 		
 class MyCitations(object):
 	def GET(self):
-		#return globs.render.myCitations(None)
+		return globs.render.myCitations([citation("Jones v Jones", "citation goes here", "Feb 7 2012", "Canada Case", 5)])
 		user_name = web.ctx.session.username
 		userQuery = globs.db.query("SELECT user_id FROM users WHERE email=$user", vars={'user':user_name})[0]
 		user = userQuery.user_id
