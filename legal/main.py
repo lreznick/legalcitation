@@ -50,8 +50,9 @@ urls = (
 	'/register', 'Register',
 	'/', 'Index',
 	'/citations', app_citationHandler,
-	'/email', 'email',
-	'/testy', 'Test'
+	'/email', 'Email',
+	'/email/response', 'EmailResponse',
+	'/test', 'Test'
 )
 
 app = web.application(urls, globals(),autoreload=True)
@@ -81,18 +82,35 @@ def session_hook():
 app.add_processor(web.loadhook(session_hook))
 
 
-class email(object):
+class Email(object):
 	def GET(self):
-		htmlbody =  open('email1.html').read()
-		web.sendmail('Register.IntraVires@gmail.com', 'stephenhuang1@gmail.com', 'Complete Your Intra Vires Registration', htmlbody, headers={'Content-Type':'text/html;charset=utf-8'})
+	
+		data = web.input()
+		email = data.utf
+		htmlbody = web.template.frender('webclient/templates/email/email.html')
+		baselink = "http://www.intra-vires.com/email/response?id="
+		email = "stephenhuang1@gmail.com"
+		hashedemail = globs.sha512_crypt.encrypt(email)
+		# TODO ==== STORE THE HASHED EMAIL IN THE DATABASE
+	
+		link = baselink + hashedemail
+		web.sendmail('Register.IntraVires@gmail.com', 'stephenhuang1@gmail.com', 'Complete Your Intra Vires Registration', htmlbody(link), headers={'Content-Type':'text/html;charset=utf-8'})
 		print htmlbody
 		return None
+
+class EmailResponse(object):
+	def GET(self):
+		data = web.input()
+		print data
+		hashedemail = data.id
+		#TODO --- COMPARE THE HASHED EMAIL WITH THE DATABASE
+		return hashedemail
 	
 class Test(object):
 	def GET(self):
-		test = open('email1.html').read()
-		print test		
-		return globs.render.signupGetInfo()
+			print "in register, about to send"
+			email  = "stephenhuang1@gmail.com"
+			web.seeother('/email?utf='+email)
 	
 class Index(object):
 	def GET(self):
@@ -107,7 +125,6 @@ class Instructional(object):
 	def GET(self):
 		data=  web.input()
 		return globs.render.instructional(data.linkLocation)
-		#return "wsup"
 
 '''
 	def GET(self, name):
@@ -161,6 +178,12 @@ class Register(object):
 			if (result == False):
 				my_signup['username'].note = "username already there!"
 				return globs.render.signup(my_signup)
+			''' FOR KEVIN
+			email stuff goes here
+			else:
+				web.seeother('/email?utf='+email)
+			'''
+		
 			return globs.render.form()
 		else:
 			print "didn't validate baby REGISTER"

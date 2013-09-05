@@ -1,7 +1,9 @@
 import web
 import random
 from passlib.context import CryptContext
-from web import form
+from passlib.hash import md5_crypt
+from passlib.hash import sha512_crypt
+
 def init():
 
 	
@@ -27,10 +29,7 @@ def init():
 	web.config.smtp_starttls = True
 
 
-
-
-
-
+	
 	pwd_context = CryptContext(
     # replace this list with the hash(es) you wish to support.
     # this example sets pbkdf2_sha256 as the default,
