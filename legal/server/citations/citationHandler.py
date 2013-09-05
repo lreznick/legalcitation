@@ -38,11 +38,16 @@ class citation:
 class MyCitations(object):
 	def GET(self):
 		#return globs.render.myCitations(None)
-		user_name = web.ctx.session.username
-		userQuery = globs.db.query("SELECT user_id FROM users WHERE email=$user", vars={'user':user_name})[0]
-		user = userQuery.user_id
-		citations = globs.db.query("SELECT * FROM citation WHERE user_id=$user", vars={'user':user})
-		return globs.render.myCitations(citations)
+		if(web.ctx.session.loggedin != True):
+			my_login = globs.login_form()
+			my_login['username'].note = "Not Logged In!"
+			return globs.render.login(my_login)
+		else:
+			user_name = web.ctx.session.username
+			userQuery = globs.db.query("SELECT user_id FROM users WHERE email=$user", vars={'user':user_name})[0]
+			user = userQuery.user_id
+			citations = globs.db.query("SELECT * FROM citation WHERE user_id=$user", vars={'user':user})
+			return globs.render.myCitations(citations)
 
 class removeCitation(object):
 	def GET(self):

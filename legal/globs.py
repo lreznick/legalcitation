@@ -1,7 +1,7 @@
 import web
 import random
 from passlib.context import CryptContext
-
+from web import form
 def init():
 
 	
@@ -9,8 +9,8 @@ def init():
 	global render
 	global pwd_context
 	
-	db = web.database(dbn='mysql', host='127.0.0.1', port=3306, user='root', pw='root', db='intravires')
-#	db = web.database(dbn='mysql', host='127.0.0.1', port=3306, user='root', pw='Jeenyus1', db='intravires')
+#	db = web.database(dbn='mysql', host='127.0.0.1', port=3306, user='root', pw='root', db='intravires')
+	db = web.database(dbn='mysql', host='127.0.0.1', port=3306, user='root', pw='Jeenyus1', db='intravires')
 	
 	
 	template_globals ={ 'str': str }
@@ -27,7 +27,10 @@ def init():
 	web.config.smtp_starttls = True
 
 
-	
+
+
+
+
 	pwd_context = CryptContext(
     # replace this list with the hash(es) you wish to support.
     # this example sets pbkdf2_sha256 as the default,
@@ -37,6 +40,23 @@ def init():
 	all__vary_rounds = 0.1,
 	sha512_crypt__default_rounds = 8000,
 	)
+
+passwords_match = form.Validator("Passwords didn't match.", lambda i: i.password == i.password_again)			
+username_required = form.Validator("Username not provided", bool)
+password_required = form.Validator("Password not provided", bool)
+password_length = form.Validator("Password length should be minimum 7 characters", lambda p: p is None or len(p) >= 7)
+
+signup_form =form.Form(
+			form.Textbox('username', username_required, placeholder = "email", note ="", class_ = "input"),
+			form.Password('password',  placeholder = "password", class_ = "input"),
+			form.Password('password_again',  placeholder = "password again", class_ = "input"),
+			validators = [passwords_match]		
+			)
+				
+login_form = form.Form(
+			form.Textbox('username', username_required, placeholder = "email", note ="", class_ = "input"),
+			form.Password('password', password_required, placeholder = "password", class_ = "input")
+			)
 
 def verify_user_hash(unverified_pwd, query_result):
 	#print "INSIDE VERIFY USER!!!!"

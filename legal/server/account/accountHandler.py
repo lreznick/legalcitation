@@ -90,12 +90,16 @@ class Account(object):
 		#print "hello"
 		##return web.template.frender('webclient/templates/account/accountMain.html')
 		if(web.ctx.session.loggedin != True):
-			#TODO Fix this
-			return "Not Logged In!"
+			my_login = globs.login_form()
+			my_login['username'].note = "Not Logged In!"
+			return globs.render.login(my_login)
 		else:
 			user_name = web.ctx.session.username
 			userQuery = globs.db.query("SELECT * FROM users WHERE email=$user", vars={'user':user_name})[0]
-		
+			if(userQuery.school == None):
+				userQuery.school = "Empty"
+			if(userQuery.occupation == None):
+				userQuery.occupation = "Empty"
 			#a = account("qwert1_2@hotmail.com", "student", "U&#160;of&#160;Toronto", )
 			b = subscription("Free Year Subscription", "Sept. 1, 2014")
 			return globs.render.accountMain(userQuery,b)

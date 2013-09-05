@@ -127,7 +127,7 @@ class About(object):
 
 
 
-	
+'''	
 passwords_match = form.Validator("Passwords didn't match.", lambda i: i.password == i.password_again)			
 username_required = form.Validator("Username not provided", bool)
 password_required = form.Validator("Password not provided", bool)
@@ -144,15 +144,16 @@ login_form = form.Form(
 						form.Textbox('username', username_required, placeholder = "email", note ="", class_ = "input"),
 						form.Password('password', password_required, placeholder = "password", class_ = "input")
 						)
+'''
 
 class Register(object):
 	
 	def GET(self):
-		my_signup = signup_form()
+		my_signup = globs.signup_form()
 		return globs.render.signup(my_signup)
 		
 	def POST(self):
-		my_signup = signup_form()
+		my_signup = globs.signup_form()
 		if my_signup.validates(): 
 			email = my_signup['username'].value
 			password = my_signup['password_again'].value
@@ -177,12 +178,12 @@ class Login(object):
 			print web.cookies()
 			#return globs.render.myCitations(None)
 			raise web.seeother("/citations")
-		my_login = login_form()
+		my_login = globs.login_form()
 		return globs.render.login(my_login)
 		
 	def POST(self):
 		print "LOGIN POST"
-		my_login = login_form()
+		my_login = globs.login_form()
 		if my_login.validates(): 
 			email = my_login['username'].value
 			password = my_login['password'].value
@@ -217,9 +218,10 @@ class Login(object):
 
 class Logout:
 	def GET(self):
-		#print session.username
-		#session.kill()
-		return globs.render.form()
+		my_login = globs.login_form()
+		session.loggedin = False
+		session.kill()
+		return globs.render.login(my_login)
 
 def main():
 	app.internalerror = web.debugerror
