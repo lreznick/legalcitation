@@ -1,6 +1,8 @@
 import web
 import random
 from passlib.context import CryptContext
+from passlib.hash import md5_crypt
+from passlib.hash import sha512_crypt
 
 def init():
 
