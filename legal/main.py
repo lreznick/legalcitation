@@ -92,7 +92,7 @@ class Test(object):
 	def GET(self):
 		test = open('email1.html').read()
 		print test		
-		return test
+		return globs.render.signupGetInfo()
 	
 class Index(object):
 	def GET(self):
