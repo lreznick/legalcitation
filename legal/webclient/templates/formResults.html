@@ -1,5 +1,8 @@
 	
+		<!-- Submit Button -->
+	<button  type ='button' class="btn btn-danger submitButton" > Generate!</button>
 	
+	<button type="reset" class="btn resetButton"  id="CanadaCaseReset" style ="margin-left:530px">reset</button>
 	<!-- Error Containers -->
 	<br>
 	
@@ -10,7 +13,11 @@
 	</div>
 	
 <div class ="result-container">
+	
+	<br>
+	<hr>
 	<h3> Result</h3>
+	
 	<div id="result-editField" contenteditable="true">
 	<style scoped>
 	  #result-editField { margin-bottom: 10px; margin-left: 2px; }
@@ -18,10 +25,9 @@
 	  [contenteditable="true"]:hover { outline: 1px dashed #0090D2; }
 	</style>
 	<font class ="results"> </font>
-	</div>	            
+	
+	</div>	
+<a data-toggle="modal" id ="saveCitationModal-btn" href="#saveCitationModal" class="btn">Save Citation</a>		
 </div>
 	<img src ="./static/img/loading.gif" class = "loading-gif" >	
 	
-	<!-- Submit Button -->
-	<button  type ='button' class="btn btn-danger submitButton" > Generate!</button>
-	<button type="reset" class="btn resetButton"  id="CanadaCaseReset" style ="margin-left:540px">reset</button>

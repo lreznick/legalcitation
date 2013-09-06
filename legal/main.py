@@ -31,26 +31,28 @@ from server.citations.citationHandler import *
 
 import web, json
 import globs
-#web.config.debug = False
+#web.config.debug = False #-------------- TAKE ME OUT LATER
 globs.init()          # Call only once
-web.config.debug = False
+web.config.debug = True
 global session
 # mapping. Each post request contains what to do.    '/' ,  'Index', '/signup', 'SignUp',
 urls = (
     #'/formInput', 'Index',	
 	#'/instructional/(.+)', 'Instructional',
-	'/instructional', 'Instructional',
-	'/instructional', 'Instructionalz',
-	'/about', 'About',
-	'/form', app_formHandler,
-	'/account', app_accountHandler,
-	'/login', 'Login',
-	'/logout', 'Logout',
-	'/register', 'Register',
 	'/', 'Index',
+	'/about', 'About',
+	'/account', app_accountHandler,
 	'/citations', app_citationHandler,
 	'/email', 'Email',
 	'/email/response', 'EmailResponse',
+	'/form', app_formHandler,	
+	'/instructional', 'Instructional',
+	'/instructional', 'Instructionalz',
+	'/login', 'Login',
+	'/logout', 'Logout',
+	'/register', 'Register',
+	'/terms', 'Terms',
+	
 	'/test', 'Test'
 )
 
@@ -136,11 +138,14 @@ class Instructionalz:
 		
 class About(object):
 	def GET(self):		
-		return globs.render.aboutUs();
+		return globs.render.aboutUs()
 	
 	def POST(self):
-		return globs.render.aboutUs();
+		return globs.render.aboutUs()
 
+class Terms(object):
+	def GET(self):
+		return globs.render.termsOfUse()		
 
 
 '''	

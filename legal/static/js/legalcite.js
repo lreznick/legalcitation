@@ -13,16 +13,6 @@ jQuery("#thetestbutton").click(function(){
 
 })
 
-/*
-=============================================
-Set Up
-=============================================
-*/		
-	 
-	jQuery(".result-container").hide();
-	jQuery(".loading-gif").hide();
-	jQuery("#canlii-result-container").hide();
-	
 	
 /*
 =============================================
@@ -628,6 +618,7 @@ var Name = this.name;  //ex. #CanadaCase
 					var results = data[0].message; 
 					jQuery(id+'-Container .result-container').hide().fadeIn(200);
 					jQuery(id +'-Container .results').html(results).hide().fadeIn(400);
+					//jQuery(id +'-Container #saveCitationModal-btn').hide().fadeIn(200);
 					//this.successFunction; //Call the success function
 				 }
 				 else{
@@ -791,7 +782,7 @@ canadatooltip = new tooltipClass('CanadaCase', CanadatooltipList,CanadaTooltipOf
 canada = new formClass('CanadaCase', canadahidelist, CanadianCaseValidator,canadatooltip);
 
 
-ushidelist = [ "#pincite-form","#reporter-container","#history3", "#history2"]
+ushidelist = [ "#pincite-form","#reporter-container","#history3", "#history2",'#saveCitationModal-btn']
 ustooltip =  new tooltipClass('USCase', UStooltipList, USTooltipOffsets) 
 us = new formClass('USCase',ushidelist, USCaseValidator);
 
@@ -807,6 +798,24 @@ ukhidelist = ['.optionalCourt', '#court-optional','.court-input','#reporter-cont
 uktooltip = new tooltipClass('UKCase', UKtooltipList, UKTooltipOffsets) 
 uk = new formClass('UKCase',ukhidelist, UKCaseValidator);
 
+ /*
+=============================================
+Saving Citation Modal
+=============================================
+*/		
+jQuery('#saveCitationModal').modal({
+	backdrop: true,
+	show: false
+})
+jQuery('#saveCitationModal-btn').click(function(){
+	id= '#CanadaCase'
+	style = jQuery(id +'Style').val()
+	citation = jQuery(id +'-Container .results').html()
+	
+	jQuery('#saveCitationModal #modal-title').html(style);
+	jQuery('#saveCitationModal #modal-citation').html(citation);
 
+})
+//jQuery('.citationCommentArea').wsyihtml5();
 	
 }); //End of Document.

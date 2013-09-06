@@ -49,6 +49,9 @@ class MyCitations(object):
 			userQuery = globs.db.query("SELECT user_id FROM users WHERE email=$user", vars={'user':user_name})[0]
 			user = userQuery.user_id
 			citations = globs.db.query("SELECT * FROM citation WHERE user_id=$user", vars={'user':user})
+			print "===============DATE ====================================="
+			print citations[0].date_created
+			print citations[1].date_created.strftime("%B %d")
 			return globs.render.myCitations(citations)
 
 class removeCitation(object):

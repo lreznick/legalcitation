@@ -12,21 +12,26 @@ $def with (citations)
 		$for citation in citations
 			$code:
 				removal = "/citations/remove?id=" + str(citation.citation_id)
+				date = citation.date_created.strftime("%b %d, %Y")
 
-			<div class ="citation">
-				<font class = "formtype"> $:citation.formtype </font>	
+			<div class ="citation" >
+				
 				<div class ="well">
-					<div class ="rightWellContainer">
-						<div class ="iconContainer">
-							<a href ="#" class = "iconLink"> Edit Form <i class="icon-share-alt"></i>	</a>
-							<a href ="#" class = "iconLink"><i class="icon-edit"></i> </a>
+					<div class ="rightWellContainer row">
+						<div  class= "span3">
+							<font class ="formtype"> $:citation.formtype</font>
+							<br>
+							<font class = "date" >$date  </font>	
+						</div>
+						<div class ="iconContainer span">
 							<a href =$removal class = "iconLink"><i class="icon-remove"></i> </a>
 						</div>
-						<font class ="date">Created -  $:citation.date_created </font>
+						
 					</div>
 					
-					<a href ="#" ><font class ="styleofcause red"> $:citation.title </font> </a> <br>
+					<a href ="#myModal" data-toggle="modal" ><font class ="styleofcause red"> $:citation.title </font> </a> <br>
 					<font class ="citation"> $:citation.citation </font>
+					
 					
 				</div>
 			</div>
@@ -37,7 +42,7 @@ $def with (citations)
 		 </div>
 		
     </div><!-- Entire Container -->
- <div class="container" style ="margin-top:50px;"> </div>     
+ 
 
  
  
@@ -46,7 +51,8 @@ $def with (citations)
  
  
  
- <a data-toggle="modal" href="#myModal" class="btn btn-primary btn-large">Launch demo modal</a>
+ <!-- <a data-toggle="modal" href="#myModal" class="btn btn-danger">Create New Citation</a> -->
+ <a href ="/" class="btn btn-danger">+ Create New Citation</a>
 
 
 					<div id="myModal" class="modal hide fade" style="display: none; ">

@@ -4,9 +4,12 @@
 .loading-gif{
 	display: none;
 }
-#canlii-result-container{
+#canlii-result-container, #pincite-form, #reporter-container{
 	display: none;
 }
+
+
+
 .input-xxlarge {
 	width: 500px;
 }

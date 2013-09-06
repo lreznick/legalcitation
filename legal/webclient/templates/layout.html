@@ -4,10 +4,10 @@ $def with (content)
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Legal Citation</title>
+    <title>Intra Vires</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="An automated legal citation generator for Canadian law students, lawyers, and academics, according to the McGill Guide.">
+    <meta name="author" content="Intra vires ">
 
     <!-- Le styles -->
     <link href="./static/css/bootstrap.css" rel="stylesheet">
@@ -18,46 +18,7 @@ $def with (content)
 	<link href="./static/css/signup.css" rel="stylesheet">
 	
     <style type="text/css">
-      body {
-        padding-bottom: 60px;
-      }
 
-      /* Custom container */
-      .container {
-		margin-top: 50px;
-        margin: 0 auto;
-        max-width: 1000px;
-      }
-      .container > hr {
-        margin: 60px 0;
-      }
-
-      /* Main marketing message and sign up button */
-      .jumbotron {
-        margin: 80px 0;
-        text-align: center;
-	
-      }
-      .jumbotron h1 {
-        font-size: 60px;
-        line-height: 1;
-      }
-      .jumbotron .lead {
-        font-size: 24px;
-        line-height: 1.25;
-      }
-      .jumbotron .btn {
-        font-size: 21px;
-        padding: 14px 24px;
-      }
-
-      /* Supporting marketing content */
-      .marketing {
-        margin: 60px 0;
-      }
-      .marketing p + h4 {
-        margin-top: 28px;
-      }
 
 
     </style>
@@ -98,18 +59,19 @@ $def with (content)
 			<div id = "titlebar">
 				<div class="inner-titlebar"> 
 					
-					<a href = "/" style = "color: #fe6060"> <img src ="./static/img/logo.png" style= "height: 27px; margin-top:-2px; opacity:0.5"> intra-vires.com	 </a>
+					<a href = "/" style = "color: #fe6060"> <img src ="./static/img/logo.png" style= "height: 27px; margin-top:-2px; opacity:0.5; padding-right: 5px;">intra-vires.com</a>
 					<div style ="float:right; padding-right: 25px;">
 					<!--	<a href="#" id="login-popup" style = "color: #fe6060" rel="popover"
 						data-original-title="" data-trigger ="click">login</a>		 -->
 						<!--<a href="logout" > logout </a> -->
 					<div id ="mainLinks">
 						<ul >
-							<li><a href = "/" > Create Citation </a></li> 
-							<li><a href = "/citations"> Dashboard </a></li>
+							<li><a href = "/" > Create Citation</a></li> 
+							<li><a href = "/citations"> Dashboard</a></li>
 							<li><a href = "/logout"> Logout</a></li>
-							<li> <a href="#" id="login-popup" style = "color: #fe6060" rel="popover"
-						data-original-title="" data-trigger ="click">login</a> </li>
+							<!--<li> <a href="#" id="login-popup" style = "color: #fe6060" rel="popover"
+						data-original-title="" data-trigger ="click">login</a> </li> -->
+							<li><a href = "/login"> Login </a></li>
 					</ul>
 					</div>
 					</div>
@@ -118,34 +80,6 @@ $def with (content)
 			
 
 
-      <script type = "text/javascript">
-		jQuery(function (){
-		var click = true;
-			console.log("in here")
-			jQuery("#login-popup").popover({
-				placement: 'bottom',
-				html: 'true',
-				content: '<form style= "margin: 0 auto; padding-top:20px;"> </fieldset> <div class="control-group">	<div class="controls"><input type="text" class="input-large" id="loginemail" placeholder="email" name = "email" style ="width: 240px"><input type="text" class="input-large" id="loginemail" placeholder="password" name = "password" style ="width: 240px"> </div> </fieldset></form>'
-			}); 
-			/*jQuery("#login-popup)").click(function(){
-				console.log("3");
-				jQuery("#login-popup").popover('hide')
-			});		*/
-			
-			jQuery("#login-popup").click(function(){
-				console.log("2");
-				if (click == true){
-					jQuery("#login-popup").popover('show')
-					click = false;
-				}
-				else{
-					jQuery("#login-popup").popover('hide')
-					click = true;
-				}
-			});
-	
-      });
-      </script>
 			<!-- content -->
 			<div class = "content-container">
 
@@ -163,7 +97,7 @@ $def with (content)
 				<ul  class = "inline-block">
 					<li><a href = "./register"> REGISTER </a></li>
 					<li><a href = "/about" > ABOUT US </a></li> 
-					 <li><a href = "#"> HOW IT WORKS  </a></li>
+					 <li><a href = "/terms"> TERMS OF USE  </a></li>
 					<li><a href = "#"> WHY INTRAVIRES </a></li>
 					<li><a href = ""> FAQ </a></li> 
 					<li><a href = "/instructional?linkLocation=None"> HELP </a></li>
@@ -205,3 +139,36 @@ $def with (content)
 
   </body>
 </html>
+
+
+
+
+<!--
+      <script type = "text/javascript">
+		jQuery(function (){
+		var click = true;
+			console.log("in here")
+			jQuery("#login-popup").popover({
+				placement: 'bottom',
+				html: 'true',
+				content: '<form style= "margin: 0 auto; padding-top:20px;"> </fieldset> <div class="control-group">	<div class="controls"><input type="text" class="input-large" id="loginemail" placeholder="email" name = "email" style ="width: 240px"><input type="text" class="input-large" id="loginemail" placeholder="password" name = "password" style ="width: 240px"> </div> </fieldset></form>'
+			}); 
+			/*jQuery("#login-popup)").click(function(){
+				console.log("3");
+				jQuery("#login-popup").popover('hide')
+			});		*/
+			
+			jQuery("#login-popup").click(function(){
+				console.log("2");
+				if (click == true){
+					jQuery("#login-popup").popover('show')
+					click = false;
+				}
+				else{
+					jQuery("#login-popup").popover('hide')
+					click = true;
+				}
+			});
+	
+      });
+      </script> -->
