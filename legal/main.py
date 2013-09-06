@@ -61,7 +61,7 @@ app = web.application(urls, globals(),autoreload=True)
 web.config.session_parameters['cookie_name'] = 'chocolate_chip_local'
 web.config.session_parameters['cookie_domain'] = None
 web.config.session_parameters['cookie_path'] = '/'
-web.config.session_parameters['timeout'] = 600 #24 * 60 * 60, # 24 hours in seconds is default
+web.config.session_parameters['timeout'] = 86400 #24 * 60 * 60, # 24 hours in seconds is default
 web.config.session_parameters['ignore_expiry'] = False
 web.config.session_parameters['ignore_change_ip'] = True
 web.config.session_parameters['secret_key'] = 'fLjUfxqXtfNoIldA0A0J'
