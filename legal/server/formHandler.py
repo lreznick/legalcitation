@@ -28,6 +28,8 @@ urls = (
 	'/Dictionary', 'Dictionary',
 	'/Book', 'Book',
 	
+	'/store/CanadaCase', 'storeCanada'
+	
 )
 
 class FormContainer:
@@ -43,7 +45,11 @@ def CreateFormClass(type,form):
 	f = FormContainer(type,form)
 	return f		
 	
-	
+class storeCanada(object):
+		def POST(self):
+			form = web.input();
+			print "HURRRRRRRRRAAAAAAAAAAAAAAY"
+			return  globs.render.aboutUs() #"hurray!"
 	
 	
 class UKParallel(object):

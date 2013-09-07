@@ -583,6 +583,7 @@ formClass.prototype.addEvents = function(){
 	$('#' +this.name +'-Container .submitButton').bind('click', {context: this}, this.submitClick);
 	$('#' +this.name +'-Container .browsebutton').bind('click', {context: this}, this.browseClick);
 	$('#' +this.name +'-Container #addHistory').bind('click', {context: this}, this.addHistoryClick);
+	$('#' +this.name +'-Container #storeCitationModal').bind('click', {context: this}, this.addStoreCitationClick);
 	
 }
 
@@ -666,7 +667,6 @@ formClass.prototype.browse = function(){
  formClass.prototype.addHistoryClick= function (ev){
         var self = ev.data.context;
         self.addHistory();
-		
     }	
 formClass.prototype.addHistory = function(){
 		//console.log("")
@@ -681,7 +681,36 @@ formClass.prototype.addHistory = function(){
 		}
 	}
 	
-	
+ formClass.prototype.addStoreCitationClick= function (ev){
+        var self = ev.data.context;
+        self.storeCitation();
+    }		
+formClass.prototype.storeCitation= function(){
+	console.log("HOOORAAAY");
+	var id = '#'+ this.name;  //ex. #CanadaCase
+	var Name = this.name;  //ex. #CanadaCase
+
+	if ( this.validator.form() == true){		
+		
+		jQuery(id +"-Container .loading-gif").show();        
+		jQuery.ajax({ 
+			type: "POST", 
+			data: jQuery(id +'-Form').serialize(),
+			url:'/form/store/'+Name,
+			dataType: 'json',
+			success: function(data) {
+				alert("HOOOOORAAAAAAAY")
+			},
+			complete: function(){
+				console.log("sent!")
+				 window.location.href = './citations';
+			}
+			
+		})
+		console.log('wsup');
+		return false; 
+	}	
+}
  formClass.prototype.submitClick= function (ev){
         var self = ev.data.context;
         self.submitForm();
@@ -803,17 +832,17 @@ uk = new formClass('UKCase',ukhidelist, UKCaseValidator);
 Saving Citation Modal
 =============================================
 */		
-jQuery('#saveCitationModal').modal({
+jQuery('#storeCitationModal').modal({
 	backdrop: true,
 	show: false
 })
-jQuery('#saveCitationModal-btn').click(function(){
+jQuery('#storeCitationModal-btn').click(function(){
 	id= '#CanadaCase'
 	style = jQuery(id +'Style').val()
 	citation = jQuery(id +'-Container .results').html()
 	
-	jQuery('#saveCitationModal #modal-title').html(style);
-	jQuery('#saveCitationModal #modal-citation').html(citation);
+	jQuery('#storeCitationModal #modal-title').html(style);
+	jQuery('#storeCitationModal #modal-citation').html(citation);
 
 })
 //jQuery('.citationCommentArea').wsyihtml5();
