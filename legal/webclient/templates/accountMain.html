@@ -1,7 +1,9 @@
 $def with (account,sub)
 
 <link href="./static/css/account.css" rel="stylesheet">
- <a href ="/citations" ><font class ="mainTitle"> <img src ="./static/img/backbtn.png" style = "height: 40px; padding-bottom:5px;"></a> My Account </font> 
+<a href ="./citations"  style ="color: black"> <i class ="icon-chevron-left"></i> Dashboard </a>
+<br>
+ <!--<a href ="/citations" ><font class ="mainTitle"> <img src ="./static/img/backbtn.png" style = "height: 40px; padding-bottom:5px;"></a> My Account </font>  -->
 <br>
  
 
@@ -9,7 +11,7 @@ $def with (account,sub)
     
  <div class="container" id ="account-conatiner" style ="margin-top:50px;">     
 	<div id ="accountDetails">
-		<h2><a data-toggle="modal"href="#accountModal" Title="edit details" ><i  class="icon-edit" id = "edit"></i></a> Account Details </h2>
+		<h2><a data-toggle="modal"href="#accountModal" Title="edit details" id="editAccount-btn"><i  class="icon-edit" id = "edit"></i></a> Account Details </h2>
 		<hr>
 		
 		<div class = "row">
@@ -22,8 +24,9 @@ $def with (account,sub)
 			 
 			<div class = "span4" id ="user-details"> 
 				<h4> $:account.email </h4>
-				<h4> <a data-toggle="modal"href="#passwordModal" Title="edit details" '> change your password </a> </h4>
-				<h4> $:account.occupation</h4>
+				<h4> <a data-toggle="modal"href="#passwordModal" Title="edit details"> change your password </a> </h4>
+				<h4 id ="accountOccupation"> $:account.occupation</h4>
+
 				<h4> $:account.school </h4>
 			</div>
 		</div> <!-- Row -->
@@ -77,10 +80,19 @@ $def with (account,sub)
 					</div>
 					<!--Occupation-->
 					<div class="control-group"  id ="email-controlgroup">
-						<label class="control-label" for="occupation"> <b>Occupation</b> </label>
+						<label class="control-label" for="occupations"> <b>Occupation</b> </label>
 						<div class="controls">
-							<input type="text" class="input-large" id="occupation"
-										placeholder="" name = "occupation" value =$:account.occupation>
+							<select id ="occupations" name = 'occupation'>
+								<option selected = "selected" disabled = "disabled" value ="Empty"> select.. </option>
+								<option value ="student">Student</option>
+								<option value ="solicitor">Solicitor</option>
+								<option value ="litigator">Litigator</option>
+								<option value ="paralegal">Paralegal</option>
+								<option value ="library">Library Services</option>
+								<option value ="professor">Professor</option>
+								<option value ="academic">Academic</option>
+								<option value ="other">Other</option>
+							</select>
 						</div>
 					</div>
 					<!--Occupation-->

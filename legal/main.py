@@ -94,6 +94,7 @@ class Email(object):
 		hashedemail = globs.sha512_crypt.encrypt(email)
 		# TODO ==== STORE THE HASHED EMAIL IN THE DATABASE
 	
+		#TODO ==== SEND TO THE RIGHT EMAIL
 		link = baselink + hashedemail
 		web.sendmail('Register.IntraVires@gmail.com', 'stephenhuang1@gmail.com', 'Complete Your Intra Vires Registration', htmlbody(link), headers={'Content-Type':'text/html;charset=utf-8'})
 		print htmlbody

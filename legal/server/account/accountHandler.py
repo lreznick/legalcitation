@@ -75,6 +75,7 @@ class update_account(object):
 		return "hello from get in update account"
 	def POST(self):
 		form = web.input()
+		print form
 		email = "%s" % (form.email)
 		occupation = "%s" % (form.occupation)
 		school = "%s" % (form.school)
