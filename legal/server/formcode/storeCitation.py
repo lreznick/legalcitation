@@ -20,6 +20,7 @@ urls = (
 	
 class Canada(object):
 	def POST(self):
+		print "IN CANADA"
 		form = web.input()
 		dissenting = False
 		if form.has_key('judge_dissenting'):

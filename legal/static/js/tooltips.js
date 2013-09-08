@@ -210,7 +210,10 @@ var JournaltooltipList = [
 	["title" , 			 journaltooltip_text[1]],
 	["citation" , 		 journaltooltip_text[2]],
 	["year" , 			 journaltooltip_text[3]],
-	["pinpoint" ,	 journaltooltip_text[4]],	
+	["pinpoint_form1" ,	 journaltooltip_text[4]],	
+	["pinpoint_form2" ,	 journaltooltip_text[4]],	
+	["pinpoint_form3" ,	 journaltooltip_text[4]],	
+	["pinpoint_form4" ,	 journaltooltip_text[4]],	
 ]
 var JournalTooltipOffsets =[
 '#JournalAuthors'
@@ -244,8 +247,12 @@ var BooktooltipList = [
 	["volume" , 		 booktooltip_text[5]],
 	["edition" ,		 booktooltip_text[6]],	
 	["date_consulted" ,	 booktooltip_text[7]],
-	["extra" ,		 booktooltip_text[8]],	
-	["pinpoint" ,		 booktooltip_text[9]]	
+	["extra" ,		 	 booktooltip_text[8]],	
+	["pinpoint_form0" ,	 booktooltip_text[9]],	
+	["pinpoint_form1" ,	 booktooltip_text[9]],	
+	["pinpoint_form2" ,	 booktooltip_text[9]],	
+	["pinpoint_form3" ,	 booktooltip_text[9]],	
+	["pinpoint_form4" ,	 booktooltip_text[9]]	
 ]	
 
 var BookTooltipOffsets =[
@@ -266,8 +273,8 @@ for (var i =0; i< dictionarytooltip_text.length; i++){
 }
 var DictionarytooltipList = [
 	["dictionary_title" ,		 dictionarytooltip_text[0]],
-	["dictionary_edition" , 			 dictionarytooltip_text[1]],
-	["dictionary_word" , 		 dictionarytooltip_text[2]]
+	["dictionary_edition" , 	 dictionarytooltip_text[1]],
+	["dictionary_word" , 	 dictionarytooltip_text[2]]
 ]	
 
 var DictionaryTooltipOffsets =[
