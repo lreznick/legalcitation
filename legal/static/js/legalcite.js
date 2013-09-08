@@ -815,17 +815,22 @@ ushidelist = [ "#pincite-form","#reporter-container","#history3", "#history2",'#
 ustooltip =  new tooltipClass('USCase', UStooltipList, USTooltipOffsets) 
 us = new formClass('USCase',ushidelist, USCaseValidator);
 
-
-bookhidelist =["#pinpoint-form0","#pinpoint-form1","#pinpoint-form2","#pinpoint-form3","#pinpoint-form4", "#check1", "#check2"]
-book = new formClass('Book', bookhidelist, BookValidator);
-
-dictionary = new formClass('Dictionary',[] , DictionaryValidator);
-
-journal = new formClass('Journal',['#reporter-container'], JournalArticleValidator);
-
 ukhidelist = ['.optionalCourt', '#court-optional','.court-input','#reporter-container', '#UKpincite-form', "#history2", "#history3"]
 uktooltip = new tooltipClass('UKCase', UKtooltipList, UKTooltipOffsets) 
 uk = new formClass('UKCase',ukhidelist, UKCaseValidator);
+
+journal = new formClass('Journal',['#reporter-container'], JournalArticleValidator);
+journaltooltip = new tooltipClass('Journal',JournaltooltipList,JournalTooltipOffsets) 
+
+bookhidelist =["#pinpoint-form0","#pinpoint-form1","#pinpoint-form2","#pinpoint-form3","#pinpoint-form4", "#check1", "#check2"]
+booktooltip = new tooltipClass('Book',BooktooltipList,BookTooltipOffsets);
+book = new formClass('Book', bookhidelist, BookValidator);
+
+dictionary = new formClass('Dictionary',[] , DictionaryValidator);
+dictionarytooltip = new tooltipClass('Dictionary',DictionarytooltipList,DictionaryTooltipOffsets);
+
+
+
 
  /*
 =============================================

@@ -8,6 +8,7 @@ from formcode.UKCase import UKCaseClass
 from formcode.USCase import USCaseClass
 from formcode.webGrabber import *
 from validator import *
+from formcode.storeCitation import *
 
 
 Uk = UKCaseClass()
@@ -28,7 +29,7 @@ urls = (
 	'/Dictionary', 'Dictionary',
 	'/Book', 'Book',
 	
-	'/store/CanadaCase', 'storeCanada'
+	'/store', app_storeCitation
 	
 )
 
