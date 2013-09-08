@@ -12,8 +12,6 @@ urls = (
 	'/Journal', 'JournalArticle',
 	'/Dictionary', 'Dictionary',
 	'/Book', 'Book'
-
-	
 )
 
 	

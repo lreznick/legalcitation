@@ -107,6 +107,7 @@ class EmailResponse(object):
 		data = web.input()
 		print data
 		hashedemail = data.id
+		#raise web.seeother('/register')
 		#TODO --- COMPARE THE HASHED EMAIL WITH THE DATABASE
 		return hashedemail
 	
