@@ -82,6 +82,7 @@ def session_hook():
 #Adding session_hook to its own processor
 app.add_processor(web.loadhook(session_hook))
 
+globs.template_globals.update(context=session)
 
 class Email(object):
 	def GET(self):
