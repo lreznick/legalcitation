@@ -29,7 +29,6 @@ from server.formcode.formHandler import *
 from server.account.accountHandler import *
 from server.citations.citationHandler import *
 
-
 import web, json
 import globs
 #web.config.debug = False #-------------- TAKE ME OUT LATER
@@ -110,25 +109,7 @@ class About(object):
 	def GET(self):		
 		return globs.render.aboutUs()
 	def POST(self):
-		return globs.render.aboutUs()		
-		
-		
-class Email(object):
-	def GET(self):
-	
-		data = web.input()
-		email = data.utf
-		htmlbody = web.template.frender('webclient/templates/email/email.html')
-		baselink = "http://www.intra-vires.com/email/response?id="
-		email = "stephenhuang1@gmail.com"
-		hashedemail = globs.sha512_crypt.encrypt(email)
-		# TODO ==== STORE THE HASHED EMAIL IN THE DATABASE
-	
-		#TODO ==== SEND TO THE RIGHT EMAIL
-		link = baselink + hashedemail
-		web.sendmail('Register.IntraVires@gmail.com', 'stephenhuang1@gmail.com', 'Complete Your Intra Vires Registration', htmlbody(link), headers={'Content-Type':'text/html;charset=utf-8'})
-		print htmlbody
-		return None
+		return globs.render.aboutUs()
 
 class EmailResponse(object):
 	def GET(self):
@@ -144,9 +125,17 @@ class EmailResponse(object):
 		else:
 			print "3"
 			user_row = user_query[0]
+			print "COMPARING HASHES"
+			print hashedemail
+			print type(hashedemail)
+			hashedemail_str = hashedemail.encode('ascii', 'ignore')
+			print "TESTING CONVERSION"
+			print type(hashedemail_str)
+			print user_row.email_hash
+			print type(user_row.email_hash)
 			if(user_row.email_hash == hashedemail):
 				print "4"
-				user_id = user_row.id
+				user_id = user_row.user_id
 				globs.db.query("UPDATE users SET active=1 WHERE user_id=$userID", vars={'userID':user_id})
 				return "shit worked soon"
 			else:
