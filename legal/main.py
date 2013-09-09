@@ -25,7 +25,7 @@ import mymodule
 from server.formcode.webGrabber import *
 from server.formcode.CanadianCase import *
 from server.subapplications.dbConnector import *
-from server.formHandler import *
+from server.formcode.formHandler import *
 from server.account.accountHandler import *
 from server.citations.citationHandler import *
 
@@ -103,10 +103,6 @@ class Index(object):
 			raise web.seeother("/citations")
 		else:
 			raise web.seeother("/register")
-	def POST(self):
-		form = web.input()
-		webURL = "%s" % (form.styleofcause)
-		return webURL
 		
 
 class About(object):
