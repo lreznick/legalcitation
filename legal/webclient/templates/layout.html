@@ -66,14 +66,14 @@ $def with (content)
 						<!--<a href="logout" > logout </a> -->
 					<div id ="mainLinks">
 						<ul >
-							<li><a href = "/" > Create Citation</a></li> 
-							<li><a href = "/citations"> Dashboard</a></li>
 							$if context.loggedin == True:
+								<li><a href = "/" > Create Citation</a></li> 
+								<li><a href = "/citations"> Dashboard</a></li>
 								<li><a href = "/logout"> Logout</a></li>
 							<!--<li> <a href="#" id="login-popup" style = "color: #fe6060" rel="popover"
 						data-original-title="" data-trigger ="click">login</a> </li> -->
 							$if context.loggedin != True:
-								<li><a href = "/login"> Login </a></li>
+								<li><a href = "/login" class = "red"> Login </a></li>
 					</ul>
 					</div>
 					</div>

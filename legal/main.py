@@ -34,8 +34,9 @@ import web, json
 import globs
 #web.config.debug = False #-------------- TAKE ME OUT LATER
 globs.init()          # Call only once
-web.config.debug = True
+web.config.debug = True #  Change me ------------
 global session
+
 # mapping. Each post request contains what to do.    '/' ,  'Index', '/signup', 'SignUp',
 urls = (
     #'/formInput', 'Index',	
@@ -85,6 +86,37 @@ app.add_processor(web.loadhook(session_hook))
 
 globs.template_globals.update(context=session)
 
+
+
+
+
+''' ----------- CLASSES ---------- '''
+class Test(object):
+	def GET(self):
+		print "SUP\n\n\n\n\n"
+		return globs.render.signupEmailSent("stephen")
+	
+class Index(object):
+	def GET(self):
+		print "YOOOOOOOOOO"
+		session_cookie = web.cookies().get('chocolate_chip_local')
+		if ((session_cookie != None) and (session.loggedin == True)):
+			raise web.seeother("/citations")
+		else:
+			raise web.seeother("/register")
+	def POST(self):
+		form = web.input()
+		webURL = "%s" % (form.styleofcause)
+		return webURL
+		
+
+class About(object):
+	def GET(self):		
+		return globs.render.aboutUs()
+	def POST(self):
+		return globs.render.aboutUs()		
+		
+		
 class Email(object):
 	def GET(self):
 	
@@ -95,7 +127,7 @@ class Email(object):
 		email = "stephenhuang1@gmail.com"
 		hashedemail = globs.sha512_crypt.encrypt(email)
 		# TODO ==== STORE THE HASHED EMAIL IN THE DATABASE
-		
+	
 		#TODO ==== SEND TO THE RIGHT EMAIL
 		link = baselink + hashedemail
 		web.sendmail('Register.IntraVires@gmail.com', 'stephenhuang1@gmail.com', 'Complete Your Intra Vires Registration', htmlbody(link), headers={'Content-Type':'text/html;charset=utf-8'})
@@ -107,7 +139,6 @@ class EmailResponse(object):
 		data = web.input()
 		print data
 		hashedemail = data.id
-		print "1"
 		#raise web.seeother('/register')
 		#TODO --- COMPARE THE HASHED EMAIL WITH THE DATABASE
 		user_query = globs.db.query("SELECT * FROM users WHERE email_hash=$hash", vars={'hash':hashedemail})
@@ -166,6 +197,26 @@ class Terms(object):
 	def GET(self):
 		return globs.render.termsOfUse()		
 
+
+'''	
+passwords_match = form.Validator("Passwords didn't match.", lambda i: i.password == i.password_again)			
+username_required = form.Validator("Username not provided", bool)
+password_required = form.Validator("Password not provided", bool)
+password_length = form.Validator("Password length should be minimum 7 characters", lambda p: p is None or len(p) >= 7)
+
+signup_form =form.Form(
+						form.Textbox('username', username_required, placeholder = "email", note ="", class_ = "input"),
+						form.Password('password',  placeholder = "password", class_ = "input"),
+						form.Password('password_again',  placeholder = "password again", class_ = "input"),
+						validators = [passwords_match]		
+						)
+						
+login_form = form.Form(
+						form.Textbox('username', username_required, placeholder = "email", note ="", class_ = "input"),
+						form.Password('password', password_required, placeholder = "password", class_ = "input")
+						)
+'''
+
 class Register(object):
 	
 	def GET(self):
@@ -181,13 +232,13 @@ class Register(object):
 			if (result == False):
 				my_signup['username'].note = "username already there!"
 				return globs.render.signup(my_signup)
+			''' FOR KEVIN
+			email stuff goes here
 			else:
-				get_email_hash = globs.db.query("SELECT email_hash FROM users WHERE email=$id", vars={'id':email})[0]
-				htmlbody = web.template.frender('webclient/templates/email/email.html')
-				baselink = "http://www.intra-vires.com/email/response?id="
-				link = baselink + get_email_hash.email_hash
-				web.sendmail('Register.IntraVires@gmail.com', email, 'Complete Your Intra Vires Registration', htmlbody(link), headers={'Content-Type':'text/html;charset=utf-8'})
-				return "Your email has been sent, please validate it before continuing"
+				web.seeother('/email?utf='+email)
+			'''
+		
+			return globs.render.form()
 		else:
 			print "didn't validate baby REGISTER"
 			print "note", my_signup['username'].note
@@ -248,6 +299,45 @@ class Logout:
 		session.loggedin = False
 		session.kill()
 		return globs.render.login(my_login)
+
+class Register(object):
+	def GET(self):
+		my_signup = globs.signup_form()
+		return globs.render.signup(my_signup)
+		
+	def POST(self):
+		my_signup = globs.signup_form()
+		if my_signup.validates(): 
+			email = my_signup['username'].value
+			password = my_signup['password_again'].value
+			result = handle_user(email, password, "register")
+			if (result == False):
+				my_signup['username'].note = "username already there!"
+				return globs.render.signup(my_signup)
+			''' FOR KEVIN
+			email stuff goes here
+			else:
+				web.seeother('/email?utf='+email)
+			'''
+			return globs.render.form()
+		else:
+			print "didn't validate baby REGISTER"
+			print "note", my_signup['username'].note
+			print my_signup['username'].value
+			print my_signup['password'].value
+			print my_signup['password_again'].value
+			return globs.render.form()
+			
+
+		
+		
+		
+
+
+class Terms(object):
+	def GET(self):
+		return globs.render.termsOfUse()		
+		
 
 def main():
 	app.internalerror = web.debugerror

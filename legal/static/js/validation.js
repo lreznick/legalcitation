@@ -352,7 +352,7 @@ var DictionaryValidator = jQuery('#Dictionary-Form').validate({
 				dictionary_edition: { 
 					maxlength:25,
 					regex: regex_edition,
-					regex2: regex_year,
+					//regex2: regex_year,
 					required: true
 				},
 				dictionary_word: { 
