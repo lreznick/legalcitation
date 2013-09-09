@@ -1,9 +1,9 @@
 import unicodedata
 import re #regexs
-from formcode.CanadianCase import *
-from formcode.UKCase import UKCaseClass as Uk
-from formcode.USCase import USCaseClass as Us
-from formcode.Book import BookClass as Book
+from CanadianCase import *
+from UKCase import UKCaseClass as Uk
+from USCase import USCaseClass as Us
+from Book import BookClass as Book
 
 regexStyle = re.compile(ur'^[\u0040-\u007E\s\u1D00-\u1D7F\u0020-\u003B\u00A3\u00A5\u00C0-\u00FF]+$', flags = re.UNICODE)
 regexParallel = re.compile(ur'^[a-zA-Z0-9-\.,;\'!\^&\(\)\]\[\s\u00E9\u00E8\u00C9\u00C8\u00C1\u00E1\u00F4]+$', flags = re.UNICODE)

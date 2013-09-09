@@ -1,14 +1,14 @@
 import web
 import json
 import globs
-from formcode.CanadianCase import *
-from formcode.Journal import *
-from formcode.Book import BookClass
-from formcode.UKCase import UKCaseClass
-from formcode.USCase import USCaseClass
-from formcode.webGrabber import *
+from CanadianCase import *
+from Journal import *
+from Book import BookClass
+from UKCase import UKCaseClass
+from USCase import USCaseClass
+from webGrabber import *
 from validator import *
-from formcode.storeCitation import *
+from storeCitation import *
 
 
 Uk = UKCaseClass()
@@ -16,7 +16,7 @@ Us = USCaseClass()
 Book = BookClass()
 
 urls = (
-	'/', 'MainForm'
+	'', 'MainForm',
 	'/CanadaCase', 'Canada',
 	'/canlii', 'Canlii',
 	'/parallel', 'Parallel',
@@ -48,7 +48,8 @@ def CreateFormClass(type,form):
 	return f		
 	
 class MainForm(object):
-		def POST(self):
+		def GET(self):
+			print "here"
 			return globs.render.form()
 			
 class storeCanada(object):
