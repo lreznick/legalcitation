@@ -13,8 +13,8 @@ def init():
 	global pwd_context
 	global template_globals
 	
-	db = web.database(dbn='mysql', host='127.0.0.1', port=3306, user='root', pw='root', db='intravires')
-#	db = web.database(dbn='mysql', host='127.0.0.1', port=3306, user='root', pw='Jeenyus1', db='intravires')
+#	db = web.database(dbn='mysql', host='127.0.0.1', port=3306, user='root', pw='root', db='intravires')
+	db = web.database(dbn='mysql', host='127.0.0.1', port=3306, user='root', pw='Jeenyus1', db='intravires')
 	
 	
 	template_globals ={ 'str': str }
@@ -62,8 +62,8 @@ login_form = form.Form(
 
 def verify_user_hash(unverified_pwd, query_result):
 	#print "INSIDE VERIFY USER!!!!"
-	v_salt = query_result.salt
-	v_hash = query_result.hash
+	v_salt = query_result.password_salt
+	v_hash = query_result.password_hash
 	ok = pwd_context.verify(unverified_pwd + v_salt, v_hash)
 	#print ok
 	return ok
