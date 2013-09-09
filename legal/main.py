@@ -125,6 +125,7 @@ class EmailResponse(object):
 			if(user_row.email_hash == hashedemail):
 				user_id = user_row.user_id
 				globs.db.query("UPDATE users SET active=1 WHERE user_id=$userID", vars={'userID':user_id})
+				#TODO ADD signupGetInfo for further information collection.
 				return globs.render.login(my_login)
 			else:
 				return globs.render.login(my_login)
