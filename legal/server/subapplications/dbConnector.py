@@ -13,7 +13,8 @@ def handle_user(user_email, password, function_type):
 		print check_username
 		if (function_type == "register"):
 			if not list(check_username):
-				hashobj = globs.PasswordHash(password)
+				pass_hashobj = globs.PasswordHash(password)
+				email_hashobj = globs.PasswordHash(user_email)
 				user_ident = globs.db.query ("SELECT MAX(user_id) as highestId from users")[0]
 
 				if (user_ident.highestId == None):
@@ -21,7 +22,7 @@ def handle_user(user_email, password, function_type):
 				else:
 					userID = user_ident.highestId + 1
 
-				sequence_id = globs.db.insert('users',  user_id = userID, email = user_email, hash = hashobj.hashedpw, salt = hashobj.salt , create_date = web.SQLLiteral("NOW()"))
+				sequence_id = globs.db.insert('users',  user_id = userID, email = user_email, active = 0, password_hash = pass_hashobj.hashedpw, password_salt = pass_hashobj.salt, create_date = web.SQLLiteral("NOW()"), email_hash = email_hashobj.hashedpw, email_salt = email_hashobj.salt)
 			else:
 				print "I occur when the login username is already taken"
 				return False

@@ -95,7 +95,7 @@ class Email(object):
 		email = "stephenhuang1@gmail.com"
 		hashedemail = globs.sha512_crypt.encrypt(email)
 		# TODO ==== STORE THE HASHED EMAIL IN THE DATABASE
-	
+		
 		#TODO ==== SEND TO THE RIGHT EMAIL
 		link = baselink + hashedemail
 		web.sendmail('Register.IntraVires@gmail.com', 'stephenhuang1@gmail.com', 'Complete Your Intra Vires Registration', htmlbody(link), headers={'Content-Type':'text/html;charset=utf-8'})
@@ -107,9 +107,24 @@ class EmailResponse(object):
 		data = web.input()
 		print data
 		hashedemail = data.id
+		print "1"
 		#raise web.seeother('/register')
 		#TODO --- COMPARE THE HASHED EMAIL WITH THE DATABASE
-		return hashedemail
+		user_query = globs.db.query("SELECT * FROM users WHERE email_hash=$hash", vars={'hash':hashedemail})
+		print "2"
+		if user_query == None:
+			return "YOu done goofed"
+		else:
+			print "3"
+			user_row = user_query[0]
+			if(user_row.email_hash == hashedemail):
+				print "4"
+				user_id = user_row.id
+				globs.db.query("UPDATE users SET active=1 WHERE user_id=$userID", vars={'userID':user_id})
+				return "shit worked soon"
+			else:
+				print "5"
+				return "Hashes Didn't Match"
 	
 class Test(object):
 	def GET(self):
@@ -151,26 +166,6 @@ class Terms(object):
 	def GET(self):
 		return globs.render.termsOfUse()		
 
-
-'''	
-passwords_match = form.Validator("Passwords didn't match.", lambda i: i.password == i.password_again)			
-username_required = form.Validator("Username not provided", bool)
-password_required = form.Validator("Password not provided", bool)
-password_length = form.Validator("Password length should be minimum 7 characters", lambda p: p is None or len(p) >= 7)
-
-signup_form =form.Form(
-						form.Textbox('username', username_required, placeholder = "email", note ="", class_ = "input"),
-						form.Password('password',  placeholder = "password", class_ = "input"),
-						form.Password('password_again',  placeholder = "password again", class_ = "input"),
-						validators = [passwords_match]		
-						)
-						
-login_form = form.Form(
-						form.Textbox('username', username_required, placeholder = "email", note ="", class_ = "input"),
-						form.Password('password', password_required, placeholder = "password", class_ = "input")
-						)
-'''
-
 class Register(object):
 	
 	def GET(self):
@@ -186,13 +181,13 @@ class Register(object):
 			if (result == False):
 				my_signup['username'].note = "username already there!"
 				return globs.render.signup(my_signup)
-			''' FOR KEVIN
-			email stuff goes here
 			else:
-				web.seeother('/email?utf='+email)
-			'''
-		
-			return globs.render.form()
+				get_email_hash = globs.db.query("SELECT email_hash FROM users WHERE email=$id", vars={'id':email})[0]
+				htmlbody = web.template.frender('webclient/templates/email/email.html')
+				baselink = "http://www.intra-vires.com/email/response?id="
+				link = baselink + get_email_hash.email_hash
+				web.sendmail('Register.IntraVires@gmail.com', email, 'Complete Your Intra Vires Registration', htmlbody(link), headers={'Content-Type':'text/html;charset=utf-8'})
+				return "Your email has been sent, please validate it before continuing"
 		else:
 			print "didn't validate baby REGISTER"
 			print "note", my_signup['username'].note
