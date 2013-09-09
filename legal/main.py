@@ -1,4 +1,4 @@
-#The main program that runs everything. When the
+#As of now, the main program that runs everything. When the
 # user requests the website, it grabs the html file and opens it up. 
 #	Website opened at http://localhost:8080 It then waits for an input 
 #from the user and then grabs that information. then calls webgrabber which grabs links
@@ -29,8 +29,10 @@ from server.formcode.formHandler import *
 from server.account.accountHandler import *
 from server.citations.citationHandler import *
 
+
 import web, json
 import globs
+#web.config.debug = False #-------------- TAKE ME OUT LATER
 globs.init()          # Call only once
 web.config.debug = True #  Change me ------------
 global session
@@ -47,6 +49,7 @@ urls = (
 	'/email/response', 'EmailResponse',
 	'/form', app_formHandler,	
 	'/instructional', 'Instructional',
+	'/instructional', 'Instructionalz',
 	'/login', 'Login',
 	'/logout', 'Logout',
 	'/register', 'Register',
@@ -56,6 +59,7 @@ urls = (
 )
 
 app = web.application(urls, globals(),autoreload=True)
+#render = web.template.render('webclient/templates/', base = 'layout
 
 #Configure session parameters
 web.config.session_parameters['cookie_name'] = 'chocolate_chip_local'
@@ -79,6 +83,7 @@ def session_hook():
 
 #Adding session_hook to its own processor
 app.add_processor(web.loadhook(session_hook))
+
 globs.template_globals.update(context=session)
 
 
@@ -110,6 +115,7 @@ class About(object):
 		
 class Email(object):
 	def GET(self):
+	
 		data = web.input()
 		email = data.utf
 		htmlbody = web.template.frender('webclient/templates/email/email.html')
@@ -117,6 +123,7 @@ class Email(object):
 		email = "stephenhuang1@gmail.com"
 		hashedemail = globs.sha512_crypt.encrypt(email)
 		# TODO ==== STORE THE HASHED EMAIL IN THE DATABASE
+	
 		#TODO ==== SEND TO THE RIGHT EMAIL
 		link = baselink + hashedemail
 		web.sendmail('Register.IntraVires@gmail.com', 'stephenhuang1@gmail.com', 'Complete Your Intra Vires Registration', htmlbody(link), headers={'Content-Type':'text/html;charset=utf-8'})
@@ -130,18 +137,47 @@ class EmailResponse(object):
 		hashedemail = data.id
 		#raise web.seeother('/register')
 		#TODO --- COMPARE THE HASHED EMAIL WITH THE DATABASE
-		return hashedemail
+		user_query = globs.db.query("SELECT * FROM users WHERE email_hash=$hash", vars={'hash':hashedemail})
+		print "2"
+		if user_query == None:
+			return "YOu done goofed"
+		else:
+			print "3"
+			user_row = user_query[0]
+			if(user_row.email_hash == hashedemail):
+				print "4"
+				user_id = user_row.id
+				globs.db.query("UPDATE users SET active=1 WHERE user_id=$userID", vars={'userID':user_id})
+				return "shit worked soon"
+			else:
+				print "5"
+				return "Hashes Didn't Match"
 	
+class Index(object):
+	def GET(self):
+		return globs.render.form() #index is the name of the html in /templates
+
+	def POST(self):
+		form = web.input()
+		webURL = "%s" % (form.styleofcause)
+		return webURL
+
 class Instructional(object):
 	def GET(self):
 		data=  web.input()
-		return globs.render.instructional(data.linkLocation)
-
-'''
-	def GET(self, name):
-		#name is actually linkLocation
-		return globs.render.instructional(None)'''
+		return globs.render.instructional(data.linkLocation)	
 		
+class About(object):
+	def GET(self):		
+		return globs.render.aboutUs()
+	
+	def POST(self):
+		return globs.render.aboutUs()
+
+class Terms(object):
+	def GET(self):
+		return globs.render.termsOfUse()		
+			
 class Login(object):
 	def GET(self):
 		print "CHECKING FOR COOKIES AT LOGIN!!!!!!!"
@@ -209,12 +245,13 @@ class Register(object):
 			if (result == False):
 				my_signup['username'].note = "username already there!"
 				return globs.render.signup(my_signup)
-			''' FOR KEVIN
-			email stuff goes here
 			else:
-				web.seeother('/email?utf='+email)
-			'''
-			return globs.render.form()
+				get_email_hash = globs.db.query("SELECT email_hash FROM users WHERE email=$id", vars={'id':email})[0]
+				htmlbody = web.template.frender('webclient/templates/email/email.html')
+				baselink = "http://www.intra-vires.com/email/response?id="
+				link = baselink + get_email_hash.email_hash
+				web.sendmail('Register.IntraVires@gmail.com', email, 'Complete Your Intra Vires Registration', htmlbody(link), headers={'Content-Type':'text/html;charset=utf-8'})
+				return "Your email has been sent, please validate it before continuing"
 		else:
 			print "didn't validate baby REGISTER"
 			print "note", my_signup['username'].note
@@ -223,11 +260,6 @@ class Register(object):
 			print my_signup['password_again'].value
 			return globs.render.form()
 			
-
-		
-		
-		
-
 
 class Terms(object):
 	def GET(self):
