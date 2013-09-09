@@ -116,52 +116,23 @@ class EmailResponse(object):
 		data = web.input()
 		print data
 		hashedemail = data.id
-		#raise web.seeother('/register')
-		#TODO --- COMPARE THE HASHED EMAIL WITH THE DATABASE
 		user_query = globs.db.query("SELECT * FROM users WHERE email_hash=$hash", vars={'hash':hashedemail})
-		print "2"
+		my_login = globs.login_form()
 		if user_query == None:
 			return "YOu done goofed"
 		else:
-			print "3"
 			user_row = user_query[0]
-			print "COMPARING HASHES"
-			print hashedemail
-			print type(hashedemail)
-			hashedemail_str = hashedemail.encode('ascii', 'ignore')
-			print "TESTING CONVERSION"
-			print type(hashedemail_str)
-			print user_row.email_hash
-			print type(user_row.email_hash)
 			if(user_row.email_hash == hashedemail):
-				print "4"
 				user_id = user_row.user_id
 				globs.db.query("UPDATE users SET active=1 WHERE user_id=$userID", vars={'userID':user_id})
-				return "shit worked soon"
+				return globs.render.login(my_login)
 			else:
-				print "5"
-				return "Hashes Didn't Match"
-	
-class Index(object):
-	def GET(self):
-		return globs.render.form() #index is the name of the html in /templates
-
-	def POST(self):
-		form = web.input()
-		webURL = "%s" % (form.styleofcause)
-		return webURL
+				return globs.render.login(my_login)
 
 class Instructional(object):
 	def GET(self):
 		data=  web.input()
-		return globs.render.instructional(data.linkLocation)	
-		
-class About(object):
-	def GET(self):		
-		return globs.render.aboutUs()
-	
-	def POST(self):
-		return globs.render.aboutUs()
+		return globs.render.instructional(data.linkLocation)
 
 class Terms(object):
 	def GET(self):
@@ -186,16 +157,24 @@ class Login(object):
 			password = my_login['password'].value
 
 			result = handle_user(email, password, "login")
-
+			
 			if (result == False):
 				print "something unexpected has occured"
 				my_login['username'].note = "Invalid Username/Password Combination"
 				return globs.render.login(my_login)
 			else:
+				
 				print "THIS MEANS YOU GOT VALIDATED BABY!(LOGIN)"
-				session.loggedin = True
-				session.username = email
-				raise web.seeother("/citations")
+				query_result = globs.db.query("SELECT * FROM users WHERE user_id=$userID", vars={'userID':email})[0]
+				if query_result.active:
+					session.loggedin = True
+					session.username = email
+					raise web.seeother("/citations")
+				else:
+					my_login['username'].note = "Please Validate Your Account."
+					if (session.loggedin == True):					
+						session.loggedin = False
+					return globs.render.login(my_login)
 		else:
 			print "didn't validate baby! (LOGIN)"
 			print "note", my_signup['username'].note
@@ -240,7 +219,7 @@ class Register(object):
 				baselink = "http://www.intra-vires.com/email/response?id="
 				link = baselink + get_email_hash.email_hash
 				web.sendmail('Register.IntraVires@gmail.com', email, 'Complete Your Intra Vires Registration', htmlbody(link), headers={'Content-Type':'text/html;charset=utf-8'})
-				return "Your email has been sent, please validate it before continuing"
+				return globs.render.signupEmailSent(email)
 		else:
 			print "didn't validate baby REGISTER"
 			print "note", my_signup['username'].note
