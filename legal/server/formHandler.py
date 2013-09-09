@@ -16,6 +16,7 @@ Us = USCaseClass()
 Book = BookClass()
 
 urls = (
+	'/', 'MainForm'
 	'/CanadaCase', 'Canada',
 	'/canlii', 'Canlii',
 	'/parallel', 'Parallel',
@@ -46,6 +47,10 @@ def CreateFormClass(type,form):
 	f = FormContainer(type,form)
 	return f		
 	
+class MainForm(object):
+		def POST(self):
+			return globs.render.form()
+			
 class storeCanada(object):
 		def POST(self):
 			form = web.input();
