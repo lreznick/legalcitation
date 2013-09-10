@@ -14,56 +14,64 @@ urls = (
 	'/Book', 'Book'
 )
 
+def CreateCitation(styleofcause, formType, cit):
+	print " IN CREATE"
+	session_cookie = web.cookies().get('chocolate_chip_local')
+	user_name = web.ctx.session.username
+	userQuery = globs.db.query("SELECT user_id FROM users WHERE email=$user", vars={'user':user_name})[0]
+	user = userQuery.user_id
+	citationID = globs.db.insert('citation',  title = styleofcause, comments = "",  citation = cit, user_id = user, formtype = formType , date_created = web.SQLLiteral("NOW()"), date_modified = web.SQLLiteral("NOW()") , finished = 1)
+	return user, citationID
+	
 	
 	
 class Canada(object):
 	def POST(self):
-		print "IN CANADA"
 		form = web.input()
+		# IDs[0] == user_id
+		# IDs[1] == citation_id
+		IDs = CreateCitation(form.styleofcause, "CanadaCase", "ooooh im a citation")
+		form = web.input()
+		
 		dissenting = False
 		if form.has_key('judge_dissenting'):
 			dissenting = True
-		
-		input_dict = {
-			'styleofcause'		: "%s" % (form.styleofcause),
-			'parallelcitation'	: "%s" % (form.parallel),
-			'year'					: "%s" % (form.year),
-			'court'				: "%s" % (form.court),
-			'shortform' 			: "%s" % (form.shortform),
-			'judge'				: "%s" % (form.judge),
-			'judgeDissenting' : dissenting,
-		
-			'citingStyle' 		: "%s" % (form.citing_styleofcause),
-			'citingParallel'		: "%s" % (form.citing_parallel),
-			'citingYear' 			: "%s" % (form.citing_year),
-			'citingCourt'		: "%s" % (form.citing_court),
-			
-			'pinciteSelection'  : "%s" % (form.pincite_selection),
-			'pinciteReporter'	: "%s" % (form.pincite_radio),
-			'pinciteParapageNumber'		: "%s" % (form.pincite_input),
-			
-			'historyaff1'  		: "%s" % (form.history_aff1),
-			'historyParallel1'	: "%s" % (form.history_parallel1),
-			'historyYear1'		: "%s" % (form.history_year1), 
-			'historyCourt1'		: "%s" % (form.history_court1),
-			
-			'historyaff2'  		: "%s" % (form.history_aff2),
-			'historyParallel2'	: "%s" % (form.history_parallel2),
-			'historyYear2'		: "%s" % (form.history_year2), 
-			'historyCourt2'		: "%s" % (form.history_court2),
-			
-			'historyaff3' 		: "%s" % (form.history_aff3),
-			'historyParallel3'	: "%s" % (form.history_parallel3),
-			'historyYear3'		: "%s" % (form.history_year3),
-			'historyCourt3'		: "%s" % (form.history_court3),	
-			
-			'leaveSelection' 	: "%s" % (form.leaveToAppeal_selection),
-			'leaveCourt'		 	: "%s" % (form.leaveToAppeal_court),
-			'leaveDocket'	  	: "%s" % (form.leaveToAppeal_docket)
-		}
-		
-		globs.db.insert('canadian_case',  where = web.db.sqlwhere(input_dict), _test=True)
-		print globs.db.insert('canadian_case',  where = web.db.sqlwhere(input_dict), _test=True)
+
+		globs.db.insert('canada_case',
+			user_id				= IDs[0],
+			citation_id			= IDs[1],
+			styleofcause		= (form.styleofcause),
+			parallelcitation		= (form.parallel),
+			year					= (form.year),
+			court					= (form.court),
+			shortform 			= (form.shortform),
+			judge					= (form.judge),
+			judgeDissenting  	= dissenting,
+			pinciteSelection 	= (form.pincite_selection),
+			pinciteReporter	= (form.pincite_radio),
+			pinciteParapageNumber		= (form.pincite_input),
+			citingStyle 			= (form.citing_styleofcause),
+			citingParallel		= (form.citing_parallel),
+			citingYear 			= (form.citing_year),
+			citingCourt			= (form.citing_court),
+			historyaff1  		= (form.history_aff1),
+			historyParallel1	= (form.history_parallel1),
+			historyYear1		= (form.history_year1), 
+			historyCourt1		= (form.history_court1),
+			historyaff2  		= (form.history_aff2),
+			historyParallel2	= (form.history_parallel2),
+			historyYear2		= (form.history_year2), 
+			historyCourt2		= (form.history_court2),
+			historyaff3 			= (form.history_aff3),
+			historyParallel3	= (form.history_parallel3),
+			historyYear3		= (form.history_year3),
+			historyCourt3		= (form.history_court3),	
+			leaveSelection 	= (form.leaveToAppeal_selection),
+			leaveCourt		 	= (form.leaveToAppeal_court),
+			leaveDocket	  	= (form.leaveToAppeal_docket),
+			result					= "SUP"
+		)
+
 
 		
 class US(object):
@@ -99,7 +107,7 @@ class US(object):
 			'historyYear2'		: "%s" % (form.history_year2), 
 			'historyCourt2'		: "%s" % (form.history_court2),
 			
-			'historyaff3' 			: "%s" % (form.history_aff3),
+			'historyaff3' 		: "%s" % (form.history_aff3),
 			'historyParallel3'	: "%s" % (form.history_parallel3),
 			'historyYear3'		: "%s" % (form.history_year3),
 			'historyCourt3'		: "%s" % (form.history_court3),	
@@ -108,7 +116,7 @@ class US(object):
 			'leaveCourt'		 	: "%s" % (form.leaveToAppeal_court),
 			'leaveDocket'	  	: "%s" % (form.leaveToAppeal_docket)
 		}
-		globs.db.insert('us_case',  where = web.db.sqlwhere(input_dict), _test=True)
+		globs.db.insert('us_case',  where = web.db.sqlwhere(input_dict))
 
 
 		
