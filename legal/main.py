@@ -93,7 +93,8 @@ globs.template_globals.update(context=session)
 class Test(object):
 	def GET(self):
 		print "SUP\n\n\n\n\n"
-		return globs.render.signupEmailSent("stephen")
+		#return globs.render.signupEmailSent("stephen")
+		
 	
 class Index(object):
 	def GET(self):
@@ -169,9 +170,10 @@ class Login(object):
 			else:
 				
 				print "THIS MEANS YOU GOT VALIDATED BABY!(LOGIN)"
-				query_result = globs.db.query("SELECT * FROM users WHERE user_id=$userID", vars={'userID':email})[0]
-				print query_result.active
-				print type(query_result.active)
+				#query_result = globs.db.query("SELECT * FROM users WHERE email=$userID", vars={'userID':email})
+				#print "TEST"
+				query_result = globs.db.query("SELECT * FROM users WHERE email=$userID", vars={'userID':email})[0]
+				print query_result
 				if query_result.active:
 					session.loggedin = True
 					session.username = email

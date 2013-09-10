@@ -583,7 +583,7 @@ formClass.prototype.addEvents = function(){
 	$('#' +this.name +'-Container .submitButton').bind('click', {context: this}, this.submitClick);
 	$('#' +this.name +'-Container .browsebutton').bind('click', {context: this}, this.browseClick);
 	$('#' +this.name +'-Container #addHistory').bind('click', {context: this}, this.addHistoryClick);
-	$('#' +this.name +'-Container #storeCitationModal').bind('click', {context: this}, this.addStoreCitationClick);
+	$('#' +this.name +'-Container #storeCitationModalClick').bind('click', {context: this}, this.addStoreCitationClick);
 	
 }
 
@@ -691,11 +691,15 @@ formClass.prototype.storeCitation= function(){
 	var Name = this.name;  //ex. #CanadaCase
 
 	if ( this.validator.form() == true){		
-		
+		var submitData = jQuery(id +'-Form').serializeArray()
+		citation = jQuery(id +'-Container .results').html()
+		comments = jQuery(id + '-Container .citationCommentArea').val()
+		console.log(comments);
+		//submitData.push({result : citation, comments: comments}) 
 		jQuery(id +"-Container .loading-gif").show();        
 		jQuery.ajax({ 
 			type: "POST", 
-			data: jQuery(id +'-Form').serialize(),
+			data: jQuery(id +'-Form').serializeArray(),
 			url:'/form/store/'+Name,
 			dataType: 'json',
 			success: function(data) {
