@@ -126,8 +126,11 @@ class EmailResponse(object):
 				user_id = user_row.user_id
 				globs.db.query("UPDATE users SET active=1 WHERE user_id=$userID", vars={'userID':user_id})
 				#TODO ADD signupGetInfo for further information collection.
-				return globs.render.login(my_login)
+				print "111111111111111111111111"
+				raise web.seeother('/login')
+				#return globs.render.login(my_login)
 			else:
+				print "2222222222222222222222222"
 				return globs.render.login(my_login)
 
 class Instructional(object):
@@ -167,6 +170,8 @@ class Login(object):
 				
 				print "THIS MEANS YOU GOT VALIDATED BABY!(LOGIN)"
 				query_result = globs.db.query("SELECT * FROM users WHERE user_id=$userID", vars={'userID':email})[0]
+				print query_result.active
+				print type(query_result.active)
 				if query_result.active:
 					session.loggedin = True
 					session.username = email
