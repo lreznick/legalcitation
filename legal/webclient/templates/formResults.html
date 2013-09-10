@@ -1,4 +1,4 @@
-	
+$def with (formtype)	
 		<!-- Submit Button -->
 	<button  type ='button' class="btn btn-danger submitButton" > Generate!</button>
 	
@@ -26,8 +26,10 @@
 	</style>
 	<font class ="results"> </font>
 	
-	</div>	
-<a data-toggle="modal" id ="storeCitationModal-btn" href="#storeCitationModal" class="btn">Save Citation</a>		
+	</div>
+		$code:
+			id = "#" + formtype + "-storeCitationModal"
+<a data-toggle="modal" id ="storeCitationModal-btn" href=$id class="btn">Save Citation</a>		
 </div>
 	<img src ="./static/img/loading.gif" class = "loading-gif" >	
 	

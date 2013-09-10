@@ -256,7 +256,8 @@ var BooktooltipList = [
 ]	
 
 var BookTooltipOffsets =[
-'#Book-Container'
+'#Book-Container',
+'#BookPublisher'
 ]
 
 
@@ -278,7 +279,8 @@ var DictionarytooltipList = [
 ]	
 
 var DictionaryTooltipOffsets =[
-'#DictionaryTitle'
+'#Dictionary-Container',
+'#DictionaryTitle',
 ]
 /*
 

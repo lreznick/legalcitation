@@ -231,6 +231,11 @@ def ValidateUSPincite(f):
 	return f
 
 
+	
+	
+	
+	
+	
 '''*********     Validate Form Functions    *********'''
 
 def ValidateJournalArticle(f):
@@ -297,26 +302,39 @@ def ValidateJournalArticle(f):
 	return f
 	
 def ValidateBook(f):
-	authors				= "%s" % (f.form.authors)
-	editors				= "%s" % (f.form.editors)
-	verbatim				= "%s" % (f.form.verbatim)
+	editors					= False
+	verbatim				= False
+	noplace				= False
+	nopublisher			= False
+	noyear 				= False
 	
-	title					= "%s" % (f.form.title)
-	place				= "%s" % (f.form.place)
-	noplace 				= "%s" % (f.form.no_place)
-	if noplace: place = "no place"
+	if f.form.has_key('editors'):
+		editors = True
+	if f.form.has_key('verbatim'):
+		verbatim = True
+	if f.form.has_key('no_place'):
+		noplace =True
+	if f.form.has_key('no_publisher'):		
+		nopublisher = True
+	if f.form.has_key('no_year'):	
+		noyear = True
+	authors				= "%s" % (f.form.authors)
+	title						= "%s" % (f.form.title)
+	place					= "%s" % (f.form.place)
+	if noplace: 
+		place 				= "no place"
 	
 	publisher				= "%s" % (f.form.publisher)
-	nopublisher				= "%s" % (f.form.no_publisher)
-	if nopublisher: publisher = "no publisher"
+	if nopublisher: 
+		publisher 		= "no publisher"
 	
-	year				= "%s" % (f.form.year)
-	noyear				= "%s" % (f.form.no_year)
-	if noyear: year = "no year"
+	year						= "%s" % (f.form.year)
+	if noyear:
+		year					= "no year"
 	
 	volume					= "%s" % (f.form.volume)
 	edition					= "%s" % (f.form.edition)
-	dateconsulted 			= "%s" % (f.form.date_consulted)
+	dateconsulted 	= "%s" % (f.form.date_consulted)
 	extra					= "%s" % (f.form.extra)
 	
 	pinpointSelection = "%s" % (f.form.pinpoint_selection)
@@ -326,6 +344,7 @@ def ValidateBook(f):
 	pinpointPageCheck= False
 	pinpointFoot1		= "%s" % (f.form.pinpoint_form3)
 	pinpointFoot2		= "%s" % (f.form.pinpoint_form4)
+	pinpointChapter	= "%s" % (f.form.pinpoint_form0)
 	pinpointList =[] #list of three
 	if f.form.has_key('pinpoint_page_check'):
 		pinpointPageCheck= True

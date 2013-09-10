@@ -14,46 +14,7 @@ jQuery("#thetestbutton").click(function(){
 })
 
 	
-/*
-=============================================
-Journal Articles
-=============================================
-*/		
 
-function hidePinPoint(){
-
-	jQuery('#Journal #pinpoint-form1').hide();
-	jQuery('#Journal-Form #pinpoint-form2').hide();
-	jQuery('#Journal-Form #pinpoint-form3').hide();
-	jQuery('#Journal-Form #pinpoint-form4').hide();
-	jQuery('#Journal-Form #pinpoint-check1').hide();
-	jQuery('#Journal-Form #pinpoint-check2').hide();
-}
-
-hidePinPoint();
-
-jQuery('#Journal-Form #pinpoint-selection').change(function(){
-	var txt = jQuery(this).val();
-	var id ='#Journal-Form '
-	hidePinPoint();
-	
-	if (txt == "None"){
-	
-	}
-	else if (txt =="pinpoint_para"){
-			jQuery('#Journal-Form #pinpoint-check1').show();
-			jQuery(id+ '#pinpoint-form1').show();
-		}
-	else if (txt =="pinpoint_page"){
-			jQuery('#Journal-Form #pinpoint-check2').show();
-			jQuery(id+' #pinpoint-form2').show();
-		}
-	else if (txt =="pinpoint_foot"){
-			jQuery(id +'#pinpoint-form3').show();
-			jQuery(id +'#pinpoint-form4').show();
-		}
-	
-});
 
 
 /*
@@ -361,9 +322,60 @@ jQuery('#UKCase-Container .resetButton').click(function(){
 	uk.hide();
 	resetWrapper(id)
 	//tooltips
-	jQuery(id+'#tooltips').html("");
-
+	jQuery('#UKCase-tooltips').html("");
 })	
+
+/*
+=============================================
+Journal Articles
+=============================================
+*/		
+
+function hidePinPoint(){
+
+	jQuery('#Journal #pinpoint-form1').hide();
+	jQuery('#Journal-Form #pinpoint-form2').hide();
+	jQuery('#Journal-Form #pinpoint-form3').hide();
+	jQuery('#Journal-Form #pinpoint-form4').hide();
+	jQuery('#Journal-Form #pinpoint-check1').hide();
+	jQuery('#Journal-Form #pinpoint-check2').hide();
+}
+
+hidePinPoint();
+
+jQuery('#Journal-Form #pinpoint-selection').change(function(){
+	var txt = jQuery(this).val();
+	var id ='#Journal-Form '
+	hidePinPoint();
+	
+	if (txt == "None"){
+	
+	}
+	else if (txt =="pinpoint_para"){
+			jQuery('#Journal-Form #pinpoint-check1').show();
+			jQuery(id+ '#pinpoint-form1').show();
+		}
+	else if (txt =="pinpoint_page"){
+			jQuery('#Journal-Form #pinpoint-check2').show();
+			jQuery(id+' #pinpoint-form2').show();
+		}
+	else if (txt =="pinpoint_foot"){
+			jQuery(id +'#pinpoint-form3').show();
+			jQuery(id +'#pinpoint-form4').show();
+		}
+	
+});
+
+	/***********        Reset       ***********/		
+jQuery('#Journal-Container .resetButton').click(function(){
+	console.log("wdup");
+	var id = "#Journal-Container"
+	JournalArticleValidator.resetForm();
+	journal.hide();
+	//tooltips
+	jQuery('#Journal-tooltips').html("");
+})
+
 /*
 =============================================
 Book
@@ -408,10 +420,17 @@ jQuery('#Book-Container #pinpoint-selection').change(function(){
 	else if (txt == "pinpoint_chapter"){
 		jQuery('#Book-Container #pinpoint-form0').show();
 	}
-	
-	
-	
 });
+
+	/***********        Reset       ***********/		
+jQuery('#Book-Container .resetButton').click(function(){
+	console.log("wdup");
+	var id = "#Book-Container"
+	BookValidator.resetForm();
+	book.hide()
+	//tooltips
+	jQuery('#Book-tooltips').html("");
+})	
 
 	
 
@@ -577,6 +596,11 @@ formClass.prototype.init = function(){
 		placement: 'right',
 		title: "Fill out Parallel Citations before pinpointing."
 	});
+	
+	jQuery('#' +this.name +'-storeCitationModal').modal({
+		backdrop: true,
+		show: false
+	})
 }
 
 formClass.prototype.addEvents = function(){
@@ -584,11 +608,8 @@ formClass.prototype.addEvents = function(){
 	$('#' +this.name +'-Container .browsebutton').bind('click', {context: this}, this.browseClick);
 	$('#' +this.name +'-Container #addHistory').bind('click', {context: this}, this.addHistoryClick);
 	$('#' +this.name +'-Container #storeCitationModalClick').bind('click', {context: this}, this.addStoreCitationClick);
+	$('#' +this.name +'-Container #storeCitationModal-btn').bind('click', {context: this}, this.addModalClick);
 	
-}
-
-formClass.prototype.getName = function(){
-	return this.name;
 }
 	
 formClass.prototype.hide = function(){
@@ -604,7 +625,8 @@ var id = '#'+ this.name;  //ex. #CanadaCase
 var Name = this.name;  //ex. #CanadaCase
 
 	if ( this.validator.form() == true){		
-		
+		 var test = jQuery(id +'-Form').serialize()
+		 
 		jQuery(id +"-Container .loading-gif").show();        
 		jQuery.ajax({ 
 			type: "POST", 
@@ -681,7 +703,27 @@ formClass.prototype.addHistory = function(){
 		}
 	}
 	
- formClass.prototype.addStoreCitationClick= function (ev){
+formClass.prototype.addModalClick = function(ev){
+	var self = ev.data.context;
+	self.modalClick();
+}
+formClass.prototype.modalClick= function(){
+
+	id= '#'+ this.name;
+	console.log(this.name =='Book');
+	if (this.name =="Book"|| this.name =="Dictionary"||this.name =="Journal") {
+		title = jQuery(id + 'Title').val()
+	}
+	else{
+		title= jQuery(id +'Style').val()
+	}
+	citation = jQuery(id +'-Container .results').html()
+	jQuery('#'+ this.name+'-storeCitationModal #modal-title').html(title);
+	jQuery('#'+ this.name+'-storeCitationModal #modal-citation').html(citation);
+	
+}
+
+formClass.prototype.addStoreCitationClick= function (ev){
         var self = ev.data.context;
         self.storeCitation();
     }		
@@ -691,15 +733,20 @@ formClass.prototype.storeCitation= function(){
 	var Name = this.name;  //ex. #CanadaCase
 
 	if ( this.validator.form() == true){		
+		// Add Extra fields - Conver the form into a serial array. Each form input (ex. styleof cause)
+		// has its own index in the array like so, {name: 'styleofcause', value: "jonson v. jonson.}
 		var submitData = jQuery(id +'-Form').serializeArray()
-		citation = jQuery(id +'-Container .results').html()
-		comments = jQuery(id + '-Container .citationCommentArea').val()
-		console.log(comments);
-		//submitData.push({result : citation, comments: comments}) 
+		var citation = jQuery(id +'-Container .results').html()
+		var comments = jQuery(id + '-Container .citationCommentArea').val()
+		// add the citation and additional comments
+		submitData.push({name :'result', value: citation})
+		submitData.push({name :'comments', value: comments})
+		
+				
 		jQuery(id +"-Container .loading-gif").show();        
 		jQuery.ajax({ 
 			type: "POST", 
-			data: jQuery(id +'-Form').serializeArray(),
+			data: submitData,
 			url:'/form/store/'+Name,
 			dataType: 'json',
 			success: function(data) {
@@ -715,7 +762,7 @@ formClass.prototype.storeCitation= function(){
 		return false; 
 	}	
 }
- formClass.prototype.submitClick= function (ev){
+formClass.prototype.submitClick= function (ev){
         var self = ev.data.context;
         self.submitForm();
 		//return false;
@@ -739,6 +786,7 @@ var tooltipClass = function(name, tooltipList,offsets){
 tooltipClass.prototype.addEvents = function(){
 	//console.log('#' +this.name +'-Container input');
 	$('#' +this.name +'-Container input').bind('focus', {context: this}, this.onFocus);	
+	$('#' +this.name +'-Container textarea').bind('focus', {context: this}, this.onFocus);	
 }
 tooltipClass.prototype.onFocus= function (ev){
         var self = ev.data.context;
@@ -823,8 +871,9 @@ ukhidelist = ['.optionalCourt', '#court-optional','.court-input','#reporter-cont
 uktooltip = new tooltipClass('UKCase', UKtooltipList, UKTooltipOffsets) 
 uk = new formClass('UKCase',ukhidelist, UKCaseValidator);
 
-journal = new formClass('Journal',['#reporter-container'], JournalArticleValidator);
+journalhidelist =["#reporter-container","#pinpoint-form1","#pinpoint-form2","#pinpoint-form3","#pinpoint-form4","#pinpoint-check1","#pinpoint-check2"]
 journaltooltip = new tooltipClass('Journal',JournaltooltipList,JournalTooltipOffsets) 
+journal = new formClass('Journal',journalhidelist, JournalArticleValidator);
 
 bookhidelist =["#pinpoint-form0","#pinpoint-form1","#pinpoint-form2","#pinpoint-form3","#pinpoint-form4", "#check1", "#check2"]
 booktooltip = new tooltipClass('Book',BooktooltipList,BookTooltipOffsets);
@@ -836,24 +885,5 @@ dictionarytooltip = new tooltipClass('Dictionary',DictionarytooltipList,Dictiona
 
 
 
- /*
-=============================================
-Saving Citation Modal
-=============================================
-*/		
-jQuery('#storeCitationModal').modal({
-	backdrop: true,
-	show: false
-})
-jQuery('#storeCitationModal-btn').click(function(){
-	id= '#CanadaCase'
-	style = jQuery(id +'Style').val()
-	citation = jQuery(id +'-Container .results').html()
-	
-	jQuery('#storeCitationModal #modal-title').html(style);
-	jQuery('#storeCitationModal #modal-citation').html(citation);
-
-})
-//jQuery('.citationCommentArea').wsyihtml5();
 	
 }); //End of Document.

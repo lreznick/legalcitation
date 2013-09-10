@@ -150,32 +150,14 @@
 		
 		
 			
-		<!-- Error Containers -->
-		<br>
-			<div class = "warning-container">
-			</div>
 		
-			<div class ="error-container">
-			</div>
-			
-			<div class ="result-container">
-			<h3> Result</h3>
-			<div id="result-editField" contenteditable="true">
-			<style scoped>
-			  #result-editField { margin-bottom: 10px; margin-left: 2px; }
-			  [contenteditable="true"] { padding: 10px; outline: 1px dashed #CCC; }
-			  [contenteditable="true"]:hover { outline: 1px dashed #0090D2; }
-			</style>
-			<font id="Book-results"> </font>
-			</div>	            
-		</div>
-			
 			
 		<!-- Error Containers -->
-		$:render.formResults()
+		$:render.formResults("Book")
 
 		</fieldset>
 		</form>
+		$:render.formStoreCitationModal("Book")
 		<hr>
 	</div> <!-- leftHalf-->
 	
@@ -225,7 +207,7 @@
 		</div>	
 			
 		<!-- Error Containers -->
-		$:render.formResults()
+		$:render.formResults("Dictionary")
 			
 			
 			
@@ -242,6 +224,7 @@
 
 		</fieldset>
 		</form>
+		$:render.formStoreCitationModal("Dictionary")
 	</div> <!-- leftHalf-->
 	
 	<div class "rightHalf tooltips" id = "Dictionary-tooltips">
