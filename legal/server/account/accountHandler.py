@@ -59,7 +59,7 @@ class change_password(object):
 			hashed_object = globs.PasswordHash(new_pass)
 			#hashobj.hashedpw
 			#hashobj.salt
-			globs.db.query("UPDATE users SET hash=$hashedpw, salt=$saltedpw WHERE user_id=$userID", vars={'hashedpw':hashed_object.hashedpw, 'saltedpw':hashed_object.salt, 'userID':user_info.user_id})
+			globs.db.query("UPDATE users SET password_hash=$hashedpw, password_salt=$saltedpw WHERE user_id=$userID", vars={'hashedpw':hashed_object.hashedpw, 'saltedpw':hashed_object.salt, 'userID':user_info.user_id})
 			web.ctx.session.loggedin = False
 			raise web.seeother("/login", absolute=True)
 		else:

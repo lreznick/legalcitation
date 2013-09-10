@@ -45,7 +45,8 @@ urls = (
 	'/account', app_accountHandler,
 	'/citations', app_citationHandler,
 	'/email', 'Email',
-	'/email/response', 'EmailResponse',
+	'/response', 'EmailResponse',
+	'/finishregistration', 'FinishRegistration',
 	'/form', app_formHandler,	
 	'/instructional', 'Instructional',
 	'/instructional', 'Instructionalz',
@@ -128,11 +129,34 @@ class EmailResponse(object):
 				globs.db.query("UPDATE users SET active=1 WHERE user_id=$userID", vars={'userID':user_id})
 				#TODO ADD signupGetInfo for further information collection.
 				print "111111111111111111111111"
-				raise web.seeother('/login')
+				#raise web.seeother('/login')
+				return globs.render.signupGetInfo()
 				#return globs.render.login(my_login)
 			else:
 				print "2222222222222222222222222"
 				return globs.render.login(my_login)
+
+class FinishRegistration(object):
+	def GET(self):
+		print "ALMOST DONE REGISTERING"		
+		data = web.input()
+		print data
+		print data.firstname
+		print data.lastname
+		print data.age
+	def POST(self):
+		print "ALMOST DONE REGISTERING"		
+		data = web.input()
+		print data
+		print data.firstname
+		print data.lastname
+		print data.age
+		print data.occupation
+		print data.school
+		
+		#globs.db.query("UPDATE users SET firstname=$fname, lastname=$lname, age=$age, occupation=$occupation, school=$school WHERE user_id=$userID", vars={'userID':user_id})
+		
+		
 
 class Instructional(object):
 	def GET(self):
@@ -224,7 +248,7 @@ class Register(object):
 			else:
 				get_email_hash = globs.db.query("SELECT email_hash FROM users WHERE email=$id", vars={'id':email})[0]
 				htmlbody = web.template.frender('webclient/templates/email/email.html')
-				baselink = "http://www.intra-vires.com/email/response?id="
+				baselink = "http://www.intra-vires.com/response?id="
 				link = baselink + get_email_hash.email_hash
 				web.sendmail('Register.IntraVires@gmail.com', email, 'Complete Your Intra Vires Registration', htmlbody(link), headers={'Content-Type':'text/html;charset=utf-8'})
 				return globs.render.signupEmailSent(email)

@@ -50,7 +50,10 @@ def CreateFormClass(type,form):
 class MainForm(object):
 		def GET(self):
 			print "here"
-			return globs.render.form()
+			if (web.ctx.session.loggedin != True):
+				raise web.seeother('/login', absolute=True)
+			else:
+				return globs.render.form()
 			
 class storeCanada(object):
 		def POST(self):
@@ -314,7 +317,9 @@ def DictionaryFormatter(form):
 	print 'JSON:', data_string
 	return data_string
 
-def CanadianCase(form):	
+def CanadianCase(form):
+	if(web.ctx.session.loggedin != True):
+		raise web.seeother('/login')
 	print "\n\n======in Canadian"
 	f = CreateFormClass("canadian case", form)	
 
