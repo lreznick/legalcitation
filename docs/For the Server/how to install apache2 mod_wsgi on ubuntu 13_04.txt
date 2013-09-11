@@ -16,8 +16,11 @@ We assume that you have root access for all of the installation process
 	apt-get install python-passlib
 
 5. Get MySQL
-	 apt-get install python-mysql.connector
-	 apt-get install python-mysqldb
+	apt-get install python-mysql.connector
+	apt-get install python-mysqldb
+	apt-get install mysql-client-core-5.5
+	apt-get install mysql-server
+		set password to: bananajones
 	
 4. Get mod_wsgi
 	 apt-get install libapache2-mod-wsgi
@@ -69,6 +72,10 @@ We assume that you have root access for all of the installation process
 			modules = os.path.join(os.path.dirname(__file__)+"/server/")
 			sys.path.insert(1, modules)
 			os.chdir(root)
+	
+	7.3 Set up the code for databasing
+			vim /var/www/legal/globs.py
+			
 			
 6. Configuration of apache
 	cd /etc/apache2/sites-available
@@ -129,9 +136,23 @@ We assume that you have root access for all of the installation process
 			RewriteCond %{REQUEST_URI} !^(/.*)+\.(css|png|js|jpg|ttf|otf|gif)$
 			RewriteRule ^(.*)$ main.py/$1 [PT]
 			
-
-
-	
+	9 Setting up the database
+		
+		cd /var/www/legal/server
+		mysql -u root -p'bananajones'
+		
+		9.2 create the database in sql
+			create database intravires;
+			grant usage on *.* to BananaJones@localhost identified by 'bananajones';
+			grant all privileges on intravires.* to BananaJones@localhost;  
+			quit
+			
+		9.3 Test login
+			mysql -u BananaJones -p'bananajones' intravires
+			
+			
+		9.4 Create all of the tables	
+			source intraviresdb.sql
 8 Restart
 	 service apache2 restart
 	
