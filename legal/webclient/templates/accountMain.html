@@ -1,8 +1,8 @@
 $def with (account,sub)
 
 <link href="./static/css/account.css" rel="stylesheet">
-<a href ="./citations"  style ="color: black"> <i class ="icon-chevron-left"></i> Dashboard </a>
-<span>You are logged in as <b>$context.username</b></span>
+<a href ="./citations"  style ="color: black"> <i class ="icon-chevron-left"></i> Dashboard </a><br>
+
 <br>
  <!--<a href ="/citations" ><font class ="mainTitle"> <img src ="./static/img/backbtn.png" style = "height: 40px; padding-bottom:5px;"></a> My Account </font>  -->
 <br>
@@ -14,7 +14,7 @@ $def with (account,sub)
 	<div id ="accountDetails">
 		<h2><a data-toggle="modal"href="#accountModal" Title="edit details" id="editAccount-btn"><i  class="icon-edit" id = "edit"></i></a> Account Details </h2>
 		<hr>
-		
+		<!-- <span>You are logged in as <b>$context.username</b></span> -->
 		<div class = "row">
 			 <div id ="accountDetails-inner" class = "span3">
 				<h4> Email </h4>
@@ -132,7 +132,7 @@ $def with (account,sub)
 					<div class="control-group"  id ="email-controlgroup">
 						<label class="control-label" for="Email"> <b>Old Password</b> </label>
 						<div class="controls">
-							<input type="text" class="input-large" id="Email"
+							<input type="password" class="input-large" id="Email"
 										placeholder="" name = "oldpass"  >
 						</div>
 					</div>
@@ -140,7 +140,7 @@ $def with (account,sub)
 					<div class="control-group"  id ="email-controlgroup">
 						<label class="control-label" for="occupation"> <b>New Password</b> </label>
 						<div class="controls">
-							<input type="text" class="input-large" id="occupation"
+							<input type="password" class="input-large" id="occupation"
 										placeholder="" name = "newpass" >
 						</div>
 					</div>
@@ -148,7 +148,7 @@ $def with (account,sub)
 					<div class="control-group"  id ="school-controlgroup">
 						<label class="control-label" for="school"> <b>New Password</b> </label>
 						<div class="controls">
-							<input type="text" class="input-large" id="school"
+							<input type="password" class="input-large" id="school"
 										placeholder="" name = "newpass_again" >
 						</div>
 					</div>

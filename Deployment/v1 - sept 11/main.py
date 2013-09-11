@@ -2,23 +2,15 @@
 # user requests the website, it grabs the html file and opens it up. 
 #	Website opened at http://localhost:8080 It then waits for an input 
 #from the user and then grabs that information. then calls webgrabber which grabs links
+import os, sys
 
-
-#FOR THE SERVER
-import os
-import sys
 root = os.path.join(os.path.dirname(__file__)+"/")
 sys.path.insert(0, root)
 modules = os.path.join(os.path.dirname(__file__)+"/server/")
 sys.path.insert(1, modules)
 os.chdir(root)
-app = web.application(urls, globals(),autoreload=False)
-application = app.wsgifunc()
 
-#FOR THE LOCAL HOST
-#app = web.application(urls, globals(),autoreload=True)
-
-
+import web, json, globs
 from server.formcode.webGrabber import *
 from server.formcode.CanadianCase import *
 from server.subapplications.dbConnector import *
@@ -26,11 +18,8 @@ from server.formcode.formHandler import *
 from server.account.accountHandler import *
 from server.citations.citationHandler import *
 
-import web, json
-import globs
-web.config.debug = False #-------------- TAKE ME OUT LATER
-globs.init()          # Call only once
-global session
+
+
 
 # mapping. Each post request contains what to do.    '/' ,  'Index', '/signup', 'SignUp',
 urls = (
@@ -55,7 +44,21 @@ urls = (
 )
 
 
-#render = web.template.render('webclient/templates/', base = 'layout
+
+#For the Server
+
+app = web.application(urls, globals(),autoreload=False)
+application = app.wsgifunc()
+
+
+#For the Local Host
+#app = web.application(urls, globals(),autoreload=True)
+
+
+#web.config.debug = False #-------------- 
+globs.init()          # Call only once
+web.config.debug = True #  Change me  For server ------------
+global session
 
 #Configure session parameters
 web.config.session_parameters['cookie_name'] = 'chocolate_chip_local'

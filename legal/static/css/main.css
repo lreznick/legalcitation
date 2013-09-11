@@ -197,8 +197,8 @@ display:block;
 
 
 .footer{
-margin-left: 50px;
-padding-bottom:100px;
+margin-left: 20px;
+padding-bottom:50px;
 float: bottom;
 }
 
@@ -212,7 +212,7 @@ float: bottom;
 }
 .footer ul{
 list-style-type:none;
-margin:0;
+
 padding:0;
 overflow:hidden;
 /*text-align: center;*/
@@ -231,9 +231,13 @@ margin-top:5px;
 font-size: 13px;
 }
 
-
+.title{
+	font-family:RalewayMed;
+	font-size: 40px;
+	font-weight:100;
+}
       body {
-        padding-bottom: 60px;
+       
       }
 
       /* Custom container */

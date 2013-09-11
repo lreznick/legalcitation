@@ -1,42 +1,77 @@
+$def with (userid)
 <div id="signupGetInfo">
-	<div class ="signup-titlebar" > <font id ="signup-title"> You're almost there! </font></div>
-	Tell us about your self
-		<form class="form" action = "/finishregistration"  method="POST"  id ="login">
-			<fieldset>
-			<!-- Style Of Cause -->
-			<div class="control-group">
-				<div class="controls">
-					<input type="text" class="input-xxlarge"  placeholder="First Name" name="firstname">
-				</div>
-				<div class="controls">
-					<input type="text" class="input-xxlarge"  placeholder="Last Name" name="lastname">
-				</div>
-				<div class="controls">
-					<input type="text" class="input-xxlarge"  placeholder="age (optional)" name="age">
-				</div>
-				<div class="controls">
-					<input type="text" class="input-xxlarge"  placeholder="School" name="school">
-				</div>
-				<label class="control-label" for="occupations">Occupation</label>
-				<select id ="occupations" name="occupation">
-					<option selected = "selected" disabled = "disabled"> select.. </option>
-					<option value ="student">Student</option>
-					<option value ="solicitor">Solicitor</option>
-					<option value ="litigator">Litigator</option>
-					<option value ="paralegal">Paralegal</option>
-					<option value ="library">Library Services</option>
-					<option value ="professor">Professor</option>
-					<option value ="academic">Academic</option>
-					<option value ="other">Other</option>
-				</select>
-				<button type="submit" class="btn">Sign in</button>
-				
-			</div>  
-			</fieldset>
-		</form>	
+	<!-- <div class ="signup-titlebar" > <font id ="signup-title"> You're almost there! </font></div> -->
+	
+	<div class = "hero-unit" style = "text-align: center">
+	
+<h1 class = "red"> Tell us about yourself. </h1>	
+	We'd like to get to know you a little better. <br> <br>
+				$code:
+					url = "/finishregistration?id="+str(userid)
+		
+				<form class="form" action = $url  method="POST" >
+						<fieldset>
+						<!-- Style Of Cause -->
+						<div class="control-group">
+							<div class="controls">
+								<input type="text" class="input-large"  placeholder="First Name" name="firstname">
+							</div>
+							<div class="controls">
+								<input type="text" class="input-large"  placeholder="Last Name" name="lastname">
+							</div>
+							<div class="controls">
+								<input type="text" class="input-large"  placeholder="age" name="age">
+							</div>
+							<div class ="controls">
+								<select id ="school" name="school">
+									<option value ="none" selected = "selected" disabled = "disabled"> School</option>
+									<option value ="dalhousie">Dalhousie</option>
+									<option value ="mcgill">	McGill</option>
+									<option value ="queens">	Queens</option>
+									<option value ="uofa">		University of Alberta</option>
+									<option value ="ubc">		University of British Columbia</option>
+									<option value ="uofc">		University of Calgary</option>
+									<option value ="uofm">		University of Manitoba</option>
+									<option value ="unb">		University of New Brunswick</option>
+									<option value ="uofo">		University of Ottawa</option>
+									<option value ="uofs">		Univesrity of Saskatchewan</option>
+									<option value ="uoft">		University of Toronto</option>
+									<option value ="uvic">		University of Victoria</option>
+									<option value ="uwo">		Western University</option>
+									<option value ="uwindsor"> University of Windsor</option>
+									<option value ="york">		York University</option>
+									<option value ="none">		Not in School</option>	
+								</select>
+							</div>
+							<div class = "controls">
+								<select id ="occupations" name="occupation">
+									<option value ="none" selected = "selected" disabled = "disabled"> Occupation </option>
+									<option value ="student">Student</option>
+									<option value ="solicitor">Solicitor</option>
+									<option value ="litigator">Litigator</option>
+									<option value ="paralegal">Paralegal</option>
+									<option value ="library">Library Services</option>
+									<option value ="professor">Professor</option>
+									<option value ="academic">Academic</option>
+									<option value ="other">Other</option>
+								</select>
+							</div>
+							<br>
+							<button type="submit" class="btn btn-info" id ="finish-registration">Finish Registration</button>
+							
+						</div>  
+						</fieldset>
+					</form>	
+		
+		</div>
 </div>	
+<script>
+	jQuery("#finish-registration").click(function(){
+	
+		alert("Congratulations. You're all signed up!");
+	})
 
-
+</script>
 
   
 

@@ -56,6 +56,22 @@ class removeCitation(object):
 	def GET(self):
 		data = web.input()
 		citationID = data.id
+		formtype = data.formtype
+		print formtype
+		
+		if (formtype =='Canadian'):
+			globs.db.query("DELETE FROM canada_case WHERE citation_id=$citid", vars={'citid':citationID})		
+		if (formtype =='US'):
+			globs.db.query("DELETE FROM us_case WHERE citation_id=$citid", vars={'citid':citationID})					
+		if (formtype =='UK'):
+			globs.db.query("DELETE FROM uk_case WHERE citation_id=$citid", vars={'citid':citationID})				
+		if (formtype =='Journal'):
+			globs.db.query("DELETE FROM journal_article WHERE citation_id=$citid", vars={'citid':citationID})		
+		if (formtype =='Book'):
+			globs.db.query("DELETE FROM book WHERE citation_id=$citid", vars={'citid':citationID})		
+		if (formtype =='Dictionary'):
+			globs.db.query("DELETE FROM dictionary WHERE citation_id=$citid", vars={'citid':citationID})		
+
 		globs.db.query("DELETE FROM citation WHERE citation_id=$citid", vars={'citid':citationID})
 		raise web.seeother('/citations', absolute=True)
 	'''

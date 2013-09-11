@@ -22,24 +22,24 @@ We assume that you have root access for all of the installation process
 	apt-get install mysql-server
 		set password to: bananajones
 	
-4. Get mod_wsgi
+6. Get mod_wsgi
 	 apt-get install libapache2-mod-wsgi
 	
-	4.0 Check to see its working
+	6.1 Check to see its working
 		service apache2 restart
 		put ip address in web browser to see if it works
 		
-5. enable mod_rewrite
+7. enable mod_rewrite
 	a2enmod rewrite
 
 	
-6. SFTP (filezilla)
-	6.1 Giving permissions to allow filezilla in
+8. SFTP (filezilla)
+	8.1 Giving permissions to allow filezilla in
 		cd /var/www
 		mkdir legal
 		chown -R ubuntu /var/www/
 		chmod -R 755 /var/www/ 
-	6.2 Connecting in Filezilla
+	8.2 Connecting in Filezilla
 		Open Site manager
 			host: some ip like 54.213.173.233
 			Port: 22
@@ -48,13 +48,13 @@ We assume that you have root access for all of the installation process
 			User: Ubuntu
 			Pass: empty
 		Edit -> Setting -> SFTP: add your key	
-	6.3 Add all of your code Using Filezilla
+	8.3 Add all of your code Using Filezilla
 		
 	
 	
-7 Modifying your code: 
+9 Modifying your code: 
 	go to main.py (in var/www/legal)
-	7.1 Wsgifunc()
+	9.1 Wsgifunc()
 			app = web.application(urls, globals(), autoreload=False)
 			application = app.wsgifunc()
 			
@@ -63,7 +63,7 @@ We assume that you have root access for all of the installation process
 			application =app.wsgifunc()	
 			***ensure it is at the top!!!!! ****
 			
-	7.2 Ensure python can find all of your files
+	9.2 Ensure python can find all of your files
 			AT THE TOP OF YOUR FILE - UNCOMMENT THIS BAD BOY
 			import os
 			import sys
@@ -73,14 +73,14 @@ We assume that you have root access for all of the installation process
 			sys.path.insert(1, modules)
 			os.chdir(root)
 	
-	7.3 Set up the code for databasing
+	9.3 Set up the code for databasing
 			vim /var/www/legal/globs.py
 			
 			
-6. Configuration of apache
+10. Configuration of apache
 	cd /etc/apache2/sites-available
 	
-	6.1 Changing the default file
+	10.1 Changing the default file
 	vim default
 	change everything to:
 		<VirtualHost *:80>
@@ -114,47 +114,48 @@ We assume that you have root access for all of the installation process
 				CustomLog ${APACHE_LOG_DIR}/access.log combined
 		</VirtualHost>
 		
-	6.1 Test to see if there are errors
+	10.2 Test to see if there are errors
 		apachectl configtest
-	6.2 Monitor For errors when messing with config files (optional)
+	10.3 Monitor For errors when messing with config files (optional)
 		tail -f /var/log/apache2/error.log
 		and 
 
 	
-	7.2 Creating a .htaccess file
-		cd /var/www/legal
-	    vim .htaccess
-		Then add:
-			<Files main.py>
-				SetHandler wsgi-script
-				Options +ExecCGI +FollowSymLinks
-			</Files>
-			RewriteEngine On
-			RewriteBase /
-			RewriteCond %{REQUEST_URI} !^favicon.ico$
-			RewriteCond %{REQUEST_URI} !^(/.*)+main.py/
-			RewriteCond %{REQUEST_URI} !^(/.*)+\.(css|png|js|jpg|ttf|otf|gif)$
-			RewriteRule ^(.*)$ main.py/$1 [PT]
+11 Creating a .htaccess file
+	cd /var/www/legal
+    vim .htaccess
+	Then add:
+		<Files main.py>
+			SetHandler wsgi-script
+			Options +ExecCGI +FollowSymLinks
+		</Files>
+		RewriteEngine On
+		RewriteBase /
+		RewriteCond %{REQUEST_URI} !^favicon.ico$
+		RewriteCond %{REQUEST_URI} !^(/.*)+main.py/
+		RewriteCond %{REQUEST_URI} !^(/.*)+\.(css|png|js|jpg|ttf|otf|gif)$
+		RewriteRule ^(.*)$ main.py/$1 [PT]
 			
-	9 Setting up the database
+12 Setting up the database	
+	cd /var/www/legal/server
+	mysql -u root -p'bananajones'
+	
+	12.1 create the database in sql
+		create database intravires;
+		grant usage on *.* to BananaJones@localhost identified by 'bananajones';
+		grant all privileges on intravires.* to BananaJones@localhost;  
+		quit
 		
-		cd /var/www/legal/server
-		mysql -u root -p'bananajones'
+	12.2 Test login
+		mysql -u BananaJones -p'bananajones' intravires
 		
-		9.2 create the database in sql
-			create database intravires;
-			grant usage on *.* to BananaJones@localhost identified by 'bananajones';
-			grant all privileges on intravires.* to BananaJones@localhost;  
-			quit
-			
-		9.3 Test login
-			mysql -u BananaJones -p'bananajones' intravires
-			
-			
-		9.4 Create all of the tables	
-			source intraviresdb.sql
-8 Restart
+		
+	12.3 Create all of the tables	
+		source intraviresdb.sql
+
+13 Restart
 	 service apache2 restart
-	
-	
-9 Profit!
+	13.1 If broken,Check the logs:
+		tail -f /var/log/apache2/error.log
+			
+14 Profit!

@@ -23,8 +23,6 @@ def init():
 	render = web.template.render('webclient/templates/', globals=template_globals, base='layout')
 	template_globals.update(render=render_partial)
 
-
-
 	web.config.smtp_server = 'smtp.gmail.com'
 	web.config.smtp_port = 587
 	web.config.smtp_username = 'Register.IntraVires@gmail.com'
