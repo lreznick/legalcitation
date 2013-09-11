@@ -38,7 +38,24 @@ $def with (content)
 	</head>
 	<script src="./static/js/lib/jquery-1.8.3.min.js"></script>
 	<script src="./static/js/layout.js"></script>
-  
+	
+	<!-- If javascript is disabled -->
+	<noscript>
+		<style type ="text/css">
+			#entire-body {display: none;}
+			body {background-color: white; background-image: none}
+		</style>
+		<div style ="text-align: center; padding-top:100px;color:white;">
+			<img src ="./static/img/login/logo.png">
+			<h1 class = 'red'> OH NO! </h1>
+			<h4>We have detected that javascript is disabled on your browser<br>
+			<br>
+			In order to use Intra-Vires, you must have Javascript enabled.<br>
+			<a href="http://www.enable-javascript.com/" target="_blank">Here are the 
+			instructions how to enable JavaScript in your web browser</a>. </h4>
+		</div>
+		
+	</noscript>
   
   
      <!-- Start of the Body --> 
@@ -96,18 +113,18 @@ $def with (content)
 	
 	<div class="footer">
 		<img src ="./static/img/footer.png" style="width: 1100px; display:block; margin:auto;">
-				<ul  class = "inline-block">
+				<ul  class = "inline-block;margin-right: 20px;">
 					<li><a href = "./register"> REGISTER </a></li>
 					<li><a href = "/about" > ABOUT US </a></li> 
 					 <li><a href = "/terms"> TERMS OF USE  </a></li>
-					<li><a href = "#"> WHY INTRAVIRES </a></li>
-					<li><a href = ""> FAQ </a></li> 
+					<!-- <li><a href = "#"> WHY INTRAVIRES </a></li>
+					<li><a href = ""> FAQ </a></li>  -->
 					<li><a href = "/instructional?linkLocation=None"> HELP </a></li>
 					
 				</ul>
 					
 			</div> <!-- /footer-->
-			<p style="margin-left:20px; font-size:11px">&copy; Intra Vires Research Tools 2013. All Rights Reserved</p>
+			<p style="margin-left:20px; font-size:12px;padding-bottom:50px;'">&copy; Intra Vires Research Tools 2013. All Rights Reserved</p>
 
 		</div> <!-- /white-page-->
 

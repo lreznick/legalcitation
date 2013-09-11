@@ -4,11 +4,15 @@
 #from the user and then grabs that information. then calls webgrabber which grabs links
 import os, sys
 
+#For the server 
+
 root = os.path.join(os.path.dirname(__file__)+"/")
 sys.path.insert(0, root)
 modules = os.path.join(os.path.dirname(__file__)+"/server/")
 sys.path.insert(1, modules)
 os.chdir(root)
+os.environ["SCRIPT_NAME"] =''
+os.environ["REAL_SCRIPT_NAME"] = ''
 
 import web, json, globs
 from server.formcode.webGrabber import *
@@ -23,8 +27,6 @@ from server.citations.citationHandler import *
 
 # mapping. Each post request contains what to do.    '/' ,  'Index', '/signup', 'SignUp',
 urls = (
-    #'/formInput', 'Index',	
-	#'/instructional/(.+)', 'Instructional',
 	'/', 'Index',
 	'/about', 'About',
 	'/account', app_accountHandler,
@@ -34,7 +36,6 @@ urls = (
 	'/finishregistration', 'FinishRegistration',
 	'/form', app_formHandler,	
 	'/instructional', 'Instructional',
-	'/instructional', 'Instructionalz',
 	'/login', 'Login',
 	'/logout', 'Logout',
 	'/register', 'Register',
@@ -52,10 +53,9 @@ application = app.wsgifunc()
 
 
 #For the Local Host
-#app = web.application(urls, globals(),autoreload=True)
+app = web.application(urls, globals(),autoreload=True)
 
 
-#web.config.debug = False #-------------- 
 globs.init()          # Call only once
 web.config.debug = True #  Change me  For server ------------
 global session
@@ -98,12 +98,13 @@ class Test(object):
 	
 class Index(object):
 	def GET(self):
-		print "YOOOOOOOOOO"
+		print "In index"
 		session_cookie = web.cookies().get('chocolate_chip_local')
 		if ((session_cookie != None) and (session.loggedin == True)):
 			raise web.seeother("/citations")
 		else:
-			raise web.seeother("/register")
+			my_signup = globs.signup_form()
+			return globs.render.register(my_signup)
 		
 
 class About(object):
@@ -120,16 +121,19 @@ class EmailResponse(object):
 		user_query = globs.db.query("SELECT * FROM users WHERE email_hash=$hash", vars={'hash':hashedemail})
 		my_login = globs.login_form()
 		if user_query == None:
-			return "YOu done goofed"
+			return "You done goofed"
 		else:
 			user_row = user_query[0]
+			print user_row
 			if(user_row.email_hash == hashedemail):
+				print "000000000000000"
 				user_id = user_row.user_id
 				globs.db.query("UPDATE users SET active=1 WHERE user_id=$userID", vars={'userID':user_id})
-				#TODO ADD signupGetInfo for further information collection.
-				print "111111111111111111111111"
-				#raise web.seeother('/login')
-				return globs.render.signupGetInfo()
+				print "1111111111111111"
+				session.loggedin = True
+				
+				session.username = user_row.email
+				return globs.render.signupGetInfo(user_id)
 				#return globs.render.login(my_login)
 			else:
 				print "2222222222222222222222222"
@@ -144,14 +148,29 @@ class FinishRegistration(object):
 		print data.lastname
 		print data.age
 	def POST(self):
-		print "ALMOST DONE REGISTERING"		
+		print "\n\n\n\n\n\n\n\n"
 		data = web.input()
 		print data
-		print data.firstname
-		print data.lastname
-		print data.age
-		print data.occupation
-		print data.school
+		occupation = "none"
+		if data.has_key('occupation'):
+			occupation= data.occupation
+		
+		school = "none"
+		if data.has_key('school'):
+			school = data.school
+			
+		id = "user_id = " + str(data.id)
+		
+		globs.db.update('users', where=id ,
+				firstname = str(data.firstname),
+				lastname = data.lastname,
+				age = data.age,
+				occupation = occupation,
+				school =school
+		)
+		
+		#
+		raise web.seeother("/form")
 		
 		#globs.db.query("UPDATE users SET firstname=$fname, lastname=$lname, age=$age, occupation=$occupation, school=$school WHERE user_id=$userID", vars={'userID':user_id})
 		
@@ -233,7 +252,7 @@ class Logout:
 class Register(object):
 	def GET(self):
 		my_signup = globs.signup_form()
-		return globs.render.signup(my_signup)
+		return globs.render.register(my_signup)
 		
 	def POST(self):
 		my_signup = globs.signup_form()
@@ -243,7 +262,7 @@ class Register(object):
 			result = handle_user(email, password, "register")
 			if (result == False):
 				my_signup['username'].note = "username already there!"
-				return globs.render.signup(my_signup)
+				return globs.render.register(my_signup)
 			else:
 				get_email_hash = globs.db.query("SELECT email_hash FROM users WHERE email=$id", vars={'id':email})[0]
 				htmlbody = web.template.frender('webclient/templates/email/email.html')
@@ -267,7 +286,9 @@ class Terms(object):
 
 def main():
 	app.internalerror = web.debugerror
-
+	string = app.run() 
+	#string = app.wsgifunc() 
+	print string
   
 if __name__ == "__main__":
 	

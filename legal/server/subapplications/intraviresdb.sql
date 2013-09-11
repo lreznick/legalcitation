@@ -32,6 +32,7 @@ CREATE  TABLE IF NOT EXISTS `intravires`.`users` (
   `email` VARCHAR(50) NULL DEFAULT NULL ,
   `firstname` VARCHAR(45) NULL ,
   `lastname` VARCHAR(45) NULL ,
+  `age` VARCHAR(45) NULL ,
   `create_date` DATETIME NULL DEFAULT NULL ,
   `active` TINYINT(1) NULL DEFAULT NULL ,
   `password_salt` CHAR(64) NULL DEFAULT NULL ,
@@ -361,6 +362,28 @@ CREATE  TABLE IF NOT EXISTS `intravires`.`canada_case` (
   PRIMARY KEY (`canada_case_id`, `user_id`, `citation_id`) ,
   INDEX `fk_canadian_case_citation1_idx` (`citation_id` ASC, `user_id` ASC) ,
   CONSTRAINT `fk_canadian_case_citation12`
+    FOREIGN KEY (`citation_id` , `user_id` )
+    REFERENCES `intravires`.`citation` (`citation_id` , `user_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `intravires`.`dictionary`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `intravires`.`dictionary` ;
+
+CREATE  TABLE IF NOT EXISTS `intravires`.`dictionary` (
+  `dictionary_id` INT NOT NULL AUTO_INCREMENT ,
+  `citation_id` INT NOT NULL ,
+  `user_id` INT NOT NULL ,
+  `title` VARCHAR(45) NULL DEFAULT NULL ,
+  `edition` VARCHAR(45) NULL ,
+  `word` VARCHAR(45) NULL ,
+  PRIMARY KEY (`dictionary_id`, `citation_id`, `user_id`) ,
+  INDEX `fk_canadian_case_citation1_idx` (`citation_id` ASC, `user_id` ASC) ,
+  CONSTRAINT `fk_canadian_case_citation112`
     FOREIGN KEY (`citation_id` , `user_id` )
     REFERENCES `intravires`.`citation` (`citation_id` , `user_id` )
     ON DELETE NO ACTION

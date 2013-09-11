@@ -1,21 +1,5 @@
 jQuery(document).ready(function() {
 
-/*
-=============================================
-THE TESTING BUTOON!!!!!!=================================================
-=============================================
-*/		
-
-jQuery("#thetestbutton").click(function(){
-		//jQuery('#pincite-selection option[value="citeTo"]').hide();
-		jQuery('#Dictionary-Container .submitButton').hide();
-	
-
-})
-
-	
-
-
 
 /*
 =============================================
@@ -25,7 +9,7 @@ Canada Case
 
 jQuery('#canlii-go').click(function(){
 	if (CanliiValidator.form()){
-		SubmitCanLII()
+		SubmitCanLII();
 	}
 });
 	// Submit a form when the go button for canada case is submitted.
@@ -33,7 +17,7 @@ jQuery('#canlii-go').click(function(){
 	
 $('#canlii-input').keypress(function (e) {
 	//console.log("e: " + e.which);
-	if (e.which == 13) {
+	if (e.which === 13) {
 		if (CanliiValidator.form()){
 			SubmitCanLII()
 		}
@@ -91,10 +75,10 @@ function SubmitCanLII(){
 	
 	jQuery('#CanadaCaseParallel').blur(function(){
 			var parallelValue = jQuery(this).val();
-			if (parallelValue == "banana jones!!"){
+			if (parallelValue === "banana jones!!"){
 				jQuery("#CanadaCase").html('<iframe width="960" height="720"  src="//www.youtube.com/embed/s8MDNFaGfT4?autoplay=1" frameborder="0" allowfullscreen></iframe>');
 			}
-			if (parallelValue != ""){	
+			if (parallelValue !== ""){	
 				jQuery.ajax({ 
 					type: "POST", 
 					url: '/form/parallel',
@@ -106,10 +90,10 @@ function SubmitCanLII(){
 						//$('#pinciteWrapper').remove();
 						$('#pinciteWrapper').hide();
 						
-						if (data[0].date != false){
+						if (data[0].date !== false){
 							jQuery('#CanadaCaseDate').val(data[0].date);
 						}
-						if (data[0].court != false){
+						if (data[0].court !== false){
 							jQuery('#CanadaCaseCourt').val(data[0].court);
 						}
 						
@@ -126,21 +110,21 @@ function SubmitCanLII(){
 jQuery(' #pincite-selection').change(function(){
 	var txt = jQuery(this).val();
 	
-	if (txt == ""){
+	if (txt === ""){
 		jQuery("#pincite-form").hide();
 	}
 	else{
 		
 		jQuery("#pincite-form").show();
-		if (txt == "citeTo"){
+		if (txt === "citeTo"){
 			jQuery("#pincite-form-input").hide();
 		}
-		else if (txt == "pinPoint_para"){	
+		else if (txt === "pinPoint_para"){	
 			jQuery("#pincite-form-input").show();
 			jQuery("#pincite-form-input").attr('placeholder',"paragraph");
 			
 		}
-		else if (txt == "pinPoint_page"){
+		else if (txt === "pinPoint_page"){
 			jQuery("#pincite-form-input").show();
 			jQuery("#pincite-form-input").attr('placeholder',"page");
 		}
@@ -150,7 +134,7 @@ jQuery(' #pincite-selection').change(function(){
 jQuery('#leaveToAppeal-selection').change(function(){
 	var txt = jQuery(this).val();
 	////console.log("txt" + txt);
-	if(txt =="granted" || txt =="refused")	{
+	if(txt === "granted" || txt === "refused")	{
 		jQuery("#CanadaCaseLeaveToAppeal-Docket").show();
 	}
 	else{
@@ -160,7 +144,7 @@ jQuery('#leaveToAppeal-selection').change(function(){
 
 
 jQuery('#CanadaCase-Accordion-Toggle').click(function(){
-	if (jQuery( "#CanadaCaseExtraOptions" ).hasClass('collapse') !==true){
+	if (jQuery( "#CanadaCaseExtraOptions" ).hasClass('collapse') !== true){
 				jQuery('#tooltips').html(''); 
 				
 	}
@@ -168,7 +152,7 @@ jQuery('#CanadaCase-Accordion-Toggle').click(function(){
 	
 function autoFillPinCite(reporterType, reporters){
 	// two reporters
-	if (reporterType == "two") { 
+	if (reporterType === "two") { 
 		//everything
 		jQuery('#pincite-selection>option[value="citeTo"]').show();
 		jQuery('#pincite-selection>option[value="pinPoint_page"]').show();//attr({ disabled: 'disabled' });
@@ -179,13 +163,13 @@ function autoFillPinCite(reporterType, reporters){
 	}
 	else{
 		jQuery('#pincite-selection>option[value="citeTo"]').hide();
-		if ( reporterType == "one"){
+		if ( reporterType === "one"){
 		// pinpoint page , pinpoint para or nothing
 			jQuery('#pincite-selection>option[value="pinPoint_page"]').show();//attr({ disabled: 'disabled' });													
 			jQuery('#pinciteRadio_Reporter1').html(reporters[0]);
 			jQuery('#pinciteRadio2').hide();
 		}
-		if ( reporterType == "neutral"){
+		if ( reporterType === "neutral"){
 		//pinpoint para or nothing
 			jQuery('#pincite-selection>option[value="pinPoint_page"]').hide();//attr({ disabled: 'disabled' });
 			jQuery('#pinciteRadio_Reporter1').html(reporters[0]);
@@ -230,7 +214,7 @@ UK Case
 	jQuery('#UKCaseParallel').blur(function(){
 			var parallelValue = jQuery(this).val();
 			id = "#UKCase-Container"
-			if (parallelValue != ""){	
+			if (parallelValue !== ""){	
 				jQuery.ajax({ 
 					type: "POST", 
 					url: '/form/UKCaseParallel',
@@ -241,7 +225,7 @@ UK Case
 						jQuery(id + ' #pinciteWrapper').tooltip('disable');	
 						$(id + ' #pinciteWrapper').hide();
 						
-						if (data[0].date != false){
+						if (data[0].date !== false){
 							jQuery('#UKCaseYear').val(data[0].date);
 						}
 						////console.log(data[0])
@@ -257,17 +241,17 @@ UK Case
 	jQuery('#UKCase-Container #pincite-selection').change(function(){
 	var txt = jQuery(this).val();
 	id = "#UKCase-Container"
-	if (txt == ""){
+	if (txt === ""){
 		jQuery(id + " #UKpincite-form").hide();
 	}
 	else{
 		jQuery(id + " #UKpincite-form").show();
-		if (txt == "pinPoint_para"){	
+		if (txt === "pinPoint_para"){	
 			jQuery(id + " #pincite-form-input").show();
 			jQuery(id + " #pincite-form-input").attr('placeholder',"paragraph");
 			
 		}
-		else if (txt == "pinPoint_page"){
+		else if (txt === "pinPoint_page"){
 			jQuery(id + " #pincite-form-input").show();
 			jQuery(id + " #pincite-form-input").attr('placeholder',"page");
 		}
@@ -294,14 +278,14 @@ jQuery('#UKCase-Form .court-selection').change(function(){
 		////console.log("reporterType ::" +reporterType );
 		////console.log("reporter 1::"+ reporters);
 		jQuery(id + ' #pinpoint-warning').html("");
-		if (reporterType == "Warning: should have reporter") { 
+		if (reporterType === "Warning: should have reporter") { 
 			message = "<b>Parallel Citations:</b> Warning, we detected a neutral citation only. You generally should include a reporter as well, if possible."
 			html = "<div class=\"alert alert-warning\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>"	+	message		+"</div>"
 			jQuery(id + ' #pinpoint-warning').html(html);
 			jQuery(id + ' #pinciteRadio_Reporter1').html(reporters);		
 		}
 		// two reporters
-		else if (reporterType == "reporter") { 
+		else if (reporterType === "reporter") { 
 			//everything
 			jQuery(id + ' #pincite-selection>option[value="pinPoint_page"]').show();
 			jQuery(id + ' #pincite-selection>option[value="pinPoint_para"]').show();
@@ -348,7 +332,7 @@ jQuery('#Journal-Form #pinpoint-selection').change(function(){
 	var id ='#Journal-Form '
 	hidePinPoint();
 	
-	if (txt == "None"){
+	if (txt === "None"){
 	
 	}
 	else if (txt =="pinpoint_para"){
@@ -399,25 +383,25 @@ function hidePinPointBook(){
 jQuery('#Book-Container #pinpoint-selection').change(function(){
 	var txt = jQuery(this).val();
 	hidePinPointBook();
-	if (txt == "None"){
+	if (txt === "None"){
 		
 	}
-	else if (txt == "pinpoint_para"){
+	else if (txt === "pinpoint_para"){
 		jQuery('#Book-Container #pinpoint-form0').show();
 		jQuery("#Book-Container #pinpoint-form1").show();
 		jQuery("#Book-Container #check1").show();
 	}
-	else if (txt == "pinpoint_page"){
+	else if (txt === "pinpoint_page"){
 		jQuery('#Book-Container #pinpoint-form0').show();
 		jQuery("#Book-Container #pinpoint-form2").show();
 		jQuery("#Book-Container #check2").show();
 	}
-	else if (txt == "pinpoint_foot"){
+	else if (txt === "pinpoint_foot"){
 		jQuery('#Book-Container #pinpoint-form0').show();
 		jQuery("#Book-Container #pinpoint-form3").show();
 		jQuery("#Book-Container #pinpoint-form4").show();
 	}
-	else if (txt == "pinpoint_chapter"){
+	else if (txt === "pinpoint_chapter"){
 		jQuery('#Book-Container #pinpoint-form0').show();
 	}
 });
@@ -538,7 +522,7 @@ Reporter List
 		this.outputstring="	<thead> <tr><td> <b> Abbreviation  </b></td><td><b> Name </b><td></tr> </thead> <tbody>";
 		var currentstring= jQuery('#' +this.name +'-Container #reporter-input').val();
 		
-		if (this.currentstring !=""){
+		if (this.currentstring !==""){
 			this.currentList = _.filter(this.reporterList, function(singleReporter){
 				var reportername = singleReporter.getName().toLowerCase();
 				return(singleReporter.getName().toLowerCase().indexOf(currentstring.toLowerCase()) >= 0);
@@ -624,7 +608,7 @@ formClass.prototype.submitForm = function(){
 var id = '#'+ this.name;  //ex. #CanadaCase
 var Name = this.name;  //ex. #CanadaCase
 
-	if ( this.validator.form() == true){		
+	if ( this.validator.form() === true){		
 		 var test = jQuery(id +'-Form').serialize()
 		 
 		jQuery(id +"-Container .loading-gif").show();        
@@ -675,7 +659,7 @@ var Name = this.name;  //ex. #CanadaCase
 		
     }
 formClass.prototype.browse = function(){
-		if(this.browseClicked == false){
+		if(this.browseClicked === false){
     		jQuery("#"+this.name +"-Container #reporter-container").show();
     		this.browseClicked = true;
 		}
@@ -732,7 +716,7 @@ formClass.prototype.storeCitation= function(){
 	var id = '#'+ this.name;  //ex. #CanadaCase
 	var Name = this.name;  //ex. #CanadaCase
 
-	if ( this.validator.form() == true){		
+	if ( this.validator.form() === true){		
 		// Add Extra fields - Conver the form into a serial array. Each form input (ex. styleof cause)
 		// has its own index in the array like so, {name: 'styleofcause', value: "jonson v. jonson.}
 		var submitData = jQuery(id +'-Form').serializeArray()

@@ -19,18 +19,16 @@ $def with (form)
 				<div class="controls">
 				$:form.password_again.render()
 				</div>
-				 $if form.username.note :
-					<span class="error">$:form.username.note</span>
-				<button type="submit" class="btn">Sign in</button>
-				
+				<button type="submit" class="btn">Sign in</button><br>
+				$if form.username.note :
+					<span class="error red">$:form.username.note</span>
 			</div>  
 			</fieldset>
 		</form>	
 </div>	
 
 		<img src = "./static/img/intropage.jpg" id ="signup-image">
-sup
-<button class ="button" id ="but"> sup </button>
+
 
 
 

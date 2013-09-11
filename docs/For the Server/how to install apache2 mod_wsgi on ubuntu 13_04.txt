@@ -152,6 +152,7 @@ We assume that you have root access for all of the installation process
 		
 	12.3 Create all of the tables	
 		source intraviresdb.sql
+		quit
 
 13 Restart
 	 service apache2 restart
@@ -159,3 +160,39 @@ We assume that you have root access for all of the installation process
 		tail -f /var/log/apache2/error.log
 			
 14 Profit!
+
+
+
+--------------------------------------
+UPDATING A PRE-EXISTING INSTANCE
+
+0. sudo su
+
+1.Reload code using mozilla
+	*make sure you have the folder named to legal (aka /var/www/legal
+	
+2. Add .htaccess file
+	vim /var/www/legal/.htaccess
+	Then add:
+		<Files main.py>
+			SetHandler wsgi-script
+			Options +ExecCGI +FollowSymLinks
+		</Files>
+		RewriteEngine On
+		RewriteBase /
+		RewriteCond %{REQUEST_URI} !^favicon.ico$
+		RewriteCond %{REQUEST_URI} !^(/.*)+main.py/
+		RewriteCond %{REQUEST_URI} !^(/.*)+\.(css|png|js|jpg|ttf|otf|gif)$
+		RewriteRule ^(.*)$ main.py/$1 [PT]
+	*MAKE SURE IT SAVES.... Its weird like that
+
+3. Set up server
+	cd /var/www/legal/server/subapplications
+	mysql -u BananaJones -p'bananajones' intravires	
+	source intraviresdb.sql
+	quit
+	
+4. Run that bad boy	
+	service apache2 restart
+	
+5. Profit!!
