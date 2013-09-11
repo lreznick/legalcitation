@@ -45,6 +45,9 @@ We assume that you have root access for all of the installation process
 			User: Ubuntu
 			Pass: empty
 		Edit -> Setting -> SFTP: add your key	
+	6.3 Add all of your code Using Filezilla
+		
+	
 	
 7 Modifying your code: 
 	go to main.py (in var/www/legal)
@@ -72,7 +75,7 @@ We assume that you have root access for all of the installation process
 	
 	6.1 Changing the default file
 	vim default
-	changed everything to:
+	change everything to:
 		<VirtualHost *:80>
 				ServerAdmin webmaster@localhost
 				DocumentRoot /var/www/legal/
@@ -103,6 +106,7 @@ We assume that you have root access for all of the installation process
 				LogLevel info
 				CustomLog ${APACHE_LOG_DIR}/access.log combined
 		</VirtualHost>
+		
 	6.1 Test to see if there are errors
 		apachectl configtest
 	6.2 Monitor For errors when messing with config files (optional)
@@ -113,7 +117,7 @@ We assume that you have root access for all of the installation process
 	7.2 Creating a .htaccess file
 		cd /var/www/legal
 	    vim .htaccess
-		Added:
+		Then add:
 			<Files main.py>
 				SetHandler wsgi-script
 				Options +ExecCGI +FollowSymLinks

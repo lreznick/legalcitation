@@ -1,0 +1,32 @@
+$def with (form)
+
+
+<div id = "login">
+<img src = "./static/img/login/logo.png" style = "width:1500px; opacity:0.8">
+<!--<div class ="signup-titlebar" style ="width:500px;margin:0 auto" > <font id ="signup-title"> log in</font></div> -->
+
+<div  style ="width:500px;margin:0 auto" > <font id ="signup-title" style= "color:grey"> log in</font></div>
+<br>
+	
+	<form class="form" action = "/login"  method="POST"  id ="login">
+		<fieldset>
+		<!-- Style Of Cause -->
+        <div class="control-group">
+			<div class="controls">
+				$:form.username.render()
+			</div>
+			<div class="controls">
+				$:form.password.render()
+				
+			</div>
+
+			 $if form.username.note :
+				<span class="error">$:form.username.note</span>
+			<button type="submit" class="btn">Sign in</button>
+		
+		</div>  
+		</fieldset>
+	</form>			
+
+
+<div style ="height: 300px"> </div>

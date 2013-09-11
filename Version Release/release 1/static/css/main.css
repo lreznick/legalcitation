@@ -1,0 +1,274 @@
+@font-face
+{
+font-family:RalewayThin;
+src: url(../fonts/Raleway-Thin.otf);
+}
+@font-face
+{
+font-family:RalewayExtraLight;
+src: url(../fonts/Raleway-ExtraLight.ttf);
+}
+@font-face
+{
+font-family:RalewayLight;
+src: url(../fonts/Raleway-Light.ttf);
+}
+@font-face
+{
+font-family:RalewayReg;
+src: url(../fonts/Raleway-Regular.ttf);
+}
+@font-face
+{
+font-family:RalewayMed;
+src: url(../fonts/Raleway-Medium.ttf);
+}
+@font-face
+{
+font-family:RalewayBold;
+src: url(../fonts/Raleway-Bold.ttf);
+}
+h1{
+font-family: RalewayLight;
+font-weight: 400;
+}
+h2{
+padding-top: 20px;
+font-weight: 400;
+}
+h4{
+padding-top: 25px;
+font-weight: 400;
+}
+.header2{
+font-family: RalewayMed;
+font-size: 22px;
+color: #fe6060;
+
+}
+.header3{
+font-family: RalewayBold;
+font-size: 14px;
+color: #333333;
+margin: 0 auto;
+text-align: center;
+}
+.red{
+	color: #fe6060;
+}
+
+
+#mainLinks{
+	float: right;
+}
+#mainLinks li{
+display:inline;
+/*width:60px;*/
+/*text-align:center;*/
+padding:10px;
+line-height: 21px;
+font-size: 16px;
+}
+#mainLinks li a{
+
+color: grey;
+}
+.mainTitle{
+	font-family:RalewayExtraLight;
+	font-size: 50px;
+	font-weight:100;
+	color: black;
+}
+
+a:hover , a:active{
+	color: #0088cc;
+	text-decoration:none;
+}
+
+
+
+ table td {
+    border-top: none;
+}
+
+body{
+	background-repeat: repeat;
+	background-image:url("../img/otis_redding.png");
+	background-color:grey;
+
+}
+
+#entire-body{
+	position: relative;
+	width:1198px;
+	margin: 0 auto;
+
+	
+	
+}
+#titlebar-edge{
+	
+	position: relative;
+	width:1198px;
+	margin: 0 auto;
+	top: 22px;
+	opacity: 0.48;
+}
+#white-page{
+	/*z-index: 1; */
+	margin: 0 auto;
+	
+	position: relative;
+	top: -56px;
+	width: 1100px;
+	background-color:white;
+
+
+}
+
+
+.top-red-title-bar{
+	margin: 0 auto;
+	height: 10px;
+	padding:0px;
+	top:0;
+	width:100%;
+	background:#e85a56
+}
+
+#titlebar{
+	z-index: 2;
+
+	padding:0px;
+	height: 35px;
+	width:100%;
+	margin-top: 10px;
+	margin-bottom: 75px;	    	
+
+	-webkit-box-shadow: 0px 3px 10px rgba(103, 99, 99, 0.2);
+	-moz-box-shadow:    0px 3px 10px rgba(103, 99, 99, 0.2);
+	box-shadow:         0px 3px 10px rgba(103, 99, 99, 0.2);
+	background:#fbfbfb;
+	
+}
+
+
+
+.inner-titlebar{
+	
+	padding-top: 7px;
+	padding-left: 35px;
+	color: #fe6060;
+	font-size: 20px;
+	opacity: 1;
+	z-index: 2;
+}
+
+
+.popover{
+	margin-right: 50px;
+}
+.content-container{
+	margin:0 auto;
+	width: 1000px;
+	min-height:800px;
+
+}
+
+
+.information-blurb{
+	margin-top: 30px;
+	margin-bottom: 30px;
+	padding: 30px;
+	height: 500px;
+	color: white;
+	background:#454545;
+}
+#university-logos td{
+
+
+}
+.uni{
+width: 150px; 
+display:block;
+ margin:auto;
+ 	padding: 0px 10px 0px 10px;
+}
+
+
+.footer{
+margin-left: 50px;
+padding-bottom:100px;
+float: bottom;
+}
+
+.footer a:link, .footer a:visited{
+	color:grey;
+	text-decoration:none;
+}
+.footer a:hover , .footer a:active
+{
+	color: black;
+}
+.footer ul{
+list-style-type:none;
+margin:0;
+padding:0;
+overflow:hidden;
+/*text-align: center;*/
+}
+.footer li{
+float:left;
+display:block;
+/*width:60px;*/
+/*text-align:center;*/
+padding:7px;
+margin-right: 20px;
+line-height: 21px;
+}
+.footer li{
+margin-top:5px;
+font-size: 13px;
+}
+
+
+      body {
+        padding-bottom: 60px;
+      }
+
+      /* Custom container */
+      .container {
+		margin-top: 50px;
+        margin: 0 auto;
+        max-width: 1000px;
+      }
+      .container > hr {
+        margin: 60px 0;
+      }
+
+      /* Main marketing message and sign up button */
+      .jumbotron {
+        margin: 80px 0;
+        text-align: center;
+	
+      }
+      .jumbotron h1 {
+        font-size: 60px;
+        line-height: 1;
+      }
+      .jumbotron .lead {
+        font-size: 24px;
+        line-height: 1.25;
+      }
+      .jumbotron .btn {
+        font-size: 21px;
+        padding: 14px 24px;
+      }
+
+      /* Supporting marketing content */
+      .marketing {
+        margin: 60px 0;
+      }
+      .marketing p + h4 {
+        margin-top: 28px;
+      }

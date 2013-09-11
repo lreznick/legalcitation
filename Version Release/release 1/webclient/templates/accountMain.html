@@ -1,0 +1,172 @@
+$def with (account,sub)
+
+<link href="./static/css/account.css" rel="stylesheet">
+<a href ="./citations"  style ="color: black"> <i class ="icon-chevron-left"></i> Dashboard </a>
+<span>You are logged in as <b>$context.username</b></span>
+<br>
+ <!--<a href ="/citations" ><font class ="mainTitle"> <img src ="./static/img/backbtn.png" style = "height: 40px; padding-bottom:5px;"></a> My Account </font>  -->
+<br>
+ 
+
+		
+    
+ <div class="container" id ="account-conatiner" style ="margin-top:50px;">     
+	<div id ="accountDetails">
+		<h2><a data-toggle="modal"href="#accountModal" Title="edit details" id="editAccount-btn"><i  class="icon-edit" id = "edit"></i></a> Account Details </h2>
+		<hr>
+		
+		<div class = "row">
+			 <div id ="accountDetails-inner" class = "span3">
+				<h4> Email </h4>
+				<h4> Password </h4>
+				<h4> Occupation</h4>
+				<h4> School </h4>
+			 </div> 		
+			 
+			<div class = "span4" id ="user-details"> 
+				<h4> $:account.email </h4>
+				<h4> <a data-toggle="modal"href="#passwordModal" Title="edit details"> change your password </a> </h4>
+				<h4 id ="accountOccupation"> $:account.occupation</h4>
+
+				<h4> $:account.school </h4>
+			</div>
+		</div> <!-- Row -->
+			
+	</div> <!-- Account -->
+	
+	<div id = "subsciptionDetails">
+	
+		<h2 style = "padding-left: 20px;"> <!-- <i class="icon-edit" id = "edit"></i> --> Subscription</h2>
+		<hr>
+		<div class = "row">
+			 <div id ="accountDetails-inner" class = "span3">
+				<h4> Plan Type </h4>
+				<h4> Exp. Date</h4>
+			 </div> 		
+			 
+			<div class = "span4" id ="user-details"> 
+				<h4> $sub.subscript	 </h4>
+				<h4> $sub.exp </h4>
+			</div>
+		</div> <!-- row -->
+	 </div> <!-- Sub -->
+	 
+	 <h4 style ="float: right" > <a href ='#'> delete my account</a> </h4>
+	 
+</div> <!-- Container --> 
+ 
+ 
+ 
+ 
+ 
+ <!--- Change account detailas --->
+<div id="accountModal" class="modal hide fade" style="display: none; ">
+            <div class="modal-header">
+              <button class="close" data-dismiss="modal">x</button>
+              <h3>Account Details</h3>
+            </div>
+			
+            <div class="modal-body">
+			
+			<form class="form-horizontal" id ="AccountModel-Form" name="input" method="post" action="./account/updateAccount"> 
+				<fieldset>
+
+					<!--Email-->
+					<div class="control-group"  id ="email-controlgroup">
+						<label class="control-label" for="Email"> <b>Email</b> </label>
+						<div class="controls">
+							<input type="text" class="input-large" id="Email"
+										placeholder="" name = "email" value =$:account.email >
+						</div>
+					</div>
+					<!--Occupation-->
+					<div class="control-group"  id ="email-controlgroup">
+						<label class="control-label" for="occupations"> <b>Occupation</b> </label>
+						<div class="controls">
+							<select id ="occupations" name = 'occupation'>
+								<option selected = "selected" disabled = "disabled" value ="Empty"> select.. </option>
+								<option value ="student">Student</option>
+								<option value ="solicitor">Solicitor</option>
+								<option value ="litigator">Litigator</option>
+								<option value ="paralegal">Paralegal</option>
+								<option value ="library">Library Services</option>
+								<option value ="professor">Professor</option>
+								<option value ="academic">Academic</option>
+								<option value ="other">Other</option>
+							</select>
+						</div>
+					</div>
+					<!--Occupation-->
+					<div class="control-group"  id ="school-controlgroup">
+						<label class="control-label" for="school"> <b>School</b> </label>
+						<div class="controls">
+							<input type="text" class="input-large" id="school"
+										placeholder="" name = "school" value =$:account.school>
+						</div>
+					</div>
+					
+
+            	</div>
+		</fieldset>
+            	<div class="modal-footer">
+             		<a href="#" class="btn" data-dismiss="modal">Close</a>
+              		<input class="btn btn-primary" type="submit" ></input>
+            	</div>
+		</form>
+</div>
+
+ 
+  <!--- Change account detailas --->
+<div id="passwordModal" class="modal hide fade" style="display: none; ">
+            <div class="modal-header">
+              <button class="close" data-dismiss="modal">x</button>
+              <h3>Change your password</h3>
+            </div>
+			
+		<div class="modal-body">
+			
+			<form class="form-horizontal" id ="PasswordModal-Form" name="password-input" method="post" action="./account/changePassword"> 
+				<fieldset>
+
+					<!--Email-->
+					<div class="control-group"  id ="email-controlgroup">
+						<label class="control-label" for="Email"> <b>Old Password</b> </label>
+						<div class="controls">
+							<input type="text" class="input-large" id="Email"
+										placeholder="" name = "oldpass"  >
+						</div>
+					</div>
+					<!--Occupation-->
+					<div class="control-group"  id ="email-controlgroup">
+						<label class="control-label" for="occupation"> <b>New Password</b> </label>
+						<div class="controls">
+							<input type="text" class="input-large" id="occupation"
+										placeholder="" name = "newpass" >
+						</div>
+					</div>
+					<!--Occupation-->
+					<div class="control-group"  id ="school-controlgroup">
+						<label class="control-label" for="school"> <b>New Password</b> </label>
+						<div class="controls">
+							<input type="text" class="input-large" id="school"
+										placeholder="" name = "newpass_again" >
+						</div>
+					</div>
+					
+
+	    
+		</div>
+		</fieldset>
+	    	<div class="modal-footer">
+	      		<a href="#" class="btn" data-dismiss="modal">Close</a>
+	      		<input type="submit" class="btn btn-primary"></input>
+	    	</div>
+		</form>
+
+</div>
+
+ 
+ 
+
+
+<script src="./static/js/myCitations.js"></script>

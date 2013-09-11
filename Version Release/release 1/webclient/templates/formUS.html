@@ -1,0 +1,309 @@
+<section>
+
+
+	 
+	 
+	 
+	 
+ <!-- MANUAL FORM -->
+	<div id = "manual-header" class="header2">American Jurisprudence</div>
+	<br>
+	<br>
+	<!-- CanadianCase-Div--> 
+	<div class="leftHalf" id="USCase-Container"> 
+		<!-- CanadianCase-Form--> 
+		<form class="form-horizontal" id ="USCase-Form"> 
+		<fieldset>
+		
+		<!-- Style Of Cause -->
+		<div class="control-group"  id ="USCaseStyle-controlgroup">
+			<label class="control-label" for="USCaseStyle"><b>Style Of Cause<font color ="red"> *</font> </b></label>
+			<div class="controls">
+				<input type="text" class="input-xxlarge" id="USCaseStyle" 
+							placeholder="" name="styleofcause">
+			</div>
+		</div>  
+		
+		<!--Paralle Citations -->
+		<div class="control-group" id ="USCaseParallel-controlgroup">
+			<label class="control-label" for="USCaseParallel"><b>Parallel Citations<font color ="red"> *</font> </b></label>
+			<div class="controls">
+				<input type="text" class="input-xxlarge" id="USCaseParallel"
+							placeholder="(Separated by commas or semicolons)" name = "parallel">
+			</div>
+		</div>
+			<!--Paralle Citations: Reporter list -->
+			<div class="controls form-inline" id ="USCaseParallel-reporter">
+				<span class="help-block">
+							<!-- REPORTER LIST -->
+								<button class ="browsebutton" type ="button" style ="color: #0088cc; margin-bottom: 5px;"> &#187  <i> Search Reporters</i> </span> </button>
+								<div id ="reporter-container" >
+									<form class="form-search">
+									  <input type="text" class="input-medium search-query" placeholder ="Search..." id = "reporter-input" name="reporter">
+									</form>
+									<button class ="browsebutton" type ="button" style ="color: #0088cc;  float: right; margin-right: 40px;">   <i> close</i> </span> </button> 
+									<div id ="reporter-list">
+									<table class="table table-condensed table-hover" id = "reporter-table" style = "max-height:400px">
+
+									</table>
+									</div> <!-- testy -->
+							</div> <!-- container-->   
+				</div>												
+
+		<!--Date -->
+		<div class="control-group"  id ="USCaseDate-controlgroup">
+			<label class="control-label" for="USCaseDate"> <b>Year of Decision<font color ="red"> *</font></b> </label>
+			<div class="controls">
+				<input type="text" class="input-xxlarge" id="USCaseDate"
+							placeholder="" name = "year">
+			</div>
+		</div>
+		
+		<!--Court -->
+		<div class="control-group"  id ="USCaseCourt-controlgroup">
+			<label class="control-label" for="USCaseCourt"> <b>Court<font color ="red"> *</font></b></label>
+			<div class="controls">
+				<input type="text" class="input-xxlarge" id="USCaseCourt"
+							placeholder="" name = "court">
+			</div>
+		</div>
+		
+		<!--ShortForm-->
+		<div class="control-group">
+			<label class="control-label" for="USCaseShortForm">Short Form</label>
+			<div class="controls">
+				<input type="text" class="input-xxlarge" id="USCaseShortForm"
+							placeholder="" name = "shortform">
+			</div>
+		</div>	
+
+		<!--Pincite-->
+		<div class="control-group" >			
+			<label class="control-label" for="USCasePinpoint">Pinpoint to Page</label>
+				<div class="controls" >
+									<input type="text" class="input-xxlarge" id="USCaseShortForm"
+							placeholder="" name = "pinpoint">
+				</div>
+		</div>							
+		
+		<!-- EXTRA OPTIONS -->
+		<div id = "hidden-forms">
+
+			<!-- Accordian -->
+			<div class="accordion" id="USCase-Accordion">
+			  <div class="accordion-group" style="border:none">
+				<div class="accordion-heading">
+					<a class="accordion-toggle" id='USCase-Accordion-Toggle'  data-toggle="collapse" data-parent="#extra-options-accordian-extra" href="#USCaseExtraOptions" style="color: #000000">
+						<i class="icon-play"></i> Options 
+					</a>
+				</div>
+				<div id="USCaseExtraOptions" class="accordion-body collapse">
+				<!-- INNER -->
+				<div class="accordion-inner">
+
+					<!--Judge-->
+					<div class="control-group">
+						<label class="control-label" for="USCaseJudge">Judge</label>
+						<div class="controls">
+							<input type="text" class="input-xxlarge" id="USCaseJudge"
+										placeholder="" name = "judge">
+								<label class="checkbox">
+									<input type="checkbox" value="checked" name="judge_dissenting">
+										Dissenting
+								</label>
+						</div>
+					</div>										
+					
+					<!--Citing -->											
+					<div class="control-group">
+						<label class="control-label" for="USCaseCiting">Citing</label>
+						<div class="controls">
+							<div class = "well">
+									<!-- styleofcause -->
+								<div class="input-prepend" style="padding-bottom:2px">
+								<span class="add-on" >Style Of Cause</span>
+									<input type="text" class="input-xlarge" id="USCaseCiting-Style"
+												placeholder="" name = "citing_styleofcause">
+								</div>
+								
+									<!-- parallel -->
+								<div class="input-prepend" style="padding-bottom:2px">
+								<span class="add-on">Parallel Citations</span>
+									<input type="text" class="input-xlarge" id="USCaseCiting-Parallel"
+												placeholder="" name = "citing_parallel">
+								</div>
+									<!-- year-->
+								<div class="input-prepend" style="padding-bottom:2px">
+								<span class="add-on">Year of Decision</span>
+									<input type="text" class="input-xlarge" id="USCaseCiting-Year"
+												placeholder="" name = "citing_year">
+								</div>
+									<!-- court -->
+								<div class="input-prepend" style="padding-bottom:2px">
+								<span class="add-on">Court</span>
+									<input type="text" class="input-xlarge" id="USCaseCiting-Court"
+												placeholder="" name = "citing_court">
+								</div>
+							</div> <!-- well-->
+						</div><!-- controls-->
+					</div>		
+					
+					
+					<!--History-->										
+					<div class="control-group" >
+						<label class="control-label" for="USCaseHistory">History</label>
+						
+						
+						<!--History 1 -->	
+						<div class="controls" id = "history1">
+							<div class ="well">
+								<!--Selection -->
+								<select name = "history_aff1">
+									<option value= "affirming">Affirming</option>
+									<option value= "reversing">Reversing</option>
+									<option value= "affirmed">Affirmed by</option>
+									<option value= "reversed">Reversed by</option>													
+								</select>
+								<!-- Affirming -->
+								<div class="input-prepend" style="padding-bottom:2px">
+								<span class="add-on" >Parallel Citations</span>
+									<input type="text" class="input-xlarge" id="USCaseHistory-Parallel1"
+												placeholder="" name = "history_parallel1">
+								</div>
+								
+								<!-- Reversing -->
+								<div class="input-prepend" style="padding-bottom:2px">
+								<span class="add-on" >Year of Decision</span>
+									<input type="text" class="input-xlarge" id="USCaseHistory-Year1"
+												placeholder="" name = "history_year1">
+								</div>
+								
+								<!-- Reversed By-->
+								<div class="input-prepend" style="padding-bottom:2px">
+								<span class="add-on">Court</span>
+									<input type="text" class="input-xlarge" id="USCaseHistory-Court1"
+												placeholder="" name = "history_court1">
+								</div>
+								</div> <!-- well -->
+							</div>												
+								
+							<!--History 2 -->		
+							<div class="controls" id ="history2">
+								<div class ="well">
+									<select name = "history_aff2">
+										<option value= "affirming">Affirming</option>
+										<option value= "reversing">Reversing</option>
+										<option value= "affirmed">Affirmed by</option>
+										<option value= "reversed">Reversed by</option>													
+									</select>
+									<!-- Affirming -->
+									<div class="input-prepend" style="padding-bottom:2px">
+									<span class="add-on" >Parallel Citations</span>
+										<input type="text" class="input-xlarge" id="USCaseHistory-Parallel2"
+													placeholder="" name = "history_parallel2">
+									</div>
+									
+									<!-- Reversing -->
+									<div class="input-prepend" style="padding-bottom:2px">
+									<span class="add-on" >Year of Decision</span>
+										<input type="text" class="input-xlarge" id="USCaseHistory-Year2"
+													placeholder="" name = "history_year2">
+									</div>
+									
+									<!-- Reversed By-->
+									<div class="input-prepend" style="padding-bottom:2px">
+									<span class="add-on">Court</span>
+										<input type="text" class="input-xlarge" id="USCaseHistory-Court2"
+													placeholder="" name = "history_court2">
+									</div>
+								</div><!-- well -->
+							</div> 
+								
+							<!--History 3 -->		
+							<div class="controls" id ="history3">
+								<div class ="well">
+									<select name = "history_aff3">
+										<option value= "affirming">Affirming</option>
+										<option value= "reversing">Reversing</option>
+										<option value= "affirmed">Affirmed by</option>
+										<option value= "reversed">Reversed by</option>													
+									</select>
+									<!-- Affirming -->
+									<div class="input-prepend" style="padding-bottom:2px">
+									<span class="add-on" >Parallel Citations</span>
+										<input type="text" class="input-xlarge" id="USCaseHistory-Parallel3"
+													placeholder="" name = "history_parallel3">
+									</div>
+									
+									<!-- Reversing -->
+									<div class="input-prepend" style="padding-bottom:2px">
+									<span class="add-on" >Year of Decision</span>
+										<input type="text" class="input-xlarge" id="USCaseHistory-Year3"
+													placeholder="" name = "history_year3">
+									</div>
+									
+									<!-- Reversed By-->
+									<div class="input-prepend" style="padding-bottom:2px">
+									<span class="add-on">Court</span>
+										<input type="text" class="input-xlarge" id="USCaseHistory-Court3"
+													placeholder="" name = "history_court3">
+									</div>
+
+								</div><!-- well -->
+							</div> 
+						<!-- Add new Button -->
+						<div class="controls"> <div id = "addHistory"> + add new</div>
+						</div>		
+					</div>
+
+					<!--Leave To Appeal -->
+					<div class="control-group">
+						<label class="control-label" for="USCaseLeaveToAppeal">Leave To Appeal</label>
+						<div class="controls">
+							<div class = "well">
+							<select name = "leaveToAppeal_selection" id= "leaveToAppeal-selection">
+									<option value ="refused">Refused</option>
+									<option value ="granted">Granted</option>
+									<option value ="requested">Requested</option>
+									<option value ="asOfRight">As of Right</option>
+								</select>	
+							<!-- docket no.-->
+							<div class="input-prepend" style="padding-bottom:2px" id="USCaseLeaveToAppeal-Docket">
+							<span class="add-on">Citation/Docket no.</span>
+								<input type="text" class="input-xlarge" 
+											placeholder="" name = "leaveToAppeal_docket">
+							</div>													
+							
+							<!-- court appealed to-->
+							<div class="input-prepend" style="padding-bottom:2px">
+							<span class="add-on" >Court Appealed To</span>
+								<input type="text" class="input-xlarge" id="USCaseLeaveToAppeal-Court"
+											placeholder="" name = "leaveToAppeal_court">
+							</div>
+							</div> <!--well-->
+						</div>
+					</div>		
+			
+				  </div> <!-- accordian inner -->
+				</div><!-- accordian collapse -->
+			  </div> <!-- accordian group -->
+			</div> <!-- Accordian (End of Other Options )-->
+
+		</div> <!-- Hidden Forms -->
+
+		 <!--END OF THE FORM FIELDS -->
+		
+	
+
+		$:render.formResults("USCase")
+
+				
+		</fieldset>
+	</form>
+	$:render.formStoreCitationModal("USCase")
+	</div> <!-- leftHalf -->
+	
+	<div class "rightHalf tooltips" id = "USCase-tooltips">
+	</div> <!-- RightHalf -->
+
+	</section>
