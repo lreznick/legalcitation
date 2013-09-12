@@ -133,7 +133,7 @@ We assume that you have root access for all of the installation process
 		RewriteBase /
 		RewriteCond %{REQUEST_URI} !^favicon.ico$
 		RewriteCond %{REQUEST_URI} !^(/.*)+main.py/
-		RewriteCond %{REQUEST_URI} !^(/.*)+\.(css|png|js|jpg|ttf|otf|gif)$
+		RewriteCond %{REQUEST_URI} !^(/.*)+\.(css|png|js|jpg|ttf|otf|gif|ico)$
 		RewriteRule ^(.*)$ main.py/$1 [PT]
 			
 12 Setting up the database	

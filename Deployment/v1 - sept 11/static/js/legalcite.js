@@ -1,5 +1,1317 @@
 jQuery(document).ready(function() {
+/*
+=============================================
+Tool Tips
+=============================================
+*/	
 
+
+var tooltip_header              = "<div class=\"tooltip-title\">"
+var tooltip_link 				= "<a href = \"./instructional?linkLocation=somediv\" target=\"_blank\"> more info</a>"
+
+
+
+
+
+/* ******** CANADA ******** */
+
+var canadatooltip_text = [
+/*0*/"Style of Cause     </div><font class = \"red\"> ex. Tilden Rent-A-Car Co. v Clendenning</font><br> Input the style of cause as written on the case. <br>",
+/*1*/"Parallel Citations </div><font class = \"red\"> ex. 2008 SCC 9 (CanLII); [2008] 1 SCR 190; 229 NBR (2d) 1; 291 DLR (4th) 577 </font><br> Separate abbreviated reporters by commas or semicolons. Browse through the catalog to find abbreviations. <br>Input at least two reporters, unless only one is available. <br>Don't worry about formatting. <br>",
+/*2*/"Year of Decision    </div><font class = \"red\"> ex. 1985 </font><br>",
+/*3*/"Court                 </div><font class = \"red\"> ex. Alberta qb </font><br>Our recognition algorithm will format your input correctly. <br>",
+/*4*/"Short Form      	</div><font class = \"red\"> ex. Van der Peet</font> <br>Use a short form to refer to the judgment later in your paper. <br>It is normally the first party name. <br>",
+/*5*/"Pinpoint             	</div><font class = \"red\"> ex. 132 </font><br>Use paragraphs where available, otherwise pages. <br>Use the radio button to indicate which reporter you are citing to.<br><br>"+ tooltip_header +  "Cite to </div> Use the radio buttons to select a reporter if you will pinpoint to it at some point other than the first instance of the citation. <br>",
+/*6*/"Citing               </div><font class = \"red\">  ex. Crevier v AG Quebec, [1981] 2 SCR 220; [1981] 127 DLR (3d) 1</font> <br>Use the citing feature if the main judgement cites a passage from another case, if appropriate. <br>",
+/*7*/"Judge               </div><font class = \"red\"> ex. Binnie J </font><br>CJC = Chief Justice of Canada <br>CJA = Chief Justice of Appeal <br>CJ = Chief Justice <br>JA = Justice of Appeal <br>JJA = Justices of Appeal <br>J = Justice <br>JJ = Justices <br>Mag = Magistrate <br>",
+/*8*/"History              </div>Affirming or Reversing <font class = \"red\"> <br> ex. 2003 BCSC 14 </font><br>Input minimum <b>one</b> citation for the lower court judgement. <br> <br>Affirmed or Reversed <br><font class = \"red\">ex. 2011 SCC 66, [2011] 3 SCR 837 </font> <br>Input minimum <b>two</b> citations for the upper court judgement. <br> ",
+/*9*/"Leave To Appeal </div> <b>Granted:</b> input court and citation. <br> <font class = \"red\">ex. SCC, [2008] 1 SCR xiv </font><br><b>Refused:</b> input court and docket number. <br><font class = \"red\">ex. SCC, 23424 (November 20, 2009) </font><br><b>Requested </b> or <b> As of right:</b> input court. <br><font class = \"red\">ex. \"SCC\" </font><br>"
+]
+for (var i =0; i< canadatooltip_text.length; i++){
+	canadatooltip_text[i] = tooltip_header + canadatooltip_text[i] + 
+	tooltip_link
+}
+var CanadatooltipList = [
+	["styleofcause" , canadatooltip_text[0]],
+	["parallel" , canadatooltip_text[1]],
+	["year" , canadatooltip_text[2]],
+	["court" , canadatooltip_text[3]],
+	["shortform" , canadatooltip_text[4]],	
+	["pincite_input" , canadatooltip_text[5]],
+	["citing" , canadatooltip_text[6]],
+	["judge" , canadatooltip_text[7]],
+	["history" , canadatooltip_text[8]],
+	["leavetoappeal" , canadatooltip_text[9]],
+	["citing_styleofcause" , canadatooltip_text[6]],
+	["citing_styleofcause", canadatooltip_text[6]],
+	["citing_parallel" , canadatooltip_text[6]],
+	["citing_year", canadatooltip_text[6]],
+	["citing_court", canadatooltip_text[6]],
+	["history_parallel1", canadatooltip_text[8]],
+	["history_year1", canadatooltip_text[8]],
+	["history_court1", canadatooltip_text[8]],
+	["history_parallel2", canadatooltip_text[8]],
+	["history_year2", canadatooltip_text[8]],
+	["history_court2", canadatooltip_text[8]],
+	["history_parallel3", canadatooltip_text[8]],
+	["history_year3", canadatooltip_text[8]],
+	["history_court3", canadatooltip_text[8]],
+	["leaveToAppeal_selection", canadatooltip_text[9]],
+	["leaveToAppeal_court", canadatooltip_text[9]],
+	["leaveToAppeal_citation", canadatooltip_text[9]],
+	["leaveToAppeal_docket" , canadatooltip_text[9]]
+]
+var CanadaTooltipOffsets = [
+'#CanadaCase-Container',
+'#CanadaCaseJudge', //judge
+'#CanadaCase-Container #history1', //history
+'#CanadaCase-Container #leaveToAppeal-selection'
+]; //leave to appeal
+
+
+
+
+
+/* ******** UK ******** */
+
+var uktooltip_text = [
+/*0*/"Style of Cause     </div><font class = \"red\"> ex. Hadley v Baxendale</font><br> Input the style of cause as written on the case. <br>",
+/*1*/"Parallel Citations </div><font class = \"red\"> ex. [2011] 1 FCR 598, [2011] EWCA Civ 34, [2011] Fam Law 342, [2011] 1 FLR 2040 </font><br> Separate abbreviated reporters by commas or semicolons. Browse through the catalog to find abbreviations. <br>Input preferably one reporter and one neutral citation, otherwise either will do. <br>Don't worry about formatting. <br>",
+/*2*/"Year of Decision    </div><font class = \"red\"> ex. 2002 </font><br>",
+/*3*/"Court                 </div><font class = \"red\"> ex. Court of Appeal: Civil Division </font><br>",
+/*4*/"Short Form      	</div><font class = \"red\"> ex. Blake</font> <br>Use a short form to refer to the judgment later in your paper. <br>It is normally the first party name. <br>",
+/*5*/"Pinpoint             	</div><font class = \"red\"> ex. 42-49, 57 </font><br>You must pinpoint to paragraphs the neutral citation, if provided.<br>Otherwise, pinpoint paragraphs or pages on the reporter. <br>",
+/*6*/"Citing               </div><font class = \"red\">  ex. Officer L (Re), [2007] UKHL 36</font> <br>Use the citing feature if the main judgement cites a passage from another case, if appropriate. <br>",
+/*7*/"Judge               </div><font class = \"red\"> ex. Lord Denning MR</font><br>Consult the 'Judicial titles in England and Wales' Wikipedia page to find the appropriate formatting. <br>",
+/*8*/"History              </div>Affirming or Reversing <font class = \"red\"> <br> ex. [2005] EWHC 733 (Fam) </font><br>Input minimum <b>one</b> citation for the lower court judgement. <br> <br>Affirmed by or Reversed by<br><font class = \"red\">ex. [2013] EWHC 92 (Ch), [2013] WLR(D) 30 </font> <br>Input preferably <b>two</b> citations for the upper court judgement. <br> ",
+/*9*/"Leave To Appeal </div> <b>Granted </b> or <b> Refused:</b> input court and case citation. <br> <font class = \"red\">ex. House of Lords (England), UKSC 2013/0044 </font><br><b>Requested </b> or <b> As of right:</b> input court. <br><font class = \"red\">ex. Court of Appeal: Criminal Division </font><br>",
+]
+for (var i =0; i< uktooltip_text.length; i++){
+	uktooltip_text[i] = tooltip_header + uktooltip_text[i]+ 
+	tooltip_link
+	
+}
+var UKtooltipList = [
+	["styleofcause" , uktooltip_text[0]],
+	["parallel" , uktooltip_text[1]],
+	["year" , uktooltip_text[2]],
+	["court" , uktooltip_text[3]],
+	["shortform" , uktooltip_text[4]],	
+	["pincite_input" , uktooltip_text[5]],
+	["citing" , uktooltip_text[6]],
+	["judge" , uktooltip_text[7]],
+	["history" , uktooltip_text[8]],
+	["leavetoappeal" , uktooltip_text[9]],
+	["citing_styleofcause" , uktooltip_text[6]],
+	["citing_styleofcause", uktooltip_text[6]],
+	["citing_parallel" , uktooltip_text[6]],
+	["citing_year", uktooltip_text[6]],
+	["citing_court", uktooltip_text[6]],
+	["history_parallel1", uktooltip_text[8]],
+	["history_year1", uktooltip_text[8]],
+	["history_court1", uktooltip_text[8]],
+	["history_parallel2", uktooltip_text[8]],
+	["history_year2", uktooltip_text[8]],
+	["history_court2", uktooltip_text[8]],
+	["history_parallel3", uktooltip_text[8]],
+	["history_year3", uktooltip_text[8]],
+	["history_court3", uktooltip_text[8]],
+	["leaveToAppeal_selection", uktooltip_text[9]],
+	["leaveToAppeal_court", uktooltip_text[9]],
+	["leaveToAppeal_citation", uktooltip_text[9]],
+	["leaveToAppeal_docket" , uktooltip_text[9]]
+]
+
+var UKTooltipOffsets = [
+'#UKCase-Container',
+'#UKCaseJudge', //judge
+'#UKCase-Container #history1', //history
+'#UKCase-Container #leaveToAppeal-selection'
+]; //leave to appeal
+
+
+
+
+
+/* ******** US ******** */
+
+var ustooltip_text = [
+/*0*/"Style of Cause     </div><font class = \"red\"> ex. Roe v. Wade</font><br> Input the style of cause as written on the case. <br>",
+/*1*/"Parallel Citations </div><font class = \"red\"> ex. 971 F (2d) 1395, 1992 Lexis 23028 </font><br> Separate abbreviated reporters by commas or semicolons. Browse through the catalog to find abbreviations. <br>Input minimum <b>one</b> reporter. <br>Don't worry about formatting. <br>",
+/*2*/"Year of Decision    </div><font class = \"red\"> ex. 1994 </font><br>",
+/*3*/"Court                 </div><font class = \"red\"> ex. Northern District of California </font><br>",
+/*4*/"Short Form      	</div><font class = \"red\"> ex. King</font> <br>Use a short form to refer to the judgment later in your paper. <br>It is normally the first party name. <br>",
+/*5*/"Pinpoint             	</div><font class = \"red\"> ex. 239, 241-45 </font><br>Pinpoint to the page in the reporter indicated.",
+/*6*/"Citing               </div><font class = \"red\">  ex. Asbury v Roanoake, 599 F Supp (2d) 712 (WD Virginia, 2009)</font> <br>Use the citing feature if the main judgement cites a passage from another case, if appropriate. <br>",
+/*7*/"Judge               </div><font class = \"red\"> ex. Jones J</font><br> J = Justice/Judge <br> CJ = Chief Justice/Judge<br>",
+/*8*/"History              </div>Affirming,  Reversing, Affirmed by, or Reversed by <font class = \"red\"> <br> ex. 393 US 503 (1969)  </font><br>Input one citation for the lower court judgement. <br>",
+/*9*/"Leave To Appeal </div> <b>Granted </b> or <b> Refused:</b> input court and case citation. <br> <font class = \"red\">ex. 2nd Circuit, APL 2013-00002 </font><br><b>Requested </b> or <b> As of right:</b> input court. <br><font class = \"red\">ex. 2nd Circuit</font><br>",
+]
+for (var i =0; i< ustooltip_text.length; i++){
+	ustooltip_text[i] = tooltip_header + ustooltip_text[i]+ 
+	tooltip_link
+}
+var UStooltipList = [
+	["styleofcause" , ustooltip_text[0]],
+	["parallel" , ustooltip_text[1]],
+	["year" , ustooltip_text[2]],
+	["court" , ustooltip_text[3]],
+	["shortform" , ustooltip_text[4]],	
+	["pincite_input" , ustooltip_text[5]],
+	["citing" , ustooltip_text[6]],
+	["judge" , ustooltip_text[7]],
+	["history" , ustooltip_text[8]],
+	["leavetoappeal" , ustooltip_text[9]],
+	["citing_styleofcause" , ustooltip_text[6]],
+	["citing_styleofcause", ustooltip_text[6]],
+	["citing_parallel" , ustooltip_text[6]],
+	["citing_year", ustooltip_text[6]],
+	["citing_court", ustooltip_text[6]],
+	["history_parallel1", ustooltip_text[8]],
+	["history_year1", ustooltip_text[8]],
+	["history_court1", ustooltip_text[8]],
+	["history_parallel2", ustooltip_text[8]],
+	["history_year2", ustooltip_text[8]],
+	["history_court2", ustooltip_text[8]],
+	["history_parallel3", ustooltip_text[8]],
+	["history_year3", ustooltip_text[8]],
+	["history_court3", ustooltip_text[8]],
+	["leaveToAppeal_selection", ustooltip_text[9]],
+	["leaveToAppeal_court", ustooltip_text[9]],
+	["leaveToAppeal_citation", ustooltip_text[9]],
+	["leaveToAppeal_docket" , ustooltip_text[9]]
+]
+
+var USTooltipOffsets = [
+'#USCase-Container',
+'#USCaseJudge', //judge
+'#USCase-Container #history1', //history
+'#USCase-Container #leaveToAppeal-selection'
+]; //leave to appeal
+
+
+
+
+/* ******** Journal ******** */
+
+var journaltooltip_text = [
+/*0*/"Author(s)     </div><font class = \"red\"> ex. Joanne Smith<br>   Joe Smith</font><br> ",
+/*1*/"Title 	</div><font class = \"red\"> ex. Trust Principles in Business Transactions </font><br>",
+/*2*/"Citation    </div><font class = \"red\"> ex. 28 Windsor YB Access Just 465 </font><br> Browse through the catalog to find abbreviations. <br>",
+/*3*/"Year              </div><font class = \"red\"> ex. 2006 </font><br>",
+/*4*/"Pinpoint      	</div><font class = \"red\"> ex. 478-480, 490</font> <br>Cite to a general range if no particular page or paragraph sticks out. <br>",
+]
+
+for (var i =0; i< journaltooltip_text.length; i++){
+	journaltooltip_text[i] = tooltip_header + journaltooltip_text[i]+ 
+	tooltip_link
+}
+var JournaltooltipList = [
+	["authors" ,		 journaltooltip_text[0]],
+	["title" , 			 journaltooltip_text[1]],
+	["citation" , 		 journaltooltip_text[2]],
+	["year" , 			 journaltooltip_text[3]],
+	["pinpoint_form1" ,	 journaltooltip_text[4]],	
+	["pinpoint_form2" ,	 journaltooltip_text[4]],	
+	["pinpoint_form3" ,	 journaltooltip_text[4]],	
+	["pinpoint_form4" ,	 journaltooltip_text[4]],	
+]
+var JournalTooltipOffsets =[
+'#JournalAuthors'
+]
+
+
+/* ******** Journal ******** */
+var booktooltip_text = [
+/*0*/"Author(s)     </div><font class = \"red\"> ex. Joanne Smith<br>   Joe Smith</font><br> Only list primary authors. <br>Indicate if you want us to use your input as written, or if the input names are editors. <br>",
+/*1*/"Title 	</div><font class = \"red\"> ex. Securities Law </font><br>",
+/*2*/"Publication Place    </div><font class = \"red\"> ex. Calgary </font><br> Input sufficient detail to reasonably communicate the place. <br>",
+/*3*/"Publisher    </div><font class = \"red\"> ex. Queen's-McGill University Press </font><br> Use the short name of a publisher. <br>",
+/*4*/"Year of Publication            </div><font class = \"red\"> ex. 1994 </font><br>",
+/*5*/"Volume            </div><font class = \"red\"> ex. 3 </font><br>",
+/*6*/"Edition            </div><font class = \"red\"> ex. 8 </font><br>",
+/*7*/"Date Consulted            </div><font class = \"red\"> ex. June 15, 2013 </font><br> If the volume is in loose-leaf form, input the date you accessed it.",
+/*8*/"Extra Information            </div><font class = \"red\"> ex. (in Japanese) </font><br> Input will be used verbatim.",
+/*9*/"Pinpoint      	</div><font class = \"red\"> ex. 478-480, 490</font> <br>Cite to a general range if no particular page or paragraph sticks out. <br>",
+]
+
+for (var i =0; i< booktooltip_text.length; i++){
+	booktooltip_text[i] = tooltip_header + booktooltip_text[i]+ 
+	tooltip_link
+}
+var BooktooltipList = [
+	["authors" ,		 booktooltip_text[0]],
+	["title" , 			 booktooltip_text[1]],
+	["place" , 		 booktooltip_text[2]],
+	["publisher" ,	 booktooltip_text[3]],
+	["year" ,			 booktooltip_text[4]],	
+	["volume" , 		 booktooltip_text[5]],
+	["edition" ,		 booktooltip_text[6]],	
+	["date_consulted" ,	 booktooltip_text[7]],
+	["extra" ,		 	 booktooltip_text[8]],	
+	["pinpoint_form0" ,	 booktooltip_text[9]],	
+	["pinpoint_form1" ,	 booktooltip_text[9]],	
+	["pinpoint_form2" ,	 booktooltip_text[9]],	
+	["pinpoint_form3" ,	 booktooltip_text[9]],	
+	["pinpoint_form4" ,	 booktooltip_text[9]]	
+]	
+
+var BookTooltipOffsets =[
+'#Book-Container',
+'#BookPublisher'
+]
+
+
+var dictionarytooltip_text = [
+/*0*/"Title 	</div><font class = \"red\"> ex. Oxford English Dictionary </font><br>",
+/*1*/"Edition or Year           </div><font class = \"red\"> ex. 14, or 2010 </font><br>",
+/*2*/"Word           </div><font class = \"red\"> ex. dividend </font><br> Input the word you referenced.<br>",
+]
+
+
+for (var i =0; i< dictionarytooltip_text.length; i++){
+	dictionarytooltip_text[i] = tooltip_header + dictionarytooltip_text[i]+ 
+	tooltip_link
+}
+var DictionarytooltipList = [
+	["dictionary_title" ,		 dictionarytooltip_text[0]],
+	["dictionary_edition" , 	 dictionarytooltip_text[1]],
+	["dictionary_word" , 	 dictionarytooltip_text[2]]
+]	
+
+var DictionaryTooltipOffsets =[
+'#Dictionary-Container',
+'#DictionaryTitle',
+]
+
+
+/*
+=============================================
+Validations -- see http://en.wikipedia.org/wiki/List_of_Unicode_characters
+=============================================
+*/		
+	var regex_style 	= /^[\u0020-\u003B\u00A5\u00C0-\u00FF\u0040-\u007E\u00A3]*$/
+	var regex_parallel 	= /^[a-zA-Z0-9-.,;'&!()\]\[\u00E9\u00E8\u00C9\u00C8\u00C1\u00E1\u00F4\s]*$/
+	var regex_year 		= /(1[4-9][0-9]{2}|200[0-9]{1}|201[01234]{1})/
+	var regex_digits 	=/^\d+$/
+	var regex_findadigit = /\d+/
+	var regex_court 	=/^[a-zA-Z\s.&,()-\u00E9\u00E8\u00C9\u00C8\u00C1\u00E1\u00F4]*$/
+	var regex_judge		=/^[a-zA-Z-'\s.\u00E9\u00E8\u00C9\u00C8\u00C1\u00E1\u00F4]*$/
+	var regex_pincite 	=/^[\d,-\s]*$/
+	var regex_page		= /^[0-9-,xivlcdmXIVLCDM\s]$/
+	var regex_citation 	= /^\w+\s?\d+$/
+	var regex_authors 	= /^[\u0040-\u007E\s\u1D00-\u1D7F\u0020-\u003B\u00A3\u00A5\u00C0-\u00FF\n]+$/
+	var regex_edition	= /^[0-9A-Za-z\s]*$/
+	
+/*
+=============================================
+UK Case Validator
+=============================================
+*/			
+var UKCaseValidator = jQuery('#UKCase-Form').validate({
+			//ignore: ".search-query",
+			onkeyup: false,
+			rules: { 
+				styleofcause: {
+					maxlength:250,	
+					regex: regex_style, 
+					required: true 
+				},
+				parallel: {
+					maxlength:250,	
+					regex: regex_parallel, 
+					required: true 
+				},
+				year: {
+					maxlength:25,
+					regex: regex_year,
+					required: true 
+				},
+				court: {
+					required: true,
+				},
+				shortform: {
+					maxlength:100,	
+					regex: regex_style,
+				},
+				pincite_input:{
+					maxlength:20,	
+					regex: regex_pincite,
+				},
+				judge:{
+					maxlength:100,	
+					regex: regex_judge
+				},
+				//Citing======
+				citing_styleofcause:{
+					maxlength:250,	
+					regex: regex_style
+				},
+				citing_parallel:{
+					maxlength:250,	
+					regex: regex_parallel,
+				},
+				citing_year:{
+					maxlength:25,	
+					regex: regex_year,
+				},
+				citing_court:{
+					maxlength:250,	
+					regex: regex_court,
+					validateCourt: true,					
+				},
+				//History======
+				history_parallel1:{
+					maxlength:250,	
+					regex: regex_parallel, 
+				},
+				history_year1: {
+					maxlength:25,	
+					regex: regex_year,	
+				},
+				history_court1: {
+					maxlength:250,	
+					regex: regex_court,
+					validateCourt: true,
+				},	
+				history_parallel2:{
+					maxlength:250,	
+					regex: regex_parallel, 
+				},
+				history_year2: {
+					maxlength:25,	
+					regex: regex_year,	
+				},
+				history_court2: {
+					maxlength:250,	
+					regex: regex_court,
+					validateCourt: true,
+				},		
+				history_parallel3:{
+					maxlength:250,	
+					regex: regex_parallel, 
+				},
+				history_year3: {
+					maxlength:25,	
+					regex: regex_year,	
+				},
+				history_court3: {
+					maxlength:250,	
+					regex: regex_court,
+					validateCourt: true,
+				},					
+				leaveToAppeal_docket: {
+					maxlength:50,	
+					regex: regex_edition,
+				},		
+				leaveToAppeal_court:{
+					maxlength:250,	
+					regex: regex_court,
+					validateCourt: true,
+				},
+			},
+			highlight: function(element) {
+				console.log("in highlight");
+				jQuery(element).closest('.control-group').addClass('error');
+			},
+			success: function(element) {	
+				console.log("in success");			
+				element.closest('.control-group').removeClass('error');//.addClass('success'); 
+				
+			},
+			messages: { 
+				styleofcause: {
+					maxlength: "Maximum length: 250 characters.",
+					required: " "
+				},
+				parallel: {
+					maxlength: "Maximum length: 250 characters.",
+					required: " "
+				},
+				year: {
+					maxlength: "Maximum length: 25 characters.",
+					regex: "Enter a year between 1400 and 2014.",
+					required: " "
+				},
+				court: {
+					maxlength: "Maximum length: 250 characters.",
+					required: " ",
+					remote: "The court you entered was invalid"
+				},
+				shortform: {
+					maxlength: "Maximum length: 100 characters.",
+				},		
+				pincite_input:{
+					maxlength: "Maximum length: 20 characters.",
+					regex: "Digits only, please."
+				},
+				judge: {
+					maxlength: "Maximum length: 100 characters.",
+				},
+				citing_year:{
+					maxlength: "Maximum length: 25 characters.",
+					regex: "Enter a year between 1400 and 2014."
+				},
+				citing_court:{
+					maxlength: "Maximum length: 250 characters.",	
+				},
+				//History======
+				history_parallel1:{
+					maxlength: "Maximum length: 250 characters.",
+				},
+				history_year1: {
+					maxlength:"Maximum length: 25 characters.",	
+					regex:"Enter a year between 1400 and 2014."
+				},
+				history_court1: {
+					maxlength:"Maximum length: 250 characters.",	
+				},	
+				history_parallel2:{
+					maxlength: "Maximum length: 250 characters.",
+				},
+				history_year2: {
+					maxlength:"Maximum length: 25 characters.",	
+					regex:"Enter a year between 1400 and 2014."
+				},
+				history_court2: {
+					maxlength:"Maximum length: 250 characters.",	
+				},	
+				history_parallel3:{
+					maxlength: "Maximum length: 250 characters.",
+				},
+				history_year3: {
+					maxlength:"Maximum length: 25 characters.",	
+					regex:"Enter a year between 1400 and 2014."
+				},
+				history_court3: {
+					maxlength:"Maximum length: 250 characters.",	
+				},					
+				leaveToAppeal_docket: {
+					maxlength:"Maximum length: 50 characters.",	
+					regex:"Enter a valid docket number or citation.",
+				},		
+				leaveToAppeal_court:{
+					maxlength:"Maximum length: 250 characters.",	
+				}
+	
+			}
+		});
+
+
+/*
+=============================================
+Book
+=============================================
+*/
+var BookValidator = jQuery('#Book-Form').validate({
+			//ignore: ".search-query",
+			rules: { 
+				authors: { 
+					maxlength:500, 	
+					regex: regex_authors, 
+					required: true 
+				},
+				title: { 
+					maxlength:500, 
+					regex: regex_style, 
+					required: true 
+				},
+				place: { 
+					maxlength:100,	
+					regex: regex_judge,
+					required: true 
+				},
+				publisher: { 
+					maxlength:100,
+					regex: regex_judge,
+					required: true 
+				},
+				year: { 
+					maxlength:25,
+					regex: regex_year,	
+					required: true 
+				},
+				volume: { 
+					maxlength:10,
+					regex: regex_findadigit,	
+				},
+				edition: { 
+					maxlength:20,
+					regex: regex_edition,	
+				},
+				date_consulted: { 
+					maxlength:25,
+					regex: regex_authors,	
+				},
+				extra: { 
+					maxlength:100,
+					regex: regex_style,	
+				},	
+				pinpoint_form1: {
+					maxlength:20,
+					regex: regex_pincite,																		
+				},				
+				pinpoint_form2: {
+					maxlength:20,
+					regex: regex_pincite,										
+				},				
+				pinpoint_form3: {
+					maxlength:20,
+					regex: regex_pincite,										
+				},				
+				pinpoint_form4: {
+					maxlength:20,
+					regex: regex_pincite,										
+				},	
+			},
+			highlight: function(element) {
+				console.log("in highlight");
+				jQuery(element).closest('.control-group').addClass('error');
+			},
+			success: function(element) {	
+				console.log("in success");			
+				element.closest('.control-group').removeClass('error');//.addClass('success'); 
+				
+			},
+			messages: { 
+				authors: { 
+					maxlength: "Maximum length: 500 characters.",
+					required: " "
+				},
+				title: { 
+					maxlength: "Maximum length: 500 characters.",
+					required: " "
+				},
+				place: { 
+					maxlength: "Maximum length: 100 characters.",
+					required: " "
+				},
+				publisher: { 
+					maxlength: "Maximum length: 100 characters.",
+					required: " "
+				},
+				year: { 
+					maxlength: "Maximum length: 25 characters.",	
+					required: " "
+				},
+				volume: { 
+					maxlength: "Maximum length: 10 characters.",	
+				},
+				edition: { 
+					maxlength: "Maximum length: 20 characters.",	
+				},
+				date_consulted: { 
+					maxlength: "Maximum length: 25 characters.",	
+				},
+				extra: { 
+					maxlength: "Maximum length: 100 characters.",	
+				},	
+				pinpoint_form1: {
+					maxlength: "Maximum length: 20 characters.",																		
+				},				
+				pinpoint_form2: {
+					maxlength: "Maximum length: 20 characters.",										
+				},				
+				pinpoint_form3: {
+					maxlength: "Maximum length: 20 characters.",										
+				},				
+				pinpoint_form4: {
+					maxlength: "Maximum length: 20 characters.",										
+				},		
+			}
+		});	
+
+
+/*
+=============================================
+Dictionary
+=============================================
+*/
+var DictionaryValidator = jQuery('#Dictionary-Form').validate({
+			//ignore: ".search-query",
+			rules: { 
+				dictionary_title: { 
+					maxlength:500, 
+					regex: regex_style, 
+					required: true 
+				},
+				dictionary_edition: { 
+					maxlength:25,
+					regex: regex_edition,
+					//regex2: regex_year,
+					required: true
+				},
+				dictionary_word: { 
+					maxlength:100,
+					regex: regex_style,	
+					required: true
+				},		
+			},
+			highlight: function(element) {
+				console.log("in highlight");
+				jQuery(element).closest('.control-group').addClass('error');
+			},
+			success: function(element) {	
+				console.log("in success");			
+				element.closest('.control-group').removeClass('error');//.addClass('success'); 
+				
+			},
+			messages: { 
+				dictionary_title: { 
+					maxlength: "Maximum length: 500 characters.",
+					required: " "
+				},
+				dictionary_edition: { 
+					maxlength: "Maximum length: 20 characters.",	
+					required: " "
+				},
+				dictionary_word: { 
+					maxlength: "Maximum length: 100 characters.",	
+					required: " "
+				},		
+			}
+		});	
+
+
+/*
+=============================================
+Journal Article
+=============================================
+*/			
+	// Validates the form to check if a form works or not
+	// Note: rules are based on name of form
+	var JournalArticleValidator = jQuery('#Journal-Form').validate({
+			//ignore: ".search-query",
+			rules: { 
+				authors: { //check for insert code??????
+					maxlength:500,	
+					required: true 
+				},
+				title: {
+					maxlength:500,	
+					regex: regex_style,	
+					required: true 
+				},
+				citation: {
+					maxlength:250,	
+					required: true 
+				},
+				year: {
+					maxlength:25,
+					regex: regex_year,					
+					required: true 
+				},
+				pinpoint_form1: {
+					maxlength:20,
+					regex: regex_pincite,																		
+				},				
+				pinpoint_form2: {
+					maxlength:20,
+					regex: regex_pincite,										
+				},				
+				pinpoint_form3: {
+					maxlength:20,
+					regex: regex_pincite,										
+				},				
+				pinpoint_form4: {
+					maxlength:20,
+					regex: regex_pincite,										
+				},								
+			},
+			highlight: function(element) {
+				console.log("in highlight");
+				jQuery(element).closest('.control-group').addClass('error');
+			},
+			success: function(element) {	
+				console.log("in success");			
+				element.closest('.control-group').removeClass('error');//.addClass('success'); 
+				
+			},
+			messages: { 
+				authors: { //check for insert code??????
+					maxlength:"Maximum length: 500 characters.",
+					required: " " 
+				},
+				title: {
+					maxlength:"Maximum length: 500 characters.",
+					required: " " 
+				},
+				citation: {
+					maxlength:"Maximum length: 250 characters.",
+					required: " " 
+				},
+				year: {
+					maxlength: "Maximum length: 25 characters.",
+					regex: "Enter a year between 1400 and 2014.",
+					required: " "
+				},
+				pinpoint_form1: {
+					maxlength: "Maximum length: 20 characters.",
+				},				
+				pinpoint_form1: {
+					maxlength: "Maximum length: 20 characters.",
+				},				
+				pinpoint_form2: {
+					maxlength: "Maximum length: 20 characters.",
+				},				
+				pinpoint_form3: {
+					maxlength: "Maximum length: 20 characters.",
+				},				
+				pinpoint_form4: {
+					maxlength: "Maximum length: 20 characters.",
+				},								
+			},				
+				
+			
+		}); 	
+
+
+/*
+=============================================
+CanadaCaseValidator
+=============================================
+*/		
+	
+	// Validates the form to check if a form works or not
+	// Note: rules are based on name of form
+	var CanadianCaseValidator = jQuery('#CanadaCase-Form').validate({
+			//ignore: ".search-query",
+			onkeyup: false,
+			rules: { 
+				styleofcause: {
+					maxlength:250,	
+					regex: regex_style, 
+					required: true 
+				},
+				parallel: {
+					maxlength:250,	
+					regex: regex_parallel, 
+					required: true 
+				},
+				year: {
+					maxlength:15,
+					regex: regex_year,
+					required: true 
+				},
+				court: {
+					maxlength:250,	
+					regex: regex_court, 
+					validateCourt: true,
+					required: true,
+				},
+				shortform: {
+					maxlength:100,	
+					regex: regex_style,
+				},
+				pincite_input:{
+					maxlength:20,	
+					regex: regex_pincite,
+				},
+				judge:{
+					maxlength:100,	
+					regex: regex_judge
+				},
+				//Citing======
+				citing_styleofcause:{
+					maxlength:250,	
+					regex: regex_style
+				},
+				citing_parallel:{
+					maxlength:250,	
+					regex: regex_parallel,
+				},
+				citing_year:{
+					maxlength:20,	
+					regex: regex_year,
+				},
+				citing_court:{
+					maxlength:250,	
+					regex: regex_court,
+					validateCourt: true,					
+				},
+				//History======
+				history_parallel1:{
+					maxlength:250,	
+					regex: regex_parallel, 
+				},
+				history_year1: {
+					maxlength:20,	
+					regex: regex_year,	
+				},
+				history_court1: {
+					maxlength:250,	
+					regex: regex_court,
+					validateCourt: true,
+				},	
+				history_parallel2:{
+					maxlength:250,	
+					regex: regex_parallel, 
+				},
+				history_year2: {
+					maxlength:20,	
+					regex: regex_year,	
+				},
+				history_court2: {
+					maxlength:250,	
+					regex: regex_court,
+					validateCourt: true,
+				},		
+				history_parallel3:{
+					maxlength:250,	
+					regex: regex_parallel, 
+				},
+				history_year3: {
+					maxlength:20,	
+					regex: regex_year,	
+				},
+				history_court3: {
+					maxlength:250,	
+					regex: regex_court,
+					validateCourt: true,
+				},					
+				leaveToAppeal_docket: {
+					maxlength:50,	
+					regex: regex_edition,
+				},		
+				leaveToAppeal_court:{
+					maxlength:250,	
+					regex: regex_court,
+					validateCourt: true,
+				},					
+
+			},
+			highlight: function(element) {
+				//console.log("in highlight");
+				jQuery(element).closest('.control-group').addClass('error');
+				//jQuery(element).closest('.control-group').html("AAAAAAAAAA");
+			},
+			success: function(element) {	
+				//console.log("in success");			
+				//element.text('OK!').addClass('valid').closest('.control-group').removeClass('error');//.addClass('success'); 
+				element.closest('.control-group').removeClass('error');//.addClass('success'); 
+				
+//element.addClass('valid');
+				
+			},
+			messages: { 
+				styleofcause: {
+					maxlength: "Maximum length: 250 characters.",
+					required: " "
+				},
+				parallel: {
+					maxlength: "Maximum length: 250 characters.",
+					required: " "
+				},
+				year: {
+					maxlength: "Maximum length: 25 characters.",
+					regex: "Enter a year between 1400 and 2014.",
+					required: " "
+				},
+				court: {
+					maxlength: "Maximum length: 250 characters.",
+					required: " ",
+					remote: "The court you entered was invalid"
+				},
+				shortform: {
+					maxlength: "Maximum length: 100 characters.",
+				},		
+				pincite_input:{
+					maxlength: "Maximum length: 20 characters.",
+					regex: "Digits only, please."
+				},
+				judge: {
+					maxlength: "Maximum length: 100 characters.",
+				},
+				citing_year:{
+					maxlength: "Maximum length: 25 characters.",
+					regex: "Enter a year between 1400 and 2014."
+				},
+				citing_court:{
+					maxlength: "Maximum length: 250 characters.",	
+				},
+				//History======
+				history_parallel1:{
+					maxlength: "Maximum length: 250 characters.",
+				},
+				history_year1: {
+					maxlength:"Maximum length: 25 characters.",	
+					regex:"Enter a year between 1400 and 2014."
+				},
+				history_court1: {
+					maxlength:"Maximum length: 250 characters.",	
+				},	
+				history_parallel2:{
+					maxlength: "Maximum length: 250 characters.",
+				},
+				history_year2: {
+					maxlength:"Maximum length: 25 characters.",	
+					regex:"Enter a year between 1400 and 2014."
+				},
+				history_court2: {
+					maxlength:"Maximum length: 250 characters.",	
+				},	
+				history_parallel3:{
+					maxlength: "Maximum length: 250 characters.",
+				},
+				history_year3: {
+					maxlength:"Maximum length: 25 characters.",	
+					regex:"Enter a year between 1400 and 2014."
+				},
+				history_court3: {
+					maxlength:"Maximum length: 250 characters.",	
+				},					
+				leaveToAppeal_docket: {
+					maxlength:"Maximum length: 50 characters.",	
+					regex:"Enter a valid docket number or citation.",
+				},		
+				leaveToAppeal_court:{
+					maxlength:"Maximum length: 250 characters.",	
+				}				
+			}
+		}); 
+	
+		
+		// Validates the form to check if a form works or not
+		var CanliiValidator = jQuery('#Canlii-Form').validate({
+			rules: { 
+				url: {
+					minlength: 6,
+					required: true,
+					url:true
+				},
+			},
+			highlight: function(element) {
+				jQuery(element).closest('.control-group').addClass('error');
+			},
+			success: function(element) { 
+				element.addClass('valid')
+					.closest('.control-group').removeClass('error'); 
+			},
+			messages: { 
+				url: {
+					minlength: "The url you entered was too short!",
+					required: ""
+				},
+				
+			}
+		}); 
+		
+		
+		// Validates the form to check if a form works or not
+		jQuery('#contact-form').validate({
+			rules: { 
+				name: {
+				    regex: "^[a-zA-Z'.\\s]{1,40}$",	 
+					minlength: 4,
+					required: true 
+				},
+				email: {
+					required: true,
+					email: true
+				}, 
+				subject: {
+					minlength: 2,
+					required: true 
+				},
+				message: {
+					minlength: 2, 
+					required: true
+				}
+			},
+			highlight: function(element) {
+				jQuery(element).closest('.control-group').removeClass('success').addClass('error');
+			},
+			success: function(element) { 
+				element .text('OK!').addClass('valid')
+					.closest('.control-group').removeClass('error').addClass('success'); 
+			},
+			messages: { 
+				name: {
+					minlength: "too short!",
+					required: ""
+				},
+				email: { 
+					required: "We need your email address to contact you", 
+					email: "Your email address must be in  the format of name@domain.com" 
+				} 
+			}
+		}); 
+		
+/*
+=============================================
+USCaseValidator
+=============================================
+*/		
+	
+	// Validates the form to check if a form works or not
+	// Note: rules are based on name of form
+	var USCaseValidator = jQuery('#USCase-Form').validate({
+			//ignore: ".search-query",
+			onkeyup: false,
+			rules: { 
+				styleofcause: {
+					maxlength:250,	
+					regex: regex_style, 
+					required: true 
+				},
+				parallel: {
+					maxlength:250,	
+					regex: regex_parallel, 
+					required: true 
+				},
+				year: {
+					maxlength:25,
+					regex: regex_year,
+					required: true 
+				},
+				court: {
+					maxlength:250,	
+					regex: regex_court, 
+					validateCourt: true,
+					required: true,
+				},
+				shortform: {
+					maxlength:100,	
+					regex: regex_style,
+				},
+				pincite_input:{
+					maxlength:20,	
+					regex: regex_pincite,
+				},
+				judge:{
+					maxlength:100,	
+					regex: regex_judge
+				},
+				//Citing======
+				citing_styleofcause:{
+					maxlength:250,	
+					regex: regex_style
+				},
+				citing_parallel:{
+					maxlength:250,	
+					regex: regex_parallel,
+				},
+				citing_year:{
+					maxlength:25,	
+					regex: regex_year,
+				},
+				citing_court:{
+					maxlength:250,	
+					regex: regex_court,
+					validateCourt: true,					
+				},
+				//History======
+				history_parallel1:{
+					maxlength:250,	
+					regex: regex_parallel, 
+				},
+				history_year1: {
+					maxlength:25,	
+					regex: regex_year,	
+				},
+				history_court1: {
+					maxlength:250,	
+					regex: regex_court,
+					validateCourt: true,
+				},	
+				history_parallel2:{
+					maxlength:250,	
+					regex: regex_parallel, 
+				},
+				history_year2: {
+					maxlength:25,	
+					regex: regex_year,	
+				},
+				history_court2: {
+					maxlength:250,	
+					regex: regex_court,
+					validateCourt: true,
+				},		
+				history_parallel3:{
+					maxlength:250,	
+					regex: regex_parallel, 
+				},
+				history_year3: {
+					maxlength:25,	
+					regex: regex_year,	
+				},
+				history_court3: {
+					maxlength:250,	
+					regex: regex_court,
+					validateCourt: true,
+				},					
+				leaveToAppeal_docket: {
+					maxlength:50,	
+					regex: regex_edition,
+				},		
+				leaveToAppeal_court:{
+					maxlength:250,	
+					regex: regex_court,
+					validateCourt: true,
+				},					
+
+			},
+			highlight: function(element) {
+				//console.log("in highlight");
+				jQuery(element).closest('.control-group').addClass('error');
+				//jQuery(element).closest('.control-group').html("AAAAAAAAAA");
+			},
+			success: function(element) {	
+				//console.log("in success");			
+				//element.text('OK!').addClass('valid').closest('.control-group').removeClass('error');//.addClass('success'); 
+				element.closest('.control-group').removeClass('error');//.addClass('success'); 
+				
+//element.addClass('valid');
+				
+			},
+			messages: { 
+				styleofcause: {
+					maxlength: "Maximum length: 250 characters.",
+					required: " "
+				},
+				parallel: {
+					maxlength: "Maximum length: 250 characters.",
+					required: " "
+				},
+				year: {
+					maxlength: "Maximum length: 25 characters.",
+					regex: "Enter a year between 1400 and 2014.",
+					required: " "
+				},
+				court: {
+					maxlength: "Maximum length: 250 characters.",
+					required: " ",
+					remote: "The court you entered was invalid"
+				},
+				shortform: {
+					maxlength: "Maximum length: 100 characters.",
+				},		
+				pincite_input:{
+					maxlength: "Maximum length: 20 characters.",
+					regex: "Digits only, please."
+				},
+				judge: {
+					maxlength: "Maximum length: 100 characters.",
+				},
+				citing_year:{
+					maxlength: "Maximum length: 25 characters.",
+					regex: "Enter a year between 1400 and 2014."
+				},
+				citing_court:{
+					maxlength: "Maximum length: 250 characters.",	
+				},
+				//History======
+				history_parallel1:{
+					maxlength: "Maximum length: 250 characters.",
+				},
+				history_year1: {
+					maxlength:"Maximum length: 25 characters.",	
+					regex:"Enter a year between 1400 and 2014."
+				},
+				history_court1: {
+					maxlength:"Maximum length: 250 characters.",	
+				},	
+				history_parallel2:{
+					maxlength: "Maximum length: 250 characters.",
+				},
+				history_year2: {
+					maxlength:"Maximum length: 25 characters.",	
+					regex:"Enter a year between 1400 and 2014."
+				},
+				history_court2: {
+					maxlength:"Maximum length: 250 characters.",	
+				},	
+				history_parallel3:{
+					maxlength: "Maximum length: 250 characters.",
+				},
+				history_year3: {
+					maxlength:"Maximum length: 25 characters.",	
+					regex:"Enter a year between 1400 and 2014."
+				},
+				history_court3: {
+					maxlength:"Maximum length: 250 characters.",	
+				},					
+				leaveToAppeal_docket: {
+					maxlength:"Maximum length: 50 characters.",	
+					regex:"Enter a valid docket number or citation.",
+				},		
+				leaveToAppeal_court:{
+					maxlength:"Maximum length: 250 characters.",	
+				}				
+			}
+		}); 
+		
+/*
+=============================================
+Adding Methods
+=============================================
+*/			
+
+	 //adding a method that allows regular expressions to check for validation
+ jQuery.validator.addMethod(
+		"regex",
+        function(value, element, regexp) {
+            var re = new RegExp(regexp);
+            return this.optional(element) || re.test(value);
+        },
+        "Detected an invalid character."
+	);
+	 //adding a method that allows regular expressions to check for validation
+ jQuery.validator.addMethod(
+		"regex2",
+        function(value, element, regexp) {
+            var re = new RegExp(regexp);
+            return this.optional(element) || re.test(value);
+        },
+        "Please check your input."
+	);	 
+
+	jQuery.validator.addMethod("validateCourt", function(value, element,validate)
+	{
+	
+    var inputElem = jQuery("#"+element.id),
+        data = { court : inputElem.val() },
+        eReport = ''; //error report
+		
+	console.log("in court: " +"#"+element.id);
+	console.log("in court: " +inputElem.val());
+	console.log("optional: " +this.optional(element));
+	console.log("validate: "+validate);
+
+	if (inputElem.val() !== ""){
+		//return true
+		var response;
+		jQuery.ajax(
+			{
+				type: "POST",
+				url: '/form/court',
+				dataType: "json",
+				data: data,
+				success: function(data)
+				{
+					response = data
+				},
+				async:false
+			})
+			if (response[0].valid == true){
+				inputElem.val(response[0].court)
+				return true
+			}
+			else{
+				return false
+			}
+	}
+	else{
+		return true
+	}
+}, 'The court you entered did not work in our system.');//'The court entered was not detected as a valid court'); 
+
+
+jQuery('#CanadaCase-Container select').change(function(){
+	console.log(jQuery(this).attr('name'));
+	// Do something in here
+});
+//jQuery('#tooltips').html(tooltip_styleOfCause);
 
 /*
 =============================================
@@ -144,8 +1456,8 @@ jQuery('#leaveToAppeal-selection').change(function(){
 
 
 jQuery('#CanadaCase-Accordion-Toggle').click(function(){
-	if (jQuery( "#CanadaCaseExtraOptions" ).hasClass('collapse') !== true){
-				jQuery('#tooltips').html(''); 
+	if (jQuery( "#CanadaCaseExtraOptions" ).hasClass('collapse') === false){
+				jQuery('#CanadaCase-tooltips').html(''); 
 				
 	}
 });
@@ -187,7 +1499,7 @@ jQuery('#CanadaCaseReset').click(function(){
 	jQuery("#canlii-result-container").hide();
 	jQuery('#canlii-input').val('');
 	//tooltips
-	jQuery(' #CanadaCase-tooltips').html("");
+	jQuery('#CanadaCase-tooltips').html("");
 	jQuery("#CanadaCase-Form .error").removeClass('error');
 	jQuery('#pinciteWrapper').tooltip('enable');
 	jQuery('#pincite-selection').prop('disabled',true);
@@ -203,7 +1515,27 @@ jQuery('#CanadaCaseReset').click(function(){
 })
 
 
+/*
+=============================================
+US Case
+=============================================
+*/		
 
+jQuery('#USCase-Accordion-Toggle').click(function(){
+	if (jQuery( "#USCaseExtraOptions" ).hasClass('collapse') === false){
+				jQuery('#USCase-tooltips').html(''); 
+				
+	}
+});	
+	/***********        Reset       ***********/		
+jQuery('#USCase-Container .resetButton').click(function(){
+	var id = "#USCase-Container"
+	UKCaseValidator.resetForm();
+	us.hide();
+	
+	//tooltips
+	jQuery('#USCase-tooltips').html("");
+})	
 /*
 =============================================
 UK Case
@@ -211,7 +1543,7 @@ UK Case
 */		
 
 	/***********        Form Submissions         ***********/	
-	jQuery('#UKCaseParallel').blur(function(){
+jQuery('#UKCaseParallel').blur(function(){
 			var parallelValue = jQuery(this).val();
 			id = "#UKCase-Container"
 			if (parallelValue !== ""){	
@@ -261,8 +1593,6 @@ UK Case
 		
 jQuery('#UKCase-Form .court-selection').change(function(){
 	var txt = jQuery(this).val();
-	////console.log("txt \n\n\n\n\n\n\n" + txt);
-	////console.log("txt \n\n\n\n\n\n\n" + txt);
 	if(txt =="Other"){
 		jQuery(this).siblings('.court-input').show();
 	}
@@ -272,11 +1602,8 @@ jQuery('#UKCase-Form .court-selection').change(function(){
 });
 
 
-
 	function autoFillUKPinpoint(reporterType, reporters){
 		var id = "#UKCase-Container"
-		////console.log("reporterType ::" +reporterType );
-		////console.log("reporter 1::"+ reporters);
 		jQuery(id + ' #pinpoint-warning').html("");
 		if (reporterType === "Warning: should have reporter") { 
 			message = "<b>Parallel Citations:</b> Warning, we detected a neutral citation only. You generally should include a reporter as well, if possible."
@@ -298,7 +1625,12 @@ jQuery('#UKCase-Form .court-selection').change(function(){
 		}
 	}
 	
-	
+jQuery('#UKCase-Accordion-Toggle').click(function(){
+	if (jQuery( "#UKCaseExtraOptions" ).hasClass('collapse') === false){
+				jQuery('#UKCase-tooltips').html(''); 
+				
+	}
+});	
 	/***********        Reset       ***********/		
 jQuery('#UKCase-Container .resetButton').click(function(){
 	var id = "#UKCase-Container"

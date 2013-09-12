@@ -314,7 +314,7 @@ def CanadianCase(form):
 		
 		returnString = styleofcause + citations +judge + citing + leaveToAppeal + history + shortform+'.'
 		print returnString
-		
+		'''
 		#TODO MESSING AROUND WITH DATABASE MAKE IT BETTER!!!!!
 		#user = 0
 		citation_ident = globs.db.query ("SELECT MAX(citation_id) as highestCitation from citation")[0]
@@ -329,6 +329,7 @@ def CanadianCase(form):
 		user = userQuery.user_id
 		globs.db.insert('citation',  citation_id = cit_id, title = styleofcause, comments = "", date_created = web.SQLLiteral("NOW()"), date_modified = web.SQLLiteral("NOW()") , citation = returnString, finished = 1, user_id = user, formtype = 'Canadian Case')
 		#END !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		'''
 	else:
 		returnString =""
 		

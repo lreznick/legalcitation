@@ -99,6 +99,8 @@ class Test(object):
 class Index(object):
 	def GET(self):
 		print "In index"
+		print >> sys.stderr, "TESTING PRINT" 
+		print web.ctx
 		session_cookie = web.cookies().get('chocolate_chip_local')
 		if ((session_cookie != None) and (session.loggedin == True)):
 			raise web.seeother("/citations")
