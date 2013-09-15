@@ -13,6 +13,7 @@ $def with (greeting= None)
             <li><a href="#UK" data-toggle="tab">Case (UK)</a></li>
 			<li><a href="#Journal" data-toggle="tab">Journal Article</a></li>
 			<li><a href="#Book" data-toggle="tab">Book</a></li>
+			<li><a href="#Dictionary" data-toggle="tab">Dictionary</a></li>
           </ul>
       <hr>
             <div class="tab-content">	
@@ -40,7 +41,10 @@ $def with (greeting= None)
 				<!-- Book-->
                 <div class="tab-pane" id="Book">
                   $:render.formBook()
-                </div>				
+                </div>	
+				<div class="tab-pane" id="Dictionary">
+                  $:render.formDictionary()
+                </div>	
                 
 			</div>    <!--Tab content -->
        </div> <!-- Tababble-->

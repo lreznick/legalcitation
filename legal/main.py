@@ -164,6 +164,7 @@ class Login(object):
 					session.loggedin = True
 					globs.db.query("INSERT INTO user_session (user_id, session_id) VALUES ($user_id, $session_id)", vars={'user_id':query_result.user_id, 'session_id':})
 					session.username = email
+					#addToUserSessionTable();
 					raise web.seeother("/citations")
 				else:
 					my_login['username'].note = "Please Validate Your Account."
@@ -186,7 +187,8 @@ class Login(object):
 			else:
 				return globs.render.login()
 
-
+def addToUserSessionTable():
+	return None
 
 class Logout:
 	def GET(self):
