@@ -39,8 +39,9 @@ urls = (
 	'/login', 'Login',
 	'/logout', 'Logout',
 	'/register', 'Register',
+	'/changePassword', 'ChangePassword',
 	'/terms', 'Terms',
-	
+	'/forgotPassword', 'ForgotPassword',
 	'/test', 'Test'
 )
 
@@ -161,6 +162,7 @@ class Login(object):
 				print query_result
 				if query_result.active:
 					session.loggedin = True
+					globs.db.query("INSERT INTO user_session (user_id, session_id) VALUES ($user_id, $session_id)", vars={'user_id':query_result.user_id, 'session_id':})
 					session.username = email
 					raise web.seeother("/citations")
 				else:
@@ -193,10 +195,50 @@ class Logout:
 		session.kill()
 		return globs.render.login(my_login)
 
+
+
+''' --------- Forgot Password --------- '''
+
+class ForgotPassword(object):
+	def GET(self):
+		return globs.render.passwordForgotReset()
+	def POST(self):
+		data = web.input()
+		email = data.id
+		get_email_hash = globs.db.query("SELECT email_hash FROM users WHERE email=$email", vars={'email':email})[0]
+		htmlbody = web.template.frender('webclient/templates/email/email.html')
+		#For the server
+	
+		#baselink = "http://www.intra-vires.com/response?id="
+		baselink = "localhost:8080/changePassword?id="
+		link = baselink + get_email_hash.email_hash
+		web.sendmail('Register.IntraVires@gmail.com', email, 'Complete Your Intra Vires Registration', htmlbody(link), headers={'Content-Type':'text/html;charset=utf-8'})
+		return "You should recieve an email for password change."
 		
-		
-		
-		
+class ChangePassword(object):
+	def GET(self):
+
+	def POST(self):
+		data = web.input()
+		print data
+		hashedemail = data.id
+		user_query = globs.db.query("SELECT * FROM users WHERE email_hash=$hash", vars={'hash':hashedemail})
+		my_login = globs.login_form()
+		if user_query == None:
+			return "You done goofed"
+		else:
+			user_row = user_query[0]
+			print user_row
+			if(user_row.email_hash == hashedemail):
+				user_id = user_row.user_id
+				globs.db.query("UPDATE users SET active=1 WHERE user_id=$userID", vars={'userID':user_id})
+				session.loggedin = True
+				
+				session.username = user_row.email
+				return globs.render.signupGetInfo(user_id)
+				#return globs.render.login(my_login)
+			else:
+				return globs.render.login(my_login)
 		
 ''' --------------- REGISTER ------------'''		
 
