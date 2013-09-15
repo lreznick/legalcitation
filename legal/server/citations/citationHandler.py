@@ -48,7 +48,8 @@ class MyCitations(object):
 			user_name = web.ctx.session.username
 			userQuery = globs.db.query("SELECT user_id FROM users WHERE email=$user", vars={'user':user_name})[0]
 			user = userQuery.user_id
-			citations = globs.db.query("SELECT * FROM citation WHERE user_id=$user", vars={'user':user})
+			#citations = globs.db.query("SELECT * FROM citation WHERE user_id=$user", vars={'user':user})
+			citations = globs.db.query("SELECT * FROM citation WHERE user_id=$user ORDER BY date_modified DESC", vars={'user':user})
 			print "===============DATE ====================================="
 			return globs.render.myCitations(citations)
 
