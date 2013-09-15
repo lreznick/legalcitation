@@ -162,7 +162,7 @@ class Login(object):
 				print query_result
 				if query_result.active:
 					session.loggedin = True
-					globs.db.query("INSERT INTO user_session (user_id, session_id) VALUES ($user_id, $session_id)", vars={'user_id':query_result.user_id, 'session_id':})
+					#globs.db.query("INSERT INTO user_session (user_id, session_id) VALUES ($user_id, $session_id)", vars={'user_id':query_result.user_id, 'session_id':})
 					session.username = email
 					#addToUserSessionTable();
 					raise web.seeother("/citations")
@@ -203,7 +203,7 @@ class Logout:
 
 class ForgotPassword(object):
 	def GET(self):
-		return globs.render.passwordForgotReset()
+		return globs.render.passwordForgot()
 	def POST(self):
 		data = web.input()
 		email = data.id
@@ -219,7 +219,7 @@ class ForgotPassword(object):
 		
 class ChangePassword(object):
 	def GET(self):
-
+		return "Get in changePassword"
 	def POST(self):
 		data = web.input()
 		print data
