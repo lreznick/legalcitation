@@ -167,7 +167,11 @@ def ValidateHistory(f):
 		i+=1
 	return f
 def ValidateCanadianPincite(f):
+<<<<<<< HEAD:legal/server/validator.py
+	pinciteSelection 	= "%s" % (f.form.pincite_selection)
+=======
 	pinciteSelection	= "%s" % (f.form.pincite_selection)
+>>>>>>> 7d56b4bdf29a9ead8c498ba4b68505cca40e904a:legal/server/formcode/validator.py
 	pinciteRadio		= "%s" % (f.form.pincite_radio)
 	pinciteInput		= "%s" % (f.form.pincite_input)	
 	pincite 				= [pinciteSelection, pinciteRadio, "page", pinciteInput]
