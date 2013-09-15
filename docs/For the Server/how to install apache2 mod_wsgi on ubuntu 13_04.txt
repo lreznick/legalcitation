@@ -16,10 +16,7 @@ We assume that you have root access for all of the installation process
 	apt-get install python-passlib
 
 5. Get MySQL
-	apt-get install python-mysql.connector
-	apt-get install python-mysqldb
-	apt-get install mysql-client-core-5.5
-	apt-get install mysql-server
+	apt-get install python-mysql.connector python-mysqldb mysql-client-core-5.5 mysql-server
 		set password to: bananajones
 	
 6. Get mod_wsgi
@@ -55,14 +52,24 @@ We assume that you have root access for all of the installation process
 9 Modifying your code: 
 	go to main.py (in var/www/legal)
 	9.1 Wsgifunc()
-			app = web.application(urls, globals(), autoreload=False)
-			application = app.wsgifunc()
-			
-			application = app.run()
-			CHANGES TO
-			application =app.wsgifunc()	
-			***ensure it is at the top!!!!! ****
-			
+				uncomment #For the server
+				lines 8-16 
+					root = os.path.join(os.path.dirname(__file__)+"/")
+				lines 48-52
+					app = web.application(urls, globals(),autoreload=False)
+					application = app.wsgifunc()
+				line 62 
+					web.config.debug = True #  Change to False
+				line 221
+					#baselink = "http://www.intra-vires.com/response?id="
+					baselink = "localhost:8080/response?id="
+				
+				In globs.py
+				line 16
+					#db = web.database(dbn='mysql', host='127.0.0.1', port=3306, user='BananaJones', pw='bananajones', db='intravires')
+					db = web.database(dbn='mysql', host='127.0.0.1', port=3306, user='root', pw='root', db='intravires')
+					
+#	db = web.database(dbn='mysql', host='127.0.0.1', port=3306, user='root', pw='Jeenyus1', db='intravires')
 	9.2 Ensure python can find all of your files
 			AT THE TOP OF YOUR FILE - UNCOMMENT THIS BAD BOY
 			import os

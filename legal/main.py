@@ -57,6 +57,8 @@ app = web.application(urls, globals(),autoreload=True)
 
 
 globs.init()          # Call only once
+
+#For the Server
 web.config.debug = True #  Change me  For server ------------
 global session
 
@@ -200,7 +202,6 @@ class Logout:
 
 class Register(object):
 	def GET(self):
-		
 		my_signup = globs.signup_form()
 		return globs.render.register(my_signup)
 		
@@ -217,6 +218,8 @@ class Register(object):
 			else:
 				get_email_hash = globs.db.query("SELECT email_hash FROM users WHERE email=$id", vars={'id':email})[0]
 				htmlbody = web.template.frender('webclient/templates/email/email.html')
+				#For the server
+				
 				#baselink = "http://www.intra-vires.com/response?id="
 				baselink = "localhost:8080/response?id="
 				link = baselink + get_email_hash.email_hash
@@ -234,11 +237,9 @@ class Register(object):
 def ValidateRegister(password, passwordAgain, email):
 	print password
 	print passwordAgain
-	print "YO\n\n\n\n\n\n\n"
 	
 	if (password != passwordAgain):
 		return "The passwords you entered don't match."
-		print "YO2\n\n\n\n\n\n\n"
 	else:
 		return"Your entries were invalid."
 		
@@ -256,17 +257,14 @@ class EmailResponse(object):
 			user_row = user_query[0]
 			print user_row
 			if(user_row.email_hash == hashedemail):
-				print "000000000000000"
 				user_id = user_row.user_id
 				globs.db.query("UPDATE users SET active=1 WHERE user_id=$userID", vars={'userID':user_id})
-				print "1111111111111111"
 				session.loggedin = True
 				
 				session.username = user_row.email
 				return globs.render.signupGetInfo(user_id)
 				#return globs.render.login(my_login)
 			else:
-				print "2222222222222222222222222"
 				return globs.render.login(my_login)
 
 class FinishRegistration(object):
@@ -278,7 +276,6 @@ class FinishRegistration(object):
 		print data.lastname
 		print data.age
 	def POST(self):
-		print "\n\n\n\n\n\n\n\n"
 		data = web.input()
 		print data
 		occupation = "none"
