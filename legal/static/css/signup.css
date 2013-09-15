@@ -1,13 +1,27 @@
-#signup{
+#blurb{
+	height: 400px;
+
+}
+#blurb-img{
 	position: relative;
+	z-index: 1;
+}
+#signup{
+	position:absolute;
+	text-align: center;
 	left: 620px;
-	top: 420px;
+	top: 300px;
 	width:300px;
+	z-index:2;
+}
+#signup-image{
+	position: relative;
+	z-index:1;
+	margin-top: -250px;
 }
 #signup-title{
 	font-family:RalewayReg;
 	font-size: 25px;
-
 	color: white;
 
 }
@@ -18,13 +32,13 @@
 	margin-bottom:20px;
 	padding-top: 10px;
 	text-align:center;
-		vertical-align:middle;
+	vertical-align:middle;
 
 }
 #login{
     text-align: center;
 	}
-	
+
 form.register table{
 	background: -webkit-gradient(linear, bottom, left 175px, from(#CCCCCC), to(#EEEEEE));
 	background: -moz-linear-gradient(bottom, #CCCCCC, #EEEEEE 175px);

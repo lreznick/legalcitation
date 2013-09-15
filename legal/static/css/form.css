@@ -1,3 +1,14 @@
+.result-container{
+	display: none;
+}
+.loading-gif{
+	display: none;
+}
+#canlii-result-container, #pincite-form, #reporter-container{
+	display: none;
+}
+
+
 
 .input-xxlarge {
 	width: 500px;
@@ -34,8 +45,17 @@
 	margin-bottom: 10px;
 	max-height: 500px;
  }
- 
 
+.Tooltips a:link, .Tooltips a:visited
+{
+	color: #0088cc;
+	font-weight: bold;
+	text-decoration:none;
+}
+.Tooltips a:hover, .Tooltips a:active
+{
+	text-decoration: underline
+}
 .leftHalf{ width: 750px; float: left; padding-right: 0px;}
 .rightHalf{ width: 260px; float: left; }
 .accordion{
@@ -63,7 +83,6 @@ color: #333333;
 .fixed { 
 	position: fixed; 
 	width:250px;
-	padding: none;
 	padding-left:400px;
 	
 }
@@ -92,7 +111,6 @@ display: block;
 	font-weight: bold;
 	text-align: center;
 	padding-top: 3px;
-	#color: #0088cc;
 	color: white;
 	cursor: pointer;
 }
@@ -105,19 +123,6 @@ display: block;
 	padding-left:0px;
 }
 
-label.error {
-	font-weight: bold;
-	color: red;
-	padding: 0px 0px;
-	display: block; 
-}
-label.valid {
-	/*width: 24px;
-	margin:0 auto;
-	/*background: url(../img/valid.png) center center no-repeat;*/
-	/*display: inline-block; */
-	text-indent: -9999px;
-}
 
 
 button.browsebutton { 

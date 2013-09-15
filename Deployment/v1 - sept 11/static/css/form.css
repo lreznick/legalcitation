@@ -1,0 +1,144 @@
+.result-container{
+	display: none;
+}
+.loading-gif{
+	display: none;
+}
+#canlii-result-container, #pincite-form, #reporter-container{
+	display: none;
+}
+
+
+
+.input-xxlarge {
+	width: 500px;
+}
+.input-xlarge {
+	width: 410px;
+}
+.form-horizontal .control-group{
+	margin-bottom: 6px;
+}
+.form-horizontal .control-label{
+	padding-top: 0px;
+}
+.radio{
+	display:inline-table;
+}
+.checkbox{
+	display:inline-block;
+
+}
+#CanadaCaseParallel-controlgroup{
+	margin-bottom:0px;
+
+}
+#reporter-table .table th, .table td { 
+     border-top: none; 
+ }
+ #reporter-table{
+	height: 80%
+	
+ }
+ #reporter-list{
+	overflow:auto;
+	margin-bottom: 10px;
+	max-height: 500px;
+ }
+
+.Tooltips a:link, .Tooltips a:visited
+{
+	color: #0088cc;
+	font-weight: bold;
+	text-decoration:none;
+}
+.Tooltips a:hover, .Tooltips a:active
+{
+	text-decoration: underline
+}
+.leftHalf{ width: 750px; float: left; padding-right: 0px;}
+.rightHalf{ width: 260px; float: left; }
+.accordion{
+	width: 750px;
+}
+.input-prepend  .add-on{
+	font-size: 12px;
+	width: 100px;
+	height: 16px;
+	background-color: inherit;
+	border: none;
+	
+}
+#tooltips{
+	font-size: 12px;
+	margin-left: 760px;
+}
+
+.tooltip-title{
+font-family: RalewayBold;
+font-size: 16px;
+color: #333333;
+}
+
+.fixed { 
+	position: fixed; 
+	width:250px;
+	padding-left:400px;
+	
+}
+.control-label{
+
+	/*font-weight: bold;*/
+}
+.court-input{
+margin-top:3px;
+margin-left:110px;
+display: block;
+/*width:184px */
+}
+#collapseTwo-extra {
+ 	border: 0 none; 
+ }
+ 
+#addHistory{
+	width: 70px;
+	height: 25px;
+	background-color:#ccc;
+	margin-left: 15px;
+	margin-bottom: 15px;
+	margin-top: -10px;
+	font-size: 12px;
+	font-weight: bold;
+	text-align: center;
+	padding-top: 3px;
+	color: white;
+	cursor: pointer;
+}
+#addHistory:hover{
+
+	background-color:#FC5454
+}
+.accordion-inner{
+	
+	padding-left:0px;
+}
+
+label.error {
+	font-weight: bold;
+	color: red;
+	padding: 0px 0px;
+	display: block; 
+}
+label.valid {
+	/*width: 24px;
+	margin:0 auto;
+	/*background: url(../img/valid.png) center center no-repeat;*/
+	/*display: inline-block; */
+	text-indent: -9999px;
+}
+
+
+button.browsebutton { 
+	background:none;
+	border:none; 
+}

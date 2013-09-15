@@ -1,0 +1,57 @@
+$def with (greeting= None)
+<link href="./static/css/form.css" rel="stylesheet">
+ <img style="width:360px;" src ="./static/img/generate_your_citation.png"> 
+ 
+<br>
+ 
+ 	<div class="container" style ="margin-top:25px;width: 1000px;">     
+
+        <div class="tabbable"> <!-- Only required for left/right tabs -->
+          <ul class="nav nav-pills">
+            <li class="active"><a href="#CanadaCase" data-toggle="tab">Case (Canada)</a></li>
+            <li><a href="#US" data-toggle="tab">Case (US)</a></li>
+            <li><a href="#UK" data-toggle="tab">Case (UK)</a></li>
+			<li><a href="#Journal" data-toggle="tab">Journal Article</a></li>
+			<li><a href="#Book" data-toggle="tab">Book</a></li>
+          </ul>
+      <hr>
+            <div class="tab-content">	
+                <!-- Canadian Case-->
+				<div class="tab-pane active" id="CanadaCase">
+					$:render.formCanadianCase()
+				</div>
+				
+				<!-- US-->
+                <div class="tab-pane" id="US">
+                   $:render.formUS()
+                </div>				
+
+				<!-- UK-->
+                <div class="tab-pane" id="UK">
+                   $:render.formUK()
+                </div>
+				
+				<!--Journal Article-->					 
+                <div class="tab-pane" id="Journal">
+                  $:render.formJournalArticle()
+                </div>
+
+				
+				<!-- Book-->
+                <div class="tab-pane" id="Book">
+                  $:render.formBook()
+                </div>				
+                
+			</div>    <!--Tab content -->
+       </div> <!-- Tababble-->
+    </div><!-- Entire Container -->
+ <!-- <div class="container" style ="margin-top:50px;"> </div>     -->
+	<script src="./static/js/lib/jquery.validate.min.js"></script>
+	<script src="./static/js/lib/underscore-min.js"></script>
+ 	<script src="./static/js/lib/bootstrap-wysihtml5.js"></script> 
+	<script src="./static/js/legalcite.js"></script>
+	<script src="./static/js/validation.js"></script>
+	<script src="./static/js/tooltips.js"></script>
+	
+
+	  

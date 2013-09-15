@@ -6,6 +6,11 @@ Tool Tips
 
 
 var tooltip_header              = "<div class=\"tooltip-title\">"
+var tooltip_link 				= "<a href = \"./instructional?linkLocation=somediv\" target=\"_blank\"> more info</a>"
+
+
+
+
 
 /* ******** CANADA ******** */
 
@@ -22,7 +27,8 @@ var canadatooltip_text = [
 /*9*/"Leave To Appeal </div> <b>Granted:</b> input court and citation. <br> <font class = \"red\">ex. SCC, [2008] 1 SCR xiv </font><br><b>Refused:</b> input court and docket number. <br><font class = \"red\">ex. SCC, 23424 (November 20, 2009) </font><br><b>Requested </b> or <b> As of right:</b> input court. <br><font class = \"red\">ex. \"SCC\" </font><br>"
 ]
 for (var i =0; i< canadatooltip_text.length; i++){
-	canadatooltip_text[i] = tooltip_header + canadatooltip_text[i]
+	canadatooltip_text[i] = tooltip_header + canadatooltip_text[i] + 
+	tooltip_link
 }
 var CanadatooltipList = [
 	["styleofcause" , canadatooltip_text[0]],
@@ -80,7 +86,9 @@ var uktooltip_text = [
 /*9*/"Leave To Appeal </div> <b>Granted </b> or <b> Refused:</b> input court and case citation. <br> <font class = \"red\">ex. House of Lords (England), UKSC 2013/0044 </font><br><b>Requested </b> or <b> As of right:</b> input court. <br><font class = \"red\">ex. Court of Appeal: Criminal Division </font><br>",
 ]
 for (var i =0; i< uktooltip_text.length; i++){
-	uktooltip_text[i] = tooltip_header + uktooltip_text[i]
+	uktooltip_text[i] = tooltip_header + uktooltip_text[i]+ 
+	tooltip_link
+	
 }
 var UKtooltipList = [
 	["styleofcause" , uktooltip_text[0]],
@@ -120,6 +128,10 @@ var UKTooltipOffsets = [
 '#UKCase-Container #leaveToAppeal-selection'
 ]; //leave to appeal
 
+
+
+
+
 /* ******** US ******** */
 
 var ustooltip_text = [
@@ -135,7 +147,8 @@ var ustooltip_text = [
 /*9*/"Leave To Appeal </div> <b>Granted </b> or <b> Refused:</b> input court and case citation. <br> <font class = \"red\">ex. 2nd Circuit, APL 2013-00002 </font><br><b>Requested </b> or <b> As of right:</b> input court. <br><font class = \"red\">ex. 2nd Circuit</font><br>",
 ]
 for (var i =0; i< ustooltip_text.length; i++){
-	ustooltip_text[i] = tooltip_header + ustooltip_text[i]
+	ustooltip_text[i] = tooltip_header + ustooltip_text[i]+ 
+	tooltip_link
 }
 var UStooltipList = [
 	["styleofcause" , ustooltip_text[0]],
@@ -168,7 +181,6 @@ var UStooltipList = [
 	["leaveToAppeal_docket" , ustooltip_text[9]]
 ]
 
-
 var USTooltipOffsets = [
 '#USCase-Container',
 '#USCaseJudge', //judge
@@ -177,6 +189,99 @@ var USTooltipOffsets = [
 ]; //leave to appeal
 
 
+
+
+/* ******** Journal ******** */
+
+var journaltooltip_text = [
+/*0*/"Author(s)     </div><font class = \"red\"> ex. Joanne Smith<br>   Joe Smith</font><br> ",
+/*1*/"Title 	</div><font class = \"red\"> ex. Trust Principles in Business Transactions </font><br>",
+/*2*/"Citation    </div><font class = \"red\"> ex. 28 Windsor YB Access Just 465 </font><br> Browse through the catalog to find abbreviations. <br>",
+/*3*/"Year              </div><font class = \"red\"> ex. 2006 </font><br>",
+/*4*/"Pinpoint      	</div><font class = \"red\"> ex. 478-480, 490</font> <br>Cite to a general range if no particular page or paragraph sticks out. <br>",
+]
+
+for (var i =0; i< journaltooltip_text.length; i++){
+	journaltooltip_text[i] = tooltip_header + journaltooltip_text[i]+ 
+	tooltip_link
+}
+var JournaltooltipList = [
+	["authors" ,		 journaltooltip_text[0]],
+	["title" , 			 journaltooltip_text[1]],
+	["citation" , 		 journaltooltip_text[2]],
+	["year" , 			 journaltooltip_text[3]],
+	["pinpoint_form1" ,	 journaltooltip_text[4]],	
+	["pinpoint_form2" ,	 journaltooltip_text[4]],	
+	["pinpoint_form3" ,	 journaltooltip_text[4]],	
+	["pinpoint_form4" ,	 journaltooltip_text[4]],	
+]
+var JournalTooltipOffsets =[
+'#JournalAuthors'
+]
+
+
+/* ******** Journal ******** */
+var booktooltip_text = [
+/*0*/"Author(s)     </div><font class = \"red\"> ex. Joanne Smith<br>   Joe Smith</font><br> Only list primary authors. <br>Indicate if you want us to use your input as written, or if the input names are editors. <br>",
+/*1*/"Title 	</div><font class = \"red\"> ex. Securities Law </font><br>",
+/*2*/"Publication Place    </div><font class = \"red\"> ex. Calgary </font><br> Input sufficient detail to reasonably communicate the place. <br>",
+/*3*/"Publisher    </div><font class = \"red\"> ex. Queen's-McGill University Press </font><br> Use the short name of a publisher. <br>",
+/*4*/"Year of Publication            </div><font class = \"red\"> ex. 1994 </font><br>",
+/*5*/"Volume            </div><font class = \"red\"> ex. 3 </font><br>",
+/*6*/"Edition            </div><font class = \"red\"> ex. 8 </font><br>",
+/*7*/"Date Consulted            </div><font class = \"red\"> ex. June 15, 2013 </font><br> If the volume is in loose-leaf form, input the date you accessed it.",
+/*8*/"Extra Information            </div><font class = \"red\"> ex. (in Japanese) </font><br> Input will be used verbatim.",
+/*9*/"Pinpoint      	</div><font class = \"red\"> ex. 478-480, 490</font> <br>Cite to a general range if no particular page or paragraph sticks out. <br>",
+]
+
+for (var i =0; i< booktooltip_text.length; i++){
+	booktooltip_text[i] = tooltip_header + booktooltip_text[i]+ 
+	tooltip_link
+}
+var BooktooltipList = [
+	["authors" ,		 booktooltip_text[0]],
+	["title" , 			 booktooltip_text[1]],
+	["place" , 		 booktooltip_text[2]],
+	["publisher" ,	 booktooltip_text[3]],
+	["year" ,			 booktooltip_text[4]],	
+	["volume" , 		 booktooltip_text[5]],
+	["edition" ,		 booktooltip_text[6]],	
+	["date_consulted" ,	 booktooltip_text[7]],
+	["extra" ,		 	 booktooltip_text[8]],	
+	["pinpoint_form0" ,	 booktooltip_text[9]],	
+	["pinpoint_form1" ,	 booktooltip_text[9]],	
+	["pinpoint_form2" ,	 booktooltip_text[9]],	
+	["pinpoint_form3" ,	 booktooltip_text[9]],	
+	["pinpoint_form4" ,	 booktooltip_text[9]]	
+]	
+
+var BookTooltipOffsets =[
+'#Book-Container',
+'#BookPublisher'
+]
+
+
+var dictionarytooltip_text = [
+/*0*/"Title 	</div><font class = \"red\"> ex. Oxford English Dictionary </font><br>",
+/*1*/"Edition or Year           </div><font class = \"red\"> ex. 14, or 2010 </font><br>",
+/*2*/"Word           </div><font class = \"red\"> ex. dividend </font><br> Input the word you referenced.<br>",
+]
+
+
+for (var i =0; i< dictionarytooltip_text.length; i++){
+	dictionarytooltip_text[i] = tooltip_header + dictionarytooltip_text[i]+ 
+	tooltip_link
+}
+var DictionarytooltipList = [
+	["dictionary_title" ,		 dictionarytooltip_text[0]],
+	["dictionary_edition" , 	 dictionarytooltip_text[1]],
+	["dictionary_word" , 	 dictionarytooltip_text[2]]
+]	
+
+var DictionaryTooltipOffsets =[
+'#Dictionary-Container',
+'#DictionaryTitle',
+]
 /*
 
 var tooltip_styleofcause	    = tooltip_header + "Style of Cause     </div><font class = \"red\"> ex. Tilden Rent-A-Car Co. v Clendenning</font><br> Input the style of cause as written on the case. <br>"

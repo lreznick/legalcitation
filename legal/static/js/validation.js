@@ -24,6 +24,7 @@ UK Case Validator
 */			
 var UKCaseValidator = jQuery('#UKCase-Form').validate({
 			//ignore: ".search-query",
+			onkeyup: false,
 			rules: { 
 				styleofcause: {
 					maxlength:250,	
@@ -351,7 +352,7 @@ var DictionaryValidator = jQuery('#Dictionary-Form').validate({
 				dictionary_edition: { 
 					maxlength:25,
 					regex: regex_edition,
-					regex2: regex_year,
+					//regex2: regex_year,
 					required: true
 				},
 				dictionary_word: { 
@@ -489,6 +490,7 @@ CanadaCaseValidator
 	// Note: rules are based on name of form
 	var CanadianCaseValidator = jQuery('#CanadaCase-Form').validate({
 			//ignore: ".search-query",
+			onkeyup: false,
 			rules: { 
 				styleofcause: {
 					maxlength:250,	
@@ -684,7 +686,7 @@ CanadaCaseValidator
 	
 		
 		// Validates the form to check if a form works or not
-		jQuery('#Canlii-Form').validate({
+		var CanliiValidator = jQuery('#Canlii-Form').validate({
 			rules: { 
 				url: {
 					minlength: 6,
@@ -759,6 +761,7 @@ USCaseValidator
 	// Note: rules are based on name of form
 	var USCaseValidator = jQuery('#USCase-Form').validate({
 			//ignore: ".search-query",
+			onkeyup: false,
 			rules: { 
 				styleofcause: {
 					maxlength:250,	
@@ -976,6 +979,7 @@ Adding Methods
         },
         "Please check your input."
 	);	 
+
 	jQuery.validator.addMethod("validateCourt", function(value, element,validate)
 	{
 	
