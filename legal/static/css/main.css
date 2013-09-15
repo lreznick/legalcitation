@@ -198,9 +198,20 @@ display:block;
 
 .footer{
 margin-left: 20px;
+margin-right: 20px;
 padding-bottom:50px;
-float: bottom;
+
 }
+/* footer title
+<font style="
+    position:  relative;
+    float:  left;
+    top: -33px;
+    background:  white;
+    font-family: RalewayMed;
+    font-size: 25px;
+    margin-left: 100px;
+"> intra vires </font> */
 
 .footer a:link, .footer a:visited{
 	color:grey;
