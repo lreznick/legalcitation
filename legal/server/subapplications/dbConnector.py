@@ -39,3 +39,4 @@ def handle_user(user_email, password, function_type):
 	except IndexError:
 		web.debug("AN SQL EXCEPTION HAS OCCURED")
 		return False		
+

@@ -123,19 +123,6 @@ display: block;
 	padding-left:0px;
 }
 
-label.error {
-	font-weight: bold;
-	color: red;
-	padding: 0px 0px;
-	display: block; 
-}
-label.valid {
-	/*width: 24px;
-	margin:0 auto;
-	/*background: url(../img/valid.png) center center no-repeat;*/
-	/*display: inline-block; */
-	text-indent: -9999px;
-}
 
 
 button.browsebutton { 

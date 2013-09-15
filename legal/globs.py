@@ -46,9 +46,11 @@ passwords_match = form.Validator("Passwords didn't match.", lambda i: i.password
 username_required = form.Validator("Username not provided", bool)
 password_required = form.Validator("Password not provided", bool)
 password_length = form.Validator("Password length should be minimum 7 characters", lambda p: p is None or len(p) >= 7)
+vpass = form.regexp(r".{3,20}$", 'must be between 3 and 20 characters')
+vemail = form.regexp(r".*@.*", "must be a valid email address")
 
 signup_form =form.Form(
-			form.Textbox('username', username_required, placeholder = "email", note ="", class_ = "input"),
+			form.Textbox('username', username_required, vemail, placeholder = "email", note ="", class_ = "input"),
 			form.Password('password',  placeholder = "password", class_ = "input"),
 			form.Password('password_again',  placeholder = "password again", class_ = "input"),
 			validators = [passwords_match]		

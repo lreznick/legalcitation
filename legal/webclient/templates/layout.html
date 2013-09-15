@@ -3,7 +3,8 @@ $def with (content)
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
+    <!-- <meta charset="utf-8"> -->
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Intra Vires</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="An automated legal citation generator for Canadian law students, lawyers, and academics, according to the McGill Guide.">
@@ -36,8 +37,10 @@ $def with (content)
     <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
     <link rel="shortcut icon" href="./static/img/favicon.ico">
 	</head>
+
 	<script src="./static/js/lib/jquery-1.8.3.min.js"></script>
 	<script src="./static/js/layout.js"></script>
+	<script src="./static/js/lib/jquery.validate.min.js"></script>
 	
 	<!-- If javascript is disabled -->
 	<noscript>
@@ -57,25 +60,30 @@ $def with (content)
 		
 	</noscript>
   
+
+
+
+
+
+
+
+
+
   
      <!-- Start of the Body --> 
     <body>
 
-			<!-- Title Bar  -->   
-		
-		
-		
+
 		<div id = "entire-body"> 
 			<div id = "titlebar-edge"><img src ="./static/img/titlebar_edge.png" > </div>
-		<div id = "white-page">
-		
+			<div id = "white-page">
+
+		<!-- Title Bar  -->  			
 			<!-- red Title Bar --> 
 			<div class = "top-red-title-bar"> </div>
-			
 			<!-- main title -->
 			<div id = "titlebar">
 				<div class="inner-titlebar"> 
-					
 					<a href = "/" style = "color: #fe6060"> <img src ="./static/img/logo.png" style= "height: 27px; margin-top:-2px; opacity:0.5; padding-right: 5px;">intra-vires.com</a>
 					<div style ="float:right; padding-right: 25px;">
 					<!--	<a href="#" id="login-popup" style = "color: #fe6060" rel="popover"
@@ -101,35 +109,27 @@ $def with (content)
 
 			<!-- content -->
 			<div class = "content-container">
-
-				
 				$:content
 			</div>
 	 
-			<!-- <hr> -->
-			
-		<!--<img src ="./static/img/info_blurb.png" style="width: 800px; display:block; margin:auto;"> -->
-	
-	
-	<div class="footer">
-		<img src ="./static/img/footer.png" style="width: 1100px; display:block; margin:auto;">
+			 <!-- footer -->
+			<div class="footer">
+				<img src ="./static/img/footer.png" style="width: 1100px; display:block; margin:auto;">
 				<ul  class = "inline-block;margin-right: 20px;">
 					<li><a href = "./register"> REGISTER </a></li>
 					<li><a href = "/about" > ABOUT US </a></li> 
 					 <li><a href = "/terms"> TERMS OF USE  </a></li>
 					<!-- <li><a href = "#"> WHY INTRAVIRES </a></li>
 					<li><a href = ""> FAQ </a></li>  -->
-					<li><a href = "/instructional?linkLocation=None"> HELP </a></li>
-					
+					<li><a href = "/instructional?linkLocation=None"> HELP </a></li>					
 				</ul>
-					
+							
 			</div> <!-- /footer-->
 			<p style="margin-left:20px; font-size:12px;padding-bottom:50px;'">&copy; Intra Vires Research Tools 2013. All Rights Reserved</p>
 
 		</div> <!-- /white-page-->
 
-		</div>
-		<br> 
+	</div> <!-- body -->
 
     <!-- Le javascript
     ================================================== -->

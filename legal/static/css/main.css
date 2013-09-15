@@ -230,6 +230,20 @@ line-height: 21px;
 margin-top:5px;
 font-size: 13px;
 }
+label.error {
+	font-weight: bold;
+	color: red;
+	padding: 0px 0px;
+	display: block; 
+}
+label.valid {
+	/*width: 24px;
+	margin:0 auto;
+	/*background: url(../img/valid.png) center center no-repeat;*/
+	/*display: inline-block; */
+	text-indent: -9999px;
+}
+
 
 .title{
 	font-family:RalewayMed;

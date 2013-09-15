@@ -5,6 +5,9 @@ $def with (citations)
 <a href ="./account"  style ="float: right; color: black"> My Account  <i class ="icon-chevron-right"></i></a>
 <br>
 <hr>
+<script>
+	//console.log(  $:citations)
+</script>
 <!--
 <div class = "row">
 	<div class = "span2" id ="FAQ-nav" >
@@ -31,12 +34,12 @@ $def with (citations)
 	</div>
     
 </div> -->
-	
+
  	<div class="leftContainer"> 
 	</div>    
 	<div class ="citationsContainer">
 	$if citations:
-		$for citation in citations
+		$for citation in citations:
 			$code:
 				removal = "/citations/remove?id=" + str(citation.citation_id)+"&formtype=" + str(citation.formtype)
 				date = citation.date_created.strftime("%b %d, %Y")

@@ -98,9 +98,6 @@ class Test(object):
 	
 class Index(object):
 	def GET(self):
-		print "In index"
-		print >> sys.stderr, "TESTING PRINT" 
-		print web.ctx
 		session_cookie = web.cookies().get('chocolate_chip_local')
 		if ((session_cookie != None) and (session.loggedin == True)):
 			raise web.seeother("/citations")
@@ -114,6 +111,137 @@ class About(object):
 		return globs.render.aboutUs()
 	def POST(self):
 		return globs.render.aboutUs()
+
+
+		
+		
+
+class Instructional(object):
+	def GET(self):
+		data=  web.input()
+		return globs.render.instructional(data.linkLocation)
+
+class Terms(object):
+	def GET(self):
+		return globs.render.termsOfUse()		
+		
+		
+''' ------------- LOGIN -------------	'''
+class Login(object):
+	def GET(self):
+		print "CHECKING FOR COOKIES AT LOGIN!!!!!!!"
+		session_cookie = web.cookies().get('chocolate_chip_local')
+		if ((session_cookie != None) and (session.loggedin == True)):
+			print web.cookies()
+			#return globs.render.myCitations(None)
+			raise web.seeother("/citations")
+		my_login = globs.login_form()
+		return globs.render.login(my_login)
+		
+	def POST(self):
+		print "LOGIN POST"
+		my_login = globs.login_form()
+		if my_login.validates(): 
+			email = my_login['username'].value
+			password = my_login['password'].value
+			result = handle_user(email, password, "login")
+			
+			if (result == False):
+				print "something unexpected has occured"
+				my_login['username'].note = "Invalid Username/Password Combination"
+				return globs.render.login(my_login)
+			else:
+				
+				print "THIS MEANS YOU GOT VALIDATED BABY!(LOGIN)"
+				#query_result = globs.db.query("SELECT * FROM users WHERE email=$userID", vars={'userID':email})
+				#print "TEST"
+				query_result = globs.db.query("SELECT * FROM users WHERE email=$userID", vars={'userID':email})[0]
+				print query_result
+				if query_result.active:
+					session.loggedin = True
+					session.username = email
+					raise web.seeother("/citations")
+				else:
+					my_login['username'].note = "Please Validate Your Account."
+					if (session.loggedin == True):					
+						session.loggedin = False
+					return globs.render.login(my_login)
+		else:
+			print "didn't validate baby! (LOGIN)"
+			print "note", my_signup['username'].note
+			print my_signup['username'].value
+			print my_signup['password'].value                        
+			if ((my_signup['username'].value == "") or (my_signup['username'].value == None)):
+				my_login['username'].note = "Please enter a valid username"
+				session.loggedin = False
+				return render.login(my_login)
+			elif((my_signup['password'].value == "") or (my_signup['password'].value == None)):
+				my_login['password'].note = "Please enter a valid password"
+				session.loggedin = False
+				return globs.render.login(my_login)
+			else:
+				return globs.render.login()
+
+
+
+class Logout:
+	def GET(self):
+		my_login = globs.login_form()
+		session.loggedin = False
+		session.kill()
+		return globs.render.login(my_login)
+
+		
+		
+		
+		
+		
+''' --------------- REGISTER ------------'''		
+
+class Register(object):
+	def GET(self):
+		
+		my_signup = globs.signup_form()
+		return globs.render.register(my_signup)
+		
+	def POST(self):
+		my_signup = globs.signup_form()
+		if my_signup.validates(): 			
+			email = my_signup['username'].value
+			password = my_signup['password'].value
+			passwordAgain = my_signup['password_again'].value	
+			result = handle_user(email, password, "register")
+			if (result == False):
+				my_signup['username'].note = "username already there!"
+				return globs.render.register(my_signup)
+			else:
+				get_email_hash = globs.db.query("SELECT email_hash FROM users WHERE email=$id", vars={'id':email})[0]
+				htmlbody = web.template.frender('webclient/templates/email/email.html')
+				#baselink = "http://www.intra-vires.com/response?id="
+				baselink = "localhost:8080/response?id="
+				link = baselink + get_email_hash.email_hash
+				web.sendmail('Register.IntraVires@gmail.com', email, 'Complete Your Intra Vires Registration', htmlbody(link), headers={'Content-Type':'text/html;charset=utf-8'})
+				return globs.render.signupEmailSent(email)
+		else:
+			email = my_signup['username'].value
+			password = my_signup['password'].value
+			passwordAgain = my_signup['password_again'].value				
+			
+			validateResult = ValidateRegister(password,passwordAgain,email)
+			my_signup['username'].note = validateResult;
+			return globs.render.register(my_signup)
+			
+def ValidateRegister(password, passwordAgain, email):
+	print password
+	print passwordAgain
+	print "YO\n\n\n\n\n\n\n"
+	
+	if (password != passwordAgain):
+		return "The passwords you entered don't match."
+		print "YO2\n\n\n\n\n\n\n"
+	else:
+		return"Your entries were invalid."
+		
 
 class EmailResponse(object):
 	def GET(self):
@@ -175,112 +303,10 @@ class FinishRegistration(object):
 		raise web.seeother("/form")
 		
 		#globs.db.query("UPDATE users SET firstname=$fname, lastname=$lname, age=$age, occupation=$occupation, school=$school WHERE user_id=$userID", vars={'userID':user_id})
+
+
+
 		
-		
-
-class Instructional(object):
-	def GET(self):
-		data=  web.input()
-		return globs.render.instructional(data.linkLocation)
-
-class Terms(object):
-	def GET(self):
-		return globs.render.termsOfUse()		
-			
-class Login(object):
-	def GET(self):
-		print "CHECKING FOR COOKIES AT LOGIN!!!!!!!"
-		session_cookie = web.cookies().get('chocolate_chip_local')
-		if ((session_cookie != None) and (session.loggedin == True)):
-			print web.cookies()
-			#return globs.render.myCitations(None)
-			raise web.seeother("/citations")
-		my_login = globs.login_form()
-		return globs.render.login(my_login)
-		
-	def POST(self):
-		print "LOGIN POST"
-		my_login = globs.login_form()
-		if my_login.validates(): 
-			email = my_login['username'].value
-			password = my_login['password'].value
-
-			result = handle_user(email, password, "login")
-			
-			if (result == False):
-				print "something unexpected has occured"
-				my_login['username'].note = "Invalid Username/Password Combination"
-				return globs.render.login(my_login)
-			else:
-				
-				print "THIS MEANS YOU GOT VALIDATED BABY!(LOGIN)"
-				#query_result = globs.db.query("SELECT * FROM users WHERE email=$userID", vars={'userID':email})
-				#print "TEST"
-				query_result = globs.db.query("SELECT * FROM users WHERE email=$userID", vars={'userID':email})[0]
-				print query_result
-				if query_result.active:
-					session.loggedin = True
-					session.username = email
-					raise web.seeother("/citations")
-				else:
-					my_login['username'].note = "Please Validate Your Account."
-					if (session.loggedin == True):					
-						session.loggedin = False
-					return globs.render.login(my_login)
-		else:
-			print "didn't validate baby! (LOGIN)"
-			print "note", my_signup['username'].note
-			print my_signup['username'].value
-			print my_signup['password'].value                        
-			if ((my_signup['username'].value == "") or (my_signup['username'].value == None)):
-				my_login['username'].note = "Please enter a valid username"
-				session.loggedin = False
-				return render.login(my_login)
-			elif((my_signup['password'].value == "") or (my_signup['password'].value == None)):
-				my_login['password'].note = "Please enter a valid password"
-				session.loggedin = False
-				return globs.render.login(my_login)
-			else:
-				return globs.render.login()
-
-
-class Logout:
-	def GET(self):
-		my_login = globs.login_form()
-		session.loggedin = False
-		session.kill()
-		return globs.render.login(my_login)
-
-class Register(object):
-	def GET(self):
-		my_signup = globs.signup_form()
-		return globs.render.register(my_signup)
-		
-	def POST(self):
-		my_signup = globs.signup_form()
-		if my_signup.validates(): 
-			email = my_signup['username'].value
-			password = my_signup['password_again'].value
-			result = handle_user(email, password, "register")
-			if (result == False):
-				my_signup['username'].note = "username already there!"
-				return globs.render.register(my_signup)
-			else:
-				get_email_hash = globs.db.query("SELECT email_hash FROM users WHERE email=$id", vars={'id':email})[0]
-				htmlbody = web.template.frender('webclient/templates/email/email.html')
-				baselink = "http://www.intra-vires.com/response?id="
-				link = baselink + get_email_hash.email_hash
-				web.sendmail('Register.IntraVires@gmail.com', email, 'Complete Your Intra Vires Registration', htmlbody(link), headers={'Content-Type':'text/html;charset=utf-8'})
-				return globs.render.signupEmailSent(email)
-		else:
-			print "didn't validate baby REGISTER"
-			print "note", my_signup['username'].note
-			print my_signup['username'].value
-			print my_signup['password'].value
-			print my_signup['password_again'].value
-			return globs.render.form()
-			
-
 class Terms(object):
 	def GET(self):
 		return globs.render.termsOfUse()		
