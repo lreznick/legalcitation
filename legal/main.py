@@ -162,6 +162,7 @@ class Login(object):
 				if query_result.active:
 					session.loggedin = True
 					session.username = email
+					#addToUserSessionTable();
 					raise web.seeother("/citations")
 				else:
 					my_login['username'].note = "Please Validate Your Account."
@@ -184,7 +185,8 @@ class Login(object):
 			else:
 				return globs.render.login()
 
-
+def addToUserSessionTable():
+	return None
 
 class Logout:
 	def GET(self):

@@ -281,7 +281,7 @@ var DictionarytooltipList = [
 
 var DictionaryTooltipOffsets =[
 '#Dictionary-Container',
-'#DictionaryTitle',
+'#Dictionary-Title',
 ]
 
 
