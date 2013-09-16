@@ -206,8 +206,16 @@ class ForgotPassword(object):
 		return globs.render.passwordForgot()
 	def POST(self):
 		data = web.input()
-		email = data.id
-		get_email_hash = globs.db.query("SELECT email_hash FROM users WHERE email=$email", vars={'email':email})[0]
+		email = data.email	
+		try:
+			get_email_hash = globs.db.query("SELECT email_hash FROM users WHERE email=$email", vars={'email':email})[0]
+			return globs.render.passwordForgot("An email has been sent to: "+email, True)
+		except IndexError:
+			web.debug("AN SQL EXCEPTION HAS OCCURED")
+			return globs.render.passwordForgot("The email you entered is not in our database.", False)
+		
+		
+		print get_email_hash
 		htmlbody = web.template.frender('webclient/templates/email/email.html')
 		#For the server
 	
@@ -215,6 +223,7 @@ class ForgotPassword(object):
 		baselink = "localhost:8080/changePassword?id="
 		link = baselink + get_email_hash.email_hash
 		web.sendmail('Register.IntraVires@gmail.com', email, 'Complete Your Intra Vires Registration', htmlbody(link), headers={'Content-Type':'text/html;charset=utf-8'})
+		return globs.render.passwordForgot("Your email has been sent", True)
 		return "You should recieve an email for password change."
 		
 class ChangePassword(object):
