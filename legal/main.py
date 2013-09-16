@@ -208,25 +208,32 @@ class ForgotPassword(object):
 		data = web.input()
 		email = data.email	
 		try:
-			get_email_hash = globs.db.query("SELECT email_hash FROM users WHERE email=$email", vars={'email':email})[0]
+			#get_email_hash = globs.db.query("SELECT email_hash FROM users WHERE email=$email", vars={'email':email})[0]
+			get_user_info = globs.db.query("SELECT user_id FROM users WHERE email=$email", vars={'email':email})[0]
 #			return globs.render.passwordForgot("An email has been sent to: "+email, True)
-			print get_email_hash
+
+			userID=get_user_info.user_id
+			hashed_email = globs.PasswordHash(email)
+			globs.db.insert('reset_password', user_id = userID, email_salt = hashed_email.salt, email_hash = hashed_email.hashedpw)
 			htmlbody = web.template.frender('webclient/templates/email/email.html')
+			
 			#For the server
 	
 			#baselink = "http://www.intra-vires.com/response?id="
 			baselink = "localhost:8080/changePassword?id="
-			link = baselink + get_email_hash.email_hash
+			link = baselink + hashed_email.hashedpw
 			web.sendmail('Register.IntraVires@gmail.com', email, 'Complete Your Intra Vires Registration', htmlbody(link), headers={'Content-Type':'text/html;charset=utf-8'})
-			return globs.render.passwordForgot("Your email has been sent", True)
+			return globs.render.passwordForgot("Your email has been sent to "+ email, True)
 		except IndexError:
 			web.debug("AN SQL EXCEPTION HAS OCCURED")
 			return globs.render.passwordForgot("The email you entered is not in our database.", False)
 		
 		
-
-#		return "You should recieve an email for password change."
-		
+'''Table: reset_password
+Columns:
+user_id	int(11) PK
+email_salt	blob
+email_hash	blob'''
 class ChangePassword(object):
 	def GET(self):
 		data = web.input()
@@ -238,13 +245,15 @@ class ChangePassword(object):
 		password1 = data.password
 		password2 = data.password_again
 		try:
-			user_query = globs.db.query("SELECT * FROM users WHERE email_hash=$hash", vars={'hash':hashedemail})
+			user_query = globs.db.query("SELECT * FROM reset_password WHERE email_hash=$hash", vars={'hash':hashedemail})
 			my_login = globs.login_form()
 			if user_query == None:
-				return "You done goofed"
+				return "You done goofed on changepassword"
 			else:
 				user_row = user_query[0]
 				if(user_row.email_hash == hashedemail):
+					#globs.db.query("DELETE * FROM reset_password WHERE user_id=$userID", vars={'userID':user_row.user_id})
+					globs.db.delete('reset_password', where="user_id=$userID",vars={'userID':user_row.user_id})
 					if(password1 != password2):
 						return 'password1 and password2 in change password do not match'
 					else:						
@@ -257,28 +266,6 @@ class ChangePassword(object):
 		except IndexError:
 			web.debug("AN SQL EXCEPTION HAS OCCURED")
 			return globs.render.login(my_login)
-
-
-'''
-		old_pass = "%s" % (form.oldpass)
-		new_pass = "%s" % (form.newpass)
-		new_pass_again = "%s" % (form.newpass_again)
-		if (new_pass != new_pass_again):
-			return "Ya'll done f'd up!"
-		user_email = web.ctx.session.username
-		user_info = globs.db.query("SELECT * FROM users WHERE email=$id", vars={'id':user_email})[0]
-		verified = globs.verify_user_hash(old_pass, user_info)
-		print verified
-		if verified:
-			hashed_object = globs.PasswordHash(new_pass)
-			#hashobj.hashedpw
-			#hashobj.salt
-			globs.db.query("UPDATE users SET password_hash=$hashedpw, password_salt=$saltedpw WHERE user_id=$userID", vars={'hashedpw':hashed_object.hashedpw, 'saltedpw':hashed_object.salt, 'userID':user_info.user_id})
-			web.ctx.session.loggedin = False
-			raise web.seeother("/login", absolute=True)
-'''
-
-
 
 
 		
