@@ -80,8 +80,6 @@ We assume that you have root access for all of the installation process
 			sys.path.insert(1, modules)
 			os.chdir(root)
 	
-	9.3 Set up the code for databasing
-			vim /var/www/legal/globs.py
 			
 			
 10. Configuration of apache
@@ -123,6 +121,7 @@ We assume that you have root access for all of the installation process
 		
 	10.2 Test to see if there are errors
 		apachectl configtest
+		
 	10.3 Monitor For errors when messing with config files (optional)
 		tail -f /var/log/apache2/error.log
 		and 
@@ -143,8 +142,10 @@ We assume that you have root access for all of the installation process
 		RewriteCond %{REQUEST_URI} !^(/.*)+\.(css|png|js|jpg|ttf|otf|gif|ico)$
 		RewriteRule ^(.*)$ main.py/$1 [PT]
 			
+	#for reals, it never copies correctly... just a heads up
+	
 12 Setting up the database	
-	cd /var/www/legal/server
+	cd /var/www/legal/server/subapplications
 	mysql -u root -p'bananajones'
 	
 	12.1 create the database in sql

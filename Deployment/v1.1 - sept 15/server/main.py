@@ -30,8 +30,8 @@ urls = (
 	'/', 'Index',
 	'/about', 'About',
 	'/account', app_accountHandler,
+	'/citations', app_citationHandler,
 	'/email', 'Email',
-g	'/citations', app_citationHandler,
 	'/response', 'EmailResponse',
 	'/finishregistration', 'FinishRegistration',
 	'/form', app_formHandler,	
@@ -60,7 +60,7 @@ application = app.wsgifunc()
 globs.init()          # Call only once
 
 #For the Server
-web.config.debug = False
+web.config.debug = False #  Change me  For server ------------
 global session
 
 #Configure session parameters

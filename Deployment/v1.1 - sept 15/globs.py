@@ -78,15 +78,4 @@ class PasswordHash(object):
 		"""checks if the password is correct"""
 		return pwd_context.verify(password_+self.salt, self.hashedpw)	
 
-def verifySessionForgery(sessionID):
-	if(web.ctx.session.username == 'anonymous' ):
-		return False
-	else:
-		sessionEmail = my_login['username']
-		userQuery = globs.db.query("SELECT email FROM users WHERE user_id=$user", vars={'user':sessionID})[0]
-		userEmail = userQuery.email	
-		if(sessionEmail != userEmail):
-			return False
-		else:
-			return True
-	
+

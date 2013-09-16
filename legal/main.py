@@ -95,7 +95,9 @@ globs.template_globals.update(context=session)
 ''' ----------- CLASSES ---------- '''
 class Test(object):
 	def GET(self):
-		print "SUP\n\n\n\n\n"
+		print globs.checkSessionForgery()
+		return globs.render.aboutUs()
+	
 		#return globs.render.signupEmailSent("stephen")
 		
 	
@@ -154,17 +156,14 @@ class Login(object):
 				my_login['username'].note = "Invalid Username/Password Combination"
 				return globs.render.login(my_login)
 			else:
-				
-				print "THIS MEANS YOU GOT VALIDATED BABY!(LOGIN)"
-				#query_result = globs.db.query("SELECT * FROM users WHERE email=$userID", vars={'userID':email})
-				#print "TEST"
+				#Got validated
 				query_result = globs.db.query("SELECT * FROM users WHERE email=$userID", vars={'userID':email})[0]
 				print query_result
 				if query_result.active:
 					session.loggedin = True
 					#globs.db.query("INSERT INTO user_session (user_id, session_id) VALUES ($user_id, $session_id)", vars={'user_id':query_result.user_id, 'session_id':})
 					session.username = email
-					#addToUserSessionTable();
+					#addToUserSessionTable()
 					raise web.seeother("/citations")
 				else:
 					my_login['username'].note = "Please Validate Your Account."
@@ -188,8 +187,18 @@ class Login(object):
 				return globs.render.login()
 
 def addToUserSessionTable():
+	session_ID= web.ctx.session.get_id()
+	print session_ID
+	if(web.ctx.session.username == 'anonymous' ):
+		return None
+	else:
+		try:
+			query_result = globs.db.query("SELECT * FROM users WHERE email=$userID", vars={'userID':email})[0]
+		except Exception, e:
+			return None
 	return None
 
+	
 class Logout:
 	def GET(self):
 		my_login = globs.login_form()
@@ -272,7 +281,11 @@ class ChangePassword(object):
 				return globs.render.passwordForgotReset(None, 'Your password is too short. It must be between 5 and 30 characters')
 		else:
 			return globs.render.passwordForgotReset(None, 'The passwords do not match.')
-''' --------------- REGISTER ------------'''		
+
+			
+			
+			
+			''' --------------- REGISTER ------------'''		
 
 class Register(object):
 	def GET(self):
@@ -294,8 +307,8 @@ class Register(object):
 				htmlbody = web.template.frender('webclient/templates/email/email.html')
 				#For the server
 				
-				#baselink = "http://www.intra-vires.com/response?id="
-				baselink = "localhost:8080/response?id="
+				baselink = "http://www.intra-vires.com/response?id="
+				#baselink = "localhost:8080/response?id="
 				link = baselink + get_email_hash.email_hash
 				web.sendmail('Register.IntraVires@gmail.com', email, 'Complete Your Intra Vires Registration', htmlbody(link), headers={'Content-Type':'text/html;charset=utf-8'})
 				return globs.render.signupEmailSent(email)
@@ -351,29 +364,44 @@ class FinishRegistration(object):
 		print data.age
 	def POST(self):
 		data = web.input()
-		print data
-		occupation = "none"
-		if data.has_key('occupation'):
-			occupation= data.occupation
-		
-		school = "none"
-		if data.has_key('school'):
-			school = data.school
+		if checkSessionForgery(data.id):
+			occupation = "none"
+			if data.has_key('occupation'):
+				occupation= data.occupation
 			
-		id = "user_id = " + str(data.id)
-		
-		globs.db.update('users', where=id ,
-				firstname = str(data.firstname),
-				lastname = data.lastname,
-				age = data.age,
-				occupation = occupation,
-				school =school
-		)
-		
+			school = "none"
+			if data.has_key('school'):
+				school = data.school
+				
+			id = "user_id = " + str(data.id)
+			
+			globs.db.update('users', where=id ,
+					firstname = str(data.firstname),
+					lastname = data.lastname,
+					age = data.age,
+					occupation = occupation,
+					school =school
+			)
+		else:
+			return "The session id and the submitted ID did no correlate. Please try again"
 		#
 		raise web.seeother("/form")
 		
-		#globs.db.query("UPDATE users SET firstname=$fname, lastname=$lname, age=$age, occupation=$occupation, school=$school WHERE user_id=$userID", vars={'userID':user_id})
+def checkSessionForgery(submittedID):
+	sessionEmail = web.ctx.session.username
+	if(web.ctx.session.username == 'anonymous' ):
+		return False
+	else:
+		userQuery = globs.db.query("SELECT email FROM users WHERE user_id=$user", vars={'user':submittedID})[0]
+		userEmail = userQuery.email	
+		print "\n\n\n\n\n\n\n"
+		print sessionEmail
+		print userEmail
+		if(sessionEmail != userEmail):
+			return False
+		else:
+			return True
+	
 
 
 

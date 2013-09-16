@@ -1,16 +1,7 @@
-jQuery(document).ready(function() {
-/*
-=============================================
-Tool Tips
-=============================================
-*/	
+jQuery(document).ready(function(){
 
-
-var tooltip_header              = "<div class=\"tooltip-title\">"
-var tooltip_link 				= "<a href = \"./instructional?linkLocation=somediv\" target=\"_blank\"> more info</a>"
-
-
-
+var tooltip_header          = "<div class=\"tooltip-title\">";
+var tooltip_link 				= "<a href = \"./instructional?linkLocation=somediv\" target=\"_blank\"> more info</a>";
 
 
 /* ******** CANADA ******** */
@@ -26,7 +17,7 @@ var canadatooltip_text = [
 /*7*/"Judge               </div><font class = \"red\"> ex. Binnie J </font><br>CJC = Chief Justice of Canada <br>CJA = Chief Justice of Appeal <br>CJ = Chief Justice <br>JA = Justice of Appeal <br>JJA = Justices of Appeal <br>J = Justice <br>JJ = Justices <br>Mag = Magistrate <br>",
 /*8*/"History              </div>Affirming or Reversing <font class = \"red\"> <br> ex. 2003 BCSC 14 </font><br>Input minimum <b>one</b> citation for the lower court judgement. <br> <br>Affirmed or Reversed <br><font class = \"red\">ex. 2011 SCC 66, [2011] 3 SCR 837 </font> <br>Input minimum <b>two</b> citations for the upper court judgement. <br> ",
 /*9*/"Leave To Appeal </div> <b>Granted:</b> input court and citation. <br> <font class = \"red\">ex. SCC, [2008] 1 SCR xiv </font><br><b>Refused:</b> input court and docket number. <br><font class = \"red\">ex. SCC, 23424 (November 20, 2009) </font><br><b>Requested </b> or <b> As of right:</b> input court. <br><font class = \"red\">ex. \"SCC\" </font><br>"
-]
+];
 for (var i =0; i< canadatooltip_text.length; i++){
 	canadatooltip_text[i] = tooltip_header + canadatooltip_text[i] + 
 	tooltip_link
