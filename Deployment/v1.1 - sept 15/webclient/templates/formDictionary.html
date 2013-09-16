@@ -1,0 +1,32 @@
+<section>
+<div class="leftHalf" id="Dictionary-Container">
+<form class="form-horizontal" id="Dictionary-Form">
+<fieldset>
+<div id="manual-header" class="header2">Dictionary</div>
+<br>
+<div class="control-group" id="DictionaryTitle-controlgroup">
+<label class="control-label" for="DictionaryTitle"> <b>Title<font color="red"> *</font></b> </label>
+<div class="controls">
+<input type="text" class="input-xxlarge" id="DictionaryTitle" placeholder="" name="dictionary_title">
+</div>
+</div>
+<div class="control-group" id="DictionaryEdition-controlgroup">
+<label class="control-label" for="DictionaryEdition"> <b>Edition<font color="red"> *</font></b> </label>
+<div class="controls">
+<input type="text" class="input-xxlarge" id="DictionaryEdition" placeholder="" name="dictionary_edition">
+</div>
+</div>
+<div class="control-group" id="DictionaryWord-controlgroup">
+<label class="control-label" for="DictionaryWord"> <b>Word<font color="red"> *</font></b> </label>
+<div class="controls">
+<input type="text" class="input-xxlarge" id="DictionaryWord" placeholder="" name="dictionary_word">
+</div>
+</div>
+$:render.formResults("Dictionary")
+</fieldset>
+</form>
+$:render.formStoreCitationModal("Dictionary")
+</div>
+<div class "rightHalf tooltips" id="Dictionary-tooltips">
+</div>
+</section>
