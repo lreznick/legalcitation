@@ -209,47 +209,78 @@ class ForgotPassword(object):
 		email = data.email	
 		try:
 			get_email_hash = globs.db.query("SELECT email_hash FROM users WHERE email=$email", vars={'email':email})[0]
-			return globs.render.passwordForgot("An email has been sent to: "+email, True)
+#			return globs.render.passwordForgot("An email has been sent to: "+email, True)
+			print get_email_hash
+			htmlbody = web.template.frender('webclient/templates/email/email.html')
+			#For the server
+	
+			#baselink = "http://www.intra-vires.com/response?id="
+			baselink = "localhost:8080/changePassword?id="
+			link = baselink + get_email_hash.email_hash
+			web.sendmail('Register.IntraVires@gmail.com', email, 'Complete Your Intra Vires Registration', htmlbody(link), headers={'Content-Type':'text/html;charset=utf-8'})
+			return globs.render.passwordForgot("Your email has been sent", True)
 		except IndexError:
 			web.debug("AN SQL EXCEPTION HAS OCCURED")
 			return globs.render.passwordForgot("The email you entered is not in our database.", False)
 		
 		
-		print get_email_hash
-		htmlbody = web.template.frender('webclient/templates/email/email.html')
-		#For the server
-	
-		#baselink = "http://www.intra-vires.com/response?id="
-		baselink = "localhost:8080/changePassword?id="
-		link = baselink + get_email_hash.email_hash
-		web.sendmail('Register.IntraVires@gmail.com', email, 'Complete Your Intra Vires Registration', htmlbody(link), headers={'Content-Type':'text/html;charset=utf-8'})
-		return globs.render.passwordForgot("Your email has been sent", True)
-		return "You should recieve an email for password change."
+
+#		return "You should recieve an email for password change."
 		
 class ChangePassword(object):
 	def GET(self):
-		return "Get in changePassword"
+		data = web.input()
+		hashedEmail = data.id
+		return globs.render.passwordForgotReset(hashedEmail)
 	def POST(self):
 		data = web.input()
-		print data
 		hashedemail = data.id
-		user_query = globs.db.query("SELECT * FROM users WHERE email_hash=$hash", vars={'hash':hashedemail})
-		my_login = globs.login_form()
-		if user_query == None:
-			return "You done goofed"
-		else:
-			user_row = user_query[0]
-			print user_row
-			if(user_row.email_hash == hashedemail):
-				user_id = user_row.user_id
-				globs.db.query("UPDATE users SET active=1 WHERE user_id=$userID", vars={'userID':user_id})
-				session.loggedin = True
-				
-				session.username = user_row.email
-				return globs.render.signupGetInfo(user_id)
-				#return globs.render.login(my_login)
+		password1 = data.password
+		password2 = data.password_again
+		try:
+			user_query = globs.db.query("SELECT * FROM users WHERE email_hash=$hash", vars={'hash':hashedemail})
+			my_login = globs.login_form()
+			if user_query == None:
+				return "You done goofed"
 			else:
-				return globs.render.login(my_login)
+				user_row = user_query[0]
+				if(user_row.email_hash == hashedemail):
+					if(password1 != password2):
+						return 'password1 and password2 in change password do not match'
+					else:						
+						user_id = user_row.user_id
+						pass_hashobj = globs.PasswordHash(password1)
+						globs.db.query("UPDATE users SET password_hash=$hashedpw, password_salt=$saltedpw WHERE user_id=$userID", vars={'userID':user_id, 'hashedpw':pass_hashobj.hashedpw, 'saltedpw':pass_hashobj.salt})
+						return globs.render.login(my_login)
+				else:
+					return globs.render.login(my_login)
+		except IndexError:
+			web.debug("AN SQL EXCEPTION HAS OCCURED")
+			return globs.render.login(my_login)
+
+
+'''
+		old_pass = "%s" % (form.oldpass)
+		new_pass = "%s" % (form.newpass)
+		new_pass_again = "%s" % (form.newpass_again)
+		if (new_pass != new_pass_again):
+			return "Ya'll done f'd up!"
+		user_email = web.ctx.session.username
+		user_info = globs.db.query("SELECT * FROM users WHERE email=$id", vars={'id':user_email})[0]
+		verified = globs.verify_user_hash(old_pass, user_info)
+		print verified
+		if verified:
+			hashed_object = globs.PasswordHash(new_pass)
+			#hashobj.hashedpw
+			#hashobj.salt
+			globs.db.query("UPDATE users SET password_hash=$hashedpw, password_salt=$saltedpw WHERE user_id=$userID", vars={'hashedpw':hashed_object.hashedpw, 'saltedpw':hashed_object.salt, 'userID':user_info.user_id})
+			web.ctx.session.loggedin = False
+			raise web.seeother("/login", absolute=True)
+'''
+
+
+
+
 		
 ''' --------------- REGISTER ------------'''		
 

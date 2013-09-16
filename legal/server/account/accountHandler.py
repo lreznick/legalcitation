@@ -41,14 +41,10 @@ class change_password(object):
 	def GET(self):
 		return "hello from get in change_password"
 	def POST(self):
-		print "INSIDE POST OF CHANGE_PASSWORD"
 		form = web.input()
 		old_pass = "%s" % (form.oldpass)
-		print old_pass
 		new_pass = "%s" % (form.newpass)
-		print new_pass
 		new_pass_again = "%s" % (form.newpass_again)
-		print new_pass_again
 		if (new_pass != new_pass_again):
 			return "Ya'll done f'd up!"
 		user_email = web.ctx.session.username
