@@ -208,21 +208,19 @@ class ForgotPassword(object):
 		data = web.input()
 		email = data.email	
 		try:
-			#get_email_hash = globs.db.query("SELECT email_hash FROM users WHERE email=$email", vars={'email':email})[0]
 			get_user_info = globs.db.query("SELECT user_id FROM users WHERE email=$email", vars={'email':email})[0]
-#			return globs.render.passwordForgot("An email has been sent to: "+email, True)
-
 			userID=get_user_info.user_id
 			hashed_email = globs.PasswordHash(email)
-			globs.db.insert('reset_password', user_id = userID, email_salt = hashed_email.salt, email_hash = hashed_email.hashedpw)
-			htmlbody = web.template.frender('webclient/templates/email/email.html')
-			
-			#For the server
-	
-			#baselink = "http://www.intra-vires.com/response?id="
-			baselink = "localhost:8080/changePassword?id="
+			try:
+				globs.db.insert('reset_password', user_id = userID, email_salt = hashed_email.salt, email_hash = hashed_email.hashedpw)
+			except Exception, e:
+				print "OHNOOOOOOOOOOOOOOOES\n\n\n\n\n\n" 
+
+			htmlbody = web.template.frender('webclient/templates/email/resetPassword.html')
+			print htmlbody
+			baselink = "http://www.intra-vires.com/changePassword?id="
 			link = baselink + hashed_email.hashedpw
-			web.sendmail('Register.IntraVires@gmail.com', email, 'Complete Your Intra Vires Registration', htmlbody(link), headers={'Content-Type':'text/html;charset=utf-8'})
+			web.sendmail('Register.IntraVires@gmail.com', email, 'Reset your password', htmlbody(link), headers={'Content-Type':'text/html;charset=utf-8'})
 			return globs.render.passwordForgot("Your email has been sent to "+ email, True)
 		except IndexError:
 			web.debug("AN SQL EXCEPTION HAS OCCURED")
@@ -240,35 +238,40 @@ class ChangePassword(object):
 		hashedEmail = data.id
 		return globs.render.passwordForgotReset(hashedEmail)
 	def POST(self):
+		print "\n\n\n\n\n\n\n"
 		data = web.input()
 		hashedemail = data.id
+		print hashedemail
 		password1 = data.password
 		password2 = data.password_again
-		try:
-			user_query = globs.db.query("SELECT * FROM reset_password WHERE email_hash=$hash", vars={'hash':hashedemail})
-			my_login = globs.login_form()
-			if user_query == None:
-				return "You done goofed on changepassword"
+		if (password1 == password2):
+			if ( len(password1) > 5):
+				if ( len(password1) <30):
+					try:
+						print "1"
+						print globs.db.query("SELECT * FROM reset_password WHERE email_hash=$hash", vars={'hash':hashedemail}, _test =True)
+						user_query = globs.db.query("SELECT * FROM reset_password WHERE email_hash=$hash", vars={'hash':hashedemail})
+						print "2"
+						my_login = globs.login_form()
+						user_row = user_query[0]
+						if(user_row.email_hash == hashedemail):
+							globs.db.delete('reset_password', where="user_id=$userID",vars={'userID':user_row.user_id})
+							user_id = user_row.user_id
+							pass_hashobj = globs.PasswordHash(password1)
+							globs.db.query("UPDATE users SET password_hash=$hashedpw, password_salt=$saltedpw WHERE user_id=$userID", vars={'userID':user_id, 'hashedpw':pass_hashobj.hashedpw, 'saltedpw':pass_hashobj.salt})
+							print "\n\n\n\n\n\nHOOOOOORAAAAAAAY"
+							return globs.render.login(my_login, "Congratulations, your password has been changed.")
+						else:
+							return globs.render.login(my_login )
+					except IndexError:
+						web.debug("AN SQL EXCEPTION HAS OCCURED")
+						return globs.render.login(my_login, "You have already changed your password. If this is not the case, please click forgot password and retry.")
+				else:	
+					return globs.render.passwordForgotReset(None, 'Your password is too short. It must be between 5 and 30 characters')
 			else:
-				user_row = user_query[0]
-				if(user_row.email_hash == hashedemail):
-					#globs.db.query("DELETE * FROM reset_password WHERE user_id=$userID", vars={'userID':user_row.user_id})
-					globs.db.delete('reset_password', where="user_id=$userID",vars={'userID':user_row.user_id})
-					if(password1 != password2):
-						return 'password1 and password2 in change password do not match'
-					else:						
-						user_id = user_row.user_id
-						pass_hashobj = globs.PasswordHash(password1)
-						globs.db.query("UPDATE users SET password_hash=$hashedpw, password_salt=$saltedpw WHERE user_id=$userID", vars={'userID':user_id, 'hashedpw':pass_hashobj.hashedpw, 'saltedpw':pass_hashobj.salt})
-						return globs.render.login(my_login)
-				else:
-					return globs.render.login(my_login)
-		except IndexError:
-			web.debug("AN SQL EXCEPTION HAS OCCURED")
-			return globs.render.login(my_login)
-
-
-		
+				return globs.render.passwordForgotReset(None, 'Your password is too short. It must be between 5 and 30 characters')
+		else:
+			return globs.render.passwordForgotReset(None, 'The passwords do not match.')
 ''' --------------- REGISTER ------------'''		
 
 class Register(object):
